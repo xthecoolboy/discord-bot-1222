@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const ascii = require("ascii-table");
-
+const token = require("fs").readFileSync("./token.txt", "utf-8");
 const cluster = require('cluster');
 
 if(!cluster.isMaster){
@@ -69,4 +69,4 @@ client.on('message', msg => {
     }
 });
 
-client.login('NjU0NzI1NTM0MzY1OTA5MDQz.XfJuvQ.p7CsvSf0YWTOGtbPoL7Ok3xan0Y');
+client.login(token);
