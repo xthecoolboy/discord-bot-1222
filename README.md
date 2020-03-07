@@ -1,6 +1,43 @@
 # ice-bot
 Universal discord bot to suite all of your needs.
 
+## Setting up
+
+The setup is quite simple:
+* Grab latest release and extract the contents somewhere on the disk
+* Install dependencies (See #dependencies)
+* Aquire token (from [discord developer portal](https://discordapp.com/developers)) and save it in token.txt
+* Create `managers/mysql.js` that exports pool
+* Create MySQL databse with correct tables. (This will be documented in wikipage)
+* Start the bot (with `node .`)
+
+*If you also want to run ice as a service on a debian (ubuntu) based machine, this repo contains `ice.service`. Edit the directory in it to match this repo location, copy it to /etc/systemd/system/ice.service and run `sudo systemctl daemon-reload && sudo systemctl enable ice`. Then to start, simply do `sudo systemctl start ice`.*
+
+## Dependencies
+
+* Node (Tested with v12 & v13. Running on another version? Let us know!)
+* NPM (bundled with Node on modern releases)
+* *(optional)* Git (or even better, hub) for simple updates - run one command and your bot is up to date
+
+### Node dependencies
+Those are installed with `npm i` automatically.
+
+* ascii-table -> shows fancy table in logs
+* discord.js -> the framework we use for ice
+* discord.js-docs -> searches through documentation
+* pacote -> searches through npm registry
+* cowsay -> a library for cowsay command
+* eventemitter3 -> better event emitter class
+* got -> because request **got** deprecated
+* javascript-time-ago -> yes, we are lazy to reinvent the wheel
+* mysql -> connection to MySQL
+* nekos.life -> Cute ~~catgirls~~ nekos
+* node-html-parser -> because not every website has an API
+* vm2 -> secure VM for code evaluation
+* pokedex-promise-v2 -> Promises for pokedex
+* unique-random-array -> for our reddit command
+
+
 ## Commands
 
 The bot has as of now the following commands
@@ -82,3 +119,20 @@ Music commands yet to be done.
 
 * **soundcloud** - *Not yet implemented*
 
+### NSFW
+These commands are premium only by default. 
+
+* **e621** - possibly NSFW
+* **nekos-lewd** - Not so safe endpoints of nekos.life
+* **rule34** - Well you should know what this is
+
+### Pokemon
+
+* **pokedex** - *Not yet implemented*
+
+### Tickets
+Planned
+
+### Top
+
+* **banner** - *Not yet implemented*
