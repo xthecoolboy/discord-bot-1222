@@ -11,7 +11,14 @@ module.exports = class NekosCommand extends commando.Command {
             group: "anime",
             memberName: "nekos",
             description: "Uses the nekos.life API. SFW only.",
-            examples: ["nekos help"]
+            examples: ["nekos help"],
+            args: [
+                {
+                    type: "string",
+                    key: "command",
+                    prompt: "What's the sub-command you want to run?"
+                }
+            ]
         });
     }
 
@@ -25,7 +32,6 @@ module.exports = class NekosCommand extends commando.Command {
     ];
 
     async run(msg, cmd) {
-        cmd = commandParser(cmd);
         this.msg = msg;
 
         if(!cmd[0]){
@@ -33,7 +39,7 @@ module.exports = class NekosCommand extends commando.Command {
             return;
         }
         
-        var c = cmd[0].toLowerCase();
+        var c = cmd.command.toLowerCase();
         
         if(c=="help") this.help();
         else {
