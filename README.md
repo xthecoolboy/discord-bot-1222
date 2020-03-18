@@ -1,6 +1,8 @@
 # ice-bot
 Universal discord bot to suite all of your needs.
 
+Want to use Ice? Invite link can be found on ice's [website](http://ice.danbulant.eu).
+
 ## Setting up
 
 The setup is quite simple:
