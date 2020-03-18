@@ -1,16 +1,17 @@
-const Discord = require('discord.js');
 const newEmbed = require("../../embed");
-const got = require("got");
-const parse = require("node-html-parser").parse;
 const Nekos = require('nekos.life');
 const neko = new Nekos().sfw;
+const commando = require("discord.js-commando");
 
-class Invite {
-    getName() {
-        return "nekos";
-    }
-    getDesc() {
-        return "Shows random nekos character or text. See `nekos help`";
+module.exports = class NekosCommand extends commando.Command {
+    constructor(client) {
+        super(client, {
+            name: "nekos",
+            group: "anime",
+            memberName: "nekos",
+            description: "Uses the nekos.life API. SFW only.",
+            examples: ["nekos help"]
+        })
     }
     text = [
         "why",
@@ -20,8 +21,7 @@ class Invite {
         "fact",
         "OwOify"
     ];
-    async exec(cmd, client, msg) {
-        cmd.shift();
+    async run(msg, cmd) {
         this.msg = msg;
 
         if(!cmd[0]){
@@ -84,5 +84,3 @@ class Invite {
         this.msg.channel.send(embed);
     }
 }
-
-module.exports = new Invite;
