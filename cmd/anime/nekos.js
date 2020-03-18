@@ -2,8 +2,7 @@ const newEmbed = require("../../embed");
 const Nekos = require('nekos.life');
 const neko = new Nekos().sfw;
 const commando = require("discord.js-commando");
-
-console.log("Required nekos");
+const commandParser = require("../../managers/commandParser");
 
 module.exports = class NekosCommand extends commando.Command {
     constructor(client) {
@@ -26,6 +25,7 @@ module.exports = class NekosCommand extends commando.Command {
     ];
 
     async run(msg, cmd) {
+        cmd = commandParser(cmd);
         this.msg = msg;
 
         if(!cmd[0]){
