@@ -1,3 +1,42 @@
+const Commando = require('discord.js-commando');
+const path = require('path');
+const sqlite = require('sqlite');
+const token = require("fs").readFileSync("./token.txt", "utf-8");
+
+const client = new Commando.Client({
+    owner: '147365975707090944',
+    commandPrefix: 'ice ',
+    invite: "https://discordapp.com/api/oauth2/authorize?client_id=654725534365909043&permissions=8&scope=bot"
+});
+
+client.setProvider(
+    sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
+).catch(console.error);
+
+client.registry.registerGroups([
+    ['anime', 'Anime commands'],
+    ['balance', 'Managing your balance'],
+    ['dev', 'Developer commands for help with development'],
+    ['essentials', 'Universal commands'],
+    ['fun', 'Fun commands'],
+    ['idemit', 'Commands for Idemit'],
+    ['image', 'Image processing commands'],
+    ['minecraft', 'Commands for Minecraft'],
+    ['mod', 'Moderator commands'],
+    ['music', 'Music commands'],
+    ['nsfw', 'NSFW commands'],
+    ['pokemon', 'For pokemon players'],
+    ['tickets', 'Ticket managing'],
+    ['top', 'Shows top users of bot']
+]).registerDefaults().registerCommandsIn(path.join(__dirname, "cmd/anime"));
+
+client.on("ready", ()=>{
+    console.log("Ready!");
+});
+
+client.login(token);
+
+/*
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const ascii = require("ascii-table");
@@ -70,3 +109,4 @@ client.on('message', msg => {
 });
 
 client.login(token);
+*/
