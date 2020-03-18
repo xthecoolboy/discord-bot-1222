@@ -3,6 +3,8 @@ const Nekos = require('nekos.life');
 const neko = new Nekos().sfw;
 const commando = require("discord.js-commando");
 
+console.log("Required nekos");
+
 module.exports = class NekosCommand extends commando.Command {
     constructor(client) {
         super(client, {
@@ -11,8 +13,9 @@ module.exports = class NekosCommand extends commando.Command {
             memberName: "nekos",
             description: "Uses the nekos.life API. SFW only.",
             examples: ["nekos help"]
-        })
+        });
     }
+
     text = [
         "why",
         "catText",
@@ -21,6 +24,7 @@ module.exports = class NekosCommand extends commando.Command {
         "fact",
         "OwOify"
     ];
+
     async run(msg, cmd) {
         this.msg = msg;
 

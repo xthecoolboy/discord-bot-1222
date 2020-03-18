@@ -29,4 +29,4 @@ class Info {
     }
 }
 
-module.exports = new Info;
+module.exports = Info;

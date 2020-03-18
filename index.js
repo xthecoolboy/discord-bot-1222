@@ -9,6 +9,8 @@ const client = new Commando.Client({
     invite: "https://discordapp.com/api/oauth2/authorize?client_id=654725534365909043&permissions=8&scope=bot"
 });
 
+client.on("commandRegister", c=>console.log("[CMD]", c.name));
+
 client.setProvider(
     sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);

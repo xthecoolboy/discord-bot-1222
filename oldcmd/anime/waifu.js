@@ -36,4 +36,4 @@ class Waifu {
     }
 }
 
-module.exports = new Waifu;
+module.exports = Waifu;

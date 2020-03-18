@@ -28,4 +28,4 @@ class Invite {
     }
 }
 
-module.exports = new Invite;
+module.exports = Invite;
