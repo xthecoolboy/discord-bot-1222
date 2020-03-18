@@ -9,6 +9,7 @@ lerna-debug.log*
 ice.service
 token.txt
 mysql.js
+package-lock.json
 
 cmd/nsfw/
 cmd/idemit/
