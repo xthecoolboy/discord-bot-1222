@@ -1,4 +1,11 @@
 # ice-bot
+
+## COMMANDO FORK
+
+This is a branch of ice to convert all commands to commando. When this will be done and working, it will be pushed to master. Until then, this is highly unstable and todo thing - things bellow may not be accurate and may not work.
+
+## About
+
 Universal discord bot to suite all of your needs.
 
 Want to use Ice? Invite link can be found on ice's [website](http://ice.danbulant.eu).
