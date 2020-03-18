@@ -30,7 +30,10 @@ client.registry.registerGroups([
     ['pokemon', 'For pokemon players'],
     ['tickets', 'Ticket managing'],
     ['top', 'Shows top users of bot']
-]).registerDefaults().registerCommandsIn(path.join(__dirname, "cmd/anime"));
+])
+    .registerDefaults()
+    .registerCommandsIn(path.join(__dirname, "cmd"))
+    .registerTypesIn(path.join(__dirname, "types"));
 
 client.on("ready", ()=>{
     console.log("Ready!");
