@@ -6,7 +6,7 @@ const token = require("fs").readFileSync("./token.txt", "utf-8");
 const client = new Commando.Client({
     owner: '147365975707090944',
     commandPrefix: 'ice ',
-    invite: "https://discordapp.com/api/oauth2/authorize?client_id=654725534365909043&permissions=8&scope=bot"
+    invite: "https://discord.gg/dZtq4Qu"
 });
 
 client.on("commandRegister", c=>console.log("[CMD]", c.name));

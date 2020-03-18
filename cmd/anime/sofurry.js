@@ -1,18 +1,19 @@
-//https://api2.sofurry.com/browse/all/art?format=json
-//https://www.sofurryfiles.com/std/content?page=1529445
-const Discord = require('discord.js');
+const commandParser = require('../../managers/commandParser');
 const newEmbed = require("../../embed");
 const got = require("got");
+const Commando = require("discord.js-commando");
 
-class Invite {
-    getName() {
-        return "sofurry";
+module.exports = class Invite extends Commando.Command{
+    constructor(client){
+        super(client, {
+            name: "sofurry",
+            group: "anime",
+            memberName: "sofurry",
+            description: "Random image from sofurry"
+        })
     }
-    getDesc() {
-        return "Shows random image from sofurry.";
-    }
-    async exec(cmd, client, msg) {
-        cmd.shift();
+    async run(msg, cmd) {
+        cmd = commandParser(cmd);
         
         got("https://api2.sofurry.com/browse/all/art?format=json").then(res => {
             var htmls = JSON.parse(res.body);
@@ -27,5 +28,3 @@ class Invite {
         });
     }
 }
-
-module.exports = Invite;
