@@ -17,15 +17,6 @@ module.exports = class Spoiler extends commando.Command {
             ]
         })
     }
-    getName() {
-        return "spoiler";
-    }
-    getAliases() {
-        return ["spoil"];
-    }
-    getDesc() {
-        return "Make the bot say something in annoying spoilers.";
-    }
     run(msg, cmd) {
         var text = cmd.string.split("").join("||||");
         msg.channel.send("||" + text + "||");

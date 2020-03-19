@@ -28,7 +28,7 @@ module.exports = class Vaporwave extends commando.Command {
         text = text.split('').map(charToFullWidth).join('');
         return text;
     }
-    exec(msg, cmd) {
+    run(msg, cmd) {
         var text = cmd.string;
         text = this.vaporify(text);
         msg.channel.send(text.split("").join(" "));
