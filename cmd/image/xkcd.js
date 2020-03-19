@@ -1,18 +1,19 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
 const got = require("got");
-const parse = require("node-html-parser").parse;
 
-class Invite {
-    getName() {
-        return "xkcd";
+module.exports = class Xkcd extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "xkcd",
+            memberName: "xkcd",
+            group: "image",
+            aliases: ["comic"],
+            description: "Shows todays xkcd comic."
+        })
     }
-    getDesc() {
-        return "Shows todays xkcd comic.";
-    }
-    async exec(cmd, client, msg) {
-        cmd.shift();
-        
+
+    async run(msg) {
         got("https://xkcd.com/info.0.json").then(res => {
             var post = JSON.parse(res.body);
             var title = post.safe_title;
@@ -25,5 +26,3 @@ class Invite {
         });
     }
 }
-
-module.exports = new Invite;

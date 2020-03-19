@@ -1,19 +1,29 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
 
 const got = require('got');
 
-class Joke {
-    getName() {
-        return "fone";
+module.exports = class Fone extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "fone",
+            memberName: "fone",
+            group: "image",
+            description: "Shows random image from happy fone api",
+            args: [
+                {
+                    default: "cat",
+                    prompt: "Enter type of resource",
+                    key: "type",
+                    type: "string"
+                }
+            ]
+        })
     }
-    getDesc() {
-        return "Shows random image from Happy Fone";
-    }
-    exec(cmd, client, msg) {
+    async run(msg, cmd) {
         let basePath = "https://happy-fone-api.glitch.me/";
         let type = "cat";
-        if (cmd[1]) type = cmd[1];
+        if (cmd.type) type = cmd.type;
         if(type == "nude"){
             if (!msg.channel.nsfw && msg.channel.type != "dm") {
                 msg.channel.send("This type is available only inside NSFW or DM channels!");
@@ -32,5 +42,3 @@ class Joke {
         });
     }
 }
-
-module.exports = new Joke;
