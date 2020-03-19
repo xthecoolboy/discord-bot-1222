@@ -1,14 +1,16 @@
+const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
-class Invite {
-    getName() {
-        return "count";
+module.exports = class Count extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "count",
+            memberName: "count",
+            group: "mod",
+            description: "Shows information about members of this channel"
+        })
     }
-    getDesc() {
-        return "Show information about current members.";
-    }
-    async exec(cmd, client, msg) {
-        cmd.shift();
+    async run(msg) {
         this.msg = msg;
 
         if(msg.channel.type == "dm"){
@@ -40,5 +42,3 @@ class Invite {
         msg.channel.send(embed);
     }
 }
-
-module.exports = new Invite;

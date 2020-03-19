@@ -1,4 +1,4 @@
-const pool = require("./managers/mysql");
+const pool = require("./managers/pool_mysql");
 const { padWithZeroes, insertAt } = require("./utils");
 const newEmbed = require("./embed");
 

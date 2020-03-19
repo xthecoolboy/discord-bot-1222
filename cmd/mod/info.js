@@ -1,3 +1,4 @@
+const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 const account = require("../../accountManager");
 const TimeAgo = require('javascript-time-ago');
@@ -6,12 +7,28 @@ TimeAgo.addLocale(en)
 
 const timeAgo = new TimeAgo('en-US')
 
-class Info {
-    getName() {
-        return "info";
-    }
-    getDesc() {
-        return "Gets information. See `ice info help`";
+module.exports = class Info extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "info",
+            memberName: "info",
+            group: "mod",
+            description: "Gets information",
+            usage: "info help",
+            args: [
+                {
+                    type: "string",
+                    key: "command",
+                    prompt: "Which resource you want to get info about?"
+                },
+                {
+                    type: "user",
+                    key: "pointer",
+                    prompt: "Which member do you want to see info about? Leave blank for your info.",
+                    default: ""
+                }
+            ]
+        });
     }
     /**
      * 
@@ -19,13 +36,11 @@ class Info {
      * @param {Discord.Client} client 
      * @param {Discord.Message} msg 
      */
-    exec(cmd, client, msg) {
-        cmd.shift();
-        this.cmd = cmd;
-        this.client = client;
+    async run(msg, cmd) {
         this.msg = msg;
-        require("../../accountManager").sendAchievmentUnique(msg, "info");
-        switch(cmd[0].toLowerCase()){
+        this.cmd = cmd;
+        //require("../../accountManager").sendAchievmentUnique(msg, "info");
+        switch(cmd.command.toLowerCase()){
             case "user":
                 this.user();
                 break;
@@ -60,7 +75,7 @@ class Info {
     }
     async userUUID() {
         var embed = newEmbed();
-        var dbuser = await account.fetchUserUUID(this.cmd[1]);
+        var dbuser = await account.fetchUserUUID(this.cmd.pointer);
         if(!dbuser){
             this.msg.channel.send("Couldn't find anyone with that uuid");
             return;
@@ -90,14 +105,17 @@ class Info {
         var embed = newEmbed();
         if(this.msg.mentions.users.first()){
             var user = this.msg.mentions.users.first();
-        } else if(this.cmd[1]){
+        } else if(this.cmd.pointer){
             this.userUUID();
             return;
         } else {
             var user = this.msg.author;
         }
         var dbuser = await account.fetchUser(user.id);
-        var member = this.msg.guild.member(user);
+
+        if(this.msg.guild)
+            var member = this.msg.guild.member(user);
+
         embed.setTitle("User info");
         embed.setThumbnail(user.avatarURL);
         embed.addField("» Name", user.tag);
@@ -109,7 +127,10 @@ class Info {
         embed.addField("» BBS", account.getMoney(dbuser), true);
         embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
         embed.addField("» Registered", timeAgo.format(user.createdAt), true);
+        
+        if(this.msg.guild)
         embed.addField("» Roles", this.getRoles(member), true);
+        
         embed.addField("» Online status:", this.getStatus(user.presence.status) + user.presence.status, true);
 
         this.msg.channel.send(embed);
@@ -161,5 +182,3 @@ class Info {
         this.msg.channel.send("To do");
     }
 }
-
-module.exports = new Info;
