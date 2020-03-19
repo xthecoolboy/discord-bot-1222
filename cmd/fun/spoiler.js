@@ -6,6 +6,7 @@ module.exports = class Spoiler extends commando.Command {
             name: "spoiler",
             memberName: "spoiler",
             aliases: ["spoil"],
+            group: "fun",
             description: "Make the bot say something in annoying spoilers",
             args: [
                 {

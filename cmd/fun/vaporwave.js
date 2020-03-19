@@ -6,6 +6,7 @@ module.exports = class Vaporwave extends commando.Command {
             name: "vaporwave",
             memberName: "vaporwave",
             aliases: ["vaporify"],
+            group: "fun",
             description: "Vaporify given text",
             args: [
                 {
