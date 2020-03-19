@@ -93,7 +93,7 @@ This category is for developers who are working on discord. Hope it helps!
 ### Fun
 
 * **ascii** - Figlet!
-* **cowsay** - The original cowsay
+* **cow** - The original cowsay/cowthink
 * **clap** - Clapify given message
 * **cool** - Cools something
 * **dab** - <o/
