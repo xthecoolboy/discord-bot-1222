@@ -4,8 +4,6 @@ const got = require('got');
 const uniqueRandomArray = require('unique-random-array');
 const EventEmitter = require('eventemitter3');
 
-const randomCache = {};
-
 function formatResult(getRandomImage) {
     const imageData = getRandomImage();
     if (!imageData) {
@@ -17,29 +15,22 @@ function formatResult(getRandomImage) {
 }
 
 function storeResults(images, subreddit) {
-
     images.sort(function (a, b) { return a.score - b.score });
     images = images.slice(0, 40);
 
     const getRandomImage = uniqueRandomArray(images);
 
-//    randomCache[subreddit] = getRandomImage;
     return getRandomImage;
 }
 
 function randomPuppy(subreddit) {
     subreddit = (typeof subreddit === 'string' && subreddit.length !== 0) ? subreddit : 'puppies';
 
-//    if (randomCache[subreddit]) {
-//        return Promise.resolve(formatResult(randomCache[subreddit]));
-//    }
-
-    return got(`https://imgur.com/r/${subreddit}/hot.json`, { json: true })
-        .then(response => storeResults(response.body.data, subreddit))
+    return got(`https://imgur.com/r/${subreddit}/hot.json`)
+        .then(response => storeResults(JSON.parse(response.body).data, subreddit))
         .then(getRandomImage => formatResult(getRandomImage));
 }
 
-// silly feature to play with observables
 function all(subreddit) {
     const eventEmitter = new EventEmitter();
 
