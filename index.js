@@ -9,7 +9,7 @@ const client = new Commando.Client({
     invite: "https://discord.gg/dZtq4Qu"
 });
 
-client.on("commandRegister", c=>console.log("[CMD]", c.name));
+client.on("commandRegister", c=>console.log("[CMD]", `[${c.group.id}]`, c.name));
 
 client.setProvider(
     sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
