@@ -1,6 +1,6 @@
-const pool = require("./managers/pool_mysql");
-const { padWithZeroes, insertAt } = require("./utils");
-const newEmbed = require("./embed");
+const pool = require("./pool_mysql");
+const { padWithZeroes, insertAt } = require("../utils");
+const newEmbed = require("../embed");
 
 function getUser(id, uuid = false){
     return new Promise(function(resolve, reject){
