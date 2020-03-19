@@ -104,9 +104,6 @@ This category is for developers who are working on discord. Hope it helps!
 * **spoiler** - Annoying spoilers
 * **vaporwave** - Vaporify string
 
-### Idemit
-Commands for the idemit project. No documentation here.
-
 ### Image
 
 * **fone** - Uses happyfone API
