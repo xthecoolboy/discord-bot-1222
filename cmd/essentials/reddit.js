@@ -1,28 +1,30 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
 
 const got = require('got');
 
-class Reddit {
-    getName() {
-        return "reddit";
+module.exports = class Reddit extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "reddit",
+            memberName: "reddit",
+            group: "essentials",
+            description: "Gets random image from given subreddit. Can be used with or without r/",
+            args: [
+                {
+                    type: "string",
+                    key: "reddit",
+                    prompt: "Which subreddit to get image from?"
+                }
+            ]
+        })
     }
-    getAliases() {
-        return ["meme"];
-    }
-    getDesc() {
-        return "Shows random image from given subreddit";
-    }
-    exec(cmd, client, msg) {
-        if(cmd[0] == "meme"){
-            var subreddit = "memes";
-        } else {
-            if (cmd[1].substr(0, 2) == "r/") cmd[1] = cmd[1].substr(2, cmd[1].length);
-            console.log("Trying subreddit '" + cmd[1] + "'");
-            var subreddit = cmd[1];
-        }
+    async run(msg, cmd) {
+        if (cmd.reddit.substr(0, 2) == "r/") cmd.reddit = cmd.reddit.substr(2);
+        var subreddit = cmd.reddit;
+
         var embed = newEmbed();
-        got(`https://imgur.com/r/${subreddit}/hot.json`, {json: true}).then(res => {
+        got(`https://imgur.com/r/${subreddit}/hot.json`).then(res => {
             var response = JSON.parse(res.body);
             var obj = response.data[Math.floor(Math.random() * response.data.length)];
             
@@ -30,7 +32,7 @@ class Reddit {
             embed.setImage("https://imgur.com/" + obj.hash + obj.ext.replace(/\?.*/, ''));
             var author = obj.author;
             var reddit = obj.reddit;
-            got(`https://www.reddit.com/user/${obj.author}/about.json`, { json: true })
+            got(`https://www.reddit.com/user/${obj.author}/about.json`)
                 .then(response => {
                     var res = JSON.parse(response.body);
                     
@@ -44,5 +46,3 @@ class Reddit {
         });
     }
 }
-
-module.exports = new Reddit;
