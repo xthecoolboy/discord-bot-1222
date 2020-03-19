@@ -1,23 +1,26 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
-const tick = ":white_check_mark:";
-const cross = ":x:";
 const got = require('got');
 
-class LogMe {
-    getName() {
-        return "npm";
+module.exports = class NPM extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "npm",
+            memberName: "npm",
+            group: "dev",
+            description: "Gets info about NPM package",
+            usage: "npm <pkg>",
+            args: [
+                {
+                    key: "pkg",
+                    type: "string",
+                    prompt: "Which NPM package to get info about?"
+                }
+            ]
+        })
     }
-    getDesc() {
-        return "Fetches info about NPM package";
-    }
-    exec(cmd, client, msg) {
-        cmd.shift();
-        if(!cmd[0]){
-            msg.channel.send("You must specify a package to fetch");
-            return;
-        } 
-        got("https://api.npms.io/v2/search?q=" + cmd[0]).then(body => {
+    async run(msg, cmd) {
+        got("https://api.npms.io/v2/search?q=" + cmd.pkg).then(body => {
             var json = body.body;
             var obj = JSON.parse(json);
             if(obj.total == 0){
@@ -37,5 +40,3 @@ class LogMe {
 
     }
 }
-
-module.exports = new LogMe;

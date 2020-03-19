@@ -1,23 +1,28 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
 
-class Invite {
-    getName() {
-        return "code";
+module.exports = class HCode extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "code",
+            memberName: "code",
+            group: "dev",
+            description: "Explanation for given http status code.",
+            usage: "code <code>",
+            args: [
+                {
+                    type: "integer",
+                    key: "code",
+                    prompt: "What code to get info about?"
+                }
+            ]
+        })
     }
-    getDesc() {
-        return "Explanation for given http status code";
-    }
-    exec(cmd, client, msg) {
-        if(!cmd[1]){
-            msg.channel.send("Expected format `ice code <code>`");
-            return;
-        }
-        var output = this.output;
+    run(msg, cmd) {
         this.msg = msg;
         this.cmd = cmd;
         try {
-            var code = parseInt(cmd[1]);
+            var code = parseInt(cmd.code);
         } catch(e){
             msg.channel.send("Expected format `ice code <code>`. <code> must be number.");
         }
@@ -346,7 +351,7 @@ class Invite {
     }
     outputUnnoficial(text, desc){
         var embed = newEmbed();
-        embed.setTitle(this.cmd[1] + " - (Non-standart) " + text);
+        embed.setTitle(this.cmd.code + " - (Non-standart) " + text);
         embed.setDescription(desc);
         embed.setFooter("© ICE Bot, TechmandanCZ#0135; Code from Wikipedia");
         this.msg.channel.send(embed);
@@ -354,11 +359,9 @@ class Invite {
     output(text, desc){
         this.found = true;
         var embed = newEmbed();
-        embed.setTitle(this.cmd[1] + " - " + text);
+        embed.setTitle(this.cmd.code + " - " + text);
         embed.setDescription(desc);
         embed.setFooter("© ICE Bot, TechmandanCZ#0135; Code from Wikipedia");
         this.msg.channel.send(embed);
     }
 }
-
-module.exports = new Invite;

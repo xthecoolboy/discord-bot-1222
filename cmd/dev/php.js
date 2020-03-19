@@ -1,24 +1,30 @@
 const got = require("got");
 const { parse } = require('node-html-parser');
 const newEmbed = require("../../embed");
+const commando = require("discord.js-commando");
 
-class PHP {
-    getName() {
-        return "php";
+module.exports = class PHP extends commando.Command {
+    constructor(client){
+        super(client, {
+            name: "php",
+            memberName: "php",
+            group: "dev",
+            description: "Shows information from PHP documentation.",
+            usage: "php bot::help",
+            args: [
+                {
+                    type: "string",
+                    key: "php",
+                    prompt: "Which class/function to get info about?"
+                }
+            ]
+        })
     }
-    getDescription() {
-        return "Shows PHP documentation. See `ice php bot::help`.";
-    }
-    exec(cmd, client, msg) {
-        cmd.shift();
+    async run(msg, cmd) {
         this.cmd = cmd;
-        this.client = client;
         this.msg = msg;
 
-        var c = cmd[0];
-        if(!c){
-            return msg.channel.send("Nothing to find specified. See `ice php bot::help`");
-        }
+        var c = cmd.php;
         if(c == "bot::help"){
             return this.help();
         }
@@ -105,5 +111,3 @@ class PHP {
         });
     }
 }
-
-module.exports = new PHP;

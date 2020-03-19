@@ -1,29 +1,39 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
 const util = require("../../utils.js");
-const tick = ":white_check_mark:";
-const cross = ":x:";
 const got = require('got');
 
-class LogMe {
-    getName() {
-        return "request";
+module.exports = class Request extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "request",
+            memberName: "request",
+            aliases: ["req"],
+            usage: "req get http://ice.danbulant.eu/ text",
+            group: "dev",
+            description: "Makes a new HTTP request",
+            args: [
+                {
+                    type: "string",
+                    key: "method",
+                    prompt: "Which method to use? Type 'help' for more info."
+                },{
+                    type: "string",
+                    key: "url",
+                    prompt: "Which URL to make request on? If using help, enter anything."
+                },{
+                    type: "string",
+                    key: "format",
+                    prompt: "Format to use (JSON or TEXT)",
+                    default: "text"
+                }
+            ]
+        })
     }
-    getAliases() {
-        return ['req'];
-    }
-    getDesc() {
-        return "Make a request to the given URL with options. See `request help`.";
-    }
-    exec(cmd, client, msg) {
-        cmd.shift();
+    async run(msg, cmd) {
         this.msg = msg;
         this.cmd = cmd;
-        if (!cmd[0]) {
-            msg.channel.send("You must specify subcommand. See `request help`.");
-            return;
-        }
-        this.command(cmd[0]);
+        this.command(cmd.method);
     }
     command(cmd){
         switch(cmd.toLowerCase()){
@@ -53,10 +63,7 @@ class LogMe {
         embed.setTitle(util.assistant_icon);
         embed.setDescription("Performing request");
         var msg = await this.msg.channel.send(embed);
-        if(!this.cmd[1]){
-            return this.msg.channel.send("Specify a url. Usage: `ice request <url> [json|text (default]");
-        }
-        got(this.cmd[1]).then(res => {
+        got(this.cmd.url).then(res => {
             embed.setTitle("GET")
             embed.setDescription("Request results:");
             embed.addField("Response code", res.statusCode + " (Don't understand the code meaning? See `ice code " + res.statusCode + "`)");
@@ -77,9 +84,9 @@ class LogMe {
                 embed.addField("Error", "Response body is longer than discord's limit. The body below is truncated to fit.");
                 embed.addField("Response truncated", "```\n" + res.body.substr(0, 1016) + "\n```");
             } else {
-                if(!this.cmd[2]){
+                if(!this.cmd.format){
                     embed.addField("Response", "```\n" + res.body + "\n```");
-                } else if (this.cmd[2].toLowerCase() == "json") {
+                } else if (this.cmd.format.toLowerCase() == "json") {
                     try {
                         embed.addField("Response", "```json\n" + JSON.stringify(JSON.parse(res.body), null, 2) + "\n```");
                     } catch(e) {
@@ -111,5 +118,3 @@ class LogMe {
         this.msg.channel.send(embed);
     }
 }
-
-module.exports = new LogMe;

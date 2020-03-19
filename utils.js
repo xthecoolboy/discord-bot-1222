@@ -25,7 +25,7 @@ function insertAt(a, b, position) {
     return a.substring(0, position) + b + a.substring(position);
 }
 
-const assistant_icon = "<a:okaygoogle:661951491082551306>";
+const assistant_icon = "Please wait";
 
 module.exports = {
     shortNumber,

@@ -1,16 +1,18 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
 const got = require("got");
 
-class Invite {
-    getName() {
-        return "dstatus";
+module.exports = class DStatus extends commando.Command{
+    constructor(client){
+        super(client, {
+            name: "dstatus",
+            memberName: "dstatus",
+            group: "dev",
+            description: "Shows status of discord services."
+        })
     }
-    getDesc() {
-        return "Shows discord services status";
-    }
-    async exec(cmd, client, msg) {
-        cmd.shift();
+    
+    async run(msg) {
         var embed = newEmbed();
         
         got("https://srhpyqt94yxb.statuspage.io/api/v2/summary.json").then(summary => {
@@ -30,5 +32,3 @@ class Invite {
         })
     }
 }
-
-module.exports = new Invite;

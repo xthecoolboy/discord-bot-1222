@@ -1,28 +1,42 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
-const tick = ":white_check_mark:";
-const cross = ":x:";
-const got = require('got');
 const Doc = require('discord.js-docs');
 
-class LogMe {
+module.exports = class Djs extends commando.Command {
+    constructor(client){
+        super(client, {
+            name: "djs",
+            memberName: "djs",
+            group: "dev",
+            description: "Searches in discord.js docs",
+            usage: "djs <query> [source]",
+            args: [
+                {
+                    type: "string",
+                    key: "query",
+                    prompt: "Enter query to search for"
+                },
+                {
+                    type: "string",
+                    default: "stable",
+                    key: "source",
+                    prompt: "Source version to use"
+                }
+            ]
+        })
+    }
     getName() {
         return "djs";
     }
     getDesc() {
         return "Searches in discord.js docs";
     }
-    async exec(cmd, client, msg) {
-        cmd.shift();
+    async run(msg, cmd) {
         this.msg = msg;
-        if (!cmd[0]) {
-            msg.channel.send("Specify query to search. Use as `ice djs <query> [source]`. Use . to separate properties like `ice djs message.guild.members`.");
-            return;
-        }
-        var source = (cmd[1] ? cmd[1] : "stable");
+        var source = cmd.source
         const doc = await Doc.fetch(source)
         
-        var c = cmd[0].split(".");
+        var c = cmd.query.split(".");
         var m = doc.get(...c);
         if(m){
             return this.showDoc(m, source);
@@ -51,5 +65,3 @@ class LogMe {
         this.msg.channel.send(embed);
     }
 }
-
-module.exports = new LogMe;
