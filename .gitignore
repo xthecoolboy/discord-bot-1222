@@ -6,6 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+
+managers/pool_mysql.js
 settings.sqlite3
 ice.service
 token.txt
