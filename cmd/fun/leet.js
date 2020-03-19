@@ -8,6 +8,7 @@ module.exports = class Leet extends commando.Command {
             memberName: "leetify",
             aliases: ["leet"],
             description: "Leetify your text",
+            group: "fun",
             args: [
                 {
                     type: "string",
