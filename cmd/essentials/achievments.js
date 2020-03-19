@@ -1,4 +1,4 @@
-const user = require("../../accountManager");
+const user = require("../../managers/accountManager");
 const commando = require("discord.js-commando");
 
 module.exports = class Achievments extends commando.Command {

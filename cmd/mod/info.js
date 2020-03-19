@@ -1,6 +1,6 @@
 const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
-const account = require("../../accountManager");
+const account = require("../../managers/accountManager");
 const TimeAgo = require('javascript-time-ago');
 const en = require('javascript-time-ago/locale/en');
 TimeAgo.addLocale(en)
