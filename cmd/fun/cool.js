@@ -16,7 +16,7 @@ module.exports = class Cool extends commando.Command {
             ]
         })
     }
-    exec(msg, cmd) {
+    run(msg, cmd) {
 
         msg.channel.send("Cooling up " + cmd.cool);
     }

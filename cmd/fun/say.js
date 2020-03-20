@@ -16,7 +16,7 @@ module.exports = class Say extends commando.Command {
             ]
         })
     }
-    exec(msg, cmd) {
+    run(msg, cmd) {
         msg.channel.send(cmd.string);
     }
 }
