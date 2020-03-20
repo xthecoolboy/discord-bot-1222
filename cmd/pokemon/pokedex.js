@@ -26,13 +26,6 @@ module.exports = class Poke extends commando.Command {
             ]
         })
     }
-    disabled = true;
-    getName(){
-        return "poke";
-    }
-    getDescription(){
-        return "Finds something in pokedex";
-    }
     async run(msg, cmd){
         this.cmd = cmd;
         this.msg = msg;
@@ -58,7 +51,6 @@ module.exports = class Poke extends commando.Command {
         try {
             var pokemon = await P.getPokemonByName(this.cmd.poke.toLowerCase());
         } catch(e){
-            console.warn(e);
             this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd.poke + "'");
             return;
         }
