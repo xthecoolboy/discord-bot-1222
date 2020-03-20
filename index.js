@@ -1,7 +1,9 @@
 const Commando = require('discord.js-commando');
 const path = require('path');
 const sqlite = require('sqlite');
-const token = require("fs").readFileSync("./token.txt", "utf-8");
+const Youtube = require('@mindaugaskasp/node-youtube');
+const YoutubePlayer = require('./services/player/youtube-player');
+const config = require("./config.json");
 
 const client = new Commando.Client({
     owner: '147365975707090944',
@@ -14,6 +16,9 @@ client.on("commandRegister", c=>console.log("[CMD]", `[${c.group.id}]`, c.name))
 client.setProvider(
     sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
+
+client.config = config;
+client.music = new YoutubePlayer(new Youtube(config.youtube.token, config.youtube.base_url));
 
 client.registry.registerGroups([
     ['anime', 'Anime commands'],
@@ -36,14 +41,16 @@ client.registry.registerGroups([
     .registerDefaultCommands({
         eval: false
     })
-    .registerCommandsIn(path.join(__dirname, "cmd"))
-    .registerTypesIn(path.join(__dirname, "types"));
+    .registerTypesIn(path.join(__dirname, "types"))
+    .registerCommandsIn(path.join(__dirname, "cmd"));
 
 client.on("ready", ()=>{
     console.log("Ready!");
 });
 
-client.login(token);
+client.login(config.token);
+
+process.on('unhandledRejection', console.error);
 
 /*
 const Discord = require('discord.js');
