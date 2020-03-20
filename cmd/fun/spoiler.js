@@ -18,7 +18,7 @@ module.exports = class Spoiler extends commando.Command {
         })
     }
     run(msg, cmd) {
-        var text = cmd.string.split("").join("||||");
+        var text = cmd.string.split("").join("||||").substr(0, 1998);
         msg.channel.send("||" + text + "||");
     }
 }
