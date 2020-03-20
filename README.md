@@ -13,7 +13,9 @@ Want to use Ice? Invite link can be found on ice's [website](http://ice.danbulan
 ## Setting up
 
 The setup is quite simple:
+
 * Grab latest release and extract the contents somewhere on the disk
+* If you're on windows, you need to change download directory (found in services/player/player.js) to some other location, as `/temp/` doesn't exist there.
 * Install dependencies (See #dependencies)
 * Aquire token (from [discord developer portal](https://discordapp.com/developers)) and save it in token.txt
 * Create `managers/mysql.js` that exports pool

@@ -12,6 +12,9 @@ module.exports = class Player extends EventEmitter
      */
     static DOWNLOAD_DIR()
     {
+        if(!fs.existsSync("/temp/downloads")){
+            fs.mkdirSync("/temp/downloads");
+        }
         return '/temp/downloads'
     };
 
