@@ -108,7 +108,6 @@ function getMoney(user){
 
 function mine(user){
     return new Promise((resolve, reject)=>{
-        console.log(user);
         try {
             var t = user.last_mined.split(/[- :]/);
             var d = new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
@@ -119,7 +118,6 @@ function mine(user){
         var now = new Date;
         const oneDay = 60 * 60 * 12 * 1000;
         var canMine = (now - d) > oneDay;
-        console.log(`(${now} - ${d}) > ${oneDay} = ${canMine}`);
         
         if(canMine){
             var current_timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
