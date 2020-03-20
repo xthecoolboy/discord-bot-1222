@@ -57,36 +57,5 @@ module.exports = class Eval extends commando.Command {
             } catch (e) {
             }
         }, 15000);
-/*
-        const fn = cluster.fork();
-        var timeout = null;
-        var done = false;
-        fn.on("message", (message) => {
-            if (!message._ready) {
-                if (message.type == "ok") {
-                    msg.channel.sendEmbed(message.embed);
-                } else {
-                    msg.channel.send("An error occured during evaluation");
-                }
-                done = true;
-                clearTimeout(timeout);
-            } else {
-                fn.send({
-                    cmd,
-                    msg: msg.content
-                })
-                timeout = setTimeout(_ => {
-                    try {
-                        if (!done) {
-                            fn.process.kill();
-                            console.log("Killed long taking process");
-                            msg.channel.send("The code provided took too long");
-                        }
-                    } catch (e) {
-
-                    }
-                }, 10000);
-            }
-        })*/
     }
 }
