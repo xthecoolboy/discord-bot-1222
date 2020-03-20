@@ -15,6 +15,7 @@ module.exports = class Info extends commando.Command{
             group: "mod",
             description: "Gets information",
             usage: "info help",
+            guildOnly: true,
             args: [
                 {
                     type: "string",
@@ -22,7 +23,7 @@ module.exports = class Info extends commando.Command{
                     prompt: "Which resource you want to get info about?"
                 },
                 {
-                    type: "user",
+                    type: "user|string",
                     key: "pointer",
                     prompt: "Which member do you want to see info about? Leave blank for your info.",
                     default: ""
@@ -103,13 +104,20 @@ module.exports = class Info extends commando.Command{
     }
     async user() {
         var embed = newEmbed();
-        if(this.msg.mentions.users.first()){
-            var user = this.msg.mentions.users.first();
+        var user = this.msg.author;
+        if(this.msg.mentions.users.first() && this.msg.mentions.users.first() != this.client.user){
+            user = this.msg.mentions.users.first();
         } else if(this.cmd.pointer){
-            this.userUUID();
-            return;
-        } else {
-            var user = this.msg.author;
+            if(this.cmd.pointer.toString().indexOf("-") != -1){
+                this.userUUID();
+                return;
+            } else {
+                console.log(this.msg.guild.members);
+                user = await this.msg.guild.members.fetch(this.cmd.pointer);
+                console.log(this.cmd.pointer, user);
+                if(!user)
+                    return this.msg.channel.send("The user with given ID isn't in this server");
+            }
         }
         var dbuser = await account.fetchUser(user.id);
 
