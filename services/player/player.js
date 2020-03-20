@@ -12,7 +12,7 @@ module.exports = class Player extends EventEmitter
      */
     static DOWNLOAD_DIR()
     {
-        return 'downloads'
+        return '/temp/downloads'
     };
 
     constructor(youtube)
