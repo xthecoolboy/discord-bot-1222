@@ -1,26 +1,19 @@
-const newEmbed = require("../../embed");
-const account = require("../../accountManager");
+const commando = require("discord.js-commando");
+const account = require("../../managers/accountManager");
 const TimeAgo = require('javascript-time-ago');
 const en = require('javascript-time-ago/locale/en');
 TimeAgo.addLocale(en)
 
-const timeAgo = new TimeAgo('en-US')
-
-class Info {
-    getName() {
-        return "mine";
+module.exports = class Mine extends commando.Command {
+    constructor(client){
+        super(client, {
+            name: "mine",
+            memberName: "mine",
+            group: "balance",
+            description: "Mines BBS, once per 12 hours."
+        })
     }
-    getDesc() {
-        return "Mines BBS. Once per 12 hours.";
-    }
-    /**
-     * 
-     * @param {Array} cmd 
-     * @param {Discord.Client} client 
-     * @param {Discord.Message} msg 
-     */
-    async exec(cmd, client, msg) {
-        cmd.shift();
+    async run(msg) {
         try {
             var mined = await account.mine(await account.fetchUser(msg.author.id));
             if(mined){
@@ -34,5 +27,3 @@ class Info {
         }
     }
 }
-
-module.exports = Info;
