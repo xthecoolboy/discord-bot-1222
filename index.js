@@ -4,6 +4,7 @@ const sqlite = require('sqlite');
 const Youtube = require('@mindaugaskasp/node-youtube');
 const YoutubePlayer = require('./services/player/youtube-player');
 const config = require("./config.json");
+const acc = require("./managers/accountManager");
 
 const client = new Commando.Client({
     owner: '147365975707090944',
@@ -46,6 +47,11 @@ client.registry.registerGroups([
 
 client.on("ready", ()=>{
     console.log("Ready!");
+});
+
+client.on("commandRun", (c, p, msg)=>{
+    console.log("[USE] " + msg.author.tag + " -> " + msg.content);
+    acc.sendAchievmentUnique(msg, "new");
 });
 
 client.login(config.token);
