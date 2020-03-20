@@ -1,8 +1,32 @@
 var Pokedex = require('pokedex-promise-v2');
 var P = new Pokedex();
 const newEmbed = require("../../embed");
+const commando = require("discord.js-commando");
 
-class Poke {
+module.exports = class Poke extends commando.Command {
+    constructor(client){
+        super(client, {
+            name: "poke",
+            memberName: "poke",
+            group: "pokemon",
+            aliases: ["pokemon"],
+            hidden: true,
+            description: "Finds something in pokedex",
+            args: [
+                {
+                    type: "string",
+                    key: "cmd",
+                    prompt: "Which subcommand to use? Use help to see available ones."
+                },
+                {
+                    type: "string",
+                    key: "poke",
+                    prompt: "Pokemon to see",
+                    default: ""
+                }
+            ]
+        })
+    }
     disabled = true;
     getName(){
         return "poke";
@@ -10,20 +34,13 @@ class Poke {
     getDescription(){
         return "Finds something in pokedex";
     }
-    exec(cmd, client, msg){
-        cmd.shift();
-        console.log(cmd);
+    async run(msg, cmd){
         this.cmd = cmd;
-        this.client = client;
         this.msg = msg;
-        if(!cmd[0]){
-            msg.channel.send("Please specify a subcommand. See `ice poke help`");
-            return;
-        }
         this.processCommand(cmd);
     }
     processCommand(cmd){
-        switch(cmd[0]){
+        switch(cmd.cmd){
             case "mon":
                 this.mon();
                 break;
@@ -31,23 +48,23 @@ class Poke {
                 this.help();
                 break;
             default:
-                this.msg.channel.send("Unknown subcommand. See `ice help poke`");
+                this.msg.channel.send("Unknown subcommand. See `poke help`");
         }
     }
     async mon(){
-        if(!this.cmd[1]){
+        if(!this.cmd.poke){
             this.msg.channel.send("No pokemon to find specified. Usage: `ice poke mon <name>`");
             return;
         }
         try {
-            var pokemon = await P.getPokemonByName(this.cmd[1]);
+            var pokemon = await P.getPokemonByName(this.cmd.poke);
         } catch(e){
             console.warn(e);
-            this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd[1] + "'");
+            this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd.poke + "'");
             return;
         }
         if(!pokemon){
-            this.msg.channel.send("No pokemon found. Double check the name '" + this.cmd[1] + "'");
+            this.msg.channel.send("No pokemon found. Double check the name '" + this.cmd.poke + "'");
             return;
         }
         
@@ -64,5 +81,3 @@ class Poke {
         this.msg.channel.send("In development");
     }
 }
-
-module.exports = new Poke;
