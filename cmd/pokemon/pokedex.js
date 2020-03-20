@@ -9,7 +9,6 @@ module.exports = class Poke extends commando.Command {
             name: "poke",
             memberName: "poke",
             group: "pokemon",
-            aliases: ["pokemon"],
             hidden: true,
             description: "Finds something in pokedex",
             args: [
@@ -57,7 +56,7 @@ module.exports = class Poke extends commando.Command {
             return;
         }
         try {
-            var pokemon = await P.getPokemonByName(this.cmd.poke);
+            var pokemon = await P.getPokemonByName(this.cmd.poke.toLowerCase());
         } catch(e){
             console.warn(e);
             this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd.poke + "'");
