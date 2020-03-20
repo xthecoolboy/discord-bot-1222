@@ -25,10 +25,16 @@ module.exports = class Cowsay extends commando.Command{
         var saying = cmd.variant == "say";
         var { text } = cmd;
 
-        text = text.replace(/`/gi, "");
+        text = text
+        .replace(/\\`/gi, "")
+        .replace(/`/gi, "");
 
         if(text.length > 1500){
-            msg.channel.send("Too long message!");
+            return msg.channel.send("Too long message!");
+        }
+        
+        if(text.length == 0){
+            return msg.channel.send("Please provide a valid text to say/think");
         }
 
         if(saying){
