@@ -25,12 +25,12 @@ module.exports = class Cowsay extends commando.Command{
         var saying = cmd.variant == "say";
         var { text } = cmd;
 
-        text = text.replace("```", "``\\`");
+        text = text.replace(/```/gi, "``\\`");
 
         if(text.length > 1500){
             msg.channel.send("Too long message!");
         }
-        
+
         if(saying){
             msg.channel.send("```\n" + cowsay.say({text}) + "\n```");
         } else {
