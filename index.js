@@ -31,7 +31,7 @@ client.registry.registerGroups([
     ['tickets', 'Ticket managing'],
     ['top', 'Shows top users of bot']
 ])
-    .registerDetaultTypes()
+    .registerDefaultTypes()
     .registerDefaultGroups()
     .registerDefaultCommands({
         eval: false
