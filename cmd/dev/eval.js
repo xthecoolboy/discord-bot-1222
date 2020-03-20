@@ -25,7 +25,6 @@ module.exports = class Eval extends commando.Command {
         var done = false;
 
         worker.on('message', (message)=>{
-            console.log(message);
             if (message.type == "ok") {
                 msg.channel.sendEmbed(message.embed);
             } else if(message.type == "error") {
