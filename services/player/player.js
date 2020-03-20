@@ -12,10 +12,10 @@ module.exports = class Player extends EventEmitter
      */
     static DOWNLOAD_DIR()
     {
-        if(!fs.existsSync("/temp/downloads")){
-            fs.mkdirSync("/temp/downloads");
+        if(!fs.existsSync("/tmp/downloads")){
+            fs.mkdirSync("/tmp/downloads");
         }
-        return '/temp/downloads'
+        return '/tmp/downloads'
     };
 
     constructor(youtube)
