@@ -69,6 +69,6 @@ module.exports = class Poke extends commando.Command {
         this.msg.channel.send(embed);
     }
     help(){
-        this.msg.channel.send("In development");
+        this.msg.channel.send("The only currently working sub command is 'mon' which gets information about given pokemon.");
     }
 }
