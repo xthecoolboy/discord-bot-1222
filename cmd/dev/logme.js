@@ -1,23 +1,25 @@
-const Discord = require('discord.js');
+const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
-const tick = ":white_check_mark:";
-const cross = ":x:";
 
-class LogMe {
-    getName() {
-        return "logme";
+module.exports = class Logme extends commando.Command {
+    constructor(client){
+        super(client, {
+            name: "logme",
+            memberName: "logme",
+            group: "dev",
+            description: "Shows properties of sent image",
+            args: [
+                {
+                    type: "string",
+                    key: "argument",
+                    default: "",
+                    prompt: "string :)"
+                }
+            ]
+        })
     }
-    getDesc() {
-        return "Logs this message to console";
-    }
-    exec(cmd, client, msg) {
+    run(msg, cmd) {
         var embed = newEmbed();
-        if (msg.member.id != 147365975707090944) {
-            embed.setTitle("Log");
-            embed.addField("Blocked", "Due to abuse by _some people_, command logme is now disabled for non-admins of Ice");
-            msg.channel.send(embed);
-            return;
-        }
         embed.setTitle("Log");
         embed.addField("Command", "```json\n" + JSON.stringify(cmd, null, 2) + "\n```");
         var message = {};
@@ -30,11 +32,8 @@ class LogMe {
         message.channel = {};
         message.channel.id = msg.channel.id;
         message.channel.name = msg.channel.name;
+        message.channel.type = msg.channel.type;
         embed.addField("Message", "```json\n" + JSON.stringify(message, null, 2) + "\n```");
-        console.log(cmd);
-        console.log(msg);
         msg.channel.send(embed);
     }
 }
-
-module.exports = new LogMe;
