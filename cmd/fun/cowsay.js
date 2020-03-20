@@ -23,10 +23,18 @@ module.exports = class Cowsay extends commando.Command{
     }
     run(msg, cmd) {
         var saying = cmd.variant == "say";
+        var { text } = cmd;
+
+        text = text.replace("```", "``\\`");
+
+        if(text.length > 1500){
+            msg.channel.send("Too long message!");
+        }
+        
         if(saying){
-            msg.channel.send("```\n" + cowsay.say({text: cmd.text}) + "\n```");
+            msg.channel.send("```\n" + cowsay.say({text}) + "\n```");
         } else {
-            msg.channel.send("```\n" + cowsay.think({text: cmd.text}) + "\n```");
+            msg.channel.send("```\n" + cowsay.think({text}) + "\n```");
         }
     }
 }
