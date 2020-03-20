@@ -31,6 +31,7 @@ The setup is quite simple:
 * *(optional)* Git (or even better, hub) for simple updates - run one command and your bot is up to date
 
 ### Node dependencies
+
 Those are installed with `npm i` automatically.
 
 * ascii-table -> shows fancy table in logs
@@ -48,26 +49,27 @@ Those are installed with `npm i` automatically.
 * pokedex-promise-v2 -> Promises for pokedex
 * unique-random-array -> for our reddit command
 
-
 ## Commands
 
 The bot has as of now the following commands
 
 ### Anime
 
-* **nekos <endpoint>** - Wrapper to nekos-dot-life API (SFW)
+* **nekos \<endpoint>** - Wrapper to nekos-dot-life API (SFW)
 * **sofurry** - Gives random image from sofurry
 * **waifu** - Random AI-generated waifu
 
 ### Balance
+
 This category is yet to be done.
 
 * **balance** - shows current balance of user
-* **pay <amount> <who>** - *Not yet implemented*. Sends <amount> to <who>
+* **pay \<amount> \<who>** - *Not yet implemented*. Sends \<amount> to \<who>
 * **mine** - Mines the daily amount. Can be called every 12 hours.
 * **premium** - Shows if you have premium access or not
 
 ### Dev
+
 This category is for developers who are working on discord. Hope it helps!
 
 * **djs** - Searches through Discord.js documentation
@@ -122,13 +124,29 @@ This category is for developers who are working on discord. Hope it helps!
 * **info** - Info about author or given user
 * **stats** - Stats of ice bot
 
-### Music 
+### Music
+
 Music commands yet to be done.
 
-* **soundcloud** - *Not yet implemented*
+* **join** - Joins the bot to voice channel you are currently in.
+* **leave** - Leaves the voice channel
+* **get** - (Alias search) finds song by URL or name
+* **pause** - Pauses playback
+* **play** - Starts playing queue
+* **stop** - Stops playing queue
+* **remove** - Removes song from queue
+* **resume** - Resumes playback
+* **jump** - Jumps to song in queue
+* **seek** - Seeks current song
+* **shuffle** - Shuffles queue
+* **skip** - Skips current song
+* **stash** - View music search stash
+* **view** - Views current queue
+* **volume** - Sets or gets volume of playback
 
 ### NSFW
-These commands are premium only by default. 
+
+These commands are premium only by default.
 
 * **e621** - possibly NSFW
 * **nekos-lewd** - Not so safe endpoints of nekos.life
@@ -136,11 +154,4 @@ These commands are premium only by default.
 
 ### Pokemon
 
-* **pokedex** - *Not yet implemented*
-
-### Tickets
-Planned
-
-### Top
-
-* **banner** - *Not yet implemented*
+* **poke** - Has subcommands, see poke help
