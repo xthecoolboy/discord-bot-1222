@@ -37,7 +37,7 @@ module.exports = class Stats extends commando.Command {
             
             embed.addField("Website", "[ice.danbulant.eu](http://ice.danbulant.eu)", true);
             embed.addField("Main guild", "[DANBULANT](https://discord.gg/dZtq4Qu)", true);
-            embed.addField("Prefix", "`ice `", true);
+            embed.addField("Prefix", "`" + msg.guild.commandPrefix + "`", true);
             embed.addField("Users", shortNumber(users), true);
             embed.addField("Guilds", shortNumber(guilds), true);
             embed.addField("Uptime", timeAgo.format(global.started), true);
