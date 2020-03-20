@@ -1,4 +1,5 @@
 const commando = require("discord.js-commando");
+const newEmbed = require("../../embed");
 
 module.exports = class Say extends commando.Command {
     constructor(client){
@@ -17,6 +18,11 @@ module.exports = class Say extends commando.Command {
         })
     }
     run(msg, cmd) {
-        msg.channel.send(cmd.string);
+        var embed = newEmbed();
+
+        embed.setAuthor(msg.author.name + msg.author.tag, msg.author.avatarURL);
+        embed.setDescription(cmd);
+        
+        msg.channel.send("", {embed});
     }
 }
