@@ -112,6 +112,7 @@ module.exports = class Info extends commando.Command{
                 this.userUUID();
                 return;
             } else {
+                return this.msg.channel.send("Fetching user info either by UUID or by ping");
                 console.log(this.msg.guild.members);
                 user = await this.msg.guild.members.fetch(this.cmd.pointer);
                 console.log(this.cmd.pointer, user);
