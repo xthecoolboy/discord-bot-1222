@@ -32,8 +32,10 @@ module.exports = class NPM extends commando.Command{
             embed.setTitle(pkg.name + "@" + pkg.version);
             embed.setURL(pkg.links.npm);
             embed.setDescription(pkg.description);
-            embed.addField("» Author", pkg.author.name, true);
-            embed.addField("» Publisher", pkg.publisher.username, true);
+            if(pkg.author)
+                embed.addField("» Author", pkg.author.name, true);
+            if(pkg.publisher)
+                embed.addField("» Publisher", pkg.publisher.username, true);
             embed.addField("» Maintainers", pkg.maintainers.map(e=>e.username).join(", "), true);
             msg.channel.send(embed);
         })
