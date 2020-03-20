@@ -1,1 +1,0 @@
-//https://top.gg/api/docs#widgets
