@@ -20,6 +20,7 @@ The setup is quite simple:
 * Aquire token (from [discord developer portal](https://discordapp.com/developers)) and save it in token.txt
 * Create `managers/mysql.js` that exports pool
 * Create MySQL databse with correct tables. (This will be documented in wikipage)
+* Do steps in eval_docker/README.md [setup](eval_docker/README.md#setup)
 * Start the bot (with `node .`)
 
 *If you also want to run ice as a service on a debian (ubuntu) based machine, this repo contains `ice.service`. Edit the directory in it to match this repo location, copy it to /etc/systemd/system/ice.service and run `sudo systemctl daemon-reload && sudo systemctl enable ice`. Then to start, simply do `sudo systemctl start ice`.*
