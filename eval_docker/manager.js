@@ -7,9 +7,13 @@ module.exports = (code)=>{
     return new Promise((resolve, reject)=>{
         let hash = crypto.createHash('md5').update(code).digest("hex")
         
-        var file = __dirname + "/scripts/" + hash + ".js";
-        
-        fs.writeFileSync(file, code);
+        if(code.startsWith("http://") || code.startsWith("https://")){
+            file = `'${code.replace(/'/g, `'\\''`)}'`;
+        } else {
+            var file = __dirname + "/scripts/" + hash + ".js";
+            
+            fs.writeFileSync(file, code);
+        }
 
         exec("docker image build -t eval_deno:1.0 " + __dirname, (err, sout, serr)=>{
             console.log(err);
