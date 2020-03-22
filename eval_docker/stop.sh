@@ -1,0 +1,1 @@
+docker container rm --force eval_deno
