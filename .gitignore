@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+eval_docker/Dockerfile
 downloads/
 config.json
 managers/pool_mysql.js
