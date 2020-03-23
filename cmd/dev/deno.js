@@ -58,9 +58,9 @@ module.exports = class Deno extends commando.Command {
             try {
                 if(code.startsWith("http://") || code.startsWith("https://")){
                     var file = `'${code.replace(/'/g, `'\\''`)}'`;
-                    script = exec("~/.local/bin/deno " + file, end);
+                    script = exec("NO_COLOR=true ~/.local/bin/deno " + file, end);
                 } else {
-                    script = exec("~/.local/bin/deno", end);
+                    script = exec("NO_COLOR=true ~/.local/bin/deno", end);
                     script.stdin.write(code);
                     script.stdin.end();
                 }
