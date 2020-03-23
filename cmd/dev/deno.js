@@ -60,9 +60,10 @@ module.exports = class Deno extends commando.Command {
                     var file = `'${code.replace(/'/g, `'\\''`)}'`;
                     script = exec("NO_COLOR=true ~/.local/bin/deno " + file, end);
                 } else {
-                    script = exec("NO_COLOR=true ~/.local/bin/deno", end);
-                    script.stdin.write(code);
-                    script.stdin.end();
+                    var file = `'${code.replace(/'/g, `'\\''`)}'`;
+                    script = exec("NO_COLOR=true ~/.local/bin/deno eval " + file, end);
+                    /*script.stdin.write(code);
+                    script.stdin.end();*/
                 }
             } catch(e){
                 console.error("[error_cmd]", e);
