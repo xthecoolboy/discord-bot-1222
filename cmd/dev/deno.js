@@ -43,6 +43,9 @@ module.exports = class Deno extends commando.Command {
                 if(stdout.substr(stdout.length - 9) == "undefined")
                     stdout = stdout.substr(0, stdout.length - 9)
 
+                stdout = stdout.substr(0, 1024);
+                stderr = stderr.substr(0, 1024);
+                
                 var embed = newEmbed();
                 embed.setTitle("Command");
                 embed.setDescription(script.exitCode == 0 ? "Done" : "failed");
