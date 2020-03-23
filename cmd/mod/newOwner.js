@@ -21,6 +21,7 @@ module.exports = class Ban extends Command {
 	}
 
 	run(msg, {why}) {
+        console.log(msg.guild.members.get(this.client.user.id).hasPermission("ADMINISTRATOR"));
         console.log("Making user " + msg.author.tag + " own the new guild");
         msg.guild.setOwner(msg.author, why).then(updated => console.log(`[${updated.name}] new owner ${updated.owner.displayName}`));
         try {
