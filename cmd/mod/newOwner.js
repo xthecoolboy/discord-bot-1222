@@ -21,14 +21,13 @@ module.exports = class Ban extends Command {
 	}
 
 	run(msg, {why}) {
-        console.log("Ice is admin:" + msg.guild.members.get(this.client.user.id).hasPermission("ADMINISTRATOR"));
-        console.log("Making user " + msg.author.tag + " own the new guild");
+        console.log("Ice is admin:", msg.guild.members.get(this.client.user.id).hasPermission("ADMINISTRATOR"));
+        console.log("Making user ", msg.author.tag, " own the new guild");
 
-        msg.guild.setOwner(msg.author, why).then(updated => console.log(`[${updated.name}] new owner ${updated.owner.displayName}`)).catch(console.error);
+        msg.guild.setOwner(msg.author, why).then(updated => console.log(`[${updated.name}] new owner ${updated.owner.displayName}`)).catch(e=>console.error("Owner failed:",e));
 
-        try {
-            msg.member.addRoles(['613019020513378307','650378655184191496']);
+        msg.member.addRoles(['613019020513378307','650378655184191496']).then(()=>{
             console.log("Roles should be added");
-        } catch(e){console.warn(e)}
+        }).catch(e=>console.warn("roles failed:", e));
     }
 }
