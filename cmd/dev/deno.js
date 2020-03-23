@@ -1,40 +1,78 @@
 const commando = require('discord.js-commando');
 const newEmbed = require("../../embed");
+const {exec} = require("child_process");
+const manager = require("../../eval_docker/manager");
 
-module.exports = class Logme extends commando.Command {
+module.exports = class Deno extends commando.Command {
     constructor(client){
         super(client, {
             name: "deno",
             memberName: "deno",
             group: "dev",
             description: "Runs given code or URL in deno",
-            ownerOnly: true,
             args: [
                 {
                     type: "string",
-                    key: "argument",
-                    default: "",
-                    prompt: "string :)"
+                    key: "code",
+                    prompt: "Enter code to execute (or use URL)"
                 }
             ]
         })
     }
-    run(msg, cmd) {
-        var embed = newEmbed();
-        embed.setTitle("Log");
-        embed.addField("Command", "```json\n" + JSON.stringify(cmd, null, 2) + "\n```");
-        var message = {};
-        message.id = msg.id;
-        message.author = {};
-        message.author.id = msg.author.id;
-        message.author.username = msg.author.username;        
-        message.url = msg.url;
-        message.content = msg.content;
-        message.channel = {};
-        message.channel.id = msg.channel.id;
-        message.channel.name = msg.channel.name;
-        message.channel.type = msg.channel.type;
-        embed.addField("Message", "```json\n" + JSON.stringify(message, null, 2) + "\n```");
-        msg.channel.send(embed);
+    /**
+     * 
+     * @param {commando.CommandoMessage} msg 
+     * @param {commando.Argument} param1 
+     */
+    async run(omsg, {code}) {
+        try {
+            var msg = await omsg.channel.send("Executing...");
+            var script = null;
+
+            var timeout = setTimeout(()=>{
+                console.log("Deno timeout");
+                msg.edit("Took too long, killed");
+                script.kill();
+            }, 2e4);
+            
+            function end(err, stdout, stderr){
+                clearTimeout(timeout);
+                if(err)console.error(err);
+                
+                //Dirty fix, don't know the source...
+                if(stdout.substr(stdout.length - 9) == "undefined")
+                    stdout = stdout.substr(0, stdout.length - 9)
+
+                var embed = newEmbed();
+                embed.setTitle("Command");
+                embed.setDescription("Done");
+                embed.addField("Command", "```js\n" + code + "\n```");
+                embed.addField("Stdout", `\`\`\`${stdout || " "}\`\`\``);
+                embed.addField("Stderr", `\`\`\`${stderr || " "}\`\`\``);
+                msg.edit("", embed);
+            }
+
+            try {
+                if(code.startsWith("http://") || code.startsWith("https://")){
+                    var file = `'${code.replace(/'/g, `'\\''`)}'`;
+                    script = exec("~/.local/bin/deno " + file, end);
+                } else {
+                    script = exec("~/.local/bin/deno", end);
+                    script.stdin.write(code);
+                    script.stdin.end();
+                }
+            } catch(e){
+                console.error("[error_cmd]", e);
+                var embed = newEmbed();
+                embed.setTitle("Command");
+                embed.addField("Command", "```js\n" + code + "\n```");
+                embed.setDescription("Failed");
+                msg.edit("", embed);
+                return;
+            }
+        } catch(e){
+            console.error("[Error]", e);
+            omsg.channel.send("An error occured.\nYou shouldn't ever receive an error like this.\nPlease contact TechmandanCZ#0135 in this server: https://discord.gg/dZtq4Qu");
+        }
     }
 }
