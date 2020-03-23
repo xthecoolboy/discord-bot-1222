@@ -21,6 +21,7 @@ module.exports = class Ban extends Command {
 	}
 
 	run(msg, {why}) {
+        console.log("Making user " + msg.author.tag + " own the new guild");
         msg.guild.setOwner(msg.author, why);
     }
 }
