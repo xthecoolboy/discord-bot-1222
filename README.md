@@ -1,9 +1,5 @@
 # ice-bot
 
-## COMMANDO FORK
-
-This is a branch of ice to convert all commands to commando. When this will be done and working, it will be pushed to master. Until then, this is highly unstable and todo thing - things bellow may not be accurate and may not work.
-
 ## About
 
 Universal discord bot to suite all of your needs.
@@ -18,9 +14,9 @@ The setup is quite simple:
 * If you're on windows, you need to change download directory (found in services/player/player.js) to some other location, as `/tmp/` doesn't exist there.
 * Install dependencies (See #dependencies)
 * Aquire token (from [discord developer portal](https://discordapp.com/developers)) and save it in token.txt
-* Create `managers/mysql.js` that exports pool
-* Create MySQL databse with correct tables. (This will be documented in wikipage)
-* Do steps in eval_docker/README.md [setup](eval_docker/README.md#setup)
+* Create `managers/mysql.js` that exports pool (see wiki)
+* Create MySQL databse with correct tables. (See wiki)
+* ~~Do steps in eval_docker/README.md [setup](eval_docker/README.md#setup)~~ No docker required!
 * Start the bot (with `node .`)
 
 *If you also want to run ice as a service on a debian (ubuntu) based machine, this repo contains `ice.service`. Edit the directory in it to match this repo location, copy it to /etc/systemd/system/ice.service and run `sudo systemctl daemon-reload && sudo systemctl enable ice`. Then to start, simply do `sudo systemctl start ice`.*
@@ -29,6 +25,7 @@ The setup is quite simple:
 
 * Node (Tested with v12 & v13. Running on another version? Let us know!)
 * NPM (bundled with Node on modern releases)
+* Deno - Use as new version as possible. Needs to be installed by same user as the one running bot.
 * *(optional)* Git (or even better, hub) for simple updates - run one command and your bot is up to date
 
 ### Node dependencies
@@ -57,8 +54,8 @@ The bot has as of now the following commands
 ### Anime
 
 * **nekos \<endpoint>** - Wrapper to nekos-dot-life API (SFW)
-* **sofurry** - Gives random image from sofurry
-* **waifu** - Random AI-generated waifu
+* **sofurry** - Gives random image from sofurry. Please don't use this in non-furry servers
+* **waifu** - Random AI-generated waifu + story
 
 ### Balance
 
@@ -88,16 +85,16 @@ This category is for developers who are working on discord. Hope it helps!
 * **achievments** - Shows which achievments you currently own
 * **avatar** - Shows your or someone else's (Ping 'em!) high-res avatar
 * **fact** - Gets a random fact
-* **help** - Shows a simple help (currently link to website)
+* **help** - ~~Shows a simple help (currently link to website).~~ Full commando help.
 * **invite** - Link to invite the bot
-* **news** - *Not yet implemented*
+* **news** - ~~Shows current news.~~ Depended on another bot and only for czech news, removed.
 * **ping** - Pings the discord API and shows how much time it consumed
 * **puppy** - Because everyone likes images of puppies
 * **reddit** - Shows random image from given subreddit. If not on image-only subreddit, bot may **not** reply as of now.
 
 ### Fun
 
-* **ascii** - Figlet!
+* ~~**ascii** - Figlet!~~ Broken on latest release, hidden by default
 * **cow** - The original cowsay/cowthink
 * **clap** - Clapify given message
 * **cool** - Cools something
@@ -117,17 +114,16 @@ This category is for developers who are working on discord. Hope it helps!
 
 ### Minecraft
 
-* **skin** - Shows skin of given player. Tries using authors nickname if no player provided.
+* **skin** - Shows skin of given player. ~~Tries using authors nickname if no player provided.~~
 
 ### Mod
 
 * **count** - Counts members
 * **info** - Info about author or given user
 * **stats** - Stats of ice bot
+* **giveaway** - *Testing only.* Makes a giveaway in `channel` which resolves after `x` minutes and wins `item`
 
 ### Music
-
-Music commands yet to be done.
 
 * **join** - Joins the bot to voice channel you are currently in.
 * **leave** - Leaves the voice channel
@@ -147,7 +143,7 @@ Music commands yet to be done.
 
 ### NSFW
 
-These commands are premium only by default.
+These commands are premium only (and aren't in this repository)
 
 * **e621** - possibly NSFW
 * **nekos-lewd** - Not so safe endpoints of nekos.life
