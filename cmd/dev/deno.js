@@ -45,7 +45,7 @@ module.exports = class Deno extends commando.Command {
 
                 var embed = newEmbed();
                 embed.setTitle("Command");
-                embed.setDescription("Done");
+                embed.setDescription(script.exitCode == 0 ? "Done" : "failed");
                 embed.addField("Command", "```js\n" + code + "\n```");
                 embed.addField("Stdout", `\`\`\`${stdout || " "}\`\`\``);
                 embed.addField("Stderr", `\`\`\`${stderr || " "}\`\`\``);
