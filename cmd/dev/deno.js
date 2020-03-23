@@ -48,9 +48,9 @@ module.exports = class Deno extends commando.Command {
                 var embed = newEmbed();
                 embed.setTitle("Command");
                 embed.setDescription(script.exitCode == 0 ? "Done" : "failed");
-                embed.addField("Command", "```js\n" + code.replace(/``/gmi, "\\``") + "\n```");
-                embed.addField("Stdout", `\`\`\`${stdout.replace(/``/gmi, "\\``").replace(/file:\/\/\/home\/ubuntu\/bots/, "./") || " "}\`\`\``);
-                embed.addField("Stderr", `\`\`\`${stderr.replace(/``/gmi, "\\``").replace(/file:\/\/\/home\/ubuntu\/bots/, "./") || " "}\`\`\``);
+                embed.addField("Command", "```js\n" + code.replace(/``/gmi, "`​`") + "\n```");
+                embed.addField("Stdout", `\`\`\`${stdout.replace(/``/gmi, "`​`").replace(/file:\/\/\/home\/ubuntu\/bots/, "./") || " "}\`\`\``);
+                embed.addField("Stderr", `\`\`\`${stderr.replace(/``/gmi, "`​`").replace(/file:\/\/\/home\/ubuntu\/bots/, "./") || " "}\`\`\``);
                 msg.edit("", embed);
             }
 
@@ -68,7 +68,7 @@ module.exports = class Deno extends commando.Command {
                 console.error("[error_cmd]", e);
                 var embed = newEmbed();
                 embed.setTitle("Command");
-                embed.addField("Command", "```js\n" + code.replace(/``/gmi, "\\``") + "\n```");
+                embed.addField("Command", "```js\n" + code.replace(/``/gmi, "`​`") + "\n```");
                 embed.setDescription("Failed");
                 msg.edit("", embed);
                 return;
