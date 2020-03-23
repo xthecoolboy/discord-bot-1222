@@ -13,7 +13,8 @@ module.exports = class Ban extends Command {
                 {
                     key: "why",
                     prompt: "non",
-                    default: "Got em"
+                    default: "Got em",
+                    type: "string"
                 }
             ]
 		});
