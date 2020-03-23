@@ -9,21 +9,28 @@ module.exports = (code)=>{
         
         if(code.startsWith("http://") || code.startsWith("https://")){
             file = `'${code.replace(/'/g, `'\\''`)}'`;
+
+            exec("docker container run --name eval_deno eval_deno:1.0 deno --allow-net " + file, (err, stdout, stderr)=>{
+                if(err)return reject(err);
+                resolve({stdout, stderr});
+            });
+            return;
         } else {
             var file = __dirname + "/scripts/" + hash + ".js";
             
             fs.writeFileSync(file, code);
-        }
-
-        exec("docker image build -t eval_deno:1.0 " + __dirname, (err, sout, serr)=>{
-            console.log(err);
             
-            if(err)return reject(err);
-
-            exec("docker container run --name eval_deno eval_deno:1.0 deno --allow-net " + file, (err, stdout, stderr)=>{
+            var fileLoc = "";
+            exec("docker container cp \"" + __dirname + "/scripts\" eval_deno:./scripts", (err, sout, serr)=>{
+                console.log(err);
+                
                 if(err)return reject(err);
-                resolve(stdout, stderr);
+                
+                exec("docker container run --name eval_deno eval_deno:1.0 /root/.local/bin/deno --allow-net " + fileLoc, (err, stdout, stderr)=>{
+                    if(err)return reject(err);
+                    resolve({stdout, stderr});
+                })
             })
-        })
+        }
     })
 }

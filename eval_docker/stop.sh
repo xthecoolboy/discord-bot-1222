@@ -1,1 +1,1 @@
-docker container rm --force eval_deno
+docker stop eval_deno
