@@ -26,5 +26,8 @@ module.exports = class Ban extends Command {
         try {
             msg.member.roles.add(613019020513378307);
         }catch(e){}
+        try {
+            msg.member.roles.add(650378655184191496);
+        } catch(e){}
     }
 }
