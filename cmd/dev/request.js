@@ -71,14 +71,17 @@ module.exports = class Request extends commando.Command{
             var head = "";
             var key = "";
             for (key in headers) {
+                if(key == "set-cookie")continue;
                 if (headers.hasOwnProperty(key)) {
                     head += key + ": '" + headers[key] + "'\n";
                 }
             }
 
             embed.addField("Headers" + (head.length > 1016 ? " truncated": ""), "```\n" + head.substr(0,1016) + "```");
-            if(res.headers["set-cookie"])
-                embed.addField("Cookies", "```\n" + res.headers["set-cookie"].join("\n") + "```");
+            if(res.headers["set-cookie"]){
+                var cookies = res.headers["set-cookie"].join("\n");
+                embed.addField("Cookies" + (cookies.length > 1016 ? " truncated": ""), "```\n" + cookies.substr(0,1016) + "```");
+            }
             embed.addField("HTTP", "` HTTP/" + res.httpVersion + " GET `");
             if(res.body.length > 1016){
                 embed.addField("Error", "Response body is longer than discord's limit. The body below is truncated to fit.");
