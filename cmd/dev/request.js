@@ -106,7 +106,7 @@ module.exports = class Request extends commando.Command{
             console.warn(e);
             var embed = newEmbed();
             embed.setTitle("GET - error");
-            embed.setDescription(e.name + " => " + e.description);
+            embed.setDescription(e.name + " => " + e.message);
 
             msg.edit(embed);
         });
