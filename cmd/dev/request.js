@@ -76,7 +76,7 @@ module.exports = class Request extends commando.Command{
                 }
             }
 
-            embed.addField("Headers", "```\n" + head + "```");
+            embed.addField("Headers" + (head.length > 1016 ? " truncated": ""), "```\n" + head.substr(0,1016) + "```");
             if(res.headers["set-cookie"])
                 embed.addField("Cookies", "```\n" + res.headers["set-cookie"].join("\n") + "```");
             embed.addField("HTTP", "` HTTP/" + res.httpVersion + " GET `");
