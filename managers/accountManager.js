@@ -10,7 +10,10 @@ function getUser(id, uuid = false){
             var query = `SELECT  * FROM users WHERE discord="${id}"`;
         }
         pool.query(query, function(error, results, fields){
-            if (error) reject(error);
+            if (error) return reject(error);
+
+            if(results == undefined)return resolve(null);
+            
             resolve(results[0]);
         })
     })
@@ -19,7 +22,8 @@ function fetchUserId(id){
     return new Promise(function (resolve, reject) {
         var query = `SELECT  * FROM users WHERE id="${id}"`;
         pool.query(query, function (error, results, fields) {
-            if (error) reject(error);
+            if (error) return reject(error);
+            if(!results)return resolve(null);
             resolve(results[0]);
         })
     })
