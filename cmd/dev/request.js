@@ -102,8 +102,6 @@ module.exports = class Request extends commando.Command{
             }
             msg.edit(embed);
         }).catch(e => {
-            console.log("Error in request:");
-            console.warn(e);
             var embed = newEmbed();
             embed.setTitle("GET - error");
             embed.setDescription(e.message);
