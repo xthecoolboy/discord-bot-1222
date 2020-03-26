@@ -56,6 +56,10 @@ module.exports = async (msg)=>{
             embed.setDescription("[DELETED]");
         }
 
+        if(mess.edited){
+            embed.addField("Edited", "The message has been edited");
+        }
+
         msg.channel.send("Message preview:", embed);
     } catch(e){}
 }
