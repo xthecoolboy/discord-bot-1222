@@ -85,6 +85,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **logme** - *Disabled on live version*. Logs message to console. Useful for debugging this bot.
 * **npm** - Gets information about given package
 * **request** (alias `req`)- Makes request. See `req help`
+* **format** - Shows formatting help
 
 ### Essentials
 
