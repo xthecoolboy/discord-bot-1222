@@ -57,7 +57,5 @@ module.exports = async (msg)=>{
         }
 
         msg.channel.send("Message preview:", embed);
-    } catch(e){
-        console.log(e);
-    }
+    } catch(e){}
 }
