@@ -47,6 +47,12 @@ Those are installed with `npm i` automatically.
 * pokedex-promise-v2 -> Promises for pokedex
 * unique-random-array -> for our reddit command
 
+## Non-command related features
+
+### Message previews
+
+Messages can be previewed by sending a link to it. If ice has access to the server and channel the message was in, it will send an embed containing information about the message.
+
 ## Commands
 
 The bot has as of now the following commands
