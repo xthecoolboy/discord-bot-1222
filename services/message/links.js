@@ -9,6 +9,9 @@ module.exports = async (msg)=>{
     try {
         server = msg.client.guilds.get(server);
         channel = server.channels.get(channel);
+    } catch(e){return;}
+
+    try {
         var mess = await channel.fetchMessage(message);
 
         if(!mess)return;
@@ -60,6 +63,15 @@ module.exports = async (msg)=>{
             embed.addField("Edited", "The message has been edited");
         }
 
-        msg.channel.send("Message preview:", embed);
-    } catch(e){}
+        msg.channel.send(embed);
+    } catch(e){
+        var embed = newEmbed();
+
+        embed.setAuthor("[DELETED]", "http://icon-library.com/images/yellow-discord-icon/yellow-discord-icon-24.jpg");
+        embed.setDescription("[DELETED]");
+
+        embed.addField("Deleted", "The message has been deleted.");
+
+        msg.channel.send(embed);
+    }
 }
