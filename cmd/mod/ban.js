@@ -11,21 +11,26 @@ module.exports = class Ban extends Command {
 			args: [
 				{
 					key: 'user',
-					prompt: 'whom do you want to blacklist?\n',
+					prompt: 'Who do should be banned?\n',
 					type: 'user'
-				}
+				},{
+                    key: "reason",
+                    prompt: "Why do you want to ban the user?",
+                    type: "string",
+                    default: "No reason provided"
+                }
 			]
 		});
 	}
 
-	run(msg, { user }) {
+	run(msg, { user, reason }) {
 		if (this.client.isOwner(user.id)) return msg.channel.send('the bot owner can not be blacklisted.');
 
         if(this.client.user == user)return msg.channel.send("You can't ban me!");
 
         if(!msg.guild.member(user).bannable)return msg.channel.send("You can't ban this user");
 
-        msg.guild.ban(user);
+        msg.guild.ban(user, { reason });
 
 		var embed = newEmbed();
 
