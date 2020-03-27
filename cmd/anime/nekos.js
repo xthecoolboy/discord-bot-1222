@@ -34,7 +34,7 @@ module.exports = class NekosCommand extends commando.Command {
     async run(msg, cmd) {
         this.msg = msg;
 
-        if(!cmd[0]){
+        if(!cmd.command){
             this.help();
             return;
         }
