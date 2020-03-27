@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const newEmbed = require("../../embed");
 
 module.exports = class Ban extends Command {
 	constructor(client) {
@@ -26,6 +27,11 @@ module.exports = class Ban extends Command {
 
         msg.guild.ban(user);
 
-        msg.channel.send("Got 'em");
+		var embed = newEmbed();
+
+		embed.setTitle(user.tag + " banned");
+		embed.setAuthor(msg.author.tag, msg.author.avatarURL);
+
+        msg.channel.send(embed);
     }
 }
