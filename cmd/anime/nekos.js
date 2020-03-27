@@ -33,11 +33,6 @@ module.exports = class NekosCommand extends commando.Command {
 
     async run(msg, cmd) {
         this.msg = msg;
-
-        if(!cmd.command){
-            this.help();
-            return;
-        }
         
         var c = cmd.command.toLowerCase();
         
