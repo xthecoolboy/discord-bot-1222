@@ -12,11 +12,10 @@ The setup is quite simple:
 
 * Grab latest release and extract the contents somewhere on the disk
 * If you're on windows, you need to change download directory (found in services/player/player.js) to some other location, as `/tmp/` doesn't exist there.
-* Install dependencies (See #dependencies)
+* Install dependencies (See [#dependencies])
 * Aquire token (from [discord developer portal](https://discordapp.com/developers)) and save it in token.txt
-* Create `managers/mysql.js` that exports pool (see wiki)
-* Create MySQL databse with correct tables. (See wiki)
-* ~~Do steps in eval_docker/README.md [setup](eval_docker/README.md#setup)~~ No docker required!
+* Create `managers/mysql.js` that exports pool (see [wiki](https://github.com/danbulant/ice-bot/wiki/Setting-up-database))
+* Create MySQL databse with correct tables. (See [wiki](https://github.com/danbulant/ice-bot/wiki/Setting-up-database))
 * Start the bot (with `node .`)
 
 *If you also want to run ice as a service on a debian (ubuntu) based machine, this repo contains `ice.service`. Edit the directory in it to match this repo location, copy it to /etc/systemd/system/ice.service and run `sudo systemctl daemon-reload && sudo systemctl enable ice`. Then to start, simply do `sudo systemctl start ice`.*
