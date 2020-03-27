@@ -9,6 +9,10 @@ const messageServices = [
     require("./services/message/links")
 ];
 
+const inhibitors = [
+    require("./services/inhibitors/checkChannel")
+];
+
 const client = new Commando.Client({
     owner: '147365975707090944',
     commandPrefix: 'ice ',
@@ -62,6 +66,10 @@ client.on("message",async msg=>{
         await service(msg);
     }
 });
+
+for(var inhibitor of inhibitors){
+    client.dispatcher.addInhibitor(inhibitor);
+}
 
 client.login(config.token);
 
