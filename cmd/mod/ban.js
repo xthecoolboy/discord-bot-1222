@@ -8,6 +8,8 @@ module.exports = class Ban extends Command {
 			group: 'mod',
 			memberName: 'ban',
 			description: 'Bans user from server',
+			clientPermissions: ["BAN_MEMBERS"],
+			userPermissions: ["BAN_MEMBERS"],
 			args: [
 				{
 					key: 'user',
