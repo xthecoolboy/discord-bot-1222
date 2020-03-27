@@ -127,6 +127,9 @@ This category is for developers who are working on discord. Hope it helps!
 * **count** - Counts members
 * **info** - Info about author or given user
 * **stats** - Stats of ice bot
+* **allow-channels** (found in `mod/allowChannels.js`) - Sets allowed channels in which the bot should reply to (defaults to all)
+* **ban** - Bans a member of guild.
+* **kick** - Kicks a member from guild.
 * **giveaway** - *Testing only.* Makes a giveaway in `channel` which resolves after `x` minutes and wins `item`
 
 ### Music
