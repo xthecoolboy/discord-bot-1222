@@ -40,7 +40,7 @@ module.exports = class Count extends commando.Command{
             setTimeout(() => {
                 const peopleReacted = msg.reactions.get("🎉").users;
                 var winner = peopleReacted.random()
-                        cmdchannel.send(`${winner} has won ${cmd.item}! :tada:`)
+                        cmd.channel.send(`${winner} has won ${cmd.item}! :tada:`)
                         const finalE = newEmbed()
                         .setTitle("Giveaway Over")
                         .setColor("#ff8c00")
