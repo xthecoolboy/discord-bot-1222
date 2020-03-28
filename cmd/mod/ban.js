@@ -26,7 +26,9 @@ module.exports = class Ban extends Command {
 	}
 
 	run(msg, { user, reason }) {
-		if (this.client.isOwner(user.id)) return msg.channel.send('the bot owner can not be blacklisted.');
+	if (this.client.isOwner(user.id)) return msg.channel.send('the bot owner can not be blacklisted.');
+		
+	if (msg.member.highestRole.comparePositionTo(msg.guild.member(user).highestRole) <= 0) return msg.say("You can't ban this user because you're not high enough in the role hierachy!");
 
         if(this.client.user == user)return msg.channel.send("You can't ban me!");
 
