@@ -61,6 +61,8 @@ The bot has as of now the following commands
 * **nekos \<endpoint>** - Wrapper to nekos-dot-life API (SFW)
 * **sofurry** - Gives random image from sofurry. Please don't use this in non-furry servers
 * **waifu** - Random AI-generated waifu + story
+* **safebooru** - It's safe, but just to make sure...
+* **konachan** - Safe version of konachan
 
 ### Balance
 
@@ -131,6 +133,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **ban** - Bans a member of guild.
 * **kick** - Kicks a member from guild.
 * **giveaway** - *Testing only.* Makes a giveaway in `channel` which resolves after `x` minutes and wins `item`
+* **role** - Manages roles. See help.
 
 ### Music
 
@@ -154,9 +157,14 @@ This category is for developers who are working on discord. Hope it helps!
 
 These commands are premium only (and aren't in this repository)
 
-* **e621** - possibly NSFW
 * **nekos-lewd** - Not so safe endpoints of nekos.life
 * **rule34** - Well you should know what this is
+* **hypnohub** - Random image from hypnohub
+* **xbooru** - The dirty sister of rule34
+* **realbooru** - Realistic version of rule34
+* **konachan-lewd** - Highquality wallpapers
+* **gelbooru** - Random image from gelbooru
+* **danbooru** - Random image from danbooru
 
 ### Pokemon
 
