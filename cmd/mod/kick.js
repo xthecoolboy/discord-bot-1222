@@ -26,7 +26,7 @@ module.exports = class Ban extends Command {
 	}
 
 	run(msg, { user, reason }) {
-		if (this.client.isOwner(user.id)) return msg.channel.send('the bot owner can not be kicked.');
+		if (this.client.isOwner(user.id)) return msg.channel.send('The bot owner can not be kicked.');
 
         if(this.client.user == user)return msg.channel.send("You can't kick me!");
 
