@@ -30,7 +30,7 @@ module.exports = class Ban extends Command {
 
         if(this.client.user == user)return msg.channel.send("You can't kick me!");
 
-        if(!msg.guild.member(user).kickable)return msg.channel.send("You can't ban this user");
+        if(!msg.guild.member(user).kickable)return msg.channel.send("You can't kick this user");
 
         msg.guild.member(user).kick(reason);
 
