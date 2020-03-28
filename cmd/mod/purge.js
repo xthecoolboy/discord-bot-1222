@@ -3,7 +3,7 @@ const {
 } = require('discord.js-commando');
 const newEmbed = require("../../embed");
 
-module.exports = class purgeCommand extends Command {
+module.exports = class Purge extends Command {
     constructor(client) {
         super(client, {
             name: 'purge',
