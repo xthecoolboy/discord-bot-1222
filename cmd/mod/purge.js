@@ -17,6 +17,11 @@ module.exports = class Purge extends Command {
                 key: 'amount',
                 prompt: 'how many messages do you want to delete?',
                 default: '',
+            },{
+                type: 'boolean',
+                key: 'delete',
+                prompt: 'Delete the message as well?',
+                default: false
             }]
         })
     }
@@ -34,6 +39,7 @@ module.exports = class Purge extends Command {
 
                 return msg.channel.send(embed)
                     .then(msg => {
+                        if(cmd.delete)
                         msg.delete(3000);
                     });
             } catch (e) {
