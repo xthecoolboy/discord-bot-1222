@@ -8,6 +8,7 @@ module.exports = class Count extends commando.Command{
             memberName: "giveaway",
             group: "mod",
             description: "Makes a giveaway in current channel",
+            permissions: ["ADMINISTRATOR"],
             args: [
                 {
                     type: "channel",
