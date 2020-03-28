@@ -1,4 +1,6 @@
-const { Command } = require('discord.js-commando');
+const {
+    Command
+} = require('discord.js-commando');
 const newEmbed = require("../../embed");
 
 module.exports = class purgeCommand extends Command {
@@ -8,16 +10,14 @@ module.exports = class purgeCommand extends Command {
             group: 'mod',
             memberName: 'purge',
             description: 'Deletes a certain amount of message in channel',
-			clientPermissions: ["MANAGE_MESSAGES"],
-			userPermissions: ["MANAGE_MESSAGES"],
-            args: [
-                {
+            clientPermissions: ["MANAGE_MESSAGES"],
+            userPermissions: ["MANAGE_MESSAGES"],
+            args: [{
                 type: 'integer',
                 key: 'amount',
                 prompt: 'how many messages do you want to delete?',
                 default: '',
-                }
-            ]
+            }]
         })
     }
 
@@ -27,18 +27,16 @@ module.exports = class purgeCommand extends Command {
 
             try {
                 msg.channel.bulkDelete(cmd.amount + 1);
-                    
+
                 var embed = newEmbed();
                 embed.setDescription(`✅ Successfully purged ${cmd.amount} messages!`);
                 embed.setAuthor(msg.author.username, msg.author.displayAvatarURL);
-                
-                return msg.channel.send(embed)
-                .then(msg => {
-                    msg.delete(3000);
-                });
-            }
 
-            catch(e) {
+                return msg.channel.send(embed)
+                    .then(msg => {
+                        msg.delete(3000);
+                    });
+            } catch (e) {
                 msg.channel.send(`Something went wrong...`)
                 console.error(e);
             }
