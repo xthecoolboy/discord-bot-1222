@@ -26,9 +26,11 @@ module.exports = class Ban extends Command {
 	}
 
 	run(msg, { user, reason }) {
-		if (this.client.isOwner(user.id)) return msg.channel.send('The bot owner can not be kicked.');
+	if (this.client.isOwner(user.id)) return msg.channel.send('The bot owner can not be kicked.');
 
         if(this.client.user == user)return msg.channel.send("You can't kick me!");
+		
+	if (msg.member.highestRole.comparePositionTo(msg.guild.member(user).highestRole) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
 
         if(!msg.guild.member(user).kickable)return msg.channel.send("You can't kick this user");
 
