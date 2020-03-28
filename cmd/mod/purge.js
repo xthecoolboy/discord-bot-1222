@@ -15,7 +15,7 @@ module.exports = class Purge extends Command {
             args: [{
                 type: 'integer',
                 key: 'amount',
-                prompt: 'how many messages do you want to delete?',
+                prompt: 'How many messages do you want to delete?',
                 default: '',
             },{
                 type: 'boolean',
@@ -40,7 +40,7 @@ module.exports = class Purge extends Command {
                 return msg.channel.send(embed)
                     .then(msg => {
                         if(cmd.delete)
-                        msg.delete(3000);
+                            msg.delete(3000);
                     });
             } catch (e) {
                 msg.channel.send(`Something went wrong...`)
