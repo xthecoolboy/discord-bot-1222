@@ -1,10 +1,10 @@
-const commando = require('discord.js-commando');
+const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
-const got = require('got');
+const got = require("got");
 
 module.exports = class Skin extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "skin",
             memberName: "skin",
@@ -17,12 +17,13 @@ module.exports = class Skin extends commando.Command {
                     type: "string"
                 }
             ]
-        })
+        });
     }
-    async run(msg, cmd) {
+
+    async run (msg, cmd) {
         var embed = newEmbed();
         var username = cmd.username;
-        
+
         got(`https://api.mojang.com/users/profiles/minecraft/${username}`).then(res => {
             var obj = JSON.parse(res.body);
             embed.setImage(`https://crafatar.com/renders/body/${obj.id}.png?overlay`);
@@ -30,7 +31,7 @@ module.exports = class Skin extends commando.Command {
             msg.channel.send(embed);
         }).catch((e) => {
             console.log(e);
-            msg.channel.send("An error occured. Does this minecraft account exist?")
+            msg.channel.send("An error occured. Does this minecraft account exist?");
         });
     }
-}
+};
