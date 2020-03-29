@@ -1,19 +1,19 @@
-const commando = require('discord.js-commando');
+const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 const got = require("got");
 
-module.exports = class Xkcd extends commando.Command{
-    constructor(client){
+module.exports = class Xkcd extends commando.Command {
+    constructor (client) {
         super(client, {
             name: "xkcd",
             memberName: "xkcd",
             group: "image",
             aliases: ["comic"],
             description: "Shows todays xkcd comic."
-        })
+        });
     }
 
-    async run(msg) {
+    async run (msg) {
         got("https://xkcd.com/info.0.json").then(res => {
             var post = JSON.parse(res.body);
             var title = post.safe_title;
@@ -25,4 +25,4 @@ module.exports = class Xkcd extends commando.Command{
             msg.channel.send(embed);
         });
     }
-}
+};
