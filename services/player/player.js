@@ -1,25 +1,22 @@
-const ffmpeg = require('fluent-ffmpeg');
-const promise = require('promised-io/promise');
-const fs = require('fs');
-const EventEmitter = require('events');
+const Ffmpeg = require("fluent-ffmpeg");
+const promise = require("promised-io/promise");
+const fs = require("fs");
+const EventEmitter = require("events");
 
-module.exports = class Player extends EventEmitter
-{
+module.exports = class Player extends EventEmitter {
     /**
      *
      * @returns {string}
      * @constructor
      */
-    static DOWNLOAD_DIR()
-    {
-        if(!fs.existsSync("/tmp/downloads")){
+    static DOWNLOAD_DIR() {
+        if (!fs.existsSync("/tmp/downloads")) {
             fs.mkdirSync("/tmp/downloads");
         }
-        return '/tmp/downloads'
+        return "/tmp/downloads";
     };
 
-    constructor(youtube)
-    {
+    constructor(youtube) {
         super();
         this._youtube = youtube;
         this._queue = new Map();
@@ -35,8 +32,7 @@ module.exports = class Player extends EventEmitter
     /**
      * Terminates state
      */
-    terminate()
-    {
+    terminate() {
         this._initDefaultState();
     }
 
@@ -45,9 +41,8 @@ module.exports = class Player extends EventEmitter
      * @param guild
      * @returns {*}
      */
-    getMusicQueue(guild)
-    {
-        let queue = this._queue.get(guild.id);
+    getMusicQueue(guild) {
+        const queue = this._queue.get(guild.id);
         if (queue) return queue.tracks;
         return [];
     }
@@ -56,9 +51,8 @@ module.exports = class Player extends EventEmitter
      * @param guild
      * @param position
      */
-    removeTrack(guild, position, channel)
-    {
-        let queue = this._queue.get(guild.id);
+    removeTrack(guild, position, channel) {
+        const queue = this._queue.get(guild.id);
         if (!queue) {
             return;
         }
@@ -66,14 +60,14 @@ module.exports = class Player extends EventEmitter
             queue.position = 0;
             queue.tracks = [];
             this._queue.set(guild.id, queue);
-            this.emit('remove', `Removing \`ALL\` tracks from the queue. Total: \`${queue.tracks.length}\``, guild, channel);
+            this.emit("remove", `Removing \`ALL\` tracks from the queue. Total: \`${queue.tracks.length}\``, guild, channel);
         } else {
-            if (position-1 >= queue.tracks.length) {
-                return this.emit('remove', `Invalid track number provided. Allowed: 1-${queue.tracks.length}`, guild, channel);
+            if (position - 1 >= queue.tracks.length) {
+                return this.emit("remove", `Invalid track number provided. Allowed: 1-${queue.tracks.length}`, guild, channel);
             }
-            this.emit('remove', `Removing \`${queue.tracks[position-1].title}\` from the queue.`, guild, channel);
-            let firstHalf = position - 1 === 0 ? [] : queue.tracks.splice(0, position - 1);
-            let secondHalf = queue.tracks.splice(position-1 === 0 ? position : position-1, queue.tracks.length);
+            this.emit("remove", `Removing \`${queue.tracks[position - 1].title}\` from the queue.`, guild, channel);
+            const firstHalf = position - 1 === 0 ? [] : queue.tracks.splice(0, position - 1);
+            const secondHalf = queue.tracks.splice(position - 1 === 0 ? position : position - 1, queue.tracks.length);
             queue.tracks = firstHalf.concat(secondHalf);
             this._queue.set(guild.id, queue);
         }
@@ -85,12 +79,11 @@ module.exports = class Player extends EventEmitter
      * @returns {*}
      * @private
      */
-    _randomizeArray(array)
-    {
+    _randomizeArray(array) {
         if (array.length >= 2) {
             for (let i = array.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                let temp = array[i];
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
             }
@@ -105,18 +98,17 @@ module.exports = class Player extends EventEmitter
      * @returns {Promise|PromiseConstructor}
      * @private
      */
-    _convertToAudio(guildID, stream)
-    {
-        let deferred = promise.defer();
+    _convertToAudio(guildID, stream) {
+        const deferred = promise.defer();
 
-        (new ffmpeg(stream))
+        (new Ffmpeg(stream))
             .noVideo()
             .saveToFile(`${Player.DOWNLOAD_DIR()}/${guildID}.mp3`)
-            .on('error', (e) => {
+            .on("error", (e) => {
                 console.log(e);
                 deferred.reject(e);
             })
-            .on('end', () => {
+            .on("end", () => {
                 deferred.resolve(true);
             });
 
@@ -128,9 +120,8 @@ module.exports = class Player extends EventEmitter
      * @param guild
      * @param userID
      */
-    loadTrack(track, guild, userID)
-    {
-        track['added_by'] = userID;
+    loadTrack(track, guild, userID) {
+        track.added_by = userID;
         this._validateTrackObject(track);
 
         let queue = this._queue.get(guild.id);
@@ -146,13 +137,12 @@ module.exports = class Player extends EventEmitter
      * @param guild
      * @param userID
      */
-    loadTracks(tracks, guild, userID = null)
-    {
+    loadTracks(tracks, guild, userID = null) {
         if (Array.isArray(tracks) === false) {
-            throw 'Tracks must be stored in array';
+            throw new Error("Tracks must be stored in array");
         }
-        for (let track of tracks) {
-            track['added_by'] = userID;
+        for (const track of tracks) {
+            track.added_by = userID;
             this._validateTrackObject(track);
         }
 
@@ -162,23 +152,22 @@ module.exports = class Player extends EventEmitter
         queue.tracks = queue.tracks.concat(tracks);
         this._queue.set(guild.id, queue);
 
-        this.emit('update', guild);
+        this.emit("update", guild);
     }
 
     /**
      * @param guildID
      * @private
      */
-    _initDefaultState(guildID)
-    {
-        let state = {
+    _initDefaultState(guildID) {
+        const state = {
             passes: 2,
             seek: 0,
             volume: 1,
             increment_queue: true,
             loop: true,
             shuffle: true,
-            stop: false,
+            stop: false
         };
         this._state.set(guildID, state);
 
@@ -190,30 +179,28 @@ module.exports = class Player extends EventEmitter
      * @param id
      * @private
      */
-    _incrementTimeout(id)
-    {
-        let timeout = this._timeouts.get(id) || {count: 0};
+    _incrementTimeout(id) {
+        const timeout = this._timeouts.get(id) || { count: 0 };
         timeout.count++;
         this._timeouts.set(id, timeout);
     }
+
     /**
      *
      * @param guildID
      * @private
      */
-    _tryToIncrementQueue(guildID)
-    {
-        let queue = this._queue.get(guildID);
-        let state = this._state.get(guildID);
+    _tryToIncrementQueue(guildID) {
+        const queue = this._queue.get(guildID);
+        const state = this._state.get(guildID);
 
         if (!queue) {
-            throw 'Can\'t increment queue - map not initialized';
+            throw new Error("Can't increment queue - map not initialized");
         }
-        if (queue.position >= queue.tracks.length-1 && state.increment_queue === true) {
+        if (queue.position >= queue.tracks.length - 1 && state.increment_queue === true) {
             queue.queue_end_reached = true;
-        }
-        else if (!state || state.increment_queue === true) {
-            queue.position+=1;
+        } else if (!state || state.increment_queue === true) {
+            queue.position += 1;
         }
 
         state.increment_queue = true;
@@ -226,9 +213,8 @@ module.exports = class Player extends EventEmitter
      * @param guildID
      * @private
      */
-    _resetQueuePosition(guildID)
-    {
-        let queue = this._queue.get(guildID);
+    _resetQueuePosition(guildID) {
+        const queue = this._queue.get(guildID);
         queue.position = 0;
         queue.queue_end_reached = false;
         this._queue.set(guildID, queue);
@@ -240,15 +226,14 @@ module.exports = class Player extends EventEmitter
      * @returns {{guild_id: *, tracks: Array, position: number}}
      * @private
      */
-    _getDefaultQueueObject(guildID)
-    {
+    _getDefaultQueueObject(guildID) {
         return {
             guild_id: guildID,
             tracks: [],
             position: 0,
             queue_end_reached: false,
-            created_timestamp: new Date().getTime(),
-        }
+            created_timestamp: new Date().getTime()
+        };
     }
 
     /**
@@ -257,13 +242,12 @@ module.exports = class Player extends EventEmitter
      * @returns {boolean}
      * @private
      */
-    _validateTrackObject(track)
-    {
-        if (!track) throw 'No track object passed';
-        if (!track.title) throw 'Track object must specify track name [track.title]';
-        if (!track.url) throw 'Track must specify stream url [track.url]';
-        if (!track.source) throw 'Track must specify stream source [track.source]';
-        if (!track.image) throw 'Track must specify stream image [track.image]';
+    _validateTrackObject(track) {
+        if (!track) throw new Error("No track object passed");
+        if (!track.title) throw new Error("Track object must specify track name [track.title]");
+        if (!track.url) throw new Error("Track must specify stream url [track.url]");
+        if (!track.source) throw new Error("Track must specify stream source [track.source]");
+        if (!track.image) throw new Error("Track must specify stream image [track.image]");
 
         return true;
     }
@@ -274,11 +258,10 @@ module.exports = class Player extends EventEmitter
      * @returns {*}
      * @private
      */
-    _getTrack(queue)
-    {
-        let track = queue.tracks[queue.position];
-        track['position'] = queue.position;
-        track['total'] = queue.tracks.length;
+    _getTrack(queue) {
+        const track = queue.tracks[queue.position];
+        track.position = queue.position;
+        track.total = queue.tracks.length;
 
         return track;
     }
