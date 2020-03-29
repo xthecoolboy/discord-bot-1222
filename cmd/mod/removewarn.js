@@ -22,11 +22,12 @@ module.exports = class removewarnCommand extends Command {
     run (msg, cmd) {
         const Case = msg.guild.settings.get(`case.${cmd.case}`);
         if (!Case) return msg.say(`Case '${cmd.case}' not found`);
+        if (Case.removed) return msg.say("This warn has already been removed!");
+
+        Case.removed = true;
 
         const warnCount = msg.guild.settings.get(`warns.${Case.offenderID}`, 1);
         msg.guild.settings.set(`warns.${Case.offenderID}`, warnCount - 1);
-
-        msg.guild.settings.set(`case.${cmd.case}`, "");
 
         const embed = newEmbed();
         embed.setAuthor(`${msg.author.username} | Case ${Case.id}`, msg.author.displayAvatarURL);
