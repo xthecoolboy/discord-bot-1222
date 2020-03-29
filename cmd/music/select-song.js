@@ -1,5 +1,5 @@
-const { Command } = require('discord.js-commando');
-const Youtube = require('@mindaugaskasp/node-youtube');
+const { Command } = require("discord.js-commando");
+const Youtube = require("@mindaugaskasp/node-youtube");
 
 /**
  * Command responsible for filtering out the songs saved in memory from one location to the other.
@@ -9,20 +9,20 @@ const Youtube = require('@mindaugaskasp/node-youtube');
  * @type {module.SelectSongCommand}
  */
 module.exports = class SelectSongCommand extends Command {
-    constructor(client) {
+    constructor (client) {
         super(client, {
-            name: 'pick',
-            aliases: ['select-song', 'select', 'take', 'choose'],
-            group: 'music',
-            memberName: 'pick',
-            description: 'Picks song(s) should be added to player',
-            examples: ['pick 1', 'pick 1,2', 'pick all'],
+            name: "pick",
+            aliases: ["select-song", "select", "take", "choose"],
+            group: "music",
+            memberName: "pick",
+            description: "Picks song(s) should be added to player",
+            examples: ["pick 1", "pick 1,2", "pick all"],
             guildOnly: true,
             args: [{
-                key: 'selection',
-                prompt: 'Enter song numbers you would like to add to queue',
-                type: 'string'
-            }],
+                key: "selection",
+                prompt: "Enter song numbers you would like to add to queue",
+                type: "string"
+            }]
         });
         this.youtube = new Youtube(client.config.youtube.token, client.config.youtube.base_url);
     }
@@ -33,40 +33,39 @@ module.exports = class SelectSongCommand extends Command {
      * @param fromPattern
      * @returns {Promise<*>}
      */
-    async run(msg, args, fromPattern) {
+    async run (msg, args, fromPattern) {
         try {
-            if (this.client.music.getMusicQueue(msg.guild).length >= 500)
-                return (await msg.say('Music player is full. Please remove some of the tracks.')).delete(12000);
+            if (this.client.music.getMusicQueue(msg.guild).length >= 500) { return (await msg.say("Music player is full. Please remove some of the tracks.")).delete(12000); }
 
-            (await msg.say('Adding track(s) to music queue. Please be patient.')).delete(12000);
+            (await msg.say("Adding track(s) to music queue. Please be patient.")).delete(12000);
 
-            let searches = this.client.music.searches.get(msg.guild.id);
+            const searches = this.client.music.searches.get(msg.guild.id);
             if (!searches) {
-                return (await msg.say('Please search for songs first. Search stash is empty!')).delete(12000);
+                return (await msg.say("Please search for songs first. Search stash is empty!")).delete(12000);
             }
             let addedToQueue = 0;
 
-            if (args.selection.toLowerCase() === 'all') {
+            if (args.selection.toLowerCase() === "all") {
                 this.client.music.loadTracks(searches, msg.guild, msg.author.id);
                 addedToQueue = searches.length;
             } else {
-                let selection = args.selection.match(/\d+/g);
+                const selection = args.selection.match(/\d+/g);
                 if (!selection) return (await msg.say(`Selection unrecognized: \`${args.selection.toLowerCase()}\`. Allowed: \`ALL\`, \`1\` - \`${searches.length}\``)).delete(15000);
 
-                for (let index = 0; index < searches.length; index++)
-                    for (let selectedIndex of selection)
-                        if (parseInt(selectedIndex) === index+1) {
+                for (let index = 0; index < searches.length; index++) {
+                    for (const selectedIndex of selection) {
+                        if (parseInt(selectedIndex) === index + 1) {
                             addedToQueue++;
                             this.client.music.loadTrack(searches[index], msg.guild, msg.author.id);
                         }
+                    }
+                }
             }
 
             return (await msg.say(`${addedToQueue} song(s) have been added to queue`)).delete(12000);
-
         } catch (e) {
             console.log(e);
-            return msg.say('Something went horribly wrong! Please try again later.')
+            return msg.say("Something went horribly wrong! Please try again later.");
         }
     }
-
 };

@@ -1,17 +1,17 @@
-const { Command } = require('discord.js-commando');
+const { Command } = require("discord.js-commando");
 
 module.exports = class StopCommand extends Command {
-    constructor(client) {
+    constructor (client) {
         super(client, {
-            name: 'stop',
+            name: "stop",
             aliases: [],
-            group: 'music',
-            memberName: 'stop',
-            description: 'Stops music player',
-            examples: ['stop'],
-            guildOnly: true,
+            group: "music",
+            memberName: "stop",
+            description: "Stops music player",
+            examples: ["stop"],
+            guildOnly: true
         });
-        this.client.music.on('stop', async (text, guild, channel) => {
+        this.client.music.on("stop", async (text, guild, channel) => {
             (await channel.send(text)).delete(12000);
         });
     }
@@ -23,12 +23,12 @@ module.exports = class StopCommand extends Command {
      * @param fromPattern
      * @returns {Promise.<Message|Message[]>}
      */
-    run(msg, args, fromPattern) {
+    run (msg, args, fromPattern) {
         try {
-            this.client.music.stop(msg.guild, msg.channel)
+            this.client.music.stop(msg.guild, msg.channel);
         } catch (e) {
             console.log(e);
-            return msg.say('Something went horribly wrong! Please try again later.');
+            return msg.say("Something went horribly wrong! Please try again later.");
         }
     }
 };

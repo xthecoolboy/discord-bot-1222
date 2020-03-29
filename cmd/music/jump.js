@@ -1,20 +1,20 @@
-const { Command } = require('discord.js-commando');
+const { Command } = require("discord.js-commando");
 
 module.exports = class JumpCommand extends Command {
-    constructor(client) {
+    constructor (client) {
         super(client, {
-            name: 'jump',
+            name: "jump",
             aliases: [],
-            group: 'music',
-            memberName: 'jump',
-            description: 'Jumps player to specific song',
-            examples: ['jump'],
+            group: "music",
+            memberName: "jump",
+            description: "Jumps player to specific song",
+            examples: ["jump"],
             guildOnly: true,
-            args:[
+            args: [
                 {
-                    key: 'number',
-                    prompt: 'Enter a valid track number, view music queue for track list',
-                    type: 'integer',
+                    key: "number",
+                    prompt: "Enter a valid track number, view music queue for track list",
+                    type: "integer",
                     validate: number => {
                         return number >= 1;
                     }
@@ -22,7 +22,7 @@ module.exports = class JumpCommand extends Command {
             ]
         });
 
-        this.client.music.on('jump', async (text, guild, channel) => {
+        this.client.music.on("jump", async (text, guild, channel) => {
             (await channel.send(text)).delete(12000);
         });
     }
@@ -34,12 +34,12 @@ module.exports = class JumpCommand extends Command {
      * @param fromPattern
      * @returns {Promise<Message|Message[]>}
      */
-    run(msg, args, fromPattern) {
+    run (msg, args, fromPattern) {
         try {
             this.client.music.jump(msg.guild, args.number);
         } catch (e) {
             console.log(e);
-            return msg.say('Something went horribly wrong! Please try again later.');
+            return msg.say("Something went horribly wrong! Please try again later.");
         }
     }
 };
