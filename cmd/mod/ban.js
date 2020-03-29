@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const Discord = require('discord.js');
 const newEmbed = require("../../embed");
 
-module.exports = class banCommand extends Command {
+module.exports = class Ban extends Command {
     constructor(client) {
         super(client, {
             name: 'ban',
