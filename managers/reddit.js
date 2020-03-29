@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const got = require('got');
-const uniqueRandomArray = require('unique-random-array');
-const EventEmitter = require('eventemitter3');
+const got = require("got");
+const uniqueRandomArray = require("unique-random-array");
+const EventEmitter = require("eventemitter3");
 
 function formatResult(getRandomImage) {
     const imageData = getRandomImage();
@@ -10,12 +10,12 @@ function formatResult(getRandomImage) {
         return;
     }
     var obj = imageData;
-    obj.url = `http://imgur.com/${imageData.hash}${imageData.ext.replace(/\?.*/, '')}`;
+    obj.url = `http://imgur.com/${imageData.hash}${imageData.ext.replace(/\?.*/, "")}`;
     return obj;
 }
 
 function storeResults(images, subreddit) {
-    images.sort(function (a, b) { return a.score - b.score });
+    images.sort(function (a, b) { return a.score - b.score; });
     images = images.slice(0, 40);
 
     const getRandomImage = uniqueRandomArray(images);
@@ -24,7 +24,7 @@ function storeResults(images, subreddit) {
 }
 
 function randomPuppy(subreddit) {
-    subreddit = (typeof subreddit === 'string' && subreddit.length !== 0) ? subreddit : 'puppies';
+    subreddit = (typeof subreddit === "string" && subreddit.length !== 0) ? subreddit : "puppies";
 
     return got(`https://imgur.com/r/${subreddit}/hot.json`)
         .then(response => storeResults(JSON.parse(response.body).data, subreddit))
@@ -36,8 +36,8 @@ function all(subreddit) {
 
     function emitRandomImage(subreddit) {
         randomPuppy(subreddit).then(imageUrl => {
-            eventEmitter.emit('data', imageUrl + '#' + subreddit);
-            if (eventEmitter.listeners('data').length) {
+            eventEmitter.emit("data", imageUrl + "#" + subreddit);
+            if (eventEmitter.listeners("data").length) {
                 setTimeout(() => emitRandomImage(subreddit), 200);
             }
         });
@@ -56,9 +56,9 @@ function callback(subreddit, cb) {
 // subreddit is optional
 // callback support is provided for a training exercise
 module.exports = (subreddit, cb) => {
-    if (typeof cb === 'function') {
+    if (typeof cb === "function") {
         callback(subreddit, cb);
-    } else if (typeof subreddit === 'function') {
+    } else if (typeof subreddit === "function") {
         callback(null, subreddit);
     } else {
         return randomPuppy(subreddit);
