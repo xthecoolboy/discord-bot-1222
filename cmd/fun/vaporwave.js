@@ -1,7 +1,7 @@
-const commando = require('discord.js-commando');
+const commando = require("discord.js-commando");
 
 module.exports = class Vaporwave extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "vaporwave",
             memberName: "vaporwave",
@@ -17,20 +17,22 @@ module.exports = class Vaporwave extends commando.Command {
             ]
         });
     }
-    vaporify(text) {
+
+    vaporify (text) {
         const charToFullWidth = char => {
-            const c = char.charCodeAt(0)
+            const c = char.charCodeAt(0);
             return c >= 33 && c <= 126
                 ? String.fromCharCode((c - 33) + 65281)
-                : char
-        }
+                : char;
+        };
 
-        text = text.split('').map(charToFullWidth).join('');
+        text = text.split("").map(charToFullWidth).join("");
         return text;
     }
-    run(msg, cmd) {
+
+    run (msg, cmd) {
         var text = cmd.string;
         text = this.vaporify(text);
         msg.channel.send(text.split("").join(" "));
     }
-}
+};

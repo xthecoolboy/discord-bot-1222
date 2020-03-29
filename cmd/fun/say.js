@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Say extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "say",
             memberName: "say",
@@ -15,14 +15,15 @@ module.exports = class Say extends commando.Command {
                     prompt: "What do you want bot to say?"
                 }
             ]
-        })
+        });
     }
-    run(msg, cmd) {
+
+    run (msg, cmd) {
         var embed = newEmbed();
 
         embed.setAuthor(msg.author.tag, msg.author.avatarURL);
         embed.setDescription(cmd.string);
 
-        msg.channel.send("", {embed});
+        msg.channel.send("", { embed });
     }
-}
+};

@@ -1,8 +1,7 @@
-const commando = require('discord.js-commando');
-const newEmbed = require("../../embed");
+const commando = require("discord.js-commando");
 
 module.exports = class Leet extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "leetify",
             memberName: "leetify",
@@ -16,9 +15,10 @@ module.exports = class Leet extends commando.Command {
                     prompt: "Text to leetify:"
                 }
             ]
-        })
+        });
     }
-    leet(str){
+
+    leet (str) {
         str = str
             .replace(/e/gi, 3)
             .replace(/t/gi, 7)
@@ -31,7 +31,8 @@ module.exports = class Leet extends commando.Command {
             .replace(/m/g, "M");
         return str;
     }
-    run(msg, cmd) {
+
+    run (msg, cmd) {
         msg.channel.send(this.leet(cmd.string));
     }
-}
+};

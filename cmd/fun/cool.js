@@ -1,7 +1,7 @@
-const commando = require('discord.js-commando');
+const commando = require("discord.js-commando");
 
 module.exports = class Cool extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "cool",
             memberName: "cool",
@@ -11,13 +11,13 @@ module.exports = class Cool extends commando.Command {
                 {
                     key: "cool",
                     type: "string",
-                    prompt: "What do you want to cool?",
+                    prompt: "What do you want to cool?"
                 }
             ]
-        })
+        });
     }
-    run(msg, cmd) {
 
+    run (msg, cmd) {
         msg.channel.send("Cooling up " + cmd.cool);
     }
-}
+};

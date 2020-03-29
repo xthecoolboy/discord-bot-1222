@@ -1,8 +1,8 @@
-const commando = require('discord.js-commando');
+const commando = require("discord.js-commando");
 const Font = require("ascii-art-font");
 
 module.exports = class Ascii extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "ascii",
             memberName: "ascii",
@@ -17,11 +17,12 @@ module.exports = class Ascii extends commando.Command {
                     prompt: "Text to use"
                 }
             ]
-        })
+        });
     }
-    async run(msg, cmd){
-        Font.create(cmd.text, 'Doom', function (rendered) {
+
+    async run (msg, cmd) {
+        Font.create(cmd.text, "Doom", function (rendered) {
             msg.channel.send("```\n" + rendered + "\n```");
         });
     }
-}
+};
