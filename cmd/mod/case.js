@@ -13,7 +13,7 @@ module.exports = class caseCommand extends Command {
                 {
                 type: 'integer',
                 key: 'case',
-                prompt: 'which user do you want to warn?',
+                prompt: 'which case do you want to view?',
                 }
             ]
         })
