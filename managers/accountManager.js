@@ -88,8 +88,8 @@ function getLevel(user){
 
     return parseInt(ans) + 1;
 }
-function getNextLevel(xp){
 
+function getNextLevel(xp){
     var i = 0;
     var minDiff = 1000;
     var ans;
@@ -99,6 +99,22 @@ function getNextLevel(xp){
         if (m < minDiff) {
             minDiff = m;
             ans = xp_breakpoints[i];
+        }
+    }
+
+    return parseInt(ans);
+}
+
+function getPrevLevel(xp){
+    var i = 0;
+    var minDiff = 1000;
+    var ans;
+
+    for (i in xp_breakpoints) {
+        var m = Math.abs(xp - xp_breakpoints[i - 1]);
+        if (m < minDiff) {
+            minDiff = m;
+            ans = xp_breakpoints[i - 1];
         }
     }
 
@@ -234,4 +250,5 @@ module.exports = {
     updateLevels,
     levelUp,
     getNextLevel,
+    getPrevLevel
 };
