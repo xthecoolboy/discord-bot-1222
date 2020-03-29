@@ -13,7 +13,7 @@ module.exports = class Logs extends commando.Command {
             args: [
                 {
                     type: "string",
-                    oneOf: ["set", "remove", "alter", "view"],
+                    oneOf: ["set", "remove", "alter", "view", "list"],
                     key: "command",
                     prompt: "Which action to do?"
                 }, {
@@ -73,6 +73,16 @@ module.exports = class Logs extends commando.Command {
         ];
         /* eslint-disable no-redeclare */
         switch (command) {
+            case "list":
+                var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
+                var embed = newEmbed();
+                embed.setTitle("Logging channels:");
+                embed.setDescription("Found " + channels.length + " channels to log into:");
+                for (var channel of channels) {
+                    embed.addField("<#" + channel.id + ">", channel.options.join());
+                }
+                msg.channel.send(embed);
+                break;
             case "set":
                 var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
                 channels.push({
