@@ -1,8 +1,7 @@
 const newEmbed = require("../../embed");
-const Nekos = require('nekos.life');
+const Nekos = require("nekos.life");
 const neko = new Nekos().sfw;
 const commando = require("discord.js-commando");
-const commandParser = require("../../managers/commandParser");
 
 module.exports = class NekosCommand extends commando.Command {
     constructor(client) {
@@ -17,29 +16,36 @@ module.exports = class NekosCommand extends commando.Command {
                     type: "string",
                     key: "command",
                     prompt: "What's the sub-command you want to run?"
+                },
+                {
+                    type: "string",
+                    key: "text",
+                    default: "",
+                    prompt: ""
                 }
             ]
         });
     }
 
-    text = [
-        "why",
-        "catText",
-        "chat",
-        "8ball",
-        "fact",
-        "OwOify"
-    ];
-
     async run(msg, cmd) {
         this.msg = msg;
-        
+        this.cmd = cmd;
+
+        var text = [
+            "why",
+            "catText",
+            "chat",
+            "8ball",
+            "fact",
+            "OwOify"
+        ];
+
         var c = cmd.command.toLowerCase();
-        
-        if(c=="help") this.help();
+
+        if (c === "help") this.help();
         else {
-            if(typeof neko[c] == "function"){
-                if(this.text.includes(c)){
+            if (typeof neko[c] === "function") {
+                if (text.includes(c)) {
                     this.processText(c);
                 } else {
                     this.nonText(c);
@@ -49,43 +55,45 @@ module.exports = class NekosCommand extends commando.Command {
             }
         }
     }
-    async nonText(cmd){
+
+    async nonText(cmd) {
         var json = await neko[cmd]();
         this.send(json.url);
     }
-    async processText(cmd){
+
+    async processText(cmd) {
+        var text = this.cmd.text;
         switch (cmd) {
-            case "catText":
-                var text = this.msg.substr("ice nekos catText".length);
-                this.sendText(await nekos.catText({ text }).cat);
-                break;
-            case "OwOify":
-                var text = this.msg.substr("ice nekos OwOify".length);
-                this.sendText(await nekos.OwOify({ text }).owo);
-                break;
-            case "chat":
-                var text = this.msg.substr("ice nekos chat".length);
-                this.sendText(await nekos.chat({ text }).response);
-                break;
-            case "8ball":
-                var text = this.msg.substr("ice nekos 8ball".length);
-                this.sendText(await nekos["8ball"]({ text }));
-                break;
+        case "catText":
+            this.sendText(await neko.catText({ text }).cat);
+            break;
+        case "OwOify":
+            this.sendText(await neko.OwOify({ text }).owo);
+            break;
+        case "chat":
+            this.sendText(await neko.chat({ text }).response);
+            break;
+        case "8ball":
+            this.sendText(await neko["8ball"]({ text }));
+            break;
         }
     }
+
     sendText(text) {
         var embed = newEmbed();
         embed.setTitle("Nekos!");
         embed.setDescription(text);
         this.msg.channel.send(embed);
     }
-    help(){
+
+    help() {
         this.msg.channel.send("See https://github.com/Nekos-life/nekos-dot-life for available subcommands. Use them as `ice nekos <cmd>`. Only SFW.");
     }
-    send(src){
+
+    send(src) {
         var embed = newEmbed();
         embed.setTitle("Nekos!");
         embed.setImage(src);
         this.msg.channel.send(embed);
     }
-}
+};

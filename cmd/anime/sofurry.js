@@ -1,20 +1,21 @@
-const commandParser = require('../../managers/commandParser');
+const commandParser = require("../../managers/commandParser");
 const newEmbed = require("../../embed");
 const got = require("got");
 const Commando = require("discord.js-commando");
 
-module.exports = class Invite extends Commando.Command{
-    constructor(client){
+module.exports = class Invite extends Commando.Command {
+    constructor (client) {
         super(client, {
             name: "sofurry",
             group: "anime",
             memberName: "sofurry",
             description: "Random image from sofurry"
-        })
+        });
     }
-    async run(msg, cmd) {
+
+    async run (msg, cmd) {
         cmd = commandParser(cmd);
-        
+
         got("https://api2.sofurry.com/browse/all/art?format=json").then(res => {
             var htmls = JSON.parse(res.body);
             var html = htmls.items;
@@ -27,4 +28,4 @@ module.exports = class Invite extends Commando.Command{
             msg.channel.send(embed);
         });
     }
-}
+};
