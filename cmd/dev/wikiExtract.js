@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class WikiExtractor extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "extractwiki",
             memberName: "extractwiki",
@@ -12,7 +12,7 @@ module.exports = class WikiExtractor extends commando.Command {
                 key: "page",
                 prompt: "Which page to extract information?",
                 type: "string"
-            },{
+            }, {
                 key: "lang",
                 prompt: "Which language to fetch from?",
                 type: "string",
@@ -20,4 +20,4 @@ module.exports = class WikiExtractor extends commando.Command {
             }]
         });
     }
-}
+};

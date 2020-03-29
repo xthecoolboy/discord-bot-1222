@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Format extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "format",
             memberName: "format",
@@ -11,7 +11,7 @@ module.exports = class Format extends commando.Command {
         });
     }
 
-    run(msg){
+    run (msg) {
         var embed = newEmbed();
 
         embed.setTitle("Simple markdown");
@@ -26,14 +26,14 @@ module.exports = class Format extends commando.Command {
         embed.addField("Inline code", "Use single backtick surrounding your code\n" +
         "\\`This is an example\\`\n`This is an example`");
 
-        embed.addField("Multiline code with highlightning", "Use 3 backticks followed by the name of language you're using surrounding your code\n" + 
+        embed.addField("Multiline code with highlightning", "Use 3 backticks followed by the name of language you're using surrounding your code\n" +
         "\\```javascript\nlet example = \"this\"\n\\```\n```javascript\nlet example = \"this\"\n```");
 
         embed.addField("Code sharing services", "*If you want to share large chunks of code, you can use these:*\n" +
         "[codepen](https://codepen.io/) - Used for showing off front end things - supports emmet and CSS preprocessors\n" +
         "[jsfiddle](https://jsfiddle.net/) - A less distracting but just as powerful alternative to CodePen\n" +
-        "[github](https://github.com/) - The ultimate code versioning, collaboration and management platform based on git")
+        "[github](https://github.com/) - The ultimate code versioning, collaboration and management platform based on git");
 
         msg.channel.send(embed);
     }
-}
+};

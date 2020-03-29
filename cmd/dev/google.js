@@ -1,7 +1,7 @@
-const commando = require('discord.js-commando');
+const commando = require("discord.js-commando");
 
 module.exports = class Google extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "google",
             memberName: "google",
@@ -14,12 +14,13 @@ module.exports = class Google extends commando.Command {
                     prompt: "What to google?"
                 }
             ]
-        })
+        });
     }
-    run(msg, cmd) {
+
+    run (msg, cmd) {
         var query = cmd.string.split(" ").join("+");
         const search = "https://www.google.com/search?q=" + query;
         msg.channel.send(search);
         msg.delete();
     }
-}
+};

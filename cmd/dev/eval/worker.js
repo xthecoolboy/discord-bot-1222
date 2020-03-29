@@ -2,17 +2,17 @@ const inspect = require("util").inspect;
 const newEmbed = require("../../../embed");
 const {
     parentPort, workerData, isMainThread
-} = require('worker_threads');
+} = require("worker_threads");
 
-if(!isMainThread || workerData){
+if (!isMainThread || workerData) {
     const {
         NodeVM
-    } = require('vm2');
+    } = require("vm2");
     const tick = ":white_check_mark:";
     const cross = ":x:";
-    
-    console.log('Worker started');
-    
+
+    console.log("Worker started");
+
     var command = workerData;
     var embed = newEmbed();
     const vm = new NodeVM({
@@ -21,11 +21,13 @@ if(!isMainThread || workerData){
         console: "redirect"
     });
     var consoleOutput = "";
-    
-    function addConsole(args) {
+
+    /* eslint-disable no-inner-declarations */
+    function addConsole (args) {
         consoleOutput += inspect(args) + "\n";
     }
-    
+    /* eslint-enable no-inner-declarations */
+
     vm.on("console.debug", addConsole);
     vm.on("console.log", addConsole);
     vm.on("console.info", addConsole);
