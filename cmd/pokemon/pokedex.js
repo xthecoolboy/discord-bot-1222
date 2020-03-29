@@ -1,10 +1,10 @@
-var Pokedex = require('pokedex-promise-v2');
+var Pokedex = require("pokedex-promise-v2");
 var P = new Pokedex();
 const newEmbed = require("../../embed");
 const commando = require("discord.js-commando");
 
 module.exports = class Poke extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "poke",
             memberName: "poke",
@@ -24,42 +24,45 @@ module.exports = class Poke extends commando.Command {
                     default: ""
                 }
             ]
-        })
+        });
     }
-    async run(msg, cmd){
+
+    async run (msg, cmd) {
         this.cmd = cmd;
         this.msg = msg;
         this.processCommand(cmd);
     }
-    processCommand(cmd){
-        switch(cmd.cmd){
-            case "mon":
-                this.mon();
-                break;
-            case "help":
-                this.help();
-                break;
-            default:
-                this.msg.channel.send("Unknown subcommand. See `poke help`");
+
+    processCommand (cmd) {
+        switch (cmd.cmd) {
+        case "mon":
+            this.mon();
+            break;
+        case "help":
+            this.help();
+            break;
+        default:
+            this.msg.channel.send("Unknown subcommand. See `poke help`");
         }
     }
-    async mon(){
-        if(!this.cmd.poke){
+
+    async mon () {
+        if (!this.cmd.poke) {
             this.msg.channel.send("No pokemon to find specified. Usage: `ice poke mon <name>`");
             return;
         }
         try {
             var pokemon = await P.getPokemonByName(this.cmd.poke.toLowerCase());
-        } catch(e){
+        } catch (e) {
             this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd.poke + "'");
             return;
         }
-        if(!pokemon){
+        if (!pokemon) {
             this.msg.channel.send("No pokemon found. Double check the name '" + this.cmd.poke + "'");
             return;
         }
-        
-        var p = pokemon;//LAZINESS
+
+        var p = pokemon;// LAZINESS
         var embed = newEmbed();
         embed.setTitle(p.name);
         embed.addField("Type", p.types[0].type.name);
@@ -68,7 +71,8 @@ module.exports = class Poke extends commando.Command {
 
         this.msg.channel.send(embed);
     }
-    help(){
+
+    help () {
         this.msg.channel.send("The only currently working sub command is 'mon' which gets information about given pokemon.");
     }
-}
+};
