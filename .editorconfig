@@ -1,7 +1,9 @@
+# universal, for all files
 [*]
 end_of_line = lf
 insert_final_newline = true
 
+# File indentation, specific to source code
 [*.{js}]
 charset = utf-8
 indent_style = space
