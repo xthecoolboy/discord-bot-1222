@@ -26,7 +26,7 @@ module.exports = class Fone extends commando.Command {
         let type = "cat";
         if (cmd.type) type = cmd.type;
         if (type === "nude") {
-            if (!msg.channel.nsfw && msg.channel.type != "dm") {
+            if (!msg.channel.nsfw && msg.channel.type !== "dm") {
                 msg.channel.send("This type is available only inside NSFW or DM channels!");
                 return;
             }
