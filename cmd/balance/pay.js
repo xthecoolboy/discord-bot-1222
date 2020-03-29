@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 const commando = require("discord.js-commando");
 const account = require("../../managers/accountManager");
 const Discord = require("discord.js");
 
 module.exports = class Pay extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "pay",
             memberName: "pay",
@@ -17,9 +18,10 @@ module.exports = class Pay extends commando.Command {
                     key: "user"
                 }
             ]
-        })
+        });
     }
-    run(msg, cmd) {
+
+    run (msg, cmd) {
         msg.channel.send("To be done");
     }
-}
+};
