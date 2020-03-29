@@ -43,24 +43,24 @@ module.exports = class Info extends commando.Command {
         this.cmd = cmd;
         // require("../../accountManager").sendAchievmentUnique(msg, "info");
         switch (cmd.command.toLowerCase()) {
-        case "user":
-            this.user();
-            break;
-        case "role":
-            this.role();
-            break;
-        case "channel":
-            this.channel();
-            break;
-        case "guild":
-        case "server":
-            this.guild();
-            break;
-        case "help":
-            this.help();
-            break;
-        default:
-            this.default();
+            case "user":
+                this.user();
+                break;
+            case "role":
+                this.role();
+                break;
+            case "channel":
+                this.channel();
+                break;
+            case "guild":
+            case "server":
+                this.guild();
+                break;
+            case "help":
+                this.help();
+                break;
+            default:
+                this.default();
         }
     }
 
@@ -149,12 +149,12 @@ module.exports = class Info extends commando.Command {
 
     getStatus (status) {
         switch (status) {
-        case "dnd":
-            return ":no_entry:";
-        case "online":
-            return ":green_circle:";
-        case "offline":
-            return ":black_circle:";
+            case "dnd":
+                return ":no_entry:";
+            case "online":
+                return ":green_circle:";
+            case "offline":
+                return ":black_circle:";
         }
     }
 
