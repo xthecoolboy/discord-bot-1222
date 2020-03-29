@@ -49,7 +49,8 @@ module.exports = class warnCommand extends Command {
             offenderID: cmd.user.id,
             moderator: msg.author.tag,
             moderatorID: msg.author.id,
-            reason: cmd.reason
+            reason: cmd.reason,
+            removed: false
         };
 
         msg.guild.settings.set(`case.${Case.id}`, Case);
