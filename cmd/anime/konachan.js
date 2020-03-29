@@ -14,14 +14,12 @@ module.exports = class Xkcd extends commando.Command{
     }
 
     async run(msg) {
-        got("https://konachan.net/index.php?page=dapi&s=post&q=index&id=" + Math.floor(Math.random() * 2412000)).then(res => {
-            var $ = cheerio.load(res.body, {xmlMode: true});
-            
-            var src = $("post").attr("file_url");
-            console.log(src);
+        got("https://konachan.net/post.json?limit=1&page=" + Math.floor(Math.random() * 241260)).then(res => {
+            var img = JSON.parse(res.body)[0];
             var embed = newEmbed();
             embed.setTitle("Konachan");
-            embed.setImage(src);
+            embed.setDescription("By " + img.author);
+            embed.setImage(img.file_url);
             msg.channel.send(embed);
         });
     }
