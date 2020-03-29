@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 
-module.exports = class BlacklistUserCommand extends Command {
+module.exports = class Blacklist extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'blacklist-user',

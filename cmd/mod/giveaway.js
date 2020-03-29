@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
-module.exports = class Count extends commando.Command{
+module.exports = class Giveaway extends commando.Command{
     constructor(client){
         super(client, {
             name: "giveaway",
