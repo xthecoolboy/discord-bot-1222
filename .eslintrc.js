@@ -16,6 +16,7 @@ module.exports = {
   },
   ignorePatterns: ["node_modules/"],
   rules: {
+    "space-before-function-paren": "off",
     indent: ["error", 4],
     "linebreak-style": ["error", "unix"],
     semi: ["error", "always"],
