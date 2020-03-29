@@ -9,6 +9,7 @@ module.exports = class Logs extends commando.Command {
             group: "mod",
             description: "Log settings. When altering, use +option to add, -option to remove and !option to toggle log options",
             hidden: true,
+            guildOnly: true,
             args: [
                 {
                     type: "string",
@@ -80,6 +81,7 @@ module.exports = class Logs extends commando.Command {
                 });
                 console.log(channels);
                 msg.guild.settings.set("logs-channel", channels);
+                console.log(msg.guild.settings.get("logs-channels", null));
                 msg.channel.send("New channel added with default settings");
                 break;
             case "remove":
