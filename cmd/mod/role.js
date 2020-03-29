@@ -1,61 +1,58 @@
-const commando = require('discord.js-commando');
-const newEmbed = require('../../embed');
+const commando = require("discord.js-commando");
 
 module.exports = class Role extends commando.Command {
     constructor(client) {
         super(client, {
-            name: 'role',
-            aliases: ['r'],
-            group: 'mod',
-            memberName: 'role',
-            description: 'Add, remove or toggle a role on a user',
+            name: "role",
+            aliases: ["r"],
+            group: "mod",
+            memberName: "role",
+            description: "Add, remove or toggle a role on a user",
             clientPermissions: ["MANAGE_ROLES"],
             userPermissions: ["MANAGE_ROLES"],
-            args: [
-                {
-                type: 'string',
-                key: 'option',
-                oneOf: ['add', 'remove', 'toggle'],
-                prompt: 'Please select an option: `<add | remove | toggle>`',
-                },
-                {
-                type: 'user',
-                key: 'user',
-                prompt: 'Which user would you like to select?',
-                },
-                {
-                type: 'role',
-                key: 'role',
-                prompt: `Which role would you like to select?`,
-                }
+            args: [{
+                type: "string",
+                key: "option",
+                oneOf: ["add", "remove", "toggle"],
+                prompt: "Please select an option: `<add | remove | toggle>`"
+            },
+            {
+                type: "user",
+                key: "user",
+                prompt: "Which user would you like to select?"
+            },
+            {
+                type: "role",
+                key: "role",
+                prompt: "Which role would you like to select?"
+            }
             ]
-        })
+        });
     }
 
-    run(msg, cmd){
+    run(msg, cmd) {
+        if (msg.member.guild.me.highestRole.comparePositionTo(cmd.role) <= 0) return msg.say("The bot can't manage this role because it's not high enough in the role hierachy!");
 
-        if (msg.member.guild.me.highestRole.comparePositionTo(cmd.role) <= 0) return msg.say('The bot can\'t manage this role because it\'s not high enough in the role hierachy!');
-
-        if (cmd.option == 'add') {
+        switch (cmd.option) {
+        case "add":
             msg.guild.member(cmd.user).addRole(cmd.role);
             msg.say(`Successfully added ${cmd.role} to ${cmd.user}!`);
-
-        } else if (cmd.option == 'remove') {
+            break;
+        case "remove":
             msg.guild.member(cmd.user).removeRole(cmd.role);
             msg.say(`Successfully removed ${cmd.role} from ${cmd.user}!`);
-
-        } else if (cmd.option == 'toggle') {
-
+            break;
+        case "toggle":
             if (msg.member.roles.has(cmd.role.id)) {
                 msg.guild.member(cmd.user).removeRole(cmd.role);
                 msg.say(`Successfully removed ${cmd.role} from ${cmd.user}!`);
-            }
-
-            else {
+            } else {
                 msg.guild.member(cmd.user).addRole(cmd.role);
                 msg.say(`Successfully added ${cmd.role} to ${cmd.user}!`);
             }
-
-        } else msg.say('Something went wrong...');
+            break;
+        default:
+            msg.say("Something went wrong...");
+        }
     }
 };

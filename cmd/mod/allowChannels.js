@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class AllowChannels extends commando.Command {
-    constructor(client){
+    constructor (client) {
         super(client, {
             name: "allowchannels",
             aliases: ["allow-channels"],
@@ -18,18 +18,18 @@ module.exports = class AllowChannels extends commando.Command {
                     type: "channel"
                 }
             ]
-        })
+        });
     }
 
-    run(msg, {channels}){
+    run (msg, { channels }) {
         var allowedChannels = [];
 
-        for(var channel of channels){
-            allowedChannels.push(channel.id)
+        for (var channel of channels) {
+            allowedChannels.push(channel.id);
         }
 
         msg.guild.settings.set("allowedChannels", allowedChannels);
 
         msg.channel.send("Done!");
     }
-}
+};
