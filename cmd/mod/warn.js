@@ -55,8 +55,8 @@ module.exports = class warnCommand extends Command {
 
         msg.guild.settings.set(`case.${Case.id}`, Case);
 
-        const warnCount = msg.guild.settings.get(`warns.${cmd.userID}`, 1);
-        msg.guild.settings.set(`warns.${cmd.userID}`, warnCount + 1);
+        const warnCount = msg.guild.settings.get(`warns.${cmd.user.id}`, 1);
+        msg.guild.settings.set(`warns.${cmd.user.id}`, warnCount + 1);
 
         const embed = newEmbed();
         embed.setColor("GOLD");
