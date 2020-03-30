@@ -35,7 +35,7 @@ Those are installed with `npm i` automatically.
 * pacote -> searches through npm registry
 * cowsay -> a library for cowsay command
 * eventemitter3 -> better event emitter class
-* got -> because request **got** deprecated 
+* got -> because request **got** deprecated
 * javascript-time-ago -> yes, we are lazy to reinvent the wheel
 * mysql -> connection to MySQL
 * nekos.life -> Cute ~~catgirls~~ nekos
