@@ -19,7 +19,16 @@ module.exports = class Logs extends commando.Command {
                 }, {
                     type: "channel",
                     key: "channel",
-                    prompt: "Which channel to add/remove?"
+                    prompt: "Which channel to add/remove?",
+                    isEmpty: (val, msg) => {
+                        if (msg.content.indexOf("list") !== -1) return false;
+                        return val.length === 0;
+                    },
+                    validate: (val, msg) => {
+                        if (msg.content.indexOf("list") !== -1) return true;
+                        if (!val) return false;
+                        return val.match(/<@[0-9]{1,}>/);
+                    }
                 }, {
                     type: "string",
                     key: "options",
