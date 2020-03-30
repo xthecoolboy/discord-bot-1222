@@ -27,7 +27,12 @@ module.exports = class Logs extends commando.Command {
                     validate: (val, msg) => {
                         if (msg.content.indexOf("list") !== -1) return true;
                         if (!val) return false;
-                        return val.match(/<@[0-9]{1,}>/);
+                        return !!val.match(/<#[0-9]+>/);
+                    },
+                    parse: (val, msg) => {
+                        if (msg.content.indexOf("list") !== -1) return "";
+                        var id = val.match(/<#([0-9]+)>/);
+                        return msg.guild.channels.get(id);
                     }
                 }, {
                     type: "string",
