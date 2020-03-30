@@ -39,14 +39,14 @@ module.exports = class Request extends commando.Command {
 
     command (cmd) {
         switch (cmd.toLowerCase()) {
-        case "help":
-            this.showHelp();
-            break;
-        case "get":
-            this.startGet();
-            break;
-        default:
-            this.msg.channel.send("Unknown subcommand. See `request help`.");
+            case "help":
+                this.showHelp();
+                break;
+            case "get":
+                this.startGet();
+                break;
+            default:
+                this.msg.channel.send("Unknown subcommand. See `request help`.");
         }
     }
 

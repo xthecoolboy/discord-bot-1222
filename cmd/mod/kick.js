@@ -47,7 +47,6 @@ module.exports = class kickCommand extends Command {
             id: totalCaseCount,
             type: "kick",
             offender: cmd.user.tag,
-            offenderID: cmd.user.id,
             moderator: msg.author.tag,
             reason: cmd.reason
         };

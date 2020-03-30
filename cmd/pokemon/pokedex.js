@@ -35,14 +35,14 @@ module.exports = class Poke extends commando.Command {
 
     processCommand (cmd) {
         switch (cmd.cmd) {
-        case "mon":
-            this.mon();
-            break;
-        case "help":
-            this.help();
-            break;
-        default:
-            this.msg.channel.send("Unknown subcommand. See `poke help`");
+            case "mon":
+                this.mon();
+                break;
+            case "help":
+                this.help();
+                break;
+            default:
+                this.msg.channel.send("Unknown subcommand. See `poke help`");
         }
     }
 
