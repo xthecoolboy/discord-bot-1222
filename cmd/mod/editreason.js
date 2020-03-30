@@ -1,6 +1,4 @@
 const { Command } = require("discord.js-commando");
-const Discord = require("discord.js");
-const newEmbed = require("../../embed");
 
 module.exports = class reasonCommand extends Command {
     constructor(client) {
