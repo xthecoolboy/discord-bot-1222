@@ -45,7 +45,7 @@ module.exports = class historyCommand extends Command {
                 let removedText = "";
                 if (Case.removed) removedText = "**[REMOVED]**";
 
-                embed.addField(`${Case.type} | Case ${Case.id} ${removedText}`, `Reason: ${Case.reason}\nMod: ${Case.moderator}`
+                embed.addField(`${Case.type} | Case ${Case.id} ${removedText}`, `\nReason: ${Case.reason}\nMod: ${Case.moderator}`
                 );
             }
         }
