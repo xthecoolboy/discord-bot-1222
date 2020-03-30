@@ -46,8 +46,8 @@ module.exports = class kickCommand extends Command {
         const Case = {
             id: totalCaseCount,
             type: "kick",
-            offender: cmd.user.tag,
-            moderator: msg.author.tag,
+            offender: cmd.user,
+            moderator: msg.author,
             reason: cmd.reason
         };
 

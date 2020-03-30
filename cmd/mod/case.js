@@ -12,7 +12,7 @@ module.exports = class caseCommand extends Command {
                 {
                     type: "integer",
                     key: "case",
-                    prompt: "which user do you want to warn?"
+                    prompt: "which case do you want to view?"
                 }
             ]
         });
@@ -22,22 +22,14 @@ module.exports = class caseCommand extends Command {
         const Case = msg.guild.settings.get(`case.${cmd.case}`);
         if (!Case) return msg.say(`Case '${cmd.case}' not found`);
 
-        if (!cmd.delete) {
-            let removedText = "";
-            if (Case.removed) removedText = "**[REMOVED]**";
+        let removedText = "";
+        if (Case.removed) removedText = "**[REMOVED]**";
 
-            const embed = newEmbed();
-            embed.setTitle(`${Case.type} | case ${Case.id} ${removedText}`);
-            embed.addField("Offender", `${Case.offender} <@${Case.offenderID}>`);
-            embed.addField("Reason", Case.reason);
-            embed.addField("Responsible moderator:", `${Case.moderator} <@${Case.moderatorID}>`);
-            return msg.embed(embed);
-        } else {
-            msg.guild.settings.remove(`case.${cmd.case}`);
-            const embed = newEmbed();
-            embed.setColor("RED");
-            embed.setTitle(`✅ Successfully deleted case **${cmd.case}**`);
-            return msg.embed(embed);
-        }
+        const embed = newEmbed();
+        embed.setTitle(`${Case.type} | case ${Case.id} ${removedText}`);
+        embed.addField("Offender", `${Case.offender} <@${Case.offender.id}>`);
+        embed.addField("Reason", Case.reason);
+        embed.addField("Responsible moderator:", `${Case.moderator} <@${Case.moderator.id}>`);
+        return msg.embed(embed);
     }
 };
