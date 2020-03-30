@@ -28,7 +28,7 @@ module.exports = class warnCommand extends Command {
     }
 
     run (msg, cmd) {
-        if (this.client.isOwner(cmd.user.id)) return msg.say("You can't warn an owner of this bot!");
+        //if (this.client.isOwner(cmd.user.id)) return msg.say("You can't warn an owner of this bot!");
 
         if (cmd.user === this.client.user) return msg.say("You can't warn this bot!");
 

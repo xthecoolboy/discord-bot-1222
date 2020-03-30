@@ -27,7 +27,7 @@ module.exports = class Ban extends Command {
     }
 
     run (msg, cmd) {
-        if (this.client.isOwner(cmd.user.id)) return msg.say("You can't ban an owner of this bot!");
+        //if (this.client.isOwner(cmd.user.id)) return msg.say("You can't ban an owner of this bot!");
 
         if (cmd.user === this.client.user) return msg.say("You can't ban this bot!");
 
