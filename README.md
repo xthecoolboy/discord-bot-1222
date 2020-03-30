@@ -18,8 +18,6 @@ The setup is quite simple:
 * Create MySQL databse with correct tables. (See [wiki](https://github.com/danbulant/ice-bot/wiki/Setting-up-database))
 * Start the bot (with `node .`)
 
-*If you also want to run ice as a service on a debian (ubuntu) based machine, this repo contains `ice.service`. Edit the directory in it to match this repo location, copy it to /etc/systemd/system/ice.service and run `sudo systemctl daemon-reload && sudo systemctl enable ice`. Then to start, simply do `sudo systemctl start ice`.*
-
 ## Dependencies
 
 * Node (Tested with v12 & v13. Running on another version? Let us know!)
