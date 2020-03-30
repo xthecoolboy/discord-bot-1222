@@ -26,12 +26,12 @@ module.exports = class removewarnCommand extends Command {
 
         Case.removed = true;
 
-        const warnCount = msg.guild.settings.get(`warns.${Case.offenderID}`, 1);
-        msg.guild.settings.set(`warns.${Case.offenderID}`, warnCount - 1);
+        const warnCount = msg.guild.settings.get(`warns.${Case.offender.id}`, 1);
+        msg.guild.settings.set(`warns.${Case.offender.id}`, warnCount - 1);
 
         const embed = newEmbed();
         embed.setAuthor(`${msg.author.username} | Case ${Case.id}`, msg.author.displayAvatarURL);
-        embed.setDescription(`✅ Successfully removed warning from user <@${Case.offenderID}>`);
+        embed.setDescription(`✅ Successfully removed warning from user <@${Case.offender.id}>`);
         return msg.embed(embed);
     }
 };
