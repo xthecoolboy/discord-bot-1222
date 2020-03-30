@@ -27,11 +27,9 @@ module.exports = class caseCommand extends Command {
 
         const embed = newEmbed();
         embed.setTitle(`${Case.type} | case ${Case.id} ${removedText}`);
-        embed.setDescription(`
-                **Offender:** ${Case.offender} <@${Case.offenderID}>
-                **Reason:** ${Case.reason}
-                **Responsible moderator:** ${Case.moderator} <@${Case.moderatorID}>
-            `);
+        embed.addField("Offender", `${Case.offender} <@${Case.offenderID}>`);
+        embed.addField("Reason", Case.reason);
+        embed.addField("Responsible moderator:", `${Case.moderator} <@${Case.moderatorID}>`);
         return msg.embed(embed);
     }
 };
