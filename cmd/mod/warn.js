@@ -45,10 +45,8 @@ module.exports = class warnCommand extends Command {
         const Case = {
             id: totalCaseCount,
             type: "warn",
-            offender: cmd.user.tag,
-            offenderID: cmd.user.id,
-            moderator: msg.author.tag,
-            moderatorID: msg.author.id,
+            offender: cmd.user,
+            moderator: msg.author,
             reason: cmd.reason,
             removed: false
         };
