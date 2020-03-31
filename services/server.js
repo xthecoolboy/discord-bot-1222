@@ -15,7 +15,8 @@ app.get("/stats", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.write(new Date()).end();
+    res.write(new Date().toJSON());
+    res.end();
 });
 
 app.listen(8856, () => {
