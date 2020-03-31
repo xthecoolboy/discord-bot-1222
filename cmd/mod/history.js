@@ -50,7 +50,7 @@ module.exports = class historyCommand extends Command {
             }
         }
 
-        if (!hasOffense) return msg.say(`User ${cmd.user} has no offense history. Good boy :smile:`);
+        if (!hasOffense) return msg.say(`User ${cmd.user.tag} has no offense history. Good boy :smile:`);
 
         return msg.embed(embed);
     }
