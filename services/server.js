@@ -14,6 +14,10 @@ app.get("/stats", (req, res) => {
     });
 });
 
+app.get("/", (req, res) => {
+    res.write(new Date()).end();
+});
+
 app.listen(8856, () => {
     console.log("Internal server ready");
 });
