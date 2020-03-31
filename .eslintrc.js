@@ -14,14 +14,37 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018
   },
-  ignorePatterns: ["node_modules/"],
   rules: {
-    "space-before-function-paren": "off",
+    quotes: ["error", "double"],
+    semi: ["error", "always"],
+    "space-before-function-paren": ["error", {
+      anonymous: "never",
+      named: "never",
+      asyncArrow: "always"
+    }],
     indent: ["error", 4, {
       SwitchCase: 1
     }],
-    "linebreak-style": ["error", "unix"],
-    semi: ["error", "always"],
-    quotes: ["error", "double"]
+    "no-async-promise-executor": ["off"],
+    "keyword-spacing": ["error", {
+      before: false,
+      after: false,
+      overrides: {
+        else: {
+          before: true,
+          after: true
+        },
+        return: {
+          before: true,
+          after: true
+        },
+        try: {
+          after: true
+        },
+        catch: {
+          before: true
+        }
+      }
+    }]
   }
 }
