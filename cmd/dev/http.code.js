@@ -51,7 +51,7 @@ module.exports = class HCode extends commando.Command {
         var embed = newEmbed();
         embed.setTitle(this.cmd.code + " - (Non-standart) " + text);
         embed.setDescription(desc);
-        embed.setFooter("© ICE Bot, TechmandanCZ#0135; Code from Wikipedia");
+        embed.setFooter(embed.footer + " - Code from Wikipedia");
         this.msg.channel.send(embed);
     }
 
@@ -60,7 +60,7 @@ module.exports = class HCode extends commando.Command {
         var embed = newEmbed();
         embed.setTitle(this.cmd.code + " - " + text);
         embed.setDescription(desc);
-        embed.setFooter("© ICE Bot, TechmandanCZ#0135; Code from Wikipedia");
+        embed.setFooter(embed.footer + " - Code from Wikipedia");
         this.msg.channel.send(embed);
     }
 };
