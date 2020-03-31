@@ -19,6 +19,8 @@ const client = new Commando.Client({
     invite: "https://discord.gg/dZtq4Qu"
 });
 
+require("./services/server")(client);
+
 client.on("commandRegister", c => console.log("[CMD]", `[${c.group.id}]`, c.name));
 
 client.setProvider(
