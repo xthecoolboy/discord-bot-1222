@@ -2,7 +2,7 @@ const newEmbed = require("../../embed");
 
 module.exports = async (msg) => {
     if (msg.author.bot) return;
-    if (!/https:\/\/discordapp.com\/channels\/[0-9]+\/[0-9]+\/[0-9]+(?: .*)/.test(msg.content)) return;
+    if (!/https:\/\/discordapp.com\/channels\/[0-9]+\/[0-9]+\/[0-9]+(?: [\s\S]*){0,1}/.test(msg.content)) return;
 
     var [,,,, server, channel, message] = msg.content.split("/");
     message = message.split(" ")[0];
