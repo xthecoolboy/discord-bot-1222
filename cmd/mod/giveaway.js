@@ -39,12 +39,21 @@ module.exports = class Giveaway extends commando.Command {
             msg.react("🎉");
             setTimeout(() => {
                 const peopleReacted = msg.reactions.get("🎉").users;
-                var winner = peopleReacted.random();
-                cmd.channel.send(`${winner} has won ${cmd.item}! :tada:`);
+                var winners = peopleReacted.random(5);
+
+                var winner;
+                for(var win of winners) {
+                    if(win !== this.client.user) {
+                        winner = win;
+                        break;
+                    }
+                }
+
+                cmd.channel.send(`${winner.tag} has won ${cmd.item}! :tada:`);
                 const finalE = newEmbed()
                     .setTitle("Giveaway Over")
                     .setColor("#ff8c00")
-                    .setDescription(`Winner: ${winner}`);
+                    .setDescription(`Winner: <@${winner.id}>`);
                 msg.edit(finalE);
             }, cmd.time * 60000);
         });
