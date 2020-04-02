@@ -69,10 +69,20 @@ module.exports = class PHP extends commando.Command {
         } else {
             code = code.text.trim();
         }
+        this.sendEmbed({
+            name,
+            version,
+            desc,
+            code,
+            url: c.url
+        });
+    }
+
+    sendEmbed({ name, version, desc, code, url }) {
         var embed = newEmbed();
         embed.setTitle(name);
-        embed.setURL(c.url);
         embed.setDescription(desc);
+        embed.setURL(url);
         embed.addField("Version", version);
         if(code === code.substr(0, 1989)) {
             embed.addField("Syntax", "```php\n " + code.substr(0, 1989) + "\n```");
@@ -95,18 +105,13 @@ module.exports = class PHP extends commando.Command {
                     var desc = root.querySelector(".section .para").text;
                     var code = root.querySelector(".classsynopsis").text.trim();
 
-                    var embed = newEmbed();
-                    embed.setTitle(name);
-                    embed.setURL(c.url);
-                    embed.setDescription(desc);
-                    embed.addField("Version", version);
-                    if(code === code.substr(0, 1989)) {
-                        embed.addField("Syntax", "```php\n " + code.substr(0, 1989) + "\n```");
-                    } else {
-                        embed.addField("Syntax", "The code syntax is too long to fit. Click the title to open in browser.");
-                    }
-
-                    this.msg.channel.send(embed);
+                    this.sendEmbed({
+                        name,
+                        version,
+                        desc,
+                        code,
+                        url: c.url
+                    });
                 }).catch(e => {
                     this.msg.channel.send("Couldn't find " + c.original);
                 });
