@@ -35,7 +35,7 @@ module.exports = class Announce extends commando.Command {
         if(cmd.showAuthor) {
             embed.setAuthor(msg.author.tag, msg.author.avatarURL);
         }
-        embed.title(cmd.title);
+        embed.setTitle(cmd.title);
         embed.setDescription(cmd.string);
 
         msg.channel.send("", { embed });
