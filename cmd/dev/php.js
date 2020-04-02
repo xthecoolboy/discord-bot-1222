@@ -9,8 +9,8 @@ module.exports = class PHP extends commando.Command {
             name: "php",
             memberName: "php",
             group: "dev",
-            description: "Shows information from PHP documentation.",
-            usage: "php bot::help",
+            description: "Shows information from PHP documentation. Use either `ice php <class | function>` or `ice php <class>::<method>`. Use object oriented style when available.",
+            usage: "php help",
             args: [
                 {
                     type: "string",
@@ -26,9 +26,13 @@ module.exports = class PHP extends commando.Command {
         this.msg = msg;
 
         var c = cmd.php;
-        if(c === "bot::help") {
+        if(c === "help") {
             return this.help();
         }
+        if(c.startsWith("mysqli_")) {
+            c = c.replace("mysqli_", "mysqli::");
+        }
+
         c = this.getURL(c);
 
         this.find(c);
