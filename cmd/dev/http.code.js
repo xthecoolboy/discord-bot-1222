@@ -51,7 +51,7 @@ module.exports = class HCode extends commando.Command {
         var embed = newEmbed();
         embed.setTitle(this.cmd.code + " - (Non-standart) " + text);
         embed.setDescription(desc);
-        embed.setFooter(embed.footer + " - Code from Wikipedia");
+        embed.setFooter(embed.footer.text + " - Code from Wikipedia");
         this.msg.channel.send(embed);
     }
 
@@ -61,7 +61,7 @@ module.exports = class HCode extends commando.Command {
         embed.setTitle(this.cmd.code + " - " + text);
         embed.setDescription(desc);
         embed.setImage("https://http.cat/" + this.cmd.code);
-        embed.setFooter(embed.footer + " - Code from Wikipedia");
+        embed.setFooter(embed.footer.text + " - Code from Wikipedia");
         this.msg.channel.send(embed);
     }
 };
