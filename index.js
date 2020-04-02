@@ -21,7 +21,9 @@ const client = new Commando.Client({
 
 require("./services/server")(client);
 
-client.on("commandRegister", c => console.log("[CMD]", `[${c.group.id}]`, c.name));
+client.on("commandRegister", c => {
+    console.log("[CMD]", `[${c.group.id}]`, c.name);
+});
 
 client.setProvider(
     sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
@@ -64,12 +66,12 @@ client.on("commandRun", (c, p, msg) => {
 });
 
 client.on("message", async msg => {
-    for (var service of messageServices) {
+    for(var service of messageServices) {
         await service(msg);
     }
 });
 
-for (var inhibitor of inhibitors) {
+for(var inhibitor of inhibitors) {
     client.dispatcher.addInhibitor(inhibitor);
 }
 
