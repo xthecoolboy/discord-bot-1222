@@ -9,12 +9,16 @@ module.exports = class Announce extends commando.Command {
             aliases: ["announcement"],
             group: "mod",
             permissions: ["ADMINISTRATOR"],
-            description: "Make the bot announce what you want. Remember to wrap it in quotes, as the second parameter is if you want to be shown as author.",
+            description: "Make the bot announce what you want.",
             args: [
                 {
                     type: "string",
+                    key: "title",
+                    prompt: "What's the title of announcement?"
+                }, {
+                    type: "string",
                     key: "string",
-                    prompt: "What do you want bot to say?"
+                    prompt: "What do you want to announce?"
                 }, {
                     type: "boolean",
                     key: "showAuthor",
@@ -31,7 +35,7 @@ module.exports = class Announce extends commando.Command {
         if(cmd.showAuthor) {
             embed.setAuthor(msg.author.tag, msg.author.avatarURL);
         }
-
+        embed.title(cmd.title);
         embed.setDescription(cmd.string);
 
         msg.channel.send("", { embed });
