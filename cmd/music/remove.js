@@ -1,7 +1,7 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 module.exports = class RemoveCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "remove",
             aliases: ["delete", "rm", "del", "dl"],
@@ -30,10 +30,10 @@ module.exports = class RemoveCommand extends Command {
      * @param fromPattern
      * @returns {Promise<Message|Message[]>}
      */
-    run (msg, args, fromPattern) {
+    run(msg, args, fromPattern) {
         try {
             this.client.music.removeTrack(msg.guild, args.number, msg.channel);
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }

@@ -4,7 +4,7 @@ const got = require("got");
 const Commando = require("discord.js-commando");
 
 module.exports = class Invite extends Commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "sofurry",
             group: "anime",
@@ -13,7 +13,7 @@ module.exports = class Invite extends Commando.Command {
         });
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         cmd = commandParser(cmd);
 
         got("https://api2.sofurry.com/browse/all/art?format=json").then(res => {

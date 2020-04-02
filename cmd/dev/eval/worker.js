@@ -1,11 +1,11 @@
 const inspect = require("util").inspect;
 const newEmbed = require("../../../embed");
-const {
+const{
     parentPort, workerData, isMainThread
 } = require("worker_threads");
 
-if (!isMainThread || workerData) {
-    const {
+if(!isMainThread || workerData) {
+    const{
         NodeVM
     } = require("vm2");
     const tick = ":white_check_mark:";
@@ -23,7 +23,7 @@ if (!isMainThread || workerData) {
     var consoleOutput = "";
 
     /* eslint-disable no-inner-declarations */
-    function addConsole (args) {
+    function addConsole(args) {
         consoleOutput += inspect(args) + "\n";
     }
     /* eslint-enable no-inner-declarations */
@@ -41,7 +41,7 @@ if (!isMainThread || workerData) {
         embed.addField("Command", "```js\n" + command + "\n```");
         try {
             embed.addField("Output", "```\n" + JSON.stringify(output, null, 2) + "\n```");
-        } catch (e) {
+        } catch(e) {
             console.warn("Error occured during JSON.stringify");
         }
         embed.addField("Console", "```\n" + consoleOutput + "\n```");
@@ -49,7 +49,7 @@ if (!isMainThread || workerData) {
             type: "ok",
             embed
         });
-    } catch (e) {
+    } catch(e) {
         embed.setTitle(cross + " Eval");
         embed.addField("Error", e);
         console.log(e);

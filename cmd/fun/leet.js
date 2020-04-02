@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class Leet extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "leetify",
             memberName: "leetify",
@@ -18,7 +18,7 @@ module.exports = class Leet extends commando.Command {
         });
     }
 
-    leet (str) {
+    leet(str) {
         str = str
             .replace(/e/gi, 3)
             .replace(/t/gi, 7)
@@ -32,7 +32,7 @@ module.exports = class Leet extends commando.Command {
         return str;
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         msg.channel.send(this.leet(cmd.string));
     }
 };

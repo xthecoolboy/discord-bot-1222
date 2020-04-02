@@ -4,7 +4,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class Joke extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "joke",
             memberName: "joke",
@@ -22,12 +22,12 @@ module.exports = class Joke extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         const basePath = "http://jokes.guyliangilsing.me/retrieveJokes.php?type=";
         got(basePath + cmd.type).then(res => {
             const r = JSON.parse(res.body);
 
-            if (r.status !== 200) throw Error;
+            if(r.status !== 200)throw Error;
 
             const e = newEmbed();
             e.setTitle(r.type.substr(0, r.type.length - 2));

@@ -1,7 +1,7 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 module.exports = class SeekCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "seek",
             aliases: [""],
@@ -33,10 +33,10 @@ module.exports = class SeekCommand extends Command {
      * @param fromPattern
      * @returns {Promise<Message|Message[]>}
      */
-    run (msg, args, fromPattern) {
+    run(msg, args, fromPattern) {
         try {
             this.client.music.seek(msg.guild, args.time.total.seconds, args.time.text, msg.channel);
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }

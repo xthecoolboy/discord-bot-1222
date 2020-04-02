@@ -1,9 +1,9 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 const newEmbed = require("../../embed");
 const utils = require("../../utils");
 
 module.exports = class warnCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "warn",
             group: "mod",
@@ -27,14 +27,14 @@ module.exports = class warnCommand extends Command {
         });
     }
 
-    run (msg, cmd) {
-        //if (this.client.isOwner(cmd.user.id)) return msg.say("You can't warn an owner of this bot!");
+    run(msg, cmd) {
+        // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't warn an owner of this bot!");
 
-        if (cmd.user === this.client.user) return msg.say("You can't warn this bot!");
+        if(cmd.user === this.client.user) return msg.say("You can't warn this bot!");
 
         // if (msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).warnable) return msg.say('You can\'t warn this user because the bot isn\'t high enough in the role hierachy!');
 
-        if (msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't warn this user because you're not high enough in the role hierachy!");
+        if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't warn this user because you're not high enough in the role hierachy!");
 
         // Set number of total cases in the server
         let totalCaseCount = msg.guild.settings.get("totalcasecount", 0);

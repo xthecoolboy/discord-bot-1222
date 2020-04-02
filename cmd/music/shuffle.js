@@ -1,7 +1,7 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 module.exports = class ShuffleCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "shuffle",
             aliases: ["mix"],
@@ -22,10 +22,10 @@ module.exports = class ShuffleCommand extends Command {
      * @param fromPattern
      * @returns {Promise.<Message|Message[]>}
      */
-    async run (msg, args, fromPattern) {
+    async run(msg, args, fromPattern) {
         try {
             this.client.music.shuffle(msg.guild, msg.channel);
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }

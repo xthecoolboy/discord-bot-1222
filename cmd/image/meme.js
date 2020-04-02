@@ -3,7 +3,7 @@ const newEmbed = require("../../embed");
 const Discord = require("discord.js");
 
 module.exports = class Meme extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "makeameme",
             memberName: "makeameme",
@@ -30,8 +30,8 @@ module.exports = class Meme extends commando.Command {
         });
     }
 
-    urlEscape (str) {
-        if (!str) return str;
+    urlEscape(str) {
+        if(!str) return str;
         str = str
             .split("_").join("__")
             .split("-").join("--")
@@ -44,9 +44,9 @@ module.exports = class Meme extends commando.Command {
         return encodeURI(str);
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         var image = cmd.url;
-        if (image instanceof Discord.User) {
+        if(image instanceof Discord.User) {
             image = image.avatarURL;/*
             try {
                 var user = await this.client.fetchUser(image);
@@ -64,7 +64,7 @@ module.exports = class Meme extends commando.Command {
         var top = this.urlEscape(cmd.top);
         var bottom = this.urlEscape(cmd.bottom);
 
-        if (!bottom)bottom = "";
+        if(!bottom)bottom = "";
 
         var embed = newEmbed();
         var url = `https://memegen.link/custom/${top}/${bottom}.jpg?alt=${image}&watermark=none`;

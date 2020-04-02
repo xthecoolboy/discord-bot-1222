@@ -1,8 +1,8 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class kickCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "kick",
             group: "mod",
@@ -26,16 +26,16 @@ module.exports = class kickCommand extends Command {
         });
     }
 
-    run (msg, cmd) {
-        //if (this.client.isOwner(cmd.user.id)) return msg.say("You can't kick an owner of this bot!");
+    run(msg, cmd) {
+        // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't kick an owner of this bot!");
 
-        if (cmd.user === this.client.user) return msg.say("You can't kick this bot!");
+        if(cmd.user === this.client.user) return msg.say("You can't kick this bot!");
 
-        if (msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).kickable) return msg.say("You can't kick this user because the bot isn't high enough in the role hierachy!");
+        if(msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).kickable) return msg.say("You can't kick this user because the bot isn't high enough in the role hierachy!");
 
-        if (msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
+        if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
 
-        if (msg.author === cmd.user) return msg.say("You can't kick yourself!");
+        if(msg.author === cmd.user) return msg.say("You can't kick yourself!");
 
         // Set number of total cases in the server
         let totalCaseCount = msg.guild.settings.get("totalcasecount", 0);

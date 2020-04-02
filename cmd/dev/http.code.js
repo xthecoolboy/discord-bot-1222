@@ -3,7 +3,7 @@ const newEmbed = require("../../embed");
 const httpCodeInfo = require("../../managers/httpCodeInfo");
 
 module.exports = class HCode extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "code",
             memberName: "code",
@@ -20,25 +20,25 @@ module.exports = class HCode extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         this.msg = msg;
         this.cmd = cmd;
         try {
             var code = parseInt(cmd.code);
-        } catch (e) {
+        } catch(e) {
             msg.channel.send("Expected format `ice code <code>`. <code> must be number.");
         }
 
         var buff = httpCodeInfo(code);
 
-        if (!buff.length) {
+        if(!buff.length) {
             var embed = newEmbed();
             embed.setTitle("Not found");
             embed.setDescription("Code " + code + " wasn't found withing official or unnofficial HTTP status codes.");
             this.msg.channel.send(embed);
         } else {
-            for (var info of buff) {
-                if (info.official) {
+            for(var info of buff) {
+                if(info.official) {
                     this.output(info.name, info.content);
                 } else {
                     this.outputUnnoficial(info.name, info.content);
@@ -47,7 +47,7 @@ module.exports = class HCode extends commando.Command {
         }
     }
 
-    outputUnnoficial (text, desc) {
+    outputUnnoficial(text, desc) {
         var embed = newEmbed();
         embed.setTitle(this.cmd.code + " - (Non-standart) " + text);
         embed.setDescription(desc);
@@ -55,7 +55,7 @@ module.exports = class HCode extends commando.Command {
         this.msg.channel.send(embed);
     }
 
-    output (text, desc) {
+    output(text, desc) {
         this.found = true;
         var embed = newEmbed();
         embed.setTitle(this.cmd.code + " - " + text);

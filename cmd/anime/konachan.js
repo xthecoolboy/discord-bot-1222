@@ -3,7 +3,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class Xkcd extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "konachan",
             memberName: "konachan",
@@ -12,7 +12,7 @@ module.exports = class Xkcd extends commando.Command {
         });
     }
 
-    async run (msg) {
+    async run(msg) {
         got("https://konachan.net/post.json?limit=1&page=" + Math.floor(Math.random() * 241260)).then(res => {
             var img = JSON.parse(res.body)[0];
             var embed = newEmbed();

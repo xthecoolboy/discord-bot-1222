@@ -1,4 +1,4 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class historyCommand extends Command {
@@ -26,7 +26,7 @@ module.exports = class historyCommand extends Command {
                     next() {
                         current++;
                         var data = msg.guild.settings.get("case." + current, null);
-                        if (!data) {
+                        if(!data) {
                             return { value: null, done: true };
                         }
                         return { value: data, done: false };
@@ -39,18 +39,18 @@ module.exports = class historyCommand extends Command {
         embed.setAuthor(msg.author.username, msg.author.displayAvatarURL);
         embed.setTitle(`${cmd.user.tag}'s offense history`);
 
-        for (var Case of iterable) {
-            if (Case.offenderID === cmd.user.id) {
+        for(var Case of iterable) {
+            if(Case.offenderID === cmd.user.id) {
                 var hasOffense = true;
                 let removedText = "";
-                if (Case.removed) removedText = "**[REMOVED]**";
+                if(Case.removed) removedText = "**[REMOVED]**";
 
                 embed.addField(`${Case.type} | Case ${Case.id} ${removedText}`, `Reason: ${Case.reason}\nMod: ${Case.moderator}\n`
                 );
             }
         }
 
-        if (!hasOffense) return msg.say(`User ${cmd.user.tag} has no offense history. Good boy :smile:`);
+        if(!hasOffense) return msg.say(`User ${cmd.user.tag} has no offense history. Good boy :smile:`);
 
         return msg.embed(embed);
     }

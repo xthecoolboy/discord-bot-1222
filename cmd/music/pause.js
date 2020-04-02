@@ -1,7 +1,7 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 module.exports = class PauseCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "pause",
             aliases: [],
@@ -23,10 +23,10 @@ module.exports = class PauseCommand extends Command {
      * @param fromPattern
      * @returns {Promise<Message|Message[]>}
      */
-    run (msg, args, fromPattern) {
+    run(msg, args, fromPattern) {
         try {
             this.client.music.pause(msg.guild, msg.channel);
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }

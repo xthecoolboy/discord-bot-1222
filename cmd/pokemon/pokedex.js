@@ -4,7 +4,7 @@ const newEmbed = require("../../embed");
 const commando = require("discord.js-commando");
 
 module.exports = class Poke extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "poke",
             memberName: "poke",
@@ -27,18 +27,18 @@ module.exports = class Poke extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         this.cmd = cmd;
         this.msg = msg;
         this.processCommand(cmd);
     }
 
-    processCommand (cmd) {
-        switch (cmd.cmd) {
-            case "mon":
+    processCommand(cmd) {
+        switch(cmd.cmd) {
+            case"mon":
                 this.mon();
                 break;
-            case "help":
+            case"help":
                 this.help();
                 break;
             default:
@@ -46,18 +46,18 @@ module.exports = class Poke extends commando.Command {
         }
     }
 
-    async mon () {
-        if (!this.cmd.poke) {
+    async mon() {
+        if(!this.cmd.poke) {
             this.msg.channel.send("No pokemon to find specified. Usage: `ice poke mon <name>`");
             return;
         }
         try {
             var pokemon = await P.getPokemonByName(this.cmd.poke.toLowerCase());
-        } catch (e) {
+        } catch(e) {
             this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd.poke + "'");
             return;
         }
-        if (!pokemon) {
+        if(!pokemon) {
             this.msg.channel.send("No pokemon found. Double check the name '" + this.cmd.poke + "'");
             return;
         }
@@ -72,7 +72,7 @@ module.exports = class Poke extends commando.Command {
         this.msg.channel.send(embed);
     }
 
-    help () {
+    help() {
         this.msg.channel.send("The only currently working sub command is 'mon' which gets information about given pokemon.");
     }
 };

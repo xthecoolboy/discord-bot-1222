@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Logme extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "logme",
             memberName: "logme",
@@ -19,7 +19,7 @@ module.exports = class Logme extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         var embed = newEmbed();
         embed.setTitle("Log");
         embed.addField("Command", "```json\n" + JSON.stringify(cmd, null, 2) + "\n```");

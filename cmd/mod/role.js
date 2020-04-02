@@ -31,19 +31,19 @@ module.exports = class Role extends commando.Command {
     }
 
     run(msg, cmd) {
-        if (msg.member.guild.me.highestRole.comparePositionTo(cmd.role) <= 0) return msg.say("The bot can't manage this role because it's not high enough in the role hierachy!");
+        if(msg.member.guild.me.highestRole.comparePositionTo(cmd.role) <= 0) return msg.say("The bot can't manage this role because it's not high enough in the role hierachy!");
 
-        switch (cmd.option) {
-            case "add":
+        switch(cmd.option) {
+            case"add":
                 msg.guild.member(cmd.user).addRole(cmd.role);
                 msg.say(`Successfully added ${cmd.role} to ${cmd.user}!`);
                 break;
-            case "remove":
+            case"remove":
                 msg.guild.member(cmd.user).removeRole(cmd.role);
                 msg.say(`Successfully removed ${cmd.role} from ${cmd.user}!`);
                 break;
-            case "toggle":
-                if (msg.member.roles.has(cmd.role.id)) {
+            case"toggle":
+                if(msg.member.roles.has(cmd.role.id)) {
                     msg.guild.member(cmd.user).removeRole(cmd.role);
                     msg.say(`Successfully removed ${cmd.role} from ${cmd.user}!`);
                 } else {

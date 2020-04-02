@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class HTMLExtractor extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "extracthtml",
             memberName: "extracthtml",

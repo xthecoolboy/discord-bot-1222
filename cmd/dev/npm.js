@@ -3,7 +3,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class NPM extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "npm",
             memberName: "npm",
@@ -20,11 +20,11 @@ module.exports = class NPM extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         got("https://api.npms.io/v2/search?q=" + cmd.pkg).then(body => {
             var json = body.body;
             var obj = JSON.parse(json);
-            if (obj.total === 0) {
+            if(obj.total === 0) {
                 msg.channel.send("Package couldn't be found.");
                 return;
             }
@@ -33,8 +33,8 @@ module.exports = class NPM extends commando.Command {
             embed.setTitle(pkg.name + "@" + pkg.version);
             embed.setURL(pkg.links.npm);
             embed.setDescription(pkg.description);
-            if (pkg.author) { embed.addField("» Author", pkg.author.name, true); }
-            if (pkg.publisher) { embed.addField("» Publisher", pkg.publisher.username, true); }
+            if(pkg.author) { embed.addField("» Author", pkg.author.name, true); }
+            if(pkg.publisher) { embed.addField("» Publisher", pkg.publisher.username, true); }
             embed.addField("» Maintainers", pkg.maintainers.map(e => e.username).join(", "), true);
             msg.channel.send(embed);
         });

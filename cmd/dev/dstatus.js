@@ -3,7 +3,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class DStatus extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "dstatus",
             memberName: "dstatus",
@@ -12,7 +12,7 @@ module.exports = class DStatus extends commando.Command {
         });
     }
 
-    async run (msg) {
+    async run(msg) {
         var embed = newEmbed();
 
         got("https://srhpyqt94yxb.statuspage.io/api/v2/summary.json").then(summary => {

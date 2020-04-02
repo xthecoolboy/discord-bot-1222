@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class Lenny extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "lenny",
             memberName: "lenny",
@@ -10,7 +10,7 @@ module.exports = class Lenny extends commando.Command {
         });
     }
 
-    run (msg) {
+    run(msg) {
         msg.channel.send("( ͡° ͜ʖ ͡°)");
     }
 };

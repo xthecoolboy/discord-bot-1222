@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const cowsay = require("cowsay");
 
 module.exports = class Cowsay extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "cow",
             memberName: "cow",
@@ -22,23 +22,23 @@ module.exports = class Cowsay extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         var saying = cmd.variant === "say";
-        var { text } = cmd;
+        var{ text } = cmd;
 
         text = text
             .replace(/\\`/gi, "")
             .replace(/`/gi, "");
 
-        if (text.length > 1500) {
+        if(text.length > 1500) {
             return msg.channel.send("Too long message!");
         }
 
-        if (text.length === 0) {
+        if(text.length === 0) {
             return msg.channel.send("Please provide a valid text to say/think");
         }
 
-        if (saying) {
+        if(saying) {
             msg.channel.send("```\n" + cowsay.say({ text }) + "\n```");
         } else {
             msg.channel.send("```\n" + cowsay.think({ text }) + "\n```");

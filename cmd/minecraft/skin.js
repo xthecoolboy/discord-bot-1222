@@ -4,7 +4,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class Skin extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "skin",
             memberName: "skin",
@@ -20,7 +20,7 @@ module.exports = class Skin extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         var embed = newEmbed();
         var username = cmd.username;
 

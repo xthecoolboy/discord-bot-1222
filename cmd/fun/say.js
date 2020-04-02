@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Say extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "say",
             memberName: "say",
@@ -18,7 +18,7 @@ module.exports = class Say extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         var embed = newEmbed();
 
         embed.setAuthor(msg.author.tag, msg.author.avatarURL);

@@ -4,7 +4,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class Reddit extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "reddit",
             memberName: "reddit",
@@ -20,8 +20,8 @@ module.exports = class Reddit extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
-        if (cmd.reddit.substr(0, 2) === "r/") cmd.reddit = cmd.reddit.substr(2);
+    async run(msg, cmd) {
+        if(cmd.reddit.substr(0, 2) === "r/") cmd.reddit = cmd.reddit.substr(2);
         var subreddit = cmd.reddit;
 
         var embed = newEmbed();

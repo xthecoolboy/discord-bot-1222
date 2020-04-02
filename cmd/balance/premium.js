@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const donors = require("../../donors");
 
 module.exports = class Premium extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "premium",
             memberName: "premium",
@@ -11,8 +11,8 @@ module.exports = class Premium extends commando.Command {
         });
     }
 
-    async run (msg) {
-        if (!donors.includes(msg.author.id)) {
+    async run(msg) {
+        if(!donors.includes(msg.author.id)) {
             msg.channel.send("You don't have premium. For information to get premium, go to http://ice.danbulant.eu/premium");
             return;
         }

@@ -1,4 +1,4 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 const Youtube = require("@mindaugaskasp/node-youtube");
 
 /**
@@ -9,7 +9,7 @@ const Youtube = require("@mindaugaskasp/node-youtube");
  * @type {module.SelectSongCommand}
  */
 module.exports = class SelectSongCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "pick",
             aliases: ["select-song", "select", "take", "choose"],
@@ -33,28 +33,28 @@ module.exports = class SelectSongCommand extends Command {
      * @param fromPattern
      * @returns {Promise<*>}
      */
-    async run (msg, args, fromPattern) {
+    async run(msg, args, fromPattern) {
         try {
-            if (this.client.music.getMusicQueue(msg.guild).length >= 500) { return (await msg.say("Music player is full. Please remove some of the tracks.")).delete(12000); }
+            if(this.client.music.getMusicQueue(msg.guild).length >= 500) { return (await msg.say("Music player is full. Please remove some of the tracks.")).delete(12000); }
 
             (await msg.say("Adding track(s) to music queue. Please be patient.")).delete(12000);
 
             const searches = this.client.music.searches.get(msg.guild.id);
-            if (!searches) {
+            if(!searches) {
                 return (await msg.say("Please search for songs first. Search stash is empty!")).delete(12000);
             }
             let addedToQueue = 0;
 
-            if (args.selection.toLowerCase() === "all") {
+            if(args.selection.toLowerCase() === "all") {
                 this.client.music.loadTracks(searches, msg.guild, msg.author.id);
                 addedToQueue = searches.length;
             } else {
                 const selection = args.selection.match(/\d+/g);
-                if (!selection) return (await msg.say(`Selection unrecognized: \`${args.selection.toLowerCase()}\`. Allowed: \`ALL\`, \`1\` - \`${searches.length}\``)).delete(15000);
+                if(!selection) return (await msg.say(`Selection unrecognized: \`${args.selection.toLowerCase()}\`. Allowed: \`ALL\`, \`1\` - \`${searches.length}\``)).delete(15000);
 
-                for (let index = 0; index < searches.length; index++) {
-                    for (const selectedIndex of selection) {
-                        if (parseInt(selectedIndex) === index + 1) {
+                for(let index = 0; index < searches.length; index++) {
+                    for(const selectedIndex of selection) {
+                        if(parseInt(selectedIndex) === index + 1) {
                             addedToQueue++;
                             this.client.music.loadTrack(searches[index], msg.guild, msg.author.id);
                         }
@@ -63,7 +63,7 @@ module.exports = class SelectSongCommand extends Command {
             }
 
             return (await msg.say(`${addedToQueue} song(s) have been added to queue`)).delete(12000);
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }

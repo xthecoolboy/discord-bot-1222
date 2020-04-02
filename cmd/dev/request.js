@@ -4,7 +4,7 @@ const util = require("../../utils.js");
 const got = require("got");
 
 module.exports = class Request extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "request",
             memberName: "request",
@@ -31,18 +31,18 @@ module.exports = class Request extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         this.msg = msg;
         this.cmd = cmd;
         this.command(cmd.method);
     }
 
-    command (cmd) {
-        switch (cmd.toLowerCase()) {
-            case "help":
+    command(cmd) {
+        switch(cmd.toLowerCase()) {
+            case"help":
                 this.showHelp();
                 break;
-            case "get":
+            case"get":
                 this.startGet();
                 break;
             default:
@@ -50,11 +50,11 @@ module.exports = class Request extends commando.Command {
         }
     }
 
-    filter (obj, predicate) {
+    filter(obj, predicate) {
         var result = {}; var key;
 
-        for (key in obj) {
-            if (predicate(obj[key])) {
+        for(key in obj) {
+            if(predicate(obj[key])) {
                 result[key] = obj[key];
             }
         }
@@ -62,7 +62,7 @@ module.exports = class Request extends commando.Command {
         return result;
     }
 
-    async startGet () {
+    async startGet() {
         var embed = newEmbed();
         embed.setTitle(util.assistant_icon);
         embed.setDescription("Performing request");
@@ -74,27 +74,27 @@ module.exports = class Request extends commando.Command {
             var headers = this.filter(res.headers, o => Array.isArray(o));
             var head = "";
             var key = "";
-            for (key in headers) {
-                if (key === "set-cookie") continue;
+            for(key in headers) {
+                if(key === "set-cookie")continue;
                 head += key + ": '" + headers[key] + "'\n";
             }
 
             embed.addField("Headers" + (head.length > 1016 ? " truncated" : ""), "```\n" + head.substr(0, 1016) + "```");
-            if (res.headers["set-cookie"]) {
+            if(res.headers["set-cookie"]) {
                 var cookies = res.headers["set-cookie"].join("\n");
                 embed.addField("Cookies" + (cookies.length > 1016 ? " truncated" : ""), "```\n" + cookies.substr(0, 1016) + "```");
             }
             embed.addField("HTTP", "` HTTP/" + res.httpVersion + " GET `");
-            if (res.body.length > 1016) {
+            if(res.body.length > 1016) {
                 embed.addField("Error", "Response body is longer than discord's limit. The body below is truncated to fit.");
                 embed.addField("Response truncated", "```\n" + res.body.substr(0, 1016) + "\n```");
             } else {
-                if (!this.cmd.format) {
+                if(!this.cmd.format) {
                     embed.addField("Response", "```\n" + res.body + "\n```");
-                } else if (this.cmd.format.toLowerCase() === "json") {
+                } else if(this.cmd.format.toLowerCase() === "json") {
                     try {
                         embed.addField("Response", "```json\n" + JSON.stringify(JSON.parse(res.body), null, 2) + "\n```");
-                    } catch (e) {
+                    } catch(e) {
                         embed.addField("An error occured during JSON parse:", "```\n" + e.name + " - " + e.description + "\n```\n");
                         embed.addField("Response", "```\n" + res.body + "\n```");
                     }
@@ -112,7 +112,7 @@ module.exports = class Request extends commando.Command {
         });
     }
 
-    showHelp () {
+    showHelp() {
         var embed = newEmbed();
         embed.setTitle("Request");
         embed.setDescription("Make HTTP(s) requests");

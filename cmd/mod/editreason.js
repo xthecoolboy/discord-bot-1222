@@ -1,5 +1,5 @@
 
-const { Command } = require('discord.js-commando');
+const{ Command } = require("discord.js-commando");
 
 module.exports = class Reason extends Command {
     constructor(client) {
@@ -27,7 +27,7 @@ module.exports = class Reason extends Command {
 
     run(msg, cmd) {
         const Case = msg.guild.settings.get(`case.${cmd.case}`);
-        if (!Case) return msg.say(`Case '${cmd.case}' not found`);
+        if(!Case) return msg.say(`Case '${cmd.case}' not found`);
 
         Case.reason = cmd.reason;
 

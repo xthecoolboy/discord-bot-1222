@@ -4,7 +4,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class Fone extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "fone",
             memberName: "fone",
@@ -21,12 +21,12 @@ module.exports = class Fone extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         const basePath = "https://happy-fone-api.glitch.me/";
         let type = "cat";
-        if (cmd.type) type = cmd.type;
-        if (type === "nude") {
-            if (!msg.channel.nsfw && msg.channel.type !== "dm") {
+        if(cmd.type) type = cmd.type;
+        if(type === "nude") {
+            if(!msg.channel.nsfw && msg.channel.type !== "dm") {
                 msg.channel.send("This type is available only inside NSFW or DM channels!");
                 return;
             }

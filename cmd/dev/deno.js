@@ -1,9 +1,9 @@
 const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
-const { exec } = require("child_process");
+const{ exec } = require("child_process");
 
 module.exports = class Deno extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "deno",
             memberName: "deno",
@@ -24,7 +24,7 @@ module.exports = class Deno extends commando.Command {
      * @param {commando.CommandoMessage} msg
      * @param {commando.Argument} param1
      */
-    async run (omsg, { code }) {
+    async run(omsg, { code }) {
         try {
             var msg = await omsg.channel.send("Executing...");
             var script = null;
@@ -36,15 +36,15 @@ module.exports = class Deno extends commando.Command {
             }, 2e4);
 
             /* eslint-disable no-inner-declarations */
-            function end (err, stdout, stderr) {
-                if (err) {
+            function end(err, stdout, stderr) {
+                if(err) {
                     console.error(err);
                 }
 
                 clearTimeout(timeout);
 
                 // Dirty fix, don't know the source...
-                if (stdout.substr(stdout.length - 9) === "undefined") { stdout = stdout.substr(0, stdout.length - 9); }
+                if(stdout.substr(stdout.length - 9) === "undefined") { stdout = stdout.substr(0, stdout.length - 9); }
 
                 stdout = stdout.substr(0, 1018);
                 stderr = stderr.substr(0, 1018);
@@ -61,7 +61,7 @@ module.exports = class Deno extends commando.Command {
 
             try {
                 var file;
-                if (code.startsWith("http://") || code.startsWith("https://")) {
+                if(code.startsWith("http://") || code.startsWith("https://")) {
                     file = `'${code.replace(/'/g, "'\\''")}'`;
                     script = exec("NO_COLOR=true ~/.local/bin/deno " + file, end);
                 } else {
@@ -70,7 +70,7 @@ module.exports = class Deno extends commando.Command {
                     /* script.stdin.write(code);
                     script.stdin.end(); */
                 }
-            } catch (e) {
+            } catch(e) {
                 console.error("[error_cmd]", e);
                 var embed = newEmbed();
                 embed.setTitle("Command");
@@ -79,7 +79,7 @@ module.exports = class Deno extends commando.Command {
                 msg.edit("", embed);
                 return;
             }
-        } catch (e) {
+        } catch(e) {
             console.error("[Error]", e);
             omsg.channel.send("An error occured.\nYou shouldn't ever receive an error like this.\nPlease contact TechmandanCZ#0135 in this server: https://discord.gg/dZtq4Qu");
         }

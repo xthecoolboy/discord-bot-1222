@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class Clap extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "clap",
             memberName: "clap",
@@ -18,7 +18,7 @@ module.exports = class Clap extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         msg.channel.send(cmd.string.split(" ").join("👏"));
     }
 };

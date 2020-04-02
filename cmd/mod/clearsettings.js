@@ -1,7 +1,7 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 module.exports = class clearsettingsCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "clearsettings",
             group: "mod",
@@ -19,11 +19,11 @@ module.exports = class clearsettingsCommand extends Command {
         });
     }
 
-    run (msg) {
+    run(msg) {
         try {
             msg.guild.settings.clear();
             msg.say("Success!");
-        } catch (e) {
+        } catch(e) {
             console.error(e);
             msg.say("Something went wrong...");
         }

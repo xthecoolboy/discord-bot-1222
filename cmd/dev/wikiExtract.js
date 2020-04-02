@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class WikiExtractor extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "extractwiki",
             memberName: "extractwiki",

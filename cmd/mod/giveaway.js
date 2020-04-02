@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Giveaway extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "giveaway",
             memberName: "giveaway",
@@ -27,8 +27,8 @@ module.exports = class Giveaway extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
-        if (!msg.member.hasPermission("ADMINISTRATOR")) { return msg.channel.send("You don't have permissions!"); }
+    async run(msg, cmd) {
+        if(!msg.member.hasPermission("ADMINISTRATOR")) { return msg.channel.send("You don't have permissions!"); }
         const embed = newEmbed()
             .setTitle("Giveaway! :tada:")
             .setDescription(cmd.item)

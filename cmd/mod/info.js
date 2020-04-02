@@ -8,7 +8,7 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 module.exports = class Info extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "info",
             memberName: "info",
@@ -38,25 +38,25 @@ module.exports = class Info extends commando.Command {
      * @param {Discord.Client} client
      * @param {Discord.Message} msg
      */
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         this.msg = msg;
         this.cmd = cmd;
         // require("../../accountManager").sendAchievmentUnique(msg, "info");
-        switch (cmd.command.toLowerCase()) {
-            case "user":
+        switch(cmd.command.toLowerCase()) {
+            case"user":
                 this.user();
                 break;
-            case "role":
+            case"role":
                 this.role();
                 break;
-            case "channel":
+            case"channel":
                 this.channel();
                 break;
-            case "guild":
-            case "server":
+            case"guild":
+            case"server":
                 this.guild();
                 break;
-            case "help":
+            case"help":
                 this.help();
                 break;
             default:
@@ -64,7 +64,7 @@ module.exports = class Info extends commando.Command {
         }
     }
 
-    help () {
+    help() {
         var embed = newEmbed();
         embed.setTitle("Info");
         embed.setDescription("Gets information about specified object/user. In format `ice info <type> <arg>");
@@ -74,20 +74,20 @@ module.exports = class Info extends commando.Command {
         this.msg.channel.send(embed);
     }
 
-    default () {
+    default() {
         this.msg.channel.send("Unknown type, do `ice info help` for known types.");
     }
 
-    async userUUID () {
+    async userUUID() {
         var embed = newEmbed();
         var dbuser = await account.fetchUserUUID(this.cmd.pointer);
-        if (!dbuser) {
+        if(!dbuser) {
             this.msg.channel.send("Couldn't find anyone with that uuid");
             return;
         }
         var user = await this.client.fetchUser(dbuser.discord);
         var member = this.msg.guild.member(user);
-        if (!member) {
+        if(!member) {
             embed.setDescription("The user may not be member of this server");
         }
 
@@ -101,19 +101,19 @@ module.exports = class Info extends commando.Command {
         embed.addField("» BBS", account.getMoney(dbuser), true);
         embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
         embed.addField("» Registered", timeAgo.format(user.createdAt), true);
-        if (member) embed.addField("» Roles", this.getRoles(member), true);
+        if(member) embed.addField("» Roles", this.getRoles(member), true);
         embed.addField("» Online status:", this.getStatus(user.presence.status) + user.presence.status, true);
 
         this.msg.channel.send(embed);
     }
 
-    async user () {
+    async user() {
         var embed = newEmbed();
         var user = this.msg.author;
-        if (this.msg.mentions.users.first() && this.msg.mentions.users.first() !== this.client.user) {
+        if(this.msg.mentions.users.first() && this.msg.mentions.users.first() !== this.client.user) {
             user = this.msg.mentions.users.first();
-        } else if (this.cmd.pointer) {
-            if (this.cmd.pointer.toString().indexOf("-") !== -1) {
+        } else if(this.cmd.pointer) {
+            if(this.cmd.pointer.toString().indexOf("-") !== -1) {
                 this.userUUID();
                 return;
             } else {
@@ -126,7 +126,7 @@ module.exports = class Info extends commando.Command {
         }
         var dbuser = await account.fetchUser(user.id);
 
-        if (this.msg.guild) { var member = this.msg.guild.member(user); }
+        if(this.msg.guild) { var member = this.msg.guild.member(user); }
 
         embed.setTitle("User info");
         embed.setThumbnail(user.avatarURL);
@@ -140,42 +140,42 @@ module.exports = class Info extends commando.Command {
         embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
         embed.addField("» Registered", timeAgo.format(user.createdAt), true);
 
-        if (this.msg.guild) { embed.addField("» Roles", this.getRoles(member), true); }
+        if(this.msg.guild) { embed.addField("» Roles", this.getRoles(member), true); }
 
         embed.addField("» Online status:", this.getStatus(user.presence.status) + user.presence.status, true);
 
         this.msg.channel.send(embed);
     }
 
-    getStatus (status) {
-        switch (status) {
-            case "dnd":
+    getStatus(status) {
+        switch(status) {
+            case"dnd":
                 return ":no_entry:";
-            case "online":
+            case"online":
                 return ":green_circle:";
-            case "offline":
+            case"offline":
                 return ":black_circle:";
         }
     }
 
-    getRoles (member) {
+    getRoles(member) {
         var output = "";
         var roles = member.roles.array();
         roles.shift();
         roles.forEach((role) => {
             output += "<@&" + role.id + "> - ";
         });
-        if (output.length > 3) {
+        if(output.length > 3) {
             output = output.substr(0, output.length - 3);
         }
         return output;
     }
 
-    role () {
+    role() {
         var role = this.cmd[1];
-        if (role.substr(0, 3) === "<@&")role = role.substr(3, role.length - 4);
+        if(role.substr(0, 3) === "<@&")role = role.substr(3, role.length - 4);
         role = this.msg.guild.roles.get(role);
-        if (!role) {
+        if(!role) {
             return this.msg.channel.send("Couldn't find role.");
         }
 
@@ -190,11 +190,11 @@ module.exports = class Info extends commando.Command {
         this.msg.channel.send(embed);
     }
 
-    channel () {
+    channel() {
         this.msg.channel.send("To do");
     }
 
-    guild () {
+    guild() {
         this.msg.channel.send("To do");
     }
 };

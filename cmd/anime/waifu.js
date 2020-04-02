@@ -3,7 +3,7 @@ const newEmbed = require("../../embed");
 const commando = require("discord.js-commando");
 
 module.exports = class Waifu extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "waifu",
             memberName: "waifu",
@@ -12,7 +12,7 @@ module.exports = class Waifu extends commando.Command {
         });
     }
 
-    async run (msg) {
+    async run(msg) {
         var total = 200000;
         var totalTexts = 125254;
 

@@ -1,11 +1,11 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 /**
  * Command responsible for playing whatever is saved in memory for given guild
  * @type {module.PlayCommand}
  */
 module.exports = class PlayCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "play",
             aliases: ["listen", "stream"],
@@ -19,7 +19,7 @@ module.exports = class PlayCommand extends Command {
 
         try {
             this._initListeners();
-        } catch (e) {
+        } catch(e) {
             console.log("Failed to initialize PlayCommand listeners", e);
         }
     }
@@ -31,10 +31,10 @@ module.exports = class PlayCommand extends Command {
      * @param fromPattern
      * @returns {Promise<Message|Message[]>}
      */
-    run (msg, args, fromPattern) {
+    run(msg, args, fromPattern) {
         try {
             this.client.music.play(msg.guild, msg.channel);
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }
@@ -44,10 +44,10 @@ module.exports = class PlayCommand extends Command {
      * inits player events
      * @private
      */
-    _initListeners () {
+    _initListeners() {
         this.client.music.on("playing", async (track, guild, channel) => {
             const playingMessage = this.client.music.messages.get(guild.id);
-            if (playingMessage && playingMessage.deletable) {
+            if(playingMessage && playingMessage.deletable) {
                 playingMessage.delete();
             }
             this.client.music.savePlayerMessage(guild, (await channel.send("", { embed: this.client.music.getInfo(guild) })));

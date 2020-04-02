@@ -1,10 +1,10 @@
-const {
+const{
     Command
 } = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Purge extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "purge",
             group: "mod",
@@ -27,8 +27,8 @@ module.exports = class Purge extends Command {
         });
     }
 
-    run (msg, cmd) {
-        if (cmd.amount > 0 & cmd.amount < 100) {
+    run(msg, cmd) {
+        if(cmd.amount > 0 & cmd.amount < 100) {
             try {
                 msg.channel.bulkDelete(cmd.amount + 1);
 
@@ -38,9 +38,9 @@ module.exports = class Purge extends Command {
 
                 return msg.channel.send(embed)
                     .then(msg => {
-                        if (cmd.delete === "true") { msg.delete(3000); }
+                        if(cmd.delete === "true") { msg.delete(3000); }
                     });
-            } catch (e) {
+            } catch(e) {
                 msg.channel.send("Something went wrong...");
                 console.error(e);
             }

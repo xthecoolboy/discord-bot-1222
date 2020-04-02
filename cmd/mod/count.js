@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Count extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "count",
             memberName: "count",
@@ -11,10 +11,10 @@ module.exports = class Count extends commando.Command {
         });
     }
 
-    async run (msg) {
+    async run(msg) {
         this.msg = msg;
 
-        if (msg.channel.type === "dm") {
+        if(msg.channel.type === "dm") {
             msg.channel.send("We are the only one's in DMs");
             return;
         }

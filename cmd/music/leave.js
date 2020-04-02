@@ -1,7 +1,7 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 module.exports = class PlayCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "leave",
             aliases: [],
@@ -25,17 +25,17 @@ module.exports = class PlayCommand extends Command {
      * @param fromPattern
      * @returns {Promise<Message|Message[]>}
      */
-    async run (msg, args, fromPattern) {
+    async run(msg, args, fromPattern) {
         try {
             const guild = msg.guild;
-            if (!guild.voiceConnection) {
+            if(!guild.voiceConnection) {
                 return (await msg.send("I am not in any voice channel at the moment.")).delete(12000);
             } else {
                 (await msg.say(`Leaving Voice Channel - \`${guild.voiceConnection.channel.name}\``)).delete(12000);
                 guild.voiceConnection.channel.leave();
                 this.client.music.terminate(msg.guild);
             }
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }

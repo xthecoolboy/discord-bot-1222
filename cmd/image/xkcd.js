@@ -3,7 +3,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class Xkcd extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "xkcd",
             memberName: "xkcd",
@@ -13,7 +13,7 @@ module.exports = class Xkcd extends commando.Command {
         });
     }
 
-    async run (msg) {
+    async run(msg) {
         got("https://xkcd.com/info.0.json").then(res => {
             var post = JSON.parse(res.body);
             var title = post.safe_title;

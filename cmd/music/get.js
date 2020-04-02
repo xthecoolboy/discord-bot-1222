@@ -1,4 +1,4 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 const Youtube = require("@mindaugaskasp/node-youtube");
 const Helper = require("../../managers/musicHelper");
 
@@ -7,7 +7,7 @@ const Helper = require("../../managers/musicHelper");
  * @type {module.SearchCommand}
  */
 module.exports = class GetCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "get",
             aliases: ["search", "retrieve", "fetch", "look", "find"],
@@ -34,7 +34,7 @@ module.exports = class GetCommand extends Command {
      * @param args
      * @returns {Promise.<*>}
      */
-    async run (msg, args) {
+    async run(msg, args) {
         let loaderMsg;
         try {
             const indicatorMsg = (await msg.say("Searching for music. Please be patient."));
@@ -44,10 +44,10 @@ module.exports = class GetCommand extends Command {
             indicatorMsg.delete();
             loaderMsg.delete();
 
-            if (results.length === 0) {
+            if(results.length === 0) {
                 return (await msg.say(`Could'nt find any songs for query: \`${args.query}\`. Please make sure the link is correct and try again.`)).delete(5000);
             }
-            if (results.length > 50 || results.length === 1) {
+            if(results.length > 50 || results.length === 1) {
                 this.client.music.loadTracks(results, msg.guild, msg.author.id);
                 return (await msg.say(`${results.length} track(s) have been added to the music queue.`)).delete(12000);
             } else {
@@ -55,8 +55,8 @@ module.exports = class GetCommand extends Command {
                 (await msg.say("Select song(s) to be added to music queue by using command `pick` and specifying song number(s) as an argument. E.g. `pick 1,2` or `pick all`.")).delete(15000);
                 (await msg.say(Helper.getPaginatedList(results, args.page) + "\nTo view more search results use command stash", { code: "python", split: true })).delete(15000);
             }
-        } catch (e) {
-            if (loaderMsg && typeof loaderMsg.delete === "function") {
+        } catch(e) {
+            if(loaderMsg && typeof loaderMsg.delete === "function") {
                 loaderMsg.delete();
             }
             console.log(e);

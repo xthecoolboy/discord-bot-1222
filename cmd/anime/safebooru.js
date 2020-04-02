@@ -4,7 +4,7 @@ const newEmbed = require("../../embed");
 const got = require("got");
 
 module.exports = class Xkcd extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "safebooru",
             memberName: "safebooru",
@@ -13,7 +13,7 @@ module.exports = class Xkcd extends commando.Command {
         });
     }
 
-    async run (msg) {
+    async run(msg) {
         got("https://safebooru.org/index.php?page=dapi&s=post&q=index&id=" + Math.floor(Math.random() * 2903000)).then(res => {
             var $ = cheerio.load(res.body, { xmlMode: true });
 

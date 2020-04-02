@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class Dab extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "dab",
             memberName: "dab",
@@ -10,7 +10,7 @@ module.exports = class Dab extends commando.Command {
         });
     }
 
-    run (msg) {
+    run(msg) {
         msg.reply("<o/");
     }
 };

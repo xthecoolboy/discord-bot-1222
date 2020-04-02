@@ -1,11 +1,11 @@
 const commando = require("discord.js-commando");
-const {
+const{
     Worker
 } = require("worker_threads");
 const path = require("path");
 
 module.exports = class Eval extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "jseval",
             memberName: "eval",
@@ -19,7 +19,7 @@ module.exports = class Eval extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         const worker = new Worker(path.join(__dirname, "/eval/worker.js"), {
             workerData: cmd.js
         });
@@ -27,9 +27,9 @@ module.exports = class Eval extends commando.Command {
         var done = false;
 
         worker.on("message", (message) => {
-            if (message.type === "ok") {
+            if(message.type === "ok") {
                 msg.channel.sendEmbed(message.embed);
-            } else if (message.type === "error") {
+            } else if(message.type === "error") {
                 msg.channel.send("An error occured during evaluation");
             } else {
                 return console.log("Doing nothing");
@@ -44,17 +44,17 @@ module.exports = class Eval extends commando.Command {
         worker.on("exit", (code) => {
             done = true;
             clearTimeout(timeout);
-            if (code !== 0) { msg.channel.send("An error occured during evaluation. (Exit code " + code + ")"); }
+            if(code !== 0) { msg.channel.send("An error occured during evaluation. (Exit code " + code + ")"); }
         });
 
         timeout = setTimeout(_ => {
             try {
-                if (!done) {
+                if(!done) {
                     worker.terminate();
                     console.log("Killed long taking process");
                     msg.channel.send("The code provided took too long");
                 }
-            } catch (e) {
+            } catch(e) {
             }
         }, 15000);
     }

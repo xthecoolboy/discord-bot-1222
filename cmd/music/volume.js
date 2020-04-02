@@ -1,7 +1,7 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 
 module.exports = class VolumeCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "volume",
             aliases: ["sound"],
@@ -32,10 +32,10 @@ module.exports = class VolumeCommand extends Command {
      * @param fromPattern
      * @returns {Promise.<Message|Message[]>}
      */
-    async run (msg, args, fromPattern) {
+    async run(msg, args, fromPattern) {
         try {
             this.client.music.setVolume(msg.guild, args.volume, msg.channel);
-        } catch (e) {
+        } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }

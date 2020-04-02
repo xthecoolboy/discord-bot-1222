@@ -1,8 +1,8 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class caseCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "case",
             group: "mod",
@@ -18,12 +18,12 @@ module.exports = class caseCommand extends Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         const Case = msg.guild.settings.get(`case.${cmd.case}`);
-        if (!Case) return msg.say(`Case '${cmd.case}' not found`);
+        if(!Case) return msg.say(`Case '${cmd.case}' not found`);
 
         let removedText = "";
-        if (Case.removed) removedText = "**[REMOVED]**";
+        if(Case.removed) removedText = "**[REMOVED]**";
 
         const embed = newEmbed();
         embed.setTitle(`${Case.type} | case ${Case.id} ${removedText}`);

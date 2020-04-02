@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 
 module.exports = class Spoiler extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "spoiler",
             memberName: "spoiler",
@@ -18,7 +18,7 @@ module.exports = class Spoiler extends commando.Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         var text = cmd.string.split("").join("||||").substr(0, 1998);
         msg.channel.send("||" + text + "||");
     }

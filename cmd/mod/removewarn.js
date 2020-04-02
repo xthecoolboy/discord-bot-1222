@@ -1,8 +1,8 @@
-const { Command } = require("discord.js-commando");
+const{ Command } = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class removewarnCommand extends Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "removewarn",
             group: "mod",
@@ -19,10 +19,10 @@ module.exports = class removewarnCommand extends Command {
         });
     }
 
-    run (msg, cmd) {
+    run(msg, cmd) {
         const Case = msg.guild.settings.get(`case.${cmd.case}`);
-        if (!Case) return msg.say(`Case '${cmd.case}' not found`);
-        if (Case.removed) return msg.say("This warn has already been removed!");
+        if(!Case) return msg.say(`Case '${cmd.case}' not found`);
+        if(Case.removed) return msg.say("This warn has already been removed!");
 
         Case.removed = true;
 

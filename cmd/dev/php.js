@@ -1,10 +1,10 @@
 const got = require("got");
-const { parse } = require("node-html-parser");
+const{ parse } = require("node-html-parser");
 const newEmbed = require("../../embed");
 const commando = require("discord.js-commando");
 
 module.exports = class PHP extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "php",
             memberName: "php",
@@ -21,12 +21,12 @@ module.exports = class PHP extends commando.Command {
         });
     }
 
-    async run (msg, cmd) {
+    async run(msg, cmd) {
         this.cmd = cmd;
         this.msg = msg;
 
         var c = cmd.php;
-        if (c === "bot::help") {
+        if(c === "bot::help") {
             return this.help();
         }
         c = this.getURL(c);
@@ -34,12 +34,12 @@ module.exports = class PHP extends commando.Command {
         this.find(c);
     }
 
-    help () {
+    help() {
         this.msg.channel.send("Use either `ice php <class | function>` or `ice php <class>::<method>`. Use object oriented style when available.");
     }
 
-    getURL (c) {
-        if (c.indexOf("::") !== -1) {
+    getURL(c) {
+        if(c.indexOf("::") !== -1) {
             return {
                 original: c,
                 type: "methodOrProperty",
@@ -58,13 +58,13 @@ module.exports = class PHP extends commando.Command {
         }
     }
 
-    process (body, c) {
+    process(body, c) {
         const root = parse(body);
         var name = root.querySelector(".refname").text;
         var version = root.querySelector(".verinfo").text;
         var desc = root.querySelector(".dc-title").text;
         var code = root.querySelector(".fieldsynopsis");
-        if (!code) {
+        if(!code) {
             code = root.querySelector(".dc-description").text.trim();
         } else {
             code = code.text.trim();
@@ -74,7 +74,7 @@ module.exports = class PHP extends commando.Command {
         embed.setURL(c.url);
         embed.setDescription(desc);
         embed.addField("Version", version);
-        if (code === code.substr(0, 1989)) {
+        if(code === code.substr(0, 1989)) {
             embed.addField("Syntax", "```php\n " + code.substr(0, 1989) + "\n```");
         } else {
             embed.addField("Error", "The code syntax is too long to fit. Click the title to open in browser.");
@@ -83,11 +83,11 @@ module.exports = class PHP extends commando.Command {
         this.msg.channel.send(embed);
     }
 
-    find (c) {
+    find(c) {
         got(c.url.replace(/_/g, "-")).then(res => {
             this.process(res.body, c);
         }).catch(e => {
-            if (c.type === "functionOrClass") {
+            if(c.type === "functionOrClass") {
                 got(c.url2.replace(/_/g, "-")).then(res => {
                     const root = parse(res.body);
                     var name = root.querySelector(".title").text;
@@ -100,7 +100,7 @@ module.exports = class PHP extends commando.Command {
                     embed.setURL(c.url);
                     embed.setDescription(desc);
                     embed.addField("Version", version);
-                    if (code === code.substr(0, 1989)) {
+                    if(code === code.substr(0, 1989)) {
                         embed.addField("Syntax", "```php\n " + code.substr(0, 1989) + "\n```");
                     } else {
                         embed.addField("Syntax", "The code syntax is too long to fit. Click the title to open in browser.");

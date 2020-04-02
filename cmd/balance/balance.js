@@ -5,7 +5,7 @@ const en = require("javascript-time-ago/locale/en");
 TimeAgo.addLocale(en);
 
 module.exports = class Balance extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "balance",
             memberName: "balance",
@@ -15,7 +15,7 @@ module.exports = class Balance extends commando.Command {
         });
     }
 
-    async run (msg) {
+    async run(msg) {
         msg.channel.send("Your current balance is " + await account.getMoney(await account.fetchUser(msg.author.id)));
     }
 };

@@ -2,7 +2,7 @@ const randomPuppy = require("../../managers/reddit");
 const commando = require("discord.js-commando");
 
 module.exports = class Puppy extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "puppy",
             memberName: "puppy",
@@ -11,7 +11,7 @@ module.exports = class Puppy extends commando.Command {
         });
     }
 
-    run (msg) {
+    run(msg) {
         randomPuppy().then(obj => {
             msg.channel.send({
                 files: [{

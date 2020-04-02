@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Format extends commando.Command {
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "format",
             memberName: "format",
@@ -11,7 +11,7 @@ module.exports = class Format extends commando.Command {
         });
     }
 
-    run (msg) {
+    run(msg) {
         var embed = newEmbed();
 
         embed.setTitle("Simple markdown");
