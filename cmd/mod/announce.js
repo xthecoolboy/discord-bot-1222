@@ -1,5 +1,5 @@
 const commando = require("discord.js-commando");
-const { Embed } = require("discord.js");
+const { RichEmbed } = require("discord.js");
 
 module.exports = class Announce extends commando.Command {
     constructor(client) {
@@ -30,7 +30,7 @@ module.exports = class Announce extends commando.Command {
     }
 
     run(msg, cmd) {
-        var embed = new Embed();
+        var embed = new RichEmbed();
 
         if(cmd.showAuthor) {
             embed.setAuthor(msg.author.tag, msg.author.avatarURL);
