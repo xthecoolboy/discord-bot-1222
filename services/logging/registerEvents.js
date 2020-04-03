@@ -1,10 +1,21 @@
 const log = require("./logger");
+const fs = require("fs");
+const readline = require("readline");
+const path = require("path");
 
-const mappings = [
+const readInterface = readline.createInterface({
+    input: fs.createReadStream(path.join(__dirname, "mappings.yaml")),
+    output: process.stdout,
+    console: false
+});
 
-];
+const map = new Map();
 
-const map = new Map(mappings);
+readInterface.on("line", function(line) {
+    line = line.split(":");
+    if(!line[1]) return;
+    map.set(line[0], line[1]);
+});
 
 module.exports = client => {
     for(var event in map) {
