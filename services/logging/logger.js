@@ -1,4 +1,4 @@
-const newEmbed = require("../embed");
+const newEmbed = require("../../embed");
 
 function getLogs(msg, deleted = false) {
     var settings = msg.guild.settings;

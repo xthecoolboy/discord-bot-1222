@@ -5,7 +5,6 @@ const Youtube = require("@mindaugaskasp/node-youtube");
 const YoutubePlayer = require("./services/player/youtube-player");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
-const log = require("./services/logger");
 const messageServices = [
     require("./services/message/links")
 ];
@@ -20,6 +19,7 @@ const client = new Commando.Client({
     invite: "https://discord.gg/JUTFUKH"
 });
 
+require("./services/logging/registerEvents")(client);
 require("./services/server")(client);
 
 client.on("commandRegister", c => {
@@ -70,16 +70,6 @@ client.on("message", async msg => {
     for(var service of messageServices) {
         await service(msg);
     }
-});
-
-client.on("messageUpdate", (old, msg) => {
-    if(msg.author.bot) return;
-    if(msg.channel.id === "692839951611723877" && client.user.id !== "527453262639792138") return;
-
-    log(msg, "message.edit", {
-        old,
-        msg
-    });
 });
 
 for(var inhibitor of inhibitors) {

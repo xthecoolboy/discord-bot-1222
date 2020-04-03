@@ -90,7 +90,7 @@ module.exports = class Logs extends commando.Command {
 
             "message.withLink",
             "message.withInvite",
-            "message.edit",
+            "message.edit", // DONE
             "message.delete"
         ];
         /* eslint-disable no-redeclare */
