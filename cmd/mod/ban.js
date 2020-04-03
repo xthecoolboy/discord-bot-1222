@@ -45,7 +45,7 @@ module.exports = class Ban extends Command {
         // Store details about this case
         const Case = {
             id: totalCaseCount,
-            type: "kick",
+            type: "ban",
             offender: cmd.user.tag,
             offenderID: cmd.user.id,
             moderator: msg.author.tag,
@@ -55,11 +55,14 @@ module.exports = class Ban extends Command {
 
         msg.guild.settings.set(`case.${Case.id}`, Case);
 
+        let reason = cmd.reason;
+        if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
+
         msg.guild.member(cmd.user).ban(cmd.reason);
         const embed = newEmbed();
         embed.setColor("RED");
-        embed.setAuthor(`${msg.author.username} | Case ${Case.id}`, msg.author.displayAvatarURL);
-        embed.setDescription(`✅ Successfully banned user: <@${cmd.user.id}>! Reason: ${cmd.reason}`);
+        embed.setAuthor(`Ban ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
+        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${msg.client.commandPrefix}case ${Case.id}\` for more information`);
         return msg.embed(embed);
     }
 };

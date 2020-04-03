@@ -55,11 +55,14 @@ module.exports = class kickCommand extends Command {
 
         msg.guild.settings.set(`case.${Case.id}`, Case);
 
+        let reason = cmd.reason;
+        if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
+
         msg.guild.member(cmd.user).kick(cmd.reason);
         const embed = newEmbed();
         embed.setColor("GOLD");
-        embed.setAuthor(`${msg.author.username} | Case ${Case.id}`, msg.author.displayAvatarURL);
-        embed.setDescription(`✅ Successfully kicked user: <@${cmd.user.id}>! Reason: ${cmd.reason}`);
+        embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
+        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${msg.client.commandPrefix}case ${Case.id}\` for more information`);
         return msg.embed(embed);
     }
 };

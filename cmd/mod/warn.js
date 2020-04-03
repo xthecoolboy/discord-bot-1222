@@ -1,6 +1,5 @@
 const { Command } = require("discord.js-commando");
 const newEmbed = require("../../embed");
-const utils = require("../../utils");
 
 module.exports = class warnCommand extends Command {
     constructor(client) {
@@ -36,6 +35,8 @@ module.exports = class warnCommand extends Command {
 
         if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't warn this user because you're not high enough in the role hierachy!");
 
+        if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
+
         // Set number of total cases in the server
         let totalCaseCount = msg.guild.settings.get("totalcasecount", 0);
         totalCaseCount++;
@@ -58,10 +59,12 @@ module.exports = class warnCommand extends Command {
         const warnCount = msg.guild.settings.get(`warns.${cmd.user.id}`, 1);
         msg.guild.settings.set(`warns.${cmd.user.id}`, warnCount + 1);
 
+        let reason = cmd.reason;
+        if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
         const embed = newEmbed();
         embed.setColor("GOLD");
-        embed.setAuthor(`${msg.author.username} | Case ${Case.id}`, msg.author.displayAvatarURL);
-        embed.setDescription(`✅ Successfully warned user: <@${cmd.user.id}>! This is their ${utils.suffix(warnCount)} warning`);
+        embed.setAuthor(`Warn ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
+        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${msg.client.commandPrefix}case ${Case.id}\` for more information`);
         return msg.embed(embed);
     }
 };
