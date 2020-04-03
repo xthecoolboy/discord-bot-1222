@@ -1,6 +1,6 @@
 const commando = require("discord.js-commando");
 const newEmbed = require("../../embed");
-const{ exec } = require("child_process");
+const { exec } = require("child_process");
 
 module.exports = class Deno extends commando.Command {
     constructor(client) {

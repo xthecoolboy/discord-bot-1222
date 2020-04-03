@@ -89,7 +89,7 @@ module.exports = class Logs extends commando.Command {
         ];
         /* eslint-disable no-redeclare */
         switch(command) {
-            case"list":
+            case "list":
                 var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
                 var embed = newEmbed();
                 embed.setTitle("Logging channels:");
@@ -99,7 +99,7 @@ module.exports = class Logs extends commando.Command {
                 }
                 msg.channel.send(embed);
                 break;
-            case"set":
+            case "set":
                 var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
                 channels.push({
                     options: ["*"],
@@ -110,13 +110,13 @@ module.exports = class Logs extends commando.Command {
                 console.log(JSON.parse(msg.guild.settings.get("logs-channels", null)));
                 msg.channel.send("New channel added with default settings");
                 break;
-            case"remove":
+            case "remove":
                 var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
                 channels = channels.filter(ch => ch.channel !== channel.id);
                 msg.guild.settings.set("logs-channel", channels);
                 msg.channel.send("Removed the channel");
                 break;
-            case"alter":
+            case "alter":
                 var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
                 var ch = channels.filter(ch => ch.channel === channel.id)[0];
                 if(!ch) return msg.channel.send("This channel is not set as logging channel!");
@@ -125,17 +125,17 @@ module.exports = class Logs extends commando.Command {
 
                 for(var option of options.split(" ")) {
                     switch(option[0]) {
-                        case"+":
+                        case "+":
                             if(!ch.options.includes(option.substr(1))) {
                                 ch.options.push(options.substr(1));
                             }
                             break;
-                        case"-":
+                        case "-":
                             if(ch.options.includes(option.substr(1))) {
                                 ch.options = ch.options.filter(c => c !== option.substr(1));
                             }
                             break;
-                        case"!":
+                        case "!":
                             if(ch.options.includes(option.substr(1))) {
                                 ch.options = ch.options.filter(c => c !== option.substr(1));
                             } else {
@@ -155,7 +155,7 @@ module.exports = class Logs extends commando.Command {
                 });
                 msg.channel.send("Altered the channel");
                 break;
-            case"view":
+            case "view":
                 var embed = newEmbed();
                 embed.setTitle("Logging channel `#" + channel.name + "`");
                 var ch = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));

@@ -43,20 +43,20 @@ module.exports = class Info extends commando.Command {
         this.cmd = cmd;
         // require("../../accountManager").sendAchievmentUnique(msg, "info");
         switch(cmd.command.toLowerCase()) {
-            case"user":
+            case "user":
                 this.user();
                 break;
-            case"role":
+            case "role":
                 this.role();
                 break;
-            case"channel":
+            case "channel":
                 this.channel();
                 break;
-            case"guild":
-            case"server":
+            case "guild":
+            case "server":
                 this.guild();
                 break;
-            case"help":
+            case "help":
                 this.help();
                 break;
             default:
@@ -149,11 +149,11 @@ module.exports = class Info extends commando.Command {
 
     getStatus(status) {
         switch(status) {
-            case"dnd":
+            case "dnd":
                 return ":no_entry:";
-            case"online":
+            case "online":
                 return ":green_circle:";
-            case"offline":
+            case "offline":
                 return ":black_circle:";
         }
     }

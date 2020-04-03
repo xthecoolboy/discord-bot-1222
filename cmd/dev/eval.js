@@ -1,5 +1,5 @@
 const commando = require("discord.js-commando");
-const{
+const {
     Worker
 } = require("worker_threads");
 const path = require("path");

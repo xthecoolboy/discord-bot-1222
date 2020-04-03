@@ -1,11 +1,11 @@
 const inspect = require("util").inspect;
 const newEmbed = require("../../../embed");
-const{
+const {
     parentPort, workerData, isMainThread
 } = require("worker_threads");
 
 if(!isMainThread || workerData) {
-    const{
+    const {
         NodeVM
     } = require("vm2");
     const tick = ":white_check_mark:";

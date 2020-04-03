@@ -39,10 +39,10 @@ module.exports = class Request extends commando.Command {
 
     command(cmd) {
         switch(cmd.toLowerCase()) {
-            case"help":
+            case "help":
                 this.showHelp();
                 break;
-            case"get":
+            case "get":
                 this.startGet();
                 break;
             default:

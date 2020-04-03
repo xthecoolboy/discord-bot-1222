@@ -35,10 +35,10 @@ module.exports = class Poke extends commando.Command {
 
     processCommand(cmd) {
         switch(cmd.cmd) {
-            case"mon":
+            case "mon":
                 this.mon();
                 break;
-            case"help":
+            case "help":
                 this.help();
                 break;
             default:

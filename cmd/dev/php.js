@@ -1,5 +1,5 @@
 const got = require("got");
-const{ parse } = require("node-html-parser");
+const { parse } = require("node-html-parser");
 const newEmbed = require("../../embed");
 const commando = require("discord.js-commando");
 

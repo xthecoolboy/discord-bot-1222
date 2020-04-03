@@ -1,4 +1,4 @@
-const{
+const {
     Command
 } = require("discord.js-commando");
 const newEmbed = require("../../embed");

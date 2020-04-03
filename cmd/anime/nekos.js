@@ -64,16 +64,16 @@ module.exports = class NekosCommand extends commando.Command {
     async processText(cmd) {
         var text = this.cmd.text;
         switch(cmd) {
-            case"catText":
+            case "catText":
                 this.sendText(await neko.catText({ text }).cat);
                 break;
-            case"OwOify":
+            case "OwOify":
                 this.sendText(await neko.OwOify({ text }).owo);
                 break;
-            case"chat":
+            case "chat":
                 this.sendText(await neko.chat({ text }).response);
                 break;
-            case"8ball":
+            case "8ball":
                 this.sendText(await neko["8ball"]({ text }));
                 break;
         }

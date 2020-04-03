@@ -3,7 +3,7 @@ const commando = require("discord.js-commando");
 const TimeAgo = require("javascript-time-ago");
 const timeAgo = new TimeAgo("en-US");
 
-const{ shortNumber } = require("../../utils");
+const { shortNumber } = require("../../utils");
 
 global.started = new Date();
 global.lastReload = new Date();
