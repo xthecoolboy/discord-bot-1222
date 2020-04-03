@@ -53,6 +53,9 @@ module.exports = {
         },
         continue: {
           before: true
+        },
+        of: {
+          before: true
         }
       }
     }]
