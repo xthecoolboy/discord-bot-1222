@@ -25,7 +25,7 @@ module.exports = client => {
             if(msg.author.bot) return;
             if(msg.channel.id === "692839951611723877" && client.user.id !== "527453262639792138") return;
 
-            log(msg, eventName, [msg, ...args]);
+            log(msg, event, eventName, [msg, ...args]);
         });
     }
 };

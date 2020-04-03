@@ -46,7 +46,7 @@ function match(event, types) {
 
 function format(args, event) {
     switch(event) {
-        case "message.edit":
+        case "messageUpdate":
             const data = {
                 old: args[0],
                 msg: args[1]
@@ -63,13 +63,13 @@ function format(args, event) {
     }
 }
 
-module.exports = (msg, event, data) => {
+module.exports = (msg, realEvent, event, data) => {
     var logs = getLogs(msg);
 
     for(const log of logs) {
         if(!match(event, log.settings)) continue;
         const channel = msg.guild.channels.get(log.id);
-        var formatted = format(data, event);
+        var formatted = format(data, realEvent);
         if(formatted) {
             channel.send(formatted);
         }
