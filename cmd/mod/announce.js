@@ -24,6 +24,11 @@ module.exports = class Announce extends commando.Command {
                     key: "showAuthor",
                     default: true,
                     prompt: "Do you want to show you as author?"
+                }, {
+                    type: "string",
+                    key: "color",
+                    default: "000",
+                    prompt: "What's the color you want to use?"
                 }
             ]
         });
@@ -34,6 +39,13 @@ module.exports = class Announce extends commando.Command {
 
         if(cmd.showAuthor) {
             embed.setAuthor(msg.author.tag, msg.author.avatarURL);
+        }
+        try {
+            embed.setColor(cmd.color.toUpperCase());
+        } catch(e) {
+            msg.channel.send("You passed invalid color, it will get ignored.").then(msg => {
+                msg.delete(3000);
+            });
         }
         embed.setTitle(cmd.title);
         embed.setDescription(cmd.string);
