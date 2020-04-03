@@ -47,6 +47,8 @@ function match(event, types) {
 function format(data, event) {
     switch(event) {
         case "message.edit":
+            if(data.old.content === data.msg.content) return null;
+
             const embed = newEmbed();
             embed.setTitle("Message edited");
             embed.setTimestamp(new Date());
@@ -60,6 +62,9 @@ module.exports = (msg, event, data) => {
     for(const log of logs) {
         if(!match(event, log.settings)) continue;
         const channel = msg.guild.channels.get(log.id);
-        channel.send(format(data, event));
+        var formatted = format(data, event);
+        if(formatted) {
+            channel.send(formatted);
+        }
     }
 };
