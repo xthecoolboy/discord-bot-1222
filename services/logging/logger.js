@@ -44,9 +44,13 @@ function match(event, types) {
     return false;
 }
 
-function format(data, event) {
+function format(args, event) {
     switch(event) {
         case "message.edit":
+            const data = {
+                old: args[0],
+                msg: args[1]
+            };
             if(data.old.content === data.msg.content) return null;
             const embed = newEmbed();
             embed.setTitle("Message edited");
