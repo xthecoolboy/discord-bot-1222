@@ -174,13 +174,13 @@ module.exports = class Logs extends commando.Command {
         /* eslint-enable no-redeclare */
     }
 
-    getLogs(msg) {
+    getLogs(msg, deleted = false) {
         var settings = msg.guild.settings;
         var sets = {
             * [Symbol.iterator]() {
                 var i = 0;
                 while(settings.get("logs.channels." + i, null)) {
-                    if(settings.get("logs.channels." + i).deleted) {
+                    if(settings.get("logs.channels." + i).deleted && !deleted) {
                         i++;
                         continue;
                     }
@@ -204,6 +204,9 @@ module.exports = class Logs extends commando.Command {
 
     addLogsChannel(msg, data) {
         console.log("Adding channel to logs:", data);
+        if(this.alterLogsChannel(msg, data.id, { ...data, deleted: false }, true)) {
+            return true;
+        }
         if(this.getLogsChannel(msg, data.id)) {
             return false;
         }
@@ -215,8 +218,8 @@ module.exports = class Logs extends commando.Command {
         return this.alterLogsChannel(msg, id, { deleted: true });
     }
 
-    alterLogsChannel(msg, id, data) {
-        var logs = this.get(msg);
+    alterLogsChannel(msg, id, data, deleted) {
+        var logs = this.getLogs(msg);
         for(const logID in logs) {
             const log = logs[logID];
             if(log.id === id) {
