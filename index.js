@@ -5,6 +5,7 @@ const Youtube = require("@mindaugaskasp/node-youtube");
 const YoutubePlayer = require("./services/player/youtube-player");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
+const log = require("./services/logger");
 const messageServices = [
     require("./services/message/links")
 ];
@@ -69,6 +70,13 @@ client.on("message", async msg => {
     for(var service of messageServices) {
         await service(msg);
     }
+});
+
+client.on("messageUpdate", (old, msg) => {
+    log(msg, "message.edit", {
+        old,
+        msg
+    });
 });
 
 for(var inhibitor of inhibitors) {
