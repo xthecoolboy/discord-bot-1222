@@ -48,10 +48,13 @@ function format(data, event) {
     switch(event) {
         case "message.edit":
             if(data.old.content === data.msg.content) return null;
-
             const embed = newEmbed();
             embed.setTitle("Message edited");
+            embed.setURL(data.msg.url);
+            embed.setAuthor(data.old.author.tag, data.old.author.avatarURL);
             embed.setTimestamp(new Date());
+            embed.addField("Old message:", data.old.content);
+            embed.addField("New message:", data.msg.content);
             return embed;
     }
 }
