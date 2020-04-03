@@ -1,7 +1,7 @@
 const newEmbed = require("../../embed");
 
-function getLogs(msg, deleted = false) {
-    var settings = msg.guild.settings;
+function getLogs(guild, deleted = false) {
+    var settings = guild.settings;
     var sets = {
         * [Symbol.iterator]() {
             var i = 0;
@@ -45,30 +45,59 @@ function match(event, types) {
 }
 
 function format(args, event) {
+    /* eslint-disable no-redeclare */
+    const embed = newEmbed();
+    embed.setTimestamp(new Date());
+
+    console.log("Got event", event);
+
     switch(event) {
+        case "channelCreate":
+            var channel = args[0];
+            embed.setTitle("Channel created - #" + channel.name);
+            embed.setDescription("New channel: <#" + channel.id + ">");
+            return embed;
+        case "channelDelete":
+            var channel = args[0];
+            embed.setTitle("Channel deleted - #" + channel.name);
+            embed.setDescription("Deleted: <#" + channel.id + ">");
+            return embed;
+        case "channelPinsUpdate":
+            return null;
+        case "channelUpdate":
+            embed.setTitle("Channel updated - #" + args[1].name);
+            embed.addField("Old channel data:", "```json\n" + JSON.stringify(args[0], null, 2) + "\n```");
+            embed.addField("New channel data:", "```json\n" + JSON.stringify(args[1], null, 2) + "\n```");
+            return embed;
         case "messageUpdate":
             const data = {
                 old: args[0],
                 msg: args[1]
             };
             if(data.old.content === data.msg.content) return null;
-            const embed = newEmbed();
             embed.setTitle("Message edited");
             embed.setURL(data.msg.url);
             embed.setAuthor(data.old.author.tag, data.old.author.avatarURL);
-            embed.setTimestamp(new Date());
             embed.addField("Old message:", data.old.content);
             embed.addField("New message:", data.msg.content);
             return embed;
     }
 }
 
-module.exports = (msg, realEvent, event, data) => {
-    var logs = getLogs(msg);
+function getGuild(realEvent, data) {
+    switch(realEvent) {
+        case "messageUpdate":
+            return data.guild;
+    }
+}
+
+module.exports = (realEvent, event, data) => {
+    const guild = getGuild(realEvent, data);
+    const logs = getLogs(guild);
 
     for(const log of logs) {
         if(!match(event, log.settings)) continue;
-        const channel = msg.guild.channels.get(log.id);
+        const channel = guild.channels.get(log.id);
         var formatted = format(data, realEvent);
         if(formatted) {
             channel.send(formatted);
