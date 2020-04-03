@@ -93,6 +93,8 @@ function getGuild(realEvent, data) {
 
 module.exports = (realEvent, event, data) => {
     const guild = getGuild(realEvent, data);
+    if(!guild) return;
+
     const logs = getLogs(guild);
 
     for(const log of logs) {
