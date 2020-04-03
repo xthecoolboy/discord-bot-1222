@@ -31,7 +31,10 @@ function match(event, types) {
     for(const type of types) {
         var groups = type.split(".");
         for(const groupID in groups) {
-            if(groups[groupID] !== eventGroups[groupID] && eventGroups[groupID] !== "*") {
+            if(groups[groupID] === "*") {
+                return true;
+            }
+            if(groups[groupID] !== eventGroups[groupID]) {
                 continue typeLoop;
             }
         }
