@@ -73,7 +73,8 @@ client.on("message", async msg => {
 });
 
 client.on("messageUpdate", (old, msg) => {
-    console.log("Received messageUpdate event");
+    if(old.msg.author.bot) return;
+
     log(msg, "message.edit", {
         old,
         msg
