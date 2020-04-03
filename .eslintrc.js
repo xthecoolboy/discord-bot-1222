@@ -49,6 +49,9 @@ module.exports = {
         },
         case: {
           after: true
+        },
+        continue: {
+          before: true
         }
       }
     }]
