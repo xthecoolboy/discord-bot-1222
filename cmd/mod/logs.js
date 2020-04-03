@@ -6,6 +6,7 @@ module.exports = class Logs extends commando.Command {
         super(client, {
             name: "log",
             memberName: "log",
+            aliases: ["logs"],
             group: "mod",
             description: "Log settings. When altering, use +option to add, -option to remove and !option to toggle log options",
             hidden: true,
@@ -22,6 +23,7 @@ module.exports = class Logs extends commando.Command {
                     prompt: "Which channel to add/remove?",
                     isEmpty: (val, msg) => {
                         if(msg.content.indexOf("list") !== -1) return false;
+                        if(!val) return true;
                         return val.length === 0;
                     },
                     validate: (val, msg) => {
