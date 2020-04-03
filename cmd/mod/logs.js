@@ -53,6 +53,7 @@ module.exports = class Logs extends commando.Command {
             "user.*",
             "channel.*",
             "category.*",
+            "message.*",
             "guild.*",
             "roles.*",
             "config.*",
@@ -88,7 +89,9 @@ module.exports = class Logs extends commando.Command {
             "config.commands",
 
             "message.withLink",
-            "message.withInvite"
+            "message.withInvite",
+            "message.edit",
+            "message.delete"
         ];
         /* eslint-disable no-redeclare */
         switch(command) {
