@@ -57,17 +57,18 @@ module.exports = class Logs extends commando.Command {
             "guild.*",
             "roles.*",
             "config.*",
+            "emoji.*",
+            "invite.*",
 
             "user.join",
             "user.leave",
-            "user.avatar",
-            "user.nickname",
-            "user.name",
-            "user.roles",
+            "user.update",
+            "user.presenceUpdate",
 
             "channel.create",
             "channel.delete",
-            "channel.perms",
+            "channel.pins",
+            "channel.update",
             "channel.name",
 
             "category.create",
@@ -75,14 +76,17 @@ module.exports = class Logs extends commando.Command {
             "category.perms",
             "category.name",
 
-            "guild.perms",
-            "guild.options",
+            "guild.update",
+            // "guild.options",
+            "guild.ban",
+            "guild.removeBan",
+            "guild.integration",
+            "guild.kick",
+            "guild.warn",
+            "guild.webhook",
 
             "roles.create",
-            "roles.delete",
-            "roles.color",
-            "roles.rename",
-            "roles.perms",
+            "roles.update",
 
             "config.logs",
             "config.allowedChannels",
@@ -90,8 +94,16 @@ module.exports = class Logs extends commando.Command {
 
             "message.withLink",
             "message.withInvite",
-            "message.edit", // DONE
-            "message.delete"
+            "message.edit",
+            "message.delete",
+            "message.purge",
+
+            "emoji.create",
+            "emoji.delete",
+            "emoji.update",
+
+            "invite.create",
+            "invite.delete"
         ];
         /* eslint-disable no-redeclare */
         switch(command) {
