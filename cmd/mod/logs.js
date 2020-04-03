@@ -14,7 +14,7 @@ module.exports = class Logs extends commando.Command {
             args: [
                 {
                     type: "string",
-                    oneOf: ["set", "remove", "alter", "view", "list"],
+                    oneOf: ["set", "add", "remove", "alter", "view", "list"],
                     key: "command",
                     prompt: "Which action to do?"
                 }, {
@@ -90,40 +90,37 @@ module.exports = class Logs extends commando.Command {
         /* eslint-disable no-redeclare */
         switch(command) {
             case "list":
-                var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
+                var channels = this.getLogs(msg);
                 var embed = newEmbed();
                 embed.setTitle("Logging channels:");
                 embed.setDescription("Found " + channels.length + " channels to log into:");
                 for(var channel of channels) {
-                    embed.addField("<#" + channel.id + ">", channel.options.join());
+                    var ch = msg.guild.channels.get(channel.id);
+                    embed.addField("**#" + ch.name + "**", channel.settings.join());
                 }
                 msg.channel.send(embed);
                 break;
+
+            case "add":
             case "set":
-                var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
-                channels.push({
-                    options: ["*"],
-                    channel: channel.id
+                var channels = this.addLogsChannel(msg, {
+                    settings: ["*"],
+                    id: channel.id
                 });
-
-                // console.log("channels: ", JSON.stringify(channels));
-                msg.guild.settings.set("logs-channel", JSON.stringify(channels));
-
-                // console.log("saved channels: ", JSON.parse(msg.guild.settings.get("logs-channels", null)));
                 msg.channel.send("New channel added with default settings");
                 break;
-            case "remove":
-                var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
-                channels = channels.filter(ch => ch.channel !== channel.id);
-                msg.guild.settings.set("logs-channel", channels);
-                msg.channel.send("Removed the channel");
-                break;
-            case "alter":
-                var channels = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
-                var ch = channels.filter(ch => ch.channel === channel.id)[0];
-                if(!ch) return msg.channel.send("This channel is not set as logging channel!");
 
-                channels = channels.filter(ch => ch.channel !== channel.id);
+            case "remove":
+                if(this.removeLogsChannel(msg, channel.id)) {
+                    msg.channel.send("Removed the channel");
+                } else {
+                    msg.channel.send("Channel doesn't exist");
+                }
+                break;
+
+            case "alter":
+                var ch = this.getLogsChannel(msg, channel.id);
+                if(!ch) return msg.channel.send("The channel is not set as logging channel!");
 
                 for(var option of options.split(" ")) {
                     switch(option[0]) {
@@ -151,17 +148,21 @@ module.exports = class Logs extends commando.Command {
 
                 ch.options = ch.options.filter(c => allowedOptions.includes(c));
 
-                channels.push({
+                var altered = this.alterLogsChannel(msg, channel.id, {
                     options: ch.options,
                     channel: channel.id
                 });
-                msg.channel.send("Altered the channel");
+                if(altered) {
+                    msg.channel.send("Altered the channel");
+                } else {
+                    msg.channel.send("Couldn't alter the channel");
+                }
                 break;
+
             case "view":
                 var embed = newEmbed();
                 embed.setTitle("Logging channel `#" + channel.name + "`");
-                var ch = JSON.parse(msg.guild.settings.get("logs-channels", "[]"));
-                ch = ch.filter(c => c.channel === channel.id)[0];
+                var ch = this.getLogsChannel(msg, channel.id);
                 if(!ch) {
                     embed.setDescription("The channel <#" + channel.id + "> is not setup as channel for logs!");
                 } else {
@@ -171,5 +172,62 @@ module.exports = class Logs extends commando.Command {
                 break;
         }
         /* eslint-enable no-redeclare */
+    }
+
+    getLogs(msg) {
+        var settings = msg.guild.settings;
+        var sets = {
+            * [Symbol.iterator]() {
+                var i = 0;
+                while(settings.get("logs.channels." + i, null)) {
+                    if(settings.get("logs.channels." + i).deleted) {
+                        i++;
+                        continue;
+                    }
+                    yield settings.get("logs.channels." + i);
+                    i++;
+                }
+            }
+        };
+        var logs = [];
+        for(var set of sets) {
+            logs.push(set);
+        }
+
+        return logs;
+    }
+
+    getLogsChannel(msg, id) {
+        var logs = this.getLogs(msg);
+        return logs.filter(c => c.id === id)[0];
+    }
+
+    addLogsChannel(msg, data) {
+        console.log("Adding channel to logs:", data);
+        if(this.getLogsChannel(msg, data.id)) {
+            return false;
+        }
+        var length = this.getLogs(msg).length;
+        msg.guild.settings.set("logs.channels." + length, data);
+    }
+
+    removeLogsChannel(msg, id) {
+        return this.alterLogsChannel(msg, id, { deleted: true });
+    }
+
+    alterLogsChannel(msg, id, data) {
+        var logs = this.get(msg);
+        for(const logID in logs) {
+            const log = logs[logID];
+            if(log.id === id) {
+                logs[logID] = {
+                    ...log,
+                    ...data
+                };
+                msg.guild.settings.set("logs.channels." + logID, logs[logID]);
+                return true;
+            }
+        }
+        return false;
     }
 };
