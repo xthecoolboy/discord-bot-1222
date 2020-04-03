@@ -124,6 +124,7 @@ This category is for developers who are working on discord. Hope it helps!
 
 ### Mod
 
+* **announce** - Make an announcement in the same channel. Admin only.
 * **count** - Counts members
 * **info** - Info about author or given user
 * **stats** - Stats of ice bot
