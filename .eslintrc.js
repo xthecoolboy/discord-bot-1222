@@ -25,6 +25,7 @@ module.exports = {
     indent: ["error", 4, {
       SwitchCase: 1
     }],
+    "no-case-declarations": ["off"],
     "no-async-promise-executor": ["off"],
     "keyword-spacing": ["error", {
       before: false,
