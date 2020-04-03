@@ -85,7 +85,10 @@ module.exports = class Logs extends commando.Command {
 
             "config.logs",
             "config.allowedChannels",
-            "config.commands"
+            "config.commands",
+
+            "message.withLink",
+            "message.withInvite"
         ];
         /* eslint-disable no-redeclare */
         switch(command) {
