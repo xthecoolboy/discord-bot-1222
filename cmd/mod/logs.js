@@ -34,7 +34,7 @@ module.exports = class Logs extends commando.Command {
                     parse: (val, msg) => {
                         if(msg.content.indexOf("list") !== -1) return "";
                         var id = val.match(/<#([0-9]+)>/);
-                        return msg.guild.channels.get(id);
+                        return msg.guild.channels.get(id[1]);
                     }
                 }, {
                     type: "string",
@@ -105,9 +105,11 @@ module.exports = class Logs extends commando.Command {
                     options: ["*"],
                     channel: channel.id
                 });
-                console.log(channels);
+
+                // console.log("channels: ", JSON.stringify(channels));
                 msg.guild.settings.set("logs-channel", JSON.stringify(channels));
-                console.log(JSON.parse(msg.guild.settings.get("logs-channels", null)));
+
+                // console.log("saved channels: ", JSON.parse(msg.guild.settings.get("logs-channels", null)));
                 msg.channel.send("New channel added with default settings");
                 break;
             case "remove":
