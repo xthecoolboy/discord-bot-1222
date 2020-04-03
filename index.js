@@ -73,7 +73,8 @@ client.on("message", async msg => {
 });
 
 client.on("messageUpdate", (old, msg) => {
-    if(old.msg.author.bot) return;
+    if(msg.author.bot) return;
+    if(msg.channel.id === "692839951611723877") return;
 
     log(msg, "message.edit", {
         old,
