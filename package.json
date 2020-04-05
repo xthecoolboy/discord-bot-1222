@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "format": "eslint *.js --fix || true"
+    "format": "eslint *.js cmd/**/*.js managers/*.js services/*.js services/**/*.js types/*.js --fix || true"
   },
   "author": "",
   "license": "ISC",
