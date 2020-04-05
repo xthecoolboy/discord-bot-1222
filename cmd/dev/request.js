@@ -75,7 +75,7 @@ module.exports = class Request extends commando.Command {
             var head = "";
             var key = "";
             for(key in headers) {
-                if(key === "set-cookie")continue;
+                if(key === "set-cookie") continue;
                 head += key + ": '" + headers[key] + "'\n";
             }
 

@@ -10,7 +10,7 @@ module.exports = class Player extends EventEmitter {
      * @constructor
      */
     static DOWNLOAD_DIR() {
-        if (!fs.existsSync("/tmp/downloads")) {
+        if(!fs.existsSync("/tmp/downloads")) {
             fs.mkdirSync("/tmp/downloads");
         }
         return "/tmp/downloads";
@@ -24,7 +24,7 @@ module.exports = class Player extends EventEmitter {
         this._timeouts = new Map();
         this.searches = new Map();
 
-        if (!fs.existsSync(`${Player.DOWNLOAD_DIR()}`)) {
+        if(!fs.existsSync(`${Player.DOWNLOAD_DIR()}`)) {
             fs.mkdirSync(`${Player.DOWNLOAD_DIR()}`);
         }
     }
@@ -43,7 +43,7 @@ module.exports = class Player extends EventEmitter {
      */
     getMusicQueue(guild) {
         const queue = this._queue.get(guild.id);
-        if (queue) return queue.tracks;
+        if(queue) return queue.tracks;
         return [];
     }
 
@@ -53,16 +53,16 @@ module.exports = class Player extends EventEmitter {
      */
     removeTrack(guild, position, channel) {
         const queue = this._queue.get(guild.id);
-        if (!queue) {
+        if(!queue) {
             return;
         }
-        if (position === 0) {
+        if(position === 0) {
             queue.position = 0;
             queue.tracks = [];
             this._queue.set(guild.id, queue);
             this.emit("remove", `Removing \`ALL\` tracks from the queue. Total: \`${queue.tracks.length}\``, guild, channel);
         } else {
-            if (position - 1 >= queue.tracks.length) {
+            if(position - 1 >= queue.tracks.length) {
                 return this.emit("remove", `Invalid track number provided. Allowed: 1-${queue.tracks.length}`, guild, channel);
             }
             this.emit("remove", `Removing \`${queue.tracks[position - 1].title}\` from the queue.`, guild, channel);
@@ -80,8 +80,8 @@ module.exports = class Player extends EventEmitter {
      * @private
      */
     _randomizeArray(array) {
-        if (array.length >= 2) {
-            for (let i = array.length - 1; i > 0; i--) {
+        if(array.length >= 2) {
+            for(let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 const temp = array[i];
                 array[i] = array[j];
@@ -125,7 +125,7 @@ module.exports = class Player extends EventEmitter {
         this._validateTrackObject(track);
 
         let queue = this._queue.get(guild.id);
-        if (!queue) queue = this._getDefaultQueueObject(guild.id);
+        if(!queue) queue = this._getDefaultQueueObject(guild.id);
         queue.tracks.push(track);
 
         this._queue.set(guild.id, queue);
@@ -138,16 +138,16 @@ module.exports = class Player extends EventEmitter {
      * @param userID
      */
     loadTracks(tracks, guild, userID = null) {
-        if (Array.isArray(tracks) === false) {
+        if(Array.isArray(tracks) === false) {
             throw new Error("Tracks must be stored in array");
         }
-        for (const track of tracks) {
+        for(const track of tracks) {
             track.added_by = userID;
             this._validateTrackObject(track);
         }
 
         let queue = this._queue.get(guild.id);
-        if (!queue) queue = this._getDefaultQueueObject(guild.id);
+        if(!queue) queue = this._getDefaultQueueObject(guild.id);
 
         queue.tracks = queue.tracks.concat(tracks);
         this._queue.set(guild.id, queue);
@@ -194,12 +194,12 @@ module.exports = class Player extends EventEmitter {
         const queue = this._queue.get(guildID);
         const state = this._state.get(guildID);
 
-        if (!queue) {
+        if(!queue) {
             throw new Error("Can't increment queue - map not initialized");
         }
-        if (queue.position >= queue.tracks.length - 1 && state.increment_queue === true) {
+        if(queue.position >= queue.tracks.length - 1 && state.increment_queue === true) {
             queue.queue_end_reached = true;
-        } else if (!state || state.increment_queue === true) {
+        } else if(!state || state.increment_queue === true) {
             queue.position += 1;
         }
 
@@ -243,11 +243,11 @@ module.exports = class Player extends EventEmitter {
      * @private
      */
     _validateTrackObject(track) {
-        if (!track) throw new Error("No track object passed");
-        if (!track.title) throw new Error("Track object must specify track name [track.title]");
-        if (!track.url) throw new Error("Track must specify stream url [track.url]");
-        if (!track.source) throw new Error("Track must specify stream source [track.source]");
-        if (!track.image) throw new Error("Track must specify stream image [track.image]");
+        if(!track)throw new Error("No track object passed");
+        if(!track.title)throw new Error("Track object must specify track name [track.title]");
+        if(!track.url)throw new Error("Track must specify stream url [track.url]");
+        if(!track.source)throw new Error("Track must specify stream source [track.source]");
+        if(!track.image)throw new Error("Track must specify stream image [track.image]");
 
         return true;
     }

@@ -20,7 +20,7 @@ module.exports = (code) => {
     }
 
     /* eslint-disable no-duplicate-case */
-    switch (code) {
+    switch(code) {
         case 100:
             output("Continue", "The server has received the request headers and the client should proceed to send the request body.");
             break;

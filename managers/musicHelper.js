@@ -9,7 +9,7 @@ module.exports = class Helper {
     static getPaginatedList(list, page = 1, perPage = 10) {
         const sep = "\n";
         const pages = Math.ceil(list.length / perPage);
-        if (page > pages || list.length === 0) return "Nothing here....";
+        if(page > pages || list.length === 0) return "Nothing here....";
 
         // slices array by paginated entries, starting at (perPage) records per page,
         // first arg decides the first index of sliced array
@@ -19,7 +19,7 @@ module.exports = class Helper {
         let str = `Total: ${list.length}, Current page: ${page}, last page: ${pages}` + sep;
 
         let count = startIndex;
-        for (const item of queue) {
+        for(const item of queue) {
             str += `${++count}. ${item.title.replace("'", "")} [${item.url}]\n`;
         }
 
@@ -35,11 +35,11 @@ module.exports = class Helper {
     static async constructLoadingMessage(message, append = ".", maxLen = 150) {
         try {
             message = await message.channel.fetchMessage(message.id);
-            if (message && message.deletable) {
+            if(message && message.deletable) {
                 let content = message.content + append;
-                if (content.length >= maxLen) content = append;
+                if(content.length >= maxLen) content = append;
 
-                if (message.editable) {
+                if(message.editable) {
                     message = (await message.edit(content));
                     setTimeout(async function() {
                         await Helper.constructLoadingMessage(message, append, maxLen);
@@ -47,7 +47,7 @@ module.exports = class Helper {
                 }
             }
             return message;
-        } catch (error) {
+        } catch(error) {
             return message;
         }
     }

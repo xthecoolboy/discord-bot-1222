@@ -5,40 +5,40 @@ const newEmbed = require("../embed");
 function getUser(id, uuid = false) {
     return new Promise(function(resolve, reject) {
         var query;
-        if (uuid) {
+        if(uuid) {
             query = `SELECT  * FROM users WHERE uuid="${id}"`;
         } else {
             query = `SELECT  * FROM users WHERE discord="${id}"`;
         }
         pool.query(query, function(error, results, fields) {
-            if (error) return reject(error);
+            if(error) return reject(error);
 
-            if (results === undefined) return resolve(null);
+            if(results === undefined) return resolve(null);
 
             resolve(results[0]);
         });
     });
 }
 function fetchUserId(id) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var query = `SELECT  * FROM users WHERE id="${id}"`;
-        pool.query(query, function (error, results, fields) {
-            if (error) return reject(error);
-            if (!results) return resolve(null);
+        pool.query(query, function(error, results, fields) {
+            if(error) return reject(error);
+            if(!results) return resolve(null);
             resolve(results[0]);
         });
     });
 }
 
 function createUser(id) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var uuid = "unhex(replace(uuid(),'-',''))";
         var query = `INSERT INTO users (uuid_bin, discord) VALUE (${uuid}, ${id})`;
-        pool.query(query, function (error, results, fields) {
-            if (error) return reject(error);
+        pool.query(query, function(error, results, fields) {
+            if(error) return reject(error);
             var query2 = `SELECT  * FROM users WHERE id="${results.insertId}"`;
             pool.query(query2, (error, results, fields) => {
-                if (error) return reject(error);
+                if(error) return reject(error);
                 resolve(results[0]);
             });
         });
@@ -47,9 +47,9 @@ function createUser(id) {
 
 async function fetchUser(id, uuid = false) {
     var user = await getUser(id, uuid);
-    if (!user && !uuid) {
+    if(!user && !uuid) {
         user = await createUser(id);
-    } else if (!user) {
+    } else if(!user) {
         user = undefined;
     }
     return user;
@@ -65,7 +65,7 @@ function xp() {
     var numlevels = 150;
     var tempXP = 0;
 
-    for (var level = 0; level < numlevels; level++) {
+    for(var level = 0; level < numlevels; level++) {
         tempXP = baseXP * (level * (level - 1) / 2);
         xpBreakpoints[level] = tempXP;
     }
@@ -78,9 +78,9 @@ function getLevel(user) {
     var minDiff = 1000;
     var ans;
 
-    for (i in xpBreakpoints) {
+    for(i in xpBreakpoints) {
         var m = Math.abs(user.xp - xpBreakpoints[i]);
-        if (m < minDiff) {
+        if(m < minDiff) {
             minDiff = m;
             ans = i;
         }
@@ -94,9 +94,9 @@ function getNextLevel(xp) {
     var minDiff = 1000;
     var ans;
 
-    for (i in xpBreakpoints) {
+    for(i in xpBreakpoints) {
         var m = Math.abs(xp - xpBreakpoints[i]);
-        if (m < minDiff) {
+        if(m < minDiff) {
             minDiff = m;
             ans = xpBreakpoints[i];
         }
@@ -110,9 +110,9 @@ function getPrevLevel(xp) {
     var minDiff = 1000;
     var ans;
 
-    for (i in xpBreakpoints) {
+    for(i in xpBreakpoints) {
         var m = Math.abs(xp - xpBreakpoints[i - 1]);
-        if (m < minDiff) {
+        if(m < minDiff) {
             minDiff = m;
             ans = xpBreakpoints[i - 1];
         }
@@ -132,7 +132,7 @@ function mine(user) {
         try {
             var t = user.last_mined.split(/[- :]/);
             d = new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
-        } catch (e) {
+        } catch(e) {
             d = user.last_mined;
         }
 
@@ -140,10 +140,10 @@ function mine(user) {
         const oneDay = 60 * 60 * 12 * 1000;
         var canMine = (now - d) > oneDay;
 
-        if (canMine) {
+        if(canMine) {
             var currentTimestamp = new Date().toISOString().slice(0, 19).replace("T", " ");
             pool.query(`UPDATE users SET last_mined="${currentTimestamp}", bbs="${parseInt(user.bbs) + getLevel(user)}", xp="${parseInt(user.xp) + getLevel(user)}" WHERE uuid="${user.uuid}"`, (err) => {
-                if (err) return reject(err);
+                if(err) return reject(err);
                 resolve(parseInt(user.bbs) + getLevel(user));
             });
         } else {
@@ -153,31 +153,31 @@ function mine(user) {
 }
 
 function achievments(id) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var query = `SELECT  * FROM users u, achievments_awarded d, achievments a WHERE u.id="${id}" AND d.achievment = a.id AND d.user = u.id ORDER BY d.id DESC`;
 
-        pool.query(query, function (error, results, fields) {
-            if (error) reject(error);
+        pool.query(query, function(error, results, fields) {
+            if(error) reject(error);
             resolve(results);
         });
     });
 }
 
 function awardAchievment(id, code, msg) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var query = `INSERT INTO achievments_awarded (user, achievment) VALUES (${id}, (SELECT id FROM achievments WHERE code='${code}'))`;
 
-        pool.query(query, function (error, results, fields) {
-            if (error) reject(error);
+        pool.query(query, function(error, results, fields) {
+            if(error) reject(error);
             pool.query("SELECT * FROM achievments WHERE code='" + code + "'", (er, ac, fi) => {
-                if (er) reject(er);
+                if(er) reject(er);
                 var a = ac[0];
-                pool.query(`UPDATE users SET bbs = bbs + ${a.value}, xp = xp + ${a.xp} WHERE id = ${id}`, async(e, res, f) => {
-                    if (e) reject(e);
+                pool.query(`UPDATE users SET bbs = bbs + ${a.value}, xp = xp + ${a.xp} WHERE id = ${id}`, async (e, res, f) => {
+                    if(e) reject(e);
                     var level = updateLevels(await fetchUserId(id));
-                    if (level) {
+                    if(level) {
                         pool.query(`SELECT * FROM users WHERE id=${id}`, (erro, res) => {
-                            if (erro) reject(erro);
+                            if(erro) reject(erro);
                             levelUp(level, msg, res[0]);
                             resolve(results);
                         });
@@ -216,9 +216,9 @@ async function sendAchievmentUnique(msg, code) {
     var achievmentsAwarded = await achievments(id);
     var hasNSFW = false;
     achievmentsAwarded.forEach((a) => {
-        if (a.code === code) hasNSFW = true;
+        if(a.code === code) hasNSFW = true;
     });
-    if (!hasNSFW) {
+    if(!hasNSFW) {
         awardAchievment(id, code, msg);
         achievmentsAwarded = await achievments(id);
         msg.channel.send(sendAchievment(achievmentsAwarded[0], msg));
@@ -227,8 +227,8 @@ async function sendAchievmentUnique(msg, code) {
 
 function updateLevels(user) {
     var level = getLevel(user);
-    if (user.last_level !== level) {
-        pool.query("UPDATE users SET last_level = " + level + " WHERE id = " + user.id, (e) => { if (e) throw e; });
+    if(user.last_level !== level) {
+        pool.query("UPDATE users SET last_level = " + level + " WHERE id = " + user.id, (e) => { if(e)throw e; });
         return level;
     }
     return null;

@@ -35,35 +35,35 @@ module.exports = class YoutubePlayer extends Player {
         let state = this._state.get(guild.id);
         const timeout = this._timeouts.get(guild.id);
 
-        if (!connection) {
+        if(!connection) {
             return this.emit("play", "Music player is not connected to any voice channel. Use `join` command.", guild, channel);
         }
-        if (connection.channel.members.size === 1) {
+        if(connection.channel.members.size === 1) {
             connection.disconnect();
             return this.emit("play", "Music player stopped. No people in voice channel. Disconnecting ...", guild, channel);
         }
 
-        if (timeout && timeout.count > 5) {
+        if(timeout && timeout.count > 5) {
             return this.emit("play", "Music player has shut itself down due to failing to play track(s) for too long. Please make sure your music queue is not corrupted.", guild, channel);
         }
-        if (!state) state = this._initDefaultState(guild.id);
+        if(!state) state = this._initDefaultState(guild.id);
 
-        if (!queue || !queue.tracks || queue.tracks.length === 0) return this.emit("play", "Queue for given guild is empty. Use `get` or `search` command.", guild, channel);
-        if (!connection) return this.emit("play", "Not connected to voice channel for given guild.", guild, channel);
+        if(!queue || !queue.tracks || queue.tracks.length === 0) return this.emit("play", "Queue for given guild is empty. Use `get` or `search` command.", guild, channel);
+        if(!connection) return this.emit("play", "Not connected to voice channel for given guild.", guild, channel);
 
-        if (connection.dispatcher && connection.dispatcher.paused) {
+        if(connection.dispatcher && connection.dispatcher.paused) {
             return this.emit("play", "Music played is paused. Please resume playback or stop it before trying to play it.", guild, channel);
-        } else if (connection.dispatcher) {
+        } else if(connection.dispatcher) {
             connection.dispatcher.destroy("play", "New dispatcher initialized");
         }
 
-        if (queue.queue_end_reached === true && state.loop === true) {
-            if (state.shuffle === true) {
+        if(queue.queue_end_reached === true && state.loop === true) {
+            if(state.shuffle === true) {
                 this.shuffle(guild, channel);
             }
             this._resetQueuePosition(guild.id);
             queue = this._queue.get(guild.id);
-        } else if (queue.queue_end_reached === true && state.loop === false) return this.emit("play", "Music has finished playing for given guild. Looping is not enabled.", guild, channel);
+        } else if(queue.queue_end_reached === true && state.loop === false) return this.emit("play", "Music has finished playing for given guild. Looping is not enabled.", guild, channel);
 
         // some youtube tracks may contain interesting utf characters
         // we hash the track title to avoid unnecessary bullshit like that
@@ -75,8 +75,8 @@ module.exports = class YoutubePlayer extends Player {
         const trackTitleHash = hash.digest("hex") + ".mp3";
         const fullAudioPath = path.join(YoutubePlayer.DOWNLOAD_DIR(), trackTitleHash);
 
-        if (fs.existsSync(fullAudioPath) === false) {
-            if (!state.seek) {
+        if(fs.existsSync(fullAudioPath) === false) {
+            if(!state.seek) {
                 await this._youtube.download(track.url, fullAudioPath);
             }
         }
@@ -91,7 +91,7 @@ module.exports = class YoutubePlayer extends Player {
 
         dispatcher.on("end", (reason) => {
             console.log("dispatcher end reason", reason);
-            if (state.stop === false) {
+            if(state.stop === false) {
                 this._tryToIncrementQueue(guild.id);
                 return this.play(guild, channel);
             } else {
@@ -114,8 +114,8 @@ module.exports = class YoutubePlayer extends Player {
      */
     shuffle(guild, channel) {
         const queue = this._queue.get(guild.id);
-        if (queue) {
-            if (queue.tracks.length >= 2) {
+        if(queue) {
+            if(queue.tracks.length >= 2) {
                 queue.tracks = this._randomizeArray(queue.tracks);
                 this._queue.set(guild.id, queue);
                 this.emit("shuffle", `Music Player has shuffled _${queue.tracks.length}_ records`, guild, channel);
@@ -133,7 +133,7 @@ module.exports = class YoutubePlayer extends Player {
      */
     pause(guild, channel) {
         const connection = guild.voiceConnection;
-        if (connection && connection.dispatcher && connection.dispatcher.paused === false) {
+        if(connection && connection.dispatcher && connection.dispatcher.paused === false) {
             connection.dispatcher.pause();
             this.emit("pause", "Music Player has been paused", guild, channel);
         } else this.emit("pause", "Music Player could not be paused. Player is not connected or is already paused at the moment.", guild, channel);
@@ -145,7 +145,7 @@ module.exports = class YoutubePlayer extends Player {
      */
     resume(guild, channel) {
         const connection = guild.voiceConnection;
-        if (connection && connection.dispatcher && connection.dispatcher.paused === true) {
+        if(connection && connection.dispatcher && connection.dispatcher.paused === true) {
             connection.dispatcher.resume();
             this.emit("resume", "Music Player has been resumed", guild, channel);
         } else this.emit("resume", "Music Player could not be resumed. Player is not connected or is not paused at the moment.", guild, channel);
@@ -158,7 +158,7 @@ module.exports = class YoutubePlayer extends Player {
     skip(guild, channel) {
         const state = this._state.get(guild.id);
         const connection = guild.voiceConnection;
-        if (state && connection && (connection.dispatcher || connection.speaking === true)) {
+        if(state && connection && (connection.dispatcher || connection.speaking === true)) {
             connection.dispatcher.end("skip() method initiated");
             return this.emit("skip", "Music player is skipping.", guild, channel);
         } else this.emit("skip", "Music Player could not skip track at the moment. Player not connected or is not playing anything yet.", guild, channel);
@@ -173,7 +173,7 @@ module.exports = class YoutubePlayer extends Player {
     seek(guild, timeInSeconds, timeString, channel) {
         const connection = guild.voiceConnection;
         const state = this._state.get(guild.id);
-        if (state && connection && connection.dispatcher) {
+        if(state && connection && connection.dispatcher) {
             state.increment_queue = false;
             state.seek = timeInSeconds;
             this._state.set(guild.id, state);
@@ -193,8 +193,8 @@ module.exports = class YoutubePlayer extends Player {
         const queue = this._queue.get(guild.id);
         const state = this._state.get(guild.id);
 
-        if (connection && connection.dispatcher) {
-            if (queue.tracks.length === 0 || queue.tracks.length < position - 1) {
+        if(connection && connection.dispatcher) {
+            if(queue.tracks.length === 0 || queue.tracks.length < position - 1) {
                 this.emit("info", `Incorrect song number provided. Allowed 1-${queue.tracks.length}]`, guild, channel);
                 return;
             }
@@ -219,8 +219,8 @@ module.exports = class YoutubePlayer extends Player {
     stop(guild, channel) {
         const state = this._state.get(guild.id);
         const connection = guild.voiceConnection;
-        if (connection && connection.dispatcher) {
-            if (state) {
+        if(connection && connection.dispatcher) {
+            if(state) {
                 state.stop = true;
                 this._state.set(guild.id, state);
                 this.emit("stop", "Music player has been stopped.", guild, channel);
@@ -241,7 +241,7 @@ module.exports = class YoutubePlayer extends Player {
     setVolume(guild, volume, channel) {
         const connection = guild.voiceConnection;
         const state = this._state.get(guild.id);
-        if (connection && connection.dispatcher) {
+        if(connection && connection.dispatcher) {
             connection.dispatcher.setVolume(volume / 100.0);
             state.volume = volume / 100.0;
             this._state.set(guild.id, state);
@@ -257,12 +257,12 @@ module.exports = class YoutubePlayer extends Player {
     _registerListener() {
         this.on("update", async (guild, channel, stopped = false) => {
             const message = this.messages.get(guild.id);
-            if (message && message.deletable) {
+            if(message && message.deletable) {
                 channel = message.channel;
                 message.delete();
-            } if (stopped === false && message && channel) {
+            }if(stopped === false && message && channel) {
                 this.messages.set(guild.id, await channel.send("", { embed: this.getInfo(guild) }));
-            } else if (stopped === true) {
+            } else if(stopped === true) {
                 this.messages.delete(guild.id);
             }
         });
@@ -275,7 +275,7 @@ module.exports = class YoutubePlayer extends Player {
      */
     getInfo(guild) {
         const connection = guild.voiceConnection;
-        if (connection && connection.dispatcher) {
+        if(connection && connection.dispatcher) {
             const queue = this._queue.get(guild.id);
             const track = queue.tracks[queue.position];
             const embed = new Discord.RichEmbed();

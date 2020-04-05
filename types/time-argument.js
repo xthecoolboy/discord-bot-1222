@@ -27,7 +27,7 @@ class TimeArgumentType extends ArgumentType {
         const split = msg.argString.split(TimeArgumentType.SEP());
         let hrs = 0; let mins = 0; let secs = 0;
 
-        if (split.length === 3) {
+        if(split.length === 3) {
             hrs = Math.abs(this._parseInt(split[0]));
             mins = Math.abs(this._parseInt(split[1]));
             secs = Math.abs(this._parseInt(split[2]));
@@ -58,12 +58,12 @@ class TimeArgumentType extends ArgumentType {
         const validationText = `Incorrect time format provided! Expected format 4:30, 04:30, 1:20:30 or similar [hh:mm:ss]. Received: ${value}`;
 
         const split = msg.argString.split(TimeArgumentType.SEP());
-        if (split.length === 0 || split.length > 3) {
+        if(split.length === 0 || split.length > 3) {
             return validationText;
         }
 
         let parsedHrs, parsedMin, parsedSec;
-        if (split.length === 3) {
+        if(split.length === 3) {
             parsedHrs = this._parseInt(split[0]);
             parsedMin = this._parseInt(split[1]);
             parsedSec = this._parseInt(split[2]);
@@ -72,7 +72,7 @@ class TimeArgumentType extends ArgumentType {
             parsedSec = this._parseInt(split[1]);
         }
 
-        if (!parsedMin || !parsedSec || (split.length === 3 && !parsedHrs)) {
+        if(!parsedMin || !parsedSec || (split.length === 3 && !parsedHrs)) {
             return validationText;
         }
 
@@ -86,7 +86,7 @@ class TimeArgumentType extends ArgumentType {
      */
     _parseInt(str) {
         const isValid = (/([0-9]{1,2})$/g).test(str);
-        if (isValid) return Number(str);
+        if(isValid) return Number(str);
 
         return null;
     }

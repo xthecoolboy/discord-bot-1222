@@ -6,7 +6,7 @@ const EventEmitter = require("eventemitter3");
 
 function formatResult(getRandomImage) {
     const imageData = getRandomImage();
-    if (!imageData) {
+    if(!imageData) {
         return;
     }
     var obj = imageData;
@@ -15,7 +15,7 @@ function formatResult(getRandomImage) {
 }
 
 function storeResults(images, subreddit) {
-    images.sort(function (a, b) { return a.score - b.score; });
+    images.sort(function(a, b) { return a.score - b.score; });
     images = images.slice(0, 40);
 
     const getRandomImage = uniqueRandomArray(images);
@@ -37,7 +37,7 @@ function all(subreddit) {
     function emitRandomImage(subreddit) {
         randomPuppy(subreddit).then(imageUrl => {
             eventEmitter.emit("data", imageUrl + "#" + subreddit);
-            if (eventEmitter.listeners("data").length) {
+            if(eventEmitter.listeners("data").length) {
                 setTimeout(() => emitRandomImage(subreddit), 200);
             }
         });
@@ -56,9 +56,9 @@ function callback(subreddit, cb) {
 // subreddit is optional
 // callback support is provided for a training exercise
 module.exports = (subreddit, cb) => {
-    if (typeof cb === "function") {
+    if(typeof cb === "function") {
         callback(subreddit, cb);
-    } else if (typeof subreddit === "function") {
+    } else if(typeof subreddit === "function") {
         callback(null, subreddit);
     } else {
         return randomPuppy(subreddit);
