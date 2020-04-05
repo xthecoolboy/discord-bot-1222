@@ -34,7 +34,6 @@ module.exports = class NekosCommand extends commando.Command {
         var text = [
             "why",
             "catText",
-            "chat",
             "fact",
             "OwOify"
         ];
@@ -73,13 +72,9 @@ module.exports = class NekosCommand extends commando.Command {
                 res = await neko.OwOify({ text });
                 this.sendText(res.owo);
                 break;
-            case "chat":
-                res = await neko.chat({ text });
-                this.sendText(res.response);
-                break;
             case "fact":
                 res = await neko.fact({ text });
-                this.sendText(res.response);
+                this.sendText(res.fact);
                 break;
             case "why":
                 res = await neko.why({ text });
