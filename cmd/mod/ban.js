@@ -8,6 +8,7 @@ module.exports = class Ban extends Command {
             group: "mod",
             memberName: "ban",
             description: "Bans a user",
+            usage: "ban <user> <daysToDeleteMessages> <reason>",
             clientPermissions: ["BAN_MEMBERS"],
             userPermissions: ["BAN_MEMBERS"],
             args: [
@@ -27,6 +28,10 @@ module.exports = class Ban extends Command {
     }
 
     run(msg, cmd) {
+        var daysToDelete = 0;
+        if(parseInt(cmd.reason.split(" ")[0])) {
+            daysToDelete = parseInt(cmd.reason.split(" ")[0]);
+        }
         // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't ban an owner of this bot!");
 
         if(cmd.user === this.client.user) return msg.say("You can't ban this bot!");
@@ -58,7 +63,10 @@ module.exports = class Ban extends Command {
         let reason = cmd.reason;
         if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
 
-        msg.guild.member(cmd.user).ban(cmd.reason);
+        msg.guild.member(cmd.user).ban({
+            reason: cmd.reason,
+            days: daysToDelete
+        });
         const embed = newEmbed();
         embed.setColor("RED");
         embed.setAuthor(`Ban ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
