@@ -154,7 +154,7 @@ function mine(user) {
 
 function achievments(id) {
     return new Promise(function(resolve, reject) {
-        var query = `SELECT  * FROM users u, achievments_awarded d, achievments a WHERE u.id="${id}" AND d.achievment = a.id AND d.user = u.id ORDER BY d.id DESC`;
+        var query = `SELECT * FROM users u, achievments_awarded d, achievments a WHERE u.id="${id}" AND d.achievment = a.id AND d.user = u.id ORDER BY d.id DESC`;
 
         pool.query(query, function(error, results, fields) {
             if(error) reject(error);
