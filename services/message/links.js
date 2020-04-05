@@ -27,10 +27,17 @@ module.exports = async (msg) => {
 
     var ne = await msg.channel.send(embed);
 
-    await got("https://www.virustotal.com/vtapi/v2/url/scan", {
-        method: "POST",
-        body: form
-    });
+    try {
+        console.log("Submitting...");
+        var resp = await got("https://www.virustotal.com/vtapi/v2/url/scan", {
+            method: "POST",
+            body: form
+        });
+        console.log(resp.body);
+    } catch(e) {
+        console.error(e);
+        return;
+    }
     console.log("Submitted for review");
 
     await sleep(500);
