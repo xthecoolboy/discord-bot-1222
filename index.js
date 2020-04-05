@@ -6,7 +6,8 @@ const YoutubePlayer = require("./services/player/youtube-player");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
 const messageServices = [
-    require("./services/message/links")
+    require("./services/message/links"),
+    require("./services/message/invites")
 ];
 
 const inhibitors = [
