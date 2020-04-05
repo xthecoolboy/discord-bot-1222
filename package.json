@@ -29,7 +29,7 @@
     "express": "^4.17.1",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
-    "got": "^10.2.0",
+    "got": "^10.7.0",
     "javascript-time-ago": "^2.0.5",
     "libsodium-wrappers": "^0.7.4",
     "moment": "^2.24.0",
