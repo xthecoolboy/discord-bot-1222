@@ -10,7 +10,7 @@ module.exports = class Google extends commando.Command {
             args: [
                 {
                     type: "string",
-                    key: "google",
+                    key: "string",
                     prompt: "What to google?"
                 }
             ]
