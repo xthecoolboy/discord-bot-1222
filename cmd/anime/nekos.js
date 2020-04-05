@@ -35,12 +35,11 @@ module.exports = class NekosCommand extends commando.Command {
             "why",
             "catText",
             "chat",
-            "8ball",
             "fact",
             "OwOify"
         ];
 
-        var c = cmd.command.toLowerCase();
+        var c = cmd.command;
 
         if(c === "help")this.help();
         else {
@@ -51,6 +50,7 @@ module.exports = class NekosCommand extends commando.Command {
                     this.nonText(c);
                 }
             } else {
+                console.log("Non existent command for nekos:", c, "-", neko[c]);
                 msg.channel.send("Non-existent command or NSFW. See `nekos help`.");
             }
         }
@@ -63,18 +63,27 @@ module.exports = class NekosCommand extends commando.Command {
 
     async processText(cmd) {
         var text = this.cmd.text;
+        let res;
         switch(cmd) {
             case "catText":
-                this.sendText(await neko.catText({ text }).cat);
+                res = await neko.catText({ text });
+                this.sendText(res.cat);
                 break;
             case "OwOify":
-                this.sendText(await neko.OwOify({ text }).owo);
+                res = await neko.OwOify({ text });
+                this.sendText(res.owo);
                 break;
             case "chat":
-                this.sendText(await neko.chat({ text }).response);
+                res = await neko.chat({ text });
+                this.sendText(res.response);
                 break;
-            case "8ball":
-                this.sendText(await neko["8ball"]({ text }));
+            case "fact":
+                res = await neko.fact({ text });
+                this.sendText(res.response);
+                break;
+            case "why":
+                res = await neko.why({ text });
+                this.sendText(res.why);
                 break;
         }
     }
