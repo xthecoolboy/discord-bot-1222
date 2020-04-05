@@ -22,16 +22,16 @@ module.exports = async (msg) => {
     form.append("apiKey", TOKEN);
     form.append("url", url);
 
+    const embed = newEmbed();
+    embed.setTitle("Scanning link, please wait...");
+
+    var ne = await msg.channel.send(embed);
+
     await got("https://www.virustotal.com/vtapi/v2/url/scan", {
         method: "POST",
         body: form
     });
     console.log("Submitted for review");
-
-    const embed = newEmbed();
-    embed.setTitle("Scanning link, please wait...");
-
-    var ne = await msg.channel.send(embed);
 
     await sleep(500);
 
