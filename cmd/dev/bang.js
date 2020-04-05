@@ -29,7 +29,7 @@ module.exports = class Bang extends commando.Command {
         if(json.Redirect) {
             // actual bang
             const embed = newEmbed();
-            embed.setColor("CYAN");
+            embed.setColor("AQUA");
             embed.setTitle("DDG Bang");
             embed.setDescription("Click the title to open the website.");
             embed.setURL(json.Redirect);
@@ -38,7 +38,7 @@ module.exports = class Bang extends commando.Command {
         } else if(json.AbstractURL) {
             // Instant answer
             const embed = newEmbed();
-            embed.setColor("CYAN");
+            embed.setColor("AQUA");
             if(json.Heading) {
                 embed.setTitle(json.Heading);
             } else {
