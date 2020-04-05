@@ -28,9 +28,9 @@ module.exports = class Purge extends Command {
     }
 
     run(msg, cmd) {
-        if(cmd.amount > 0 & cmd.amount < 100) {
+        if(cmd.amount > 0 & cmd.amount < 500) {
             try {
-                msg.channel.bulkDelete(cmd.amount + 1);
+                msg.channel.bulkDelete(cmd.amount + 1, true);
 
                 var embed = newEmbed();
                 embed.setDescription(`✅ Successfully purged ${cmd.amount} messages!`);
