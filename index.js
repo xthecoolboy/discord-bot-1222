@@ -22,16 +22,20 @@ const client = new Commando.Client({
 require("./services/logging/registerEvents")(client);
 require("./services/server")(client);
 
-client.on("commandRegister", c => {
-    console.log("[CMD]", `[${c.group.id}]`, c.name);
-});
-
 client.setProvider(
     sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
 client.config = config;
 client.music = new YoutubePlayer(new Youtube(config.youtube.token, config.youtube.base_url));
+
+console.log("Loading commands...");
+
+var loadedCommands = new Map();
+
+client.on("commandRegister", c => {
+    loadedCommands.set(c.name, c);
+});
 
 client.registry.registerGroups([
     ["anime", "Anime commands"],
@@ -58,6 +62,14 @@ client.registry.registerGroups([
     .registerCommandsIn(path.join(__dirname, "cmd"));
 
 client.on("ready", () => {
+    var groups = new Map();
+    for(const [, command] of loadedCommands) {
+        groups.set(command.group, groups.get(command.group) + 1 || 1);
+    }
+    for(const [group, length] of groups) {
+        console.log(`[load] Loaded ${length.toString().padStart(2, " ")} commands in ${group.id}`);
+    }
+
     console.log("Ready!");
 });
 
