@@ -26,7 +26,7 @@ module.exports = class Achievements extends commando.Command {
 
         var achievmentsAwarded = await user.achievments(id);
         achievmentsAwarded.forEach(a => {
-            embed.addField(a.name, a.description + " [Value: " + a.value + "]");
+            embed.addField(`**${a.name}** [BBS: ${parseInt(a.value) / 1000}, XP: ${a.xp}]`, a.description);
         });
 
         if(achievmentsAwarded.length === 0) {
