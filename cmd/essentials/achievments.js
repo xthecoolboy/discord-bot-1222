@@ -1,13 +1,14 @@
 const user = require("../../managers/accountManager");
 const commando = require("discord.js-commando");
+const newEmbed = require("../../embed");
 
-module.exports = class Achievments extends commando.Command {
+module.exports = class Achievements extends commando.Command {
     constructor(client) {
         super(client, {
-            name: "achievments",
-            memberName: "achievments",
+            name: "achievements",
+            memberName: "achievements",
             group: "essentials",
-            description: "List all your achievments"
+            description: "List all your achievements"
         });
     }
 
@@ -15,13 +16,23 @@ module.exports = class Achievments extends commando.Command {
         var id = await user.fetchUser(msg.author.id);
         id = id.id;
 
+        var embed = newEmbed();
+        embed.setTitle("Achievements");
+        /**
+         * @todo user account link in user-centric commands
+         * @body In setAuthor, add link to profile on web (once they're finished being implemented in website)
+         */
+        embed.setAuthor(msg.author.tag, msg.author.avatarURL);
+
         var achievmentsAwarded = await user.achievments(id);
         achievmentsAwarded.forEach(a => {
-            msg.channel.send(user.sendAchievment(a, msg, false));
+            embed.addField(a.name, a.description + " [Value: " + a.value + "]");
         });
 
         if(achievmentsAwarded.length === 0) {
-            msg.channel.send("You don't have any achievments... yet.");
+            msg.channel.send("You don't have any achievements... yet.");
+        } else {
+            msg.channel.send(embed);
         }
     }
 };
