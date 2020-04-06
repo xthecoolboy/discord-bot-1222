@@ -29,18 +29,17 @@ module.exports = class Ban extends Command {
 
     run(msg, cmd) {
         var daysToDelete = 0;
-        if(parseInt(cmd.reason.split(" ")[0])) {
-            daysToDelete = parseInt(cmd.reason.split(" ")[0]);
-        }
+        if(parseInt(cmd.reason.split(" ")[0])) daysToDelete = parseInt(cmd.reason.split(" ")[0]);
         // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't ban an owner of this bot!");
 
-        if(cmd.user === this.client.user) return msg.say("You can't ban this bot!");
+        if(msg.guild.member(cmd.user)) {
+            if(cmd.user === this.client.user) return msg.say("You can't ban this bot!");
+            if(msg.author === cmd.user) return msg.say("You can't ban yourself!");
+            if(msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).bannable) return msg.say("You can't ban this user because the bot isn't high enough in the role hierachy!");
+            if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't ban this user because you're not high enough in the role hierachy!");
+        }
 
-        if(msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).bannable) return msg.say("You can't ban this user because the bot isn't high enough in the role hierachy!");
-
-        if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't ban this user because you're not high enough in the role hierachy!");
-
-        if(msg.author === cmd.user) return msg.say("You can't ban yourself!");
+        if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
 
         // Set number of total cases in the server
         let totalCaseCount = msg.guild.settings.get("totalcasecount", 0);
@@ -63,14 +62,14 @@ module.exports = class Ban extends Command {
         let reason = cmd.reason;
         if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
 
-        msg.guild.member(cmd.user).ban({
-            reason: cmd.reason,
-            days: daysToDelete
-        });
         const embed = newEmbed();
         embed.setColor("RED");
         embed.setAuthor(`Ban ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
         embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${msg.client.commandPrefix}case ${Case.id}\` for more information`);
-        return msg.embed(embed);
+
+        msg.guild.ban(cmd.user, {
+            reason: cmd.reason,
+            days: daysToDelete
+        }).then(msg.embed(embed));
     }
 };
