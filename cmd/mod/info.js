@@ -64,7 +64,4 @@ module.exports = class Info extends commando.Command {
                 break;
         }
     }
-
-    role() {
-    }
 };
