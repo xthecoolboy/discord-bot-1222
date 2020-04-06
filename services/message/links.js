@@ -1,6 +1,6 @@
 const got = require("got");
 const TOKEN = require("../../config.json").virustotal;
-const FormData = require("form-data");
+const formEncode = require("form-urlencoded").default;
 const newEmbed = require("../../embed");
 
 function sleep(ms) {
@@ -10,7 +10,7 @@ function sleep(ms) {
 }
 module.exports = async (msg) => {
     if(msg.author.bot) return;
-    if(!msg.channel.id !== "692839951611723877") return;
+    if(msg.channel.id.toString() !== "692839951611723877") return;
     if(/(.* )?https?:\/\/[a-z.]{3,}\.[a-z]{2,}(\/[^ ])*( .*)?/i.test(msg.content)) {
         console.log("Found link in message");
     } else return;
@@ -18,25 +18,29 @@ module.exports = async (msg) => {
     var url = msg.content.match(/(.* )?(https?:\/\/[a-z.]{3,}\.[a-z]{2,}(\/[^ ]*)*)( .*)?/i)[2];
 
     console.log("Checking link", url);
-    var form = new FormData();
-
-    form.append("apiKey", TOKEN);
-    form.append("url", url);
 
     const embed = newEmbed();
     embed.setTitle("Scanning link, please wait...");
 
     var ne = await msg.channel.send(embed);
 
+    var resp;
     try {
         console.log("Submitting...");
-        var resp = await got("https://www.virustotal.com/vtapi/v2/url/scan", {
-            // method: "POST",
-            body: form
+        resp = await got("https://www.virustotal.com/vtapi/v2/url/scan", {
+            method: "POST",
+            body: formEncode({
+                apiKey: TOKEN,
+                url
+            }),
+            timeout: 1000
         });
         console.log(resp.body);
     } catch(e) {
         console.error(e);
+        try {
+            console.log(e.response);
+        } catch(e) {}
         return;
     }
     console.log("Submitted for review");
