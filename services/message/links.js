@@ -52,7 +52,7 @@ module.exports = async (msg) => {
 
     console.log("Got response");
 
-    if(report.positives) {
+    if (report.positives) {
         embed.setTitle(`Link was marked as malicious by ${report.positives} sources.`);
         embed.setDescription(`The page was scanned by VirusTotal by ${report.total} sources. Click the title for more info.`);
         embed.setURL(report.permalink);
@@ -69,3 +69,6 @@ module.exports = async (msg) => {
         ne.delete();
     }
 };
+if(!TOKEN) {
+    module.exports = () => {};
+}
