@@ -29,13 +29,13 @@ module.exports = class kickCommand extends Command {
     run(msg, cmd) {
         // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't kick an owner of this bot!");
 
+        if(!msg.guild.member(cmd.user)) return msg.say("Hmmm.. I couldn't find that user o.o");
+
         if(cmd.user === this.client.user) return msg.say("You can't kick this bot!");
-
-        if(msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).kickable) return msg.say("You can't kick this user because the bot isn't high enough in the role hierachy!");
-
-        if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
-
         if(msg.author === cmd.user) return msg.say("You can't kick yourself!");
+        if(msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).kickable) return msg.say("You can't kick this user because the bot isn't high enough in the role hierachy!");
+        if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
+        if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
 
         // Set number of total cases in the server
         let totalCaseCount = msg.guild.settings.get("totalcasecount", 0);
@@ -63,6 +63,8 @@ module.exports = class kickCommand extends Command {
         embed.setColor("GOLD");
         embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
         embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${msg.client.commandPrefix}case ${Case.id}\` for more information`);
-        return msg.embed(embed);
+
+        msg.guild.member(cmd.user).kick(cmd.reason)
+            .then(msg.embed(embed));
     }
 };

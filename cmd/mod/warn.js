@@ -29,12 +29,10 @@ module.exports = class warnCommand extends Command {
     run(msg, cmd) {
         // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't warn an owner of this bot!");
 
+        if(!msg.guild.member(cmd.user)) return msg.say("Hmmm.. I couldn't find that user o.o");
+
         if(cmd.user === this.client.user) return msg.say("You can't warn this bot!");
-
-        // if (msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).warnable) return msg.say('You can\'t warn this user because the bot isn\'t high enough in the role hierachy!');
-
         if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't warn this user because you're not high enough in the role hierachy!");
-
         if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
 
         // Set number of total cases in the server
