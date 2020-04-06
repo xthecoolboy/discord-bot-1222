@@ -27,10 +27,17 @@ module.exports = class Purge extends Command {
         });
     }
 
-    run(msg, cmd) {
-        if(cmd.amount > 0 & cmd.amount < 500) {
+    async run(msg, cmd) {
+        if(cmd.amount > 0 & cmd.amount < 1000) {
             try {
-                msg.channel.bulkDelete(cmd.amount + 1, true);
+                cmd.amount += 1;
+                for(var i = 0; i < Math.ceil(cmd.amount / 100); i++) {
+                    if(cmd.amount - (i * 100) > 0) {
+                        await msg.channel.bulkDelete(i * 100, true);
+                    } else {
+                        await msg.channel.bulkDelete(cmd.amount, true);
+                    }
+                }
 
                 var embed = newEmbed();
                 embed.setDescription(`✅ Successfully purged ${cmd.amount} messages!`);
