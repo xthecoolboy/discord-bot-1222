@@ -30,7 +30,7 @@ module.exports = async (msg) => {
         resp = await got("https://www.virustotal.com/vtapi/v2/url/scan", {
             method: "POST",
             body: formEncode({
-                apiKey: TOKEN,
+                apikey: TOKEN,
                 url
             }),
             timeout: 1000
@@ -39,7 +39,7 @@ module.exports = async (msg) => {
     } catch(e) {
         console.error(e);
         try {
-            console.log(e.response);
+            // console.log(e.response);
         } catch(e) {}
         return;
     }
@@ -47,12 +47,12 @@ module.exports = async (msg) => {
 
     await sleep(500);
 
-    var reportRaw = await got("https://www.virustotal.com/vtapi/v2/url/report?apiKey=" + TOKEN + "&resource=" + url);
+    var reportRaw = await got("https://www.virustotal.com/vtapi/v2/url/report?apikey=" + TOKEN + "&resource=" + url);
     var report = JSON.parse(reportRaw.body);
 
     console.log("Got response");
 
-    if (report.positives) {
+    if(report.positives) {
         embed.setTitle(`Link was marked as malicious by ${report.positives} sources.`);
         embed.setDescription(`The page was scanned by VirusTotal by ${report.total} sources. Click the title for more info.`);
         embed.setURL(report.permalink);
