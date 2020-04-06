@@ -12,6 +12,7 @@ function sleep(ms) {
 }
 module.exports = async (msg) => {
     if(msg.author.bot) return;
+    if(msg.author.roles.length) return;
     if(checkChannel(msg) && DEV) return;
     if(!DEV) {
         if(msg.channel.id === "692839951611723877" || msg.channel.id === "695610745085231104") return;
@@ -50,7 +51,7 @@ module.exports = async (msg) => {
     }
     console.log("Submitted for review");
 
-    await sleep(500);
+    await sleep(1000);
 
     var reportRaw = await got("https://www.virustotal.com/vtapi/v2/url/report?apikey=" + TOKEN + "&resource=" + url);
     var report = JSON.parse(reportRaw.body);
@@ -70,7 +71,7 @@ module.exports = async (msg) => {
         embed.setColor("GREEN");
         ne.edit(embed);
 
-        await sleep(5000);
+        await sleep(2000);
         ne.delete();
     }
 };
