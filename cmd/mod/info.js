@@ -28,7 +28,7 @@ module.exports = class Info extends commando.Command {
                 {
                     type: "user|string|role",
                     key: "pointer",
-                    prompt: "Which member do you want to see info about? Leave blank for your info.",
+                    prompt: "",
                     default: ""
                 }
             ]
