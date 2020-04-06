@@ -1,5 +1,5 @@
-const newEmbed = require("../../embed");
-const account = require("../../managers/accountManager");
+const newEmbed = require("../../../embed");
+const account = require("../../../managers/accountManager");
 const TimeAgo = require("javascript-time-ago");
 const en = require("javascript-time-ago/locale/en");
 

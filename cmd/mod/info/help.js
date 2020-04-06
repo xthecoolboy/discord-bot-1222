@@ -1,5 +1,5 @@
 
-const newEmbed = require("../../embed");
+const newEmbed = require("../../../embed");
 
 module.exports = msg => {
     var embed = newEmbed();
