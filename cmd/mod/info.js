@@ -19,6 +19,7 @@ module.exports = class Info extends commando.Command {
             args: [
                 {
                     type: "string",
+                    oneOf: ["user", "role", "channel", "server", "guild", "help"],
                     key: "command",
                     prompt: "Which resource you want to get info about?"
                 },
