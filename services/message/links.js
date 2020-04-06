@@ -10,6 +10,7 @@ function sleep(ms) {
 }
 module.exports = async (msg) => {
     if(msg.author.bot) return;
+    if(!msg.channel.id !== "692839951611723877") return;
     if(/(.* )?https?:\/\/[a-z.]{3,}\.[a-z]{2,}(\/[^ ])*( .*)?/i.test(msg.content)) {
         console.log("Found link in message");
     } else return;
@@ -30,7 +31,7 @@ module.exports = async (msg) => {
     try {
         console.log("Submitting...");
         var resp = await got("https://www.virustotal.com/vtapi/v2/url/scan", {
-            method: "POST",
+            // method: "POST",
             body: form
         });
         console.log(resp.body);
