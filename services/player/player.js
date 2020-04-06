@@ -10,10 +10,15 @@ module.exports = class Player extends EventEmitter {
      * @constructor
      */
     static DOWNLOAD_DIR() {
-        if(!fs.existsSync("/tmp/downloads")) {
-            fs.mkdirSync("/tmp/downloads");
+        var isWin = process.platform === "win32";
+        if(isWin) {
+            return "%Temp%";
+        } else {
+            if(!fs.existsSync("/tmp/downloads")) {
+                fs.mkdirSync("/tmp/downloads");
+            }
+            return "/tmp/downloads";
         }
-        return "/tmp/downloads";
     };
 
     constructor(youtube) {
