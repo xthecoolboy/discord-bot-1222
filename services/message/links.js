@@ -1,7 +1,9 @@
 const got = require("got");
 const TOKEN = require("../../config.json").virustotal;
+const DEV = require("../../config.json").dev;
 const formEncode = require("form-urlencoded").default;
 const newEmbed = require("../../embed");
+const checkChannel = require("../inhibitors/checkChannel");
 
 function sleep(ms) {
     return new Promise((resolve) => {
@@ -10,7 +12,7 @@ function sleep(ms) {
 }
 module.exports = async (msg) => {
     if(msg.author.bot) return;
-    if(msg.channel.id.toString() !== "692839951611723877") return;
+    if(checkChannel(msg) && DEV) return;
     if(/(.* )?https?:\/\/[a-z.]{3,}\.[a-z]{2,}(\/[^ ])*( .*)?/i.test(msg.content)) {
         console.log("Found link in message");
     } else return;
