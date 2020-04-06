@@ -60,8 +60,6 @@ module.exports = class Info extends commando.Command {
             case "help":
                 this.help();
                 break;
-            default:
-                this.default();
         }
     }
 
@@ -73,10 +71,6 @@ module.exports = class Info extends commando.Command {
             .addField("`channel`", "Gets info about channel")
             .addField("`guild`", "Gets info about this guild. `server` possible too");
         this.msg.channel.send(embed);
-    }
-
-    default() {
-        this.msg.channel.send("Unknown type, do `ice info help` for known types.");
     }
 
     async userUUID() {
