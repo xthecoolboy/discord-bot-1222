@@ -50,7 +50,7 @@ module.exports = class Info extends commando.Command {
                 userInfo(msg, cmd);
                 break;
             case "role":
-                this.role();
+                roleInfo(msg, cmd);
                 break;
             case "channel":
                 channelInfo(msg, cmd);
