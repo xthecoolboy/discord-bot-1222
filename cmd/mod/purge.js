@@ -32,8 +32,8 @@ module.exports = class Purge extends Command {
             try {
                 cmd.amount += 1;
                 for(var i = 0; i < Math.ceil(cmd.amount / 100); i++) {
-                    if(cmd.amount - (i * 100) > 0) {
-                        await msg.channel.bulkDelete(i * 100, true);
+                    if(cmd.amount - ((i + 1) * 100) > 0) {
+                        await msg.channel.bulkDelete((i + 1) * 100, true);
                     } else {
                         await msg.channel.bulkDelete(cmd.amount - (i * 100), true);
                     }
