@@ -36,8 +36,11 @@ module.exports = async (msg, cmd) => {
     } /* else if(RegExp("<((@!?\d+)|(:.+?:\d+))>", "i").test(cmd.pointer)) dbuser = await account.fetchUser(user.id);
     else return msg.say("User not found"); */
 
-    try { dbuser = await account.fetchUser(user.id); }
-    catch(e) { return msg.say("Hmmm.. I couldn't find that user :smile:"); }
+    try {
+        dbuser = await account.fetchUser(user.id);
+    } catch(e) {
+        return msg.say("Hmmm.. I couldn't find that user :smile:");
+    }
 
     var embed = newEmbed();
     embed.setTitle("User info");
