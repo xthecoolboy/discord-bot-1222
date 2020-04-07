@@ -6,15 +6,16 @@ const en = require("javascript-time-ago/locale/en");
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-async function userUUID() {
+async function userUUID(msg, cmd) {
+    var client = msg.client;
     var embed = newEmbed();
-    var dbuser = await account.fetchUserUUID(this.cmd.pointer);
+    var dbuser = await account.fetchUserUUID(cmd.pointer);
     if(!dbuser) {
-        this.msg.channel.send("Couldn't find anyone with that uuid");
+        msg.channel.send("Couldn't find anyone with that uuid");
         return;
     }
-    var user = await this.client.fetchUser(dbuser.discord);
-    var member = this.msg.guild.member(user);
+    var user = await client.fetchUser(dbuser.discord);
+    var member = msg.guild.member(user);
     if(!member) {
         embed.setDescription("The user may not be member of this server");
     }
@@ -29,10 +30,10 @@ async function userUUID() {
     embed.addField("» BBS", account.getMoney(dbuser), true);
     embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
-    if(member) embed.addField("» Roles", this.getRoles(member), true);
-    embed.addField("» Online status:", this.getStatus(user.presence.status) + user.presence.status, true);
+    if(member) embed.addField("» Roles", getRoles(member), true);
+    embed.addField("» Online status:", getStatus(user.presence.status) + user.presence.status, true);
 
-    this.msg.channel.send(embed);
+    msg.channel.send(embed);
 }
 
 function getStatus(status) {
@@ -62,13 +63,14 @@ function getRoles(member) {
 module.exports = async (msg, cmd) => {
     this.cmd = cmd;
     this.msg = msg;
+    this.client = msg.client;
     var embed = newEmbed();
     var user = this.msg.author;
     if(this.msg.mentions.users.first() && this.msg.mentions.users.first() !== this.client.user) {
         user = this.msg.mentions.users.first();
     } else if(this.cmd.pointer) {
         if(this.cmd.pointer.toString().indexOf("-") !== -1) {
-            userUUID();
+            userUUID(msg, cmd);
             return;
         } else {
             return this.msg.channel.send("Fetch user info either by UUID or by ping");
