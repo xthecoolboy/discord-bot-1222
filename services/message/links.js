@@ -12,7 +12,9 @@ function sleep(ms) {
 }
 module.exports = async (msg) => {
     if(msg.author.bot) return;
-    if(msg.author.roles.length) return;
+    if(!msg.guild) return;
+    var member = await msg.guild.fetchMember(msg.author);
+    if(member.roles.length) return;
     if(checkChannel(msg) && DEV) return;
     if(!DEV) {
         if(msg.channel.id === "692839951611723877" || msg.channel.id === "695610745085231104") return;
