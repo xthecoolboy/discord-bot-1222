@@ -51,7 +51,7 @@ module.exports = async (msg, cmd) => {
     embed.addField("» BBS", account.getMoney(dbuser), true);
     embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
-    if(msg.guild & member) embed.addField("» Roles", getRoles(msg, user), true);
+    if(msg.guild) embed.addField("» Roles", getRoles(msg, user), true);
     embed.addField("» Online status:", getStatus(user.presence.status), true);
 
     msg.say(embed);
