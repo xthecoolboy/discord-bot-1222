@@ -6,34 +6,11 @@ const en = require("javascript-time-ago/locale/en");
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-async function userUUID(msg, cmd) {
-    var client = msg.client;
-    var embed = newEmbed();
-    var dbuser = await account.fetchUserUUID(cmd.pointer);
-    if(!dbuser) {
-        msg.channel.send("Couldn't find anyone with that uuid");
-        return;
-    }
-    var user = await client.fetchUser(dbuser.discord);
-    var member = msg.guild.member(user);
-    if(!member) {
-        embed.setDescription("The user may not be member of this server");
-    }
-
-    embed.setTitle("User info");
-    embed.setThumbnail(user.avatarURL);
-    embed.addField("» Name", user.tag);
-    embed.addField("» ID", user.id, true);
-    embed.addField("» UUID", dbuser.uuid, true);
-    embed.addField("» Donor", (dbuser.donor_tier > 0 ? ":white_check_mark: Tier " + dbuser.donor_tier : ":x: Not donor"), true);
-    embed.addField("» Level", account.getLevel(dbuser), true);
-    embed.addField("» BBS", account.getMoney(dbuser), true);
-    embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
-    embed.addField("» Registered", timeAgo.format(user.createdAt), true);
-    if(member) embed.addField("» Roles", getRoles(member), true);
-    embed.addField("» Online status:", getStatus(user.presence.status) + user.presence.status, true);
-
-    msg.channel.send(embed);
+function getRoles(msg, user) {
+    const roles = msg.guild.member(user).roles.array();
+    const result = roles.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0));
+    roles.shift();
+    return result.join(" - ");
 }
 
 function getStatus(status) {
@@ -47,43 +24,22 @@ function getStatus(status) {
     }
 }
 
-function getRoles(member) {
-    var output = "";
-    var roles = member.roles.array();
-    roles.shift();
-    roles.forEach((role) => {
-        output += "<@&" + role.id + "> - ";
-    });
-    if(output.length > 3) {
-        output = output.substr(0, output.length - 3);
-    }
-    return output;
-}
-
 module.exports = async (msg, cmd) => {
-    this.cmd = cmd;
-    this.msg = msg;
-    this.client = msg.client;
+    var user = cmd.pointer ? cmd.pointer : msg.author;
+
+    if(RegExp("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", "i").test(cmd.pointer)) {
+        var dbuser = await account.fetchUserUUID(user);
+        if(dbuser) {
+            var member = await msg.client.fetchUser(dbuser.discord);
+            user = member;
+        } else return msg.say("Hmmm.. I couldn't find that user :smile:");
+    } /* else if(RegExp("<((@!?\d+)|(:.+?:\d+))>", "i").test(cmd.pointer)) dbuser = await account.fetchUser(user.id);
+    else return msg.say("User not found"); */
+
+    try { dbuser = await account.fetchUser(user.id); }
+    catch(e) { return msg.say("Hmmm.. I couldn't find that user :smile:"); }
+
     var embed = newEmbed();
-    var user = this.msg.author;
-    if(this.msg.mentions.users.first() && this.msg.mentions.users.first() !== this.client.user) {
-        user = this.msg.mentions.users.first();
-    } else if(this.cmd.pointer) {
-        if(this.cmd.pointer.toString().indexOf("-") !== -1) {
-            userUUID(msg, cmd);
-            return;
-        } else {
-            return this.msg.channel.send("Fetch user info either by UUID or by ping");
-            // console.log(this.msg.guild.members);
-            // user = await this.msg.guild.members.fetch(this.cmd.pointer);
-            // console.log(this.cmd.pointer, user);
-            // if (!user) { return this.msg.channel.send("The user with given ID isn't in this server"); }
-        }
-    }
-    var dbuser = await account.fetchUser(user.id);
-
-    if(this.msg.guild) { var member = this.msg.guild.member(user); }
-
     embed.setTitle("User info");
     embed.setThumbnail(user.avatarURL);
     embed.addField("» Name", user.tag);
@@ -95,10 +51,8 @@ module.exports = async (msg, cmd) => {
     embed.addField("» BBS", account.getMoney(dbuser), true);
     embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
+    if(msg.guild & member) embed.addField("» Roles", getRoles(msg, user), true);
+    embed.addField("» Online status:", getStatus(user.presence.status), true);
 
-    if(this.msg.guild) { embed.addField("» Roles", getRoles(member), true); }
-
-    embed.addField("» Online status:", getStatus(user.presence.status) + user.presence.status, true);
-
-    this.msg.channel.send(embed);
+    msg.say(embed);
 };
