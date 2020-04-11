@@ -45,8 +45,9 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function unixToDate(unix) {
-    const dt = new Date(unix * 1000);
+function timestampToDate(timestamp, unix = false) {
+    if(unix) timestamp *= 1000;
+    const dt = new Date(timestamp);
     const day = dt.getDate();
     const month = dt.toLocaleString("en-us", { month: "short" });
     const year = dt.getFullYear().toString().substr(-2);
@@ -60,5 +61,5 @@ module.exports = {
     insertAt,
     suffix,
     numberWithCommas,
-    unixToDate
+    timestampToDate
 };
