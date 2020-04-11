@@ -10,12 +10,25 @@ const messageServices = [
     require("./services/message/invites")
 ];
 
+const Snoowrap = require("snoowrap");
+const redditConfig = {
+    user_agent: "Ice Bot",
+    client_id: config.reddit.id,
+    client_secret: config.reddit.secret,
+    username: config.reddit.username,
+    password: config.reddit.password
+};
+try {
+    module.exports.r = new Snoowrap(redditConfig);
+    console.log("Reddit connection successful");
+} catch(e) { console.log(e); }
+
 const inhibitors = [
     require("./services/inhibitors/checkChannel")
 ];
 
 const client = new Commando.Client({
-    owner: "147365975707090944",
+    owner: ["147365975707090944", "236504705428094976"],
     commandPrefix: "ice ",
     invite: "https://discord.gg/JUTFUKH"
 });
