@@ -1,4 +1,5 @@
 const newEmbed = require("../../../embed");
+const { timestampToDate } = require("../../../utils");
 
 module.exports = (msg, cmd) => {
     const embed = newEmbed();
@@ -15,6 +16,6 @@ module.exports = (msg, cmd) => {
         .addField("Humans", msg.guild.members.filter(m => !m.user.bot).size, true)
         .addField("Bots", msg.guild.members.filter(m => m.user.bot).size, true);
     if(msg.guild.bannerURL) embed.setImage(msg.guild.bannerURL);
-    embed.setFooter(`${embed.footer.text} | Server Created: ${msg.guild.createdAt.getDate()}/${msg.guild.createdAt.getMonth()}/${msg.guild.createdAt.getFullYear()}`);
+    embed.setFooter(`${embed.footer.text} | Server Created: ${timestampToDate(msg.guild.createdTimestamp)}`);
     return msg.embed(embed);
 };
