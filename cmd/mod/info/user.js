@@ -15,6 +15,8 @@ function getRoles(msg, user) {
 
 function getStatus(status) {
     switch(status) {
+        case "idle":
+            return ":yellow_circle:";
         case "dnd":
             return ":no_entry:";
         case "online":
