@@ -23,7 +23,7 @@ module.exports = class subinfo extends commando.Command {
     }
 
     async run(msg, cmd) {
-        if(!cmd.sub.match(/^\/?(r\/)?[a-z0-9][a-z0-9_]{2,21}$/i)) return msg.say("Invalid subreddit name");
+        if(!/\/?(r\/)?[a-z0-9][a-z0-9_]{2,21}/i.test(cmd.sub)) return msg.say("Invalid subreddit name");
         const embed = newEmbed()
             .setDescription("Loading...");
         var em = await msg.say(embed);
