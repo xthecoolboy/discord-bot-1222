@@ -41,10 +41,24 @@ function suffix(i) {
     return i + "th";
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function unixToDate(unix) {
+    const dt = new Date(unix * 1000);
+    const day = dt.getDate();
+    const month = dt.toLocaleString("en-us", { month: "short" });
+    const year = dt.getFullYear().toString().substr(-2);
+    return `${month} ${day}, '${year}`;
+}
+
 module.exports = {
     shortNumber,
     assistant_icon,
     padWithZeroes,
     insertAt,
-    suffix
+    suffix,
+    numberWithCommas,
+    unixToDate
 };
