@@ -29,6 +29,18 @@ module.exports = class HCode extends commando.Command {
             msg.channel.send("Expected format `ice code <code>`. <code> must be number.");
         }
 
+        if(code === 69) {
+            const rand = Math.floor(Math.random() * (3 - 1 + 1) + 1);
+            switch(rand) {
+                case 1:
+                    return msg.say("Nice.");
+                case 2:
+                    return msg.channel.sendFile("https://memegen.link/custom/you_expected_a_meme/but_it_was_me,_dio!.jpg?alt=https://i.redd.it/aiwzejpscvy31.jpg");
+                case 3:
+                    return msg.channel.sendFile("https://media.discordapp.net/attachments/692839929553616990/698572163795648623/109083317_gettyimages-1026079268.jpg");
+            }
+        }
+
         var buff = httpCodeInfo(code);
 
         if(!buff.length) {
