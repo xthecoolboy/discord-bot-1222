@@ -58,8 +58,11 @@ module.exports = class reddituser extends commando.Command {
                 msg.say(mods.map(mod => mod.name));
             }); */
         } catch(e) {
-            em.delete();
-            return msg.say(e.message);
+            embed
+                .setColor("GOLD")
+                .setDescription(`User /u/${cmd.user} not found`)
+                .setFooter("");
+            return em.edit(embed);
         }
     }
 };
