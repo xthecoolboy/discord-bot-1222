@@ -28,7 +28,7 @@ module.exports = class subinfo extends commando.Command {
             .setDescription("Loading...");
         var em = await msg.say(embed);
         try {
-            const sub = r.getSubreddit(cmd.sub);
+            const sub = await r.getSubreddit(cmd.sub);
             if(await sub.over18 && !msg.channel.nsfw) {
                 embed
                     .setDescription("NSFW subreddits are not allow in non-NSFW channels!")
