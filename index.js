@@ -19,19 +19,6 @@ const redditConfig = {
     password: config.reddit.password
 };
 
-(async () => {
-    try {
-        const r = await new Snoowrap(redditConfig);
-        await r.getSubreddit("announcements").getHot();
-        console.log("Reddit connection successful");
-        module.exports.r = r;
-    } catch(e) {
-        console.error(`Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
-        if(e.error.error === 401) console.error("This probably means, that some values in your config are wrong, and therefore the bot cannot access Reddit. Please contact the original creators of this bot if you're absolutely sure that you set it up correctly.");
-        module.exports.r = false;
-    }
-})();
-
 const inhibitors = [
     require("./services/inhibitors/checkChannel")
 ];
@@ -60,29 +47,42 @@ client.on("commandRegister", c => {
     loadedCommands.set(c.name, c);
 });
 
-client.registry.registerGroups([
-    ["anime", "Anime commands"],
-    ["balance", "Managing your balance"],
-    ["dev", "Developer commands for help with development"],
-    ["essentials", "Universal commands"],
-    ["fun", "Fun commands"],
-    ["idemit", "Commands for Idemit"],
-    ["image", "Image processing commands"],
-    ["minecraft", "Commands for Minecraft"],
-    ["mod", "Moderator commands"],
-    ["music", "Music commands"],
-    ["nsfw", "NSFW commands"],
-    ["pokemon", "For pokemon players"],
-    ["tickets", "Ticket managing"],
-    ["top", "Shows top users of bot"]
-])
-    .registerDefaultTypes()
-    .registerDefaultGroups()
-    .registerDefaultCommands({
-        eval: false
-    })
-    .registerTypesIn(path.join(__dirname, "types"))
-    .registerCommandsIn(path.join(__dirname, "cmd"));
+(async () => {
+    try {
+        const r = await new Snoowrap(redditConfig);
+        // eslint-disable-next-line no-unused-vars
+        const test = (await r.getSubreddit("announcements")).user_flair_background_color;
+        console.log("Reddit connection successful");
+        module.exports.reddit = r;
+    } catch(e) {
+        console.error(`Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
+        if(e.error.error === 401) console.error("This probably means, that some values in your config are wrong, and therefore the bot cannot access Reddit. Please contact the original creators of this bot if you're absolutely sure that you set it up correctly.");
+    }finally{
+        client.registry.registerGroups([
+            ["anime", "Anime commands"],
+            ["balance", "Managing your balance"],
+            ["dev", "Developer commands for help with development"],
+            ["essentials", "Universal commands"],
+            ["fun", "Fun commands"],
+            ["idemit", "Commands for Idemit"],
+            ["image", "Image processing commands"],
+            ["minecraft", "Commands for Minecraft"],
+            ["mod", "Moderator commands"],
+            ["music", "Music commands"],
+            ["nsfw", "NSFW commands"],
+            ["pokemon", "For pokemon players"],
+            ["tickets", "Ticket managing"],
+            ["top", "Shows top users of bot"]
+        ])
+            .registerDefaultTypes()
+            .registerDefaultGroups()
+            .registerDefaultCommands({
+                eval: false
+            })
+            .registerTypesIn(path.join(__dirname, "types"))
+            .registerCommandsIn(path.join(__dirname, "cmd"));
+    }
+})();
 
 client.on("ready", () => {
     var groups = new Map();
