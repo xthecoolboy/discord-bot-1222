@@ -23,6 +23,7 @@ module.exports = class subinfo extends commando.Command {
     }
 
     async run(msg, cmd) {
+        if(!r) return msg.say("Reddit connection not sucessful. View console for more information.");
         if(!cmd.sub.match(/^\/?(r\/)?[a-z0-9][a-z0-9_]{2,21}$/i)) return msg.say("Invalid subreddit name");
         const embed = newEmbed()
             .setDescription("Loading...");

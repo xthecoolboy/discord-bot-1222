@@ -18,10 +18,19 @@ const redditConfig = {
     username: config.reddit.username,
     password: config.reddit.password
 };
-try {
-    module.exports.r = new Snoowrap(redditConfig);
-    console.log("Reddit connection successful");
-} catch(e) { console.log(e); }
+
+(async () => {
+    try {
+        const r = await new Snoowrap(redditConfig);
+        await r.getSubreddit("announcements").getHot();
+        console.log("Reddit connection successful");
+        module.exports.r = r;
+    } catch(e) {
+        console.error(`Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
+        if(e.error.error === 401) console.error("This probably means, that some values in your config are wrong, and therefore the bot cannot access Reddit. Please contact the original creators of this bot if you're absolutely sure that you set it up correctly.");
+        module.exports.r = false;
+    }
+})();
 
 const inhibitors = [
     require("./services/inhibitors/checkChannel")
