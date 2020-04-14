@@ -106,6 +106,9 @@ module.exports = class reddituser extends commando.Command {
             for(let i = 10 * (pagenumber - 1); i < 10 * pagenumber; i++) {
                 if(moderates[i]) moddedSubs.value += `**${i + 1}.** ${moderates[i].sr_display_name_prefixed} (${numberWithCommas(moderates[i].subscribers)})\n`;
             }
+            if(moderates.length > 10) {
+                embed.fields[embed.fields.length - 1].name = `Top subreddits (Page ${pagenumber})`;
+            }
             em.edit(embed);
 
             if(moderates.length > 10) {
