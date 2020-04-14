@@ -132,7 +132,7 @@ module.exports = class reddituser extends commando.Command {
                     }
                 });
                 collector.on("end", collected => {
-                    if(collector.endReason !== "Reaction") em.reactions.deleteAll();
+                    if(collector.endReason !== "Reaction") em.reactions.forEach(reaction => reaction.remove());
                 });
             }
         }
