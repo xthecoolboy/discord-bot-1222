@@ -5,6 +5,7 @@ const Youtube = require("@mindaugaskasp/node-youtube");
 const YoutubePlayer = require("./services/player/youtube-player");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
+
 const messageServices = [
     require("./services/message/links"),
     require("./services/message/invites")
@@ -50,8 +51,8 @@ client.on("commandRegister", c => {
 (async () => {
     try {
         const r = await new Snoowrap(redditConfig);
-        // eslint-disable-next-line no-unused-vars
-        const test = (await r.getSubreddit("announcements")).user_flair_background_color;
+        // eslint-disable-next-line no-unused-expressions
+        (await r.getSubreddit("announcements")).user_flair_background_color;
         console.log("Reddit connection successful");
         module.exports.reddit = r;
     } catch(e) {
