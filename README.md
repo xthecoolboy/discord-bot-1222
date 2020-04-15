@@ -1,4 +1,4 @@
-# ice-bot
+# ice-bot ![Formatted](https://github.com/iceproductions/discord-bot/workflows/CI/badge.svg)
 
 ## About
 
