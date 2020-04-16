@@ -1,7 +1,7 @@
 const commandParser = require("../../managers/commandParser");
 const newEmbed = require("../../embed");
 const got = require("got");
-const Commando = require("discord.js-commando");
+const Commando = require("@iceprod/discord.js-commando");
 
 module.exports = class Invite extends Commando.Command {
     constructor(client) {

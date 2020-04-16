@@ -1,4 +1,4 @@
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 const Font = require("ascii-art-font");
 
 module.exports = class Ascii extends commando.Command {

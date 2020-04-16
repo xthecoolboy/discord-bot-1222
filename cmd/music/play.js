@@ -1,4 +1,4 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require("@iceprod/discord.js-commando");
 
 /**
  * Command responsible for playing whatever is saved in memory for given guild

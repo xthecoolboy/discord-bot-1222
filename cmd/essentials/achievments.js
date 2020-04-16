@@ -1,5 +1,5 @@
 const user = require("../../managers/accountManager");
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Achievements extends commando.Command {

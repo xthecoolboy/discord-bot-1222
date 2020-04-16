@@ -1,4 +1,4 @@
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
 module.exports = class Vaporwave extends commando.Command {
     constructor(client) {

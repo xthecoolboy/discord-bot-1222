@@ -1,4 +1,4 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require("@iceprod/discord.js-commando");
 
 module.exports = class Blacklist extends Command {
     constructor(client) {

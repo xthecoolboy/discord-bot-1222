@@ -1,7 +1,7 @@
 var Pokedex = require("pokedex-promise-v2");
 var P = new Pokedex();
 const newEmbed = require("../../embed");
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
 module.exports = class Poke extends commando.Command {
     constructor(client) {

@@ -1,6 +1,6 @@
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 module.exports = () => {
-    var embed = new RichEmbed()
+    var embed = new MessageEmbed()
         .setColor("#0099ff")
         // .attachFiles(['./stefanik_vlajka.jpg'])
         // .setAuthor('ČSK Bot', 'attachment://stefanik_vlajka.jpg', 'https://danbulant.eu')

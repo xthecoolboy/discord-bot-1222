@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 const account = require("../../managers/accountManager");
 const Discord = require("discord.js");
 

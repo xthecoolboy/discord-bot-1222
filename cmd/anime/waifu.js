@@ -1,6 +1,6 @@
 const got = require("got");
 const newEmbed = require("../../embed");
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
 module.exports = class Waifu extends commando.Command {
     constructor(client) {

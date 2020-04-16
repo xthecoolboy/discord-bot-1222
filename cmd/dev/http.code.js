@@ -1,4 +1,4 @@
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 const newEmbed = require("../../embed");
 const httpCodeInfo = require("../../managers/httpCodeInfo");
 

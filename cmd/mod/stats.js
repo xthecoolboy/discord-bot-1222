@@ -1,5 +1,5 @@
 const newEmbed = require("../../embed");
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 const TimeAgo = require("javascript-time-ago");
 const timeAgo = new TimeAgo("en-US");
 

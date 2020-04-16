@@ -1,6 +1,6 @@
 const {
     Command
-} = require("discord.js-commando");
+} = require("@iceprod/discord.js-commando");
 const newEmbed = require("../../embed");
 
 module.exports = class Purge extends Command {

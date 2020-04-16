@@ -1,4 +1,4 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require("@iceprod/discord.js-commando");
 const Youtube = require("@mindaugaskasp/node-youtube");
 const Helper = require("../../managers/musicHelper");
 

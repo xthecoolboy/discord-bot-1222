@@ -1,7 +1,7 @@
 const got = require("got");
 const { parse } = require("node-html-parser");
 const newEmbed = require("../../embed");
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
 module.exports = class PHP extends commando.Command {
     constructor(client) {

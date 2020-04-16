@@ -1,4 +1,4 @@
-const ArgumentType = require("discord.js-commando").ArgumentType;
+const ArgumentType = require("@iceprod/discord.js-commando").ArgumentType;
 
 class TimeArgumentType extends ArgumentType {
     /**

@@ -44,6 +44,29 @@ module.exports = async (msg, cmd) => {
         return msg.say("Hmmm.. I couldn't find that user :smile:");
     }
 
+    var offenseNum = 0;
+    const iterable = {
+        [Symbol.iterator]: () => {
+            var current = 0;
+            return {
+                next() {
+                    current++;
+                    var data = msg.guild.settings.get("case." + current, null);
+                    if(!data) {
+                        return { value: null, done: true };
+                    }
+                    return { value: data, done: false };
+                }
+            };
+        }
+    };
+
+    for(var Case of iterable) {
+        if(Case.offenderID === cmd.user.id && !Case.removed) {
+            offenseNum++;
+        }
+    }
+
     var embed = newEmbed();
     embed.setTitle("User info");
     embed.setThumbnail(user.avatarURL);
@@ -54,6 +77,7 @@ module.exports = async (msg, cmd) => {
     embed.addField("» Level", account.getLevel(dbuser), true);
     embed.addField("» XP", dbuser.xp + " / " + account.getNextLevel(dbuser.xp), true);
     embed.addField("» BBS", account.getMoney(dbuser), true);
+    embed.addField("» Offenses", `**${offenseNum}**`, true);
     embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
     if(msg.guild) embed.addField("» Roles", getRoles(msg, user), true);

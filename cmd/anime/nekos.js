@@ -1,7 +1,7 @@
 const newEmbed = require("../../embed");
 const Nekos = require("nekos.life");
 const neko = new Nekos().sfw;
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
 module.exports = class NekosCommand extends commando.Command {
     constructor(client) {

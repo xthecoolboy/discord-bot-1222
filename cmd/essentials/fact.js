@@ -1,5 +1,5 @@
 const got = require("got");
-const commando = require("discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
 module.exports = class Fact extends commando.Command {
     constructor(client) {

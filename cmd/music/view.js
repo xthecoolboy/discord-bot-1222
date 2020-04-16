@@ -1,4 +1,4 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require("@iceprod/discord.js-commando");
 const Helper = require("../../managers/musicHelper");
 
 module.exports = class ViewCommand extends Command {

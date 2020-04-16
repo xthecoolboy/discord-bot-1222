@@ -1,4 +1,4 @@
-const Commando = require("discord.js-commando");
+const Commando = require("@iceprod/discord.js-commando");
 const path = require("path");
 const sqlite = require("sqlite");
 const Youtube = require("@mindaugaskasp/node-youtube");
