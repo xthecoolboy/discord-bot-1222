@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/uws": "^10.149.0",
-    "@iceprod/@iceprod/discord.js-commando": "^0.11.0-dev",
+    "@iceprod/discord.js-commando": "^0.11.0-dev",
     "@mindaugaskasp/node-osu": "github:mindaugaskasp/node-osu",
     "@mindaugaskasp/node-riot": "github:mindaugaskasp/node-riot",
     "@mindaugaskasp/node-twitch": "github:mindaugaskasp/node-twitch",
