@@ -54,7 +54,8 @@ module.exports = class subinfo extends commando.Command {
             }); */
         } catch(e) {
             em.delete();
-            return msg.say(e.message);
+            try { if(e.error.reason === "private") return msg.say("Subreddit is private"); } catch(e) {}
+            return msg.say("Subreddit not found");
         }
     }
 };
