@@ -31,12 +31,14 @@ module.exports = class ViewCommand extends Command {
         try {
             const list = this.client.music.getMusicQueue(msg.guild);
             if(!list || list.length === 0) {
-                return (await msg.say("Music queue is empty. Search for some songs first.")).delete(1200);
+                await msg.say("Music queue is empty. Search for some songs first.");
+                return;
             } else {
-                return (await msg.say(`Guild - ${msg.guild.name} - Music Queue List\n` + Helper.getPaginatedList(list, args.page), { code: "python", split: true })).delete(12000);
+                await msg.say(`Guild - ${msg.guild.name} - Music Queue List\n` + Helper.getPaginatedList(list, args.page), { code: "python", split: true });
+                return;
             }
         } catch(e) {
-            console.log(e);
+            console.warn("MUSIC VIEW ERROR:", e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }
     }

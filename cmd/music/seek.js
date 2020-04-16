@@ -23,7 +23,7 @@ module.exports = class SeekCommand extends Command {
             ]
         });
         this.client.music.on("seek", async (text, guild, channel) => {
-            (await channel.send(text)).delete(12000);
+            (await channel.send(text)).delete({ timeout: 12000 });
         });
     }
 

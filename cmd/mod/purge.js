@@ -28,7 +28,7 @@ module.exports = class Purge extends Command {
     }
 
     async run(msg, cmd) {
-        if(cmd.amount > 0 & cmd.amount < 1000) {
+        if(cmd.amount > 0 && cmd.amount < 1000) {
             try {
                 cmd.amount += 1;
                 for(var i = 0; i < Math.ceil(cmd.amount / 100); i++) {
@@ -45,14 +45,14 @@ module.exports = class Purge extends Command {
 
                 return msg.channel.send(embed)
                     .then(msg => {
-                        if(cmd.delete === "true") { msg.delete(3000); }
+                        if(cmd.delete === "true") { msg.delete({timeout:3000}); }
                     });
             } catch(e) {
                 msg.channel.send("Something went wrong...");
                 console.error(e);
             }
         } else {
-            return msg.channel.send("Please select a valid amount between 1 and 99!");
+            return msg.channel.send("Please select a valid amount between 1 and 999!");
         }
     }
 };

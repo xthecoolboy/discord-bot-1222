@@ -12,7 +12,7 @@ module.exports = class SkipCommand extends Command {
             guildOnly: true
         });
         this.client.music.on("skip", async (text, guild, channel) => {
-            (await channel.send(text)).delete(12000);
+            (await channel.send(text));
         });
     }
 

@@ -22,11 +22,11 @@ module.exports = class Count extends commando.Command {
         var guild = msg.guild;
 
         var userCount = guild.memberCount;
-        var onlineCount = guild.members.filter(m => m.presence.status === "online").filter(m => !m.user.bot).size;
-        var offlineCount = guild.members.filter(m => m.presence.status === "offline").filter(m => !m.user.bot).size;
-        var dndCount = guild.members.filter(m => m.presence.status === "dnd").filter(m => !m.user.bot).size;
-        var sleepCount = guild.members.filter(m => m.presence.status === "idle").filter(m => !m.user.bot).size;
-        var botsCount = guild.members.filter(m => m.user.bot).size;
+        var onlineCount = guild.members.cache.filter(m => m.presence.status === "online").filter(m => !m.user.bot).size;
+        var offlineCount = guild.members.cache.filter(m => m.presence.status === "offline").filter(m => !m.user.bot).size;
+        var dndCount = guild.members.cache.filter(m => m.presence.status === "dnd").filter(m => !m.user.bot).size;
+        var sleepCount = guild.members.cache.filter(m => m.presence.status === "idle").filter(m => !m.user.bot).size;
+        var botsCount = guild.members.cache.filter(m => m.user.bot).size;
         userCount -= botsCount;
 
         var embed = newEmbed();

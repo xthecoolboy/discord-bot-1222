@@ -28,7 +28,7 @@ module.exports = class Eval extends commando.Command {
 
         worker.on("message", (message) => {
             if(message.type === "ok") {
-                msg.channel.sendEmbed(message.embed);
+                msg.channel.send("", { embed: message.embed });
             } else if(message.type === "error") {
                 msg.channel.send("An error occured during evaluation");
             } else {

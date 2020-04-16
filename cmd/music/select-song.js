@@ -37,11 +37,11 @@ module.exports = class SelectSongCommand extends Command {
         try {
             if(this.client.music.getMusicQueue(msg.guild).length >= 500) { return (await msg.say("Music player is full. Please remove some of the tracks.")).delete(12000); }
 
-            (await msg.say("Adding track(s) to music queue. Please be patient.")).delete(12000);
+            (await msg.say("Adding track(s) to music queue. Please be patient.")).delete({ timeout: 12000 });
 
             const searches = this.client.music.searches.get(msg.guild.id);
             if(!searches) {
-                return (await msg.say("Please search for songs first. Search stash is empty!")).delete(12000);
+                return (await msg.say("Please search for songs first. Search stash is empty!")).delete({ timeout: 12000 });
             }
             let addedToQueue = 0;
 
@@ -50,7 +50,7 @@ module.exports = class SelectSongCommand extends Command {
                 addedToQueue = searches.length;
             } else {
                 const selection = args.selection.match(/\d+/g);
-                if(!selection) return (await msg.say(`Selection unrecognized: \`${args.selection.toLowerCase()}\`. Allowed: \`ALL\`, \`1\` - \`${searches.length}\``)).delete(15000);
+                if(!selection) return (await msg.say(`Selection unrecognized: \`${args.selection.toLowerCase()}\`. Allowed: \`ALL\`, \`1\` - \`${searches.length}\``)).delete({ timeout: 15000 });
 
                 for(let index = 0; index < searches.length; index++) {
                     for(const selectedIndex of selection) {
@@ -62,7 +62,7 @@ module.exports = class SelectSongCommand extends Command {
                 }
             }
 
-            return (await msg.say(`${addedToQueue} song(s) have been added to queue`)).delete(12000);
+            return (await msg.say(`${addedToQueue} song(s) have been added to queue`)).delete({ timeout: 12000 });
         } catch(e) {
             console.log(e);
             return msg.say("Something went horribly wrong! Please try again later.");

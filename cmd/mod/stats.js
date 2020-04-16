@@ -30,13 +30,13 @@ module.exports = class Stats extends commando.Command {
             embed.setThumbnail(this.client.user.avatarURL);
             var users = 0;
             var guilds = 0;
-            for(const guild of this.client.guilds) {
+            for(const guild of this.client.guilds.cache) {
                 guilds++;
                 users += guild[1].memberCount;
             }
 
-            embed.addField("Website", "[ice.danbulant.eu](http://ice.danbulant.eu)", true);
-            embed.addField("Main guild", "[DANBULANT](https://discord.gg/dZtq4Qu)", true);
+            embed.addField("Website", "[iceproductions.dev](https://iceproductions.dev)", true);
+            embed.addField("Main guild", "[Ice productions](https://discord.gg/JUTFUKH)", true);
             embed.addField("Prefix", "`" + msg.guild.commandPrefix + "`", true);
             embed.addField("Users", shortNumber(users), true);
             embed.addField("Guilds", shortNumber(guilds), true);

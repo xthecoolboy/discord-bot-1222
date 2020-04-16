@@ -8,7 +8,7 @@ const timeAgo = new TimeAgo("en-US");
 module.exports = (msg, cmd) => {
     var role = cmd.pointer;
     if(role.substr(0, 3) === "<@&")role = role.substr(3, role.length - 4);
-    role = msg.guild.roles.get(role);
+    role = msg.guild.roles.resolve(role);
     if(!role) {
         return msg.channel.send("Couldn't find role.");
     }

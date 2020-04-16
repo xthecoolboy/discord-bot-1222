@@ -30,9 +30,9 @@ module.exports = class StashCommand extends Command {
         try {
             const list = this.client.music.searches.get(msg.guild.id);
             if(!list || list.length === 0) {
-                return (await msg.say("Music stash is empty. Search for some songs first.")).delete(1200);
+                return (await msg.say("Music stash is empty. Search for some songs first."));
             } else {
-                return (await msg.say(`Guild - ${msg.guild.name} - Music Search Stash List\n` + Helper.getPaginatedList(list, args.page), { code: "python", split: true })).delete(12000);
+                return (await msg.say(`Guild - ${msg.guild.name} - Music Search Stash List\n` + Helper.getPaginatedList(list, args.page), { code: "python", split: true }));
             }
         } catch(e) {
             console.log(e);

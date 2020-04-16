@@ -1,5 +1,5 @@
 const Player = require("./player");
-const Discord = require("discord.js");
+const newEmbed = require("../../embed");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
@@ -31,7 +31,7 @@ module.exports = class YoutubePlayer extends Player {
      */
     async play(guild, channel) {
         let queue = this._queue.get(guild.id);
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         let state = this._state.get(guild.id);
         const timeout = this._timeouts.get(guild.id);
 
@@ -80,7 +80,7 @@ module.exports = class YoutubePlayer extends Player {
                 await this._youtube.download(track.url, fullAudioPath);
             }
         }
-        const dispatcher = connection.playFile(fullAudioPath, { seek: state.seek, volume: state.volume, passes: 2 });
+        const dispatcher = connection.play(fullAudioPath, { seek: state.seek, volume: state.volume, passes: 2 });
         dispatcher.on("start", () => {
             console.log("Playing", trackTitleHash);
             state.seek = 0;
@@ -132,7 +132,7 @@ module.exports = class YoutubePlayer extends Player {
      * @param channel
      */
     pause(guild, channel) {
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         if(connection && connection.dispatcher && connection.dispatcher.paused === false) {
             connection.dispatcher.pause();
             this.emit("pause", "Music Player has been paused", guild, channel);
@@ -144,7 +144,7 @@ module.exports = class YoutubePlayer extends Player {
      * @param channel
      */
     resume(guild, channel) {
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         if(connection && connection.dispatcher && connection.dispatcher.paused === true) {
             connection.dispatcher.resume();
             this.emit("resume", "Music Player has been resumed", guild, channel);
@@ -157,7 +157,7 @@ module.exports = class YoutubePlayer extends Player {
      */
     skip(guild, channel) {
         const state = this._state.get(guild.id);
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         if(state && connection && (connection.dispatcher || connection.speaking === true)) {
             connection.dispatcher.end("skip() method initiated");
             return this.emit("skip", "Music player is skipping.", guild, channel);
@@ -171,7 +171,7 @@ module.exports = class YoutubePlayer extends Player {
      * @param channel
      */
     seek(guild, timeInSeconds, timeString, channel) {
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         const state = this._state.get(guild.id);
         if(state && connection && connection.dispatcher) {
             state.increment_queue = false;
@@ -189,7 +189,7 @@ module.exports = class YoutubePlayer extends Player {
      * @param channel
      */
     jump(guild, position, channel) {
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         const queue = this._queue.get(guild.id);
         const state = this._state.get(guild.id);
 
@@ -218,7 +218,7 @@ module.exports = class YoutubePlayer extends Player {
      */
     stop(guild, channel) {
         const state = this._state.get(guild.id);
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         if(connection && connection.dispatcher) {
             if(state) {
                 state.stop = true;
@@ -239,7 +239,7 @@ module.exports = class YoutubePlayer extends Player {
      * @param channel
      */
     setVolume(guild, volume, channel) {
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         const state = this._state.get(guild.id);
         if(connection && connection.dispatcher) {
             connection.dispatcher.setVolume(volume / 100.0);
@@ -259,7 +259,7 @@ module.exports = class YoutubePlayer extends Player {
             const message = this.messages.get(guild.id);
             if(message && message.deletable) {
                 channel = message.channel;
-                message.delete();
+                message.delete({});
             }if(stopped === false && message && channel) {
                 this.messages.set(guild.id, await channel.send("", { embed: this.getInfo(guild) }));
             } else if(stopped === true) {
@@ -274,18 +274,18 @@ module.exports = class YoutubePlayer extends Player {
      * @returns {*}
      */
     getInfo(guild) {
-        const connection = guild.voiceConnection;
+        const { connection } = guild.voice;
         if(connection && connection.dispatcher) {
             const queue = this._queue.get(guild.id);
             const track = queue.tracks[queue.position];
-            const embed = new Discord.RichEmbed();
+            const embed = newEmbed();
             embed
                 .setAuthor(`Playing - 🎵 ${track.title} | ${track.source} 🎵`, track.image, track.url)
                 .setColor("RANDOM")
                 .addField("Song Number", `${track.position + 1} / ${track.total}`, true)
                 .addField("Duration", `${track.duration}`, true)
                 .addField("Volume", `${connection.dispatcher.volume * 100} %`, true)
-                .addField("Requested By", guild.members.get(track.added_by) || "?", true)
+                .addField("Requested By", guild.member(track.added_by) || "?", true)
                 .setImage(track.image)
                 .setTimestamp();
             return embed;

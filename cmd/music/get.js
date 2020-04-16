@@ -45,21 +45,22 @@ module.exports = class GetCommand extends Command {
             loaderMsg.delete();
 
             if(results.length === 0) {
-                return (await msg.say(`Couldn't find any songs for query: \`${args.query}\`. Please make sure the link is correct and try again.`)).delete(5000);
+                return (await msg.say(`Couldn't find any songs for query: \`${args.query}\`. Please make sure the link is correct and try again.`));
             }
             if(results.length > 50 || results.length === 1) {
                 this.client.music.loadTracks(results, msg.guild, msg.author.id);
                 return (await msg.say(`${results.length} track(s) have been added to the music queue.`)).delete(12000);
             } else {
                 this.client.music.searches.set(msg.guild.id, results);
-                (await msg.say("Select song(s) to be added to music queue by using command `pick` and specifying song number(s) as an argument. E.g. `pick 1,2` or `pick all`.")).delete(15000);
-                (await msg.say(Helper.getPaginatedList(results, args.page) + "\nTo view more search results use command stash", { code: "python", split: true })).delete(15000);
+                (await msg.say("Select song(s) to be added to music queue by using command `pick` and specifying song number(s) as an argument. E.g. `pick 1,2` or `pick all`."));
+
+                (await msg.say(Helper.getPaginatedList(results, args.page) + "\nTo view more search results use command stash", { code: "python", split: true }));
             }
         } catch(e) {
             if(loaderMsg && typeof loaderMsg.delete === "function") {
                 loaderMsg.delete();
             }
-            console.log(e);
+            console.error("GET MUSIC ERROR:", e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }
     }

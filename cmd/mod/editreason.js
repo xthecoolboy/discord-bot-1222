@@ -31,6 +31,8 @@ module.exports = class Reason extends Command {
 
         Case.reason = cmd.reason;
 
+        msg.guild.settings.set(`case.${cmd.case}`, Case);
+
         msg.say(`✅ Successfully updated reason for case ${Case.id}`);
     }
 };

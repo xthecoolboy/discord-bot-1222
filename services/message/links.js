@@ -13,7 +13,7 @@ function sleep(ms) {
 module.exports = async (msg) => {
     if(msg.author.bot) return;
     if(!msg.guild) return;
-    var member = await msg.guild.fetchMember(msg.author);
+    var member = await msg.guild.member(msg.author);
     if(member.roles.length) return;
     if(checkChannel(msg) && DEV) return;
     if(!DEV) {

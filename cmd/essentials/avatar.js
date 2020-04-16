@@ -43,7 +43,10 @@ module.exports = class Avatar extends commando.Command {
         }
         var embed = newEmbed();
         embed.setTitle(user.username);
-        embed.setImage(user.displayAvatarURL);
+        embed.setImage(user.displayAvatarURL({
+            dynamic: true,
+            size: 2048
+        }));
         msg.channel.send(embed);
     }
 };
