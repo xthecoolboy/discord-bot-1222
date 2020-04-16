@@ -90,6 +90,9 @@ client.on("ready", () => {
     for(const [, command] of loadedCommands) {
         groups.set(command.group, groups.get(command.group) + 1 || 1);
     }
+    groups = new Map([...groups].sort((a, b) => {
+        return (a[1] > b[1] && -1) || (a[1] === b[1] ? 0 : 1);
+    }));
     for(const [group, length] of groups) {
         console.log(`[load] Loaded ${length.toString().padStart(2, " ")} commands in ${group.id}`);
     }
