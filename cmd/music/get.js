@@ -45,7 +45,7 @@ module.exports = class GetCommand extends Command {
             loaderMsg.delete();
 
             if(results.length === 0) {
-                return (await msg.say(`Could'nt find any songs for query: \`${args.query}\`. Please make sure the link is correct and try again.`)).delete(5000);
+                return (await msg.say(`Couldn't find any songs for query: \`${args.query}\`. Please make sure the link is correct and try again.`)).delete(5000);
             }
             if(results.length > 50 || results.length === 1) {
                 this.client.music.loadTracks(results, msg.guild, msg.author.id);
