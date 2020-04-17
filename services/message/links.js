@@ -24,6 +24,8 @@ module.exports = async (msg) => {
 
     var url = msg.content.match(/(.* )?(https?:\/\/[a-z.]{3,}\.[a-z]{2,}(\/[^ ]*)*)( .*)?/i)[2];
 
+    console.log("Scanning URL", url, "from", msg.author.tag, "in", msg.guild.name);
+
     const embed = newEmbed();
 
     try {
