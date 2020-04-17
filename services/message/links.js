@@ -20,22 +20,14 @@ module.exports = async (msg) => {
         if(msg.channel.id === "692839951611723877" || msg.channel.id === "695610745085231104") return;
     }
     if(/(.* )?https?:\/\/[a-z.]{3,}\.[a-z]{2,}(\/[^ ])*( .*)?/i.test(msg.content)) {
-        console.log("Found link in message");
     } else return;
 
     var url = msg.content.match(/(.* )?(https?:\/\/[a-z.]{3,}\.[a-z]{2,}(\/[^ ]*)*)( .*)?/i)[2];
 
-    console.log("Checking link", url);
-
     const embed = newEmbed();
-    embed.setTitle("Scanning link, please wait...");
 
-    var ne = await msg.channel.send(embed);
-
-    var resp;
     try {
-        console.log("Submitting...");
-        resp = await got("https://www.virustotal.com/vtapi/v2/url/scan", {
+        await got("https://www.virustotal.com/vtapi/v2/url/scan", {
             method: "POST",
             body: formEncode({
                 apikey: TOKEN,
@@ -43,38 +35,30 @@ module.exports = async (msg) => {
             }),
             timeout: 1000
         });
-        console.log(resp.body);
     } catch(e) {
-        console.error(e);
-        try {
-            // console.log(e.response);
-        } catch(e) {}
         return;
     }
-    console.log("Submitted for review");
 
-    await sleep(1000);
+    await sleep(5000);
 
     var reportRaw = await got("https://www.virustotal.com/vtapi/v2/url/report?apikey=" + TOKEN + "&resource=" + url);
     var report = JSON.parse(reportRaw.body);
-
-    console.log("Got response");
 
     if(report.positives) {
         embed.setTitle(`Link was marked as malicious by ${report.positives} sources.`);
         embed.setDescription(`The page was scanned by VirusTotal by ${report.total} sources. Click the title for more info.`);
         embed.setURL(report.permalink);
         embed.setColor("RED");
-        ne.edit(embed);
+        msg.channel.send(embed);
     } else {
         embed.setTitle("Link is safe");
         embed.setDescription(`The link was scanned by VirusTotal by ${report.total} sources. Click the title for more info.`);
         embed.setURL(report.permalink);
         embed.setColor("GREEN");
-        ne.edit(embed);
+        var s = await msg.channel.send(embed);
 
         await sleep(2000);
-        ne.delete();
+        s.delete();
     }
 };
 if(!TOKEN) {
