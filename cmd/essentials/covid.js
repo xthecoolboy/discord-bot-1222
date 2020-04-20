@@ -41,7 +41,7 @@ module.exports = class Covid extends commando.Command {
         embed
             .setTitle("COVID-19 Information")
             .setColor("RED")
-            .setURL("https://www.worldometers.info/coronavirus/")
+            .setURL("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
             .addFields(
                 { name: "Total Cases", value: numberWithCommas(country.TotalConfirmed) },
                 { name: "New Cases", value: numberWithCommas(country.NewConfirmed) },
