@@ -66,7 +66,6 @@ module.exports = class Covid extends commando.Command {
             embed
                 .addField("\u200b", "Graph of past 10 reports")
                 .setImage("https://quickchart.io/chart?c=" + encodeURIComponent(`{type:'bar',data:{labels:${JSON.stringify(dates)}, datasets:[{label:'Confirmed',data:${JSON.stringify(confirmed)}},{label:'Deaths',data:${JSON.stringify(deaths)}}]}}`));
-            console.log("https://quickchart.io/chart?c=" + encodeURIComponent(`{type:'bar',data:{labels:${JSON.stringify(dates)}, datasets:[{label:'Confirmed',data:${JSON.stringify(confirmed)}},{label:'Deaths',data:${JSON.stringify(deaths)}}]}}`));
             em.edit(embed);
         }
     }
