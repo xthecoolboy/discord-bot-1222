@@ -23,7 +23,8 @@ module.exports = class reddituser extends commando.Command {
     }
 
     async run(msg, cmd) {
-        if(!reddit) return msg.say("Reddit connection not sucessful. View console for more information.");
+        return msg.say("This command is disabled until it's fixed.");
+        /* if(!reddit) return msg.say("Reddit connection not sucessful. View console for more information.");
         if(!cmd.user.match(/^\/?(u\/)?[a-z0-9][a-z0-9_-]{2,21}$/i)) return msg.say("Invalid username");
         const embed = newEmbed()
             .setDescription("Loading...");
@@ -138,6 +139,6 @@ module.exports = class reddituser extends commando.Command {
                     if(collector.endReason !== "Reaction") em.reactions.forEach(reaction => reaction.remove());
                 });
             }
-        }
+        } */
     }
 };
