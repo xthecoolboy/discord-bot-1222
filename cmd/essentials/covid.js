@@ -50,6 +50,24 @@ module.exports = class Covid extends commando.Command {
                 { name: "Total Recovered", value: numberWithCommas(country.TotalRecovered) },
                 { name: "New Recovered", value: numberWithCommas(country.NewRecovered) }
             );
-        msg.say(embed);
+        const em = await msg.say(embed);
+
+        if(cmd.country !== "Global") {
+            const stats = await got(`https://api.covid19api.com/total/country/${country.Slug}`, {
+                responseType: "json",
+                resolveBodyOnly: true
+            });
+            const confirmed = stats.slice(-10).map(r => r.Confirmed);
+            const deaths = stats.slice(-10).map(r => r.Deaths);
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const dates = stats.slice(-10).map(r =>
+                months[parseInt(r.Date.substring(5, 7)) - 1] + " " + parseInt(r.Date.substring(8, 10))
+            );
+            embed
+                .addField("\u200b", "Graph of past 10 reports")
+                .setImage("https://quickchart.io/chart?c=" + encodeURIComponent(`{type:'bar',data:{labels:${JSON.stringify(dates)}, datasets:[{label:'Confirmed',data:${JSON.stringify(confirmed)}},{label:'Deaths',data:${JSON.stringify(deaths)}}]}}`));
+            console.log("https://quickchart.io/chart?c=" + encodeURIComponent(`{type:'bar',data:{labels:${JSON.stringify(dates)}, datasets:[{label:'Confirmed',data:${JSON.stringify(confirmed)}},{label:'Deaths',data:${JSON.stringify(deaths)}}]}}`));
+            em.edit(embed);
+        }
     }
 };
