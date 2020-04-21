@@ -1,0 +1,15 @@
+{
+    "token": "Discord bot token goes here",
+    "youtube": {
+        "token": "Youtube API token goes here",
+        "base_url": "anything, just put 'dummy' here"
+    },
+    "dev": true,
+    "_virustotal": "virustotal key (sign up on their website to get one)",
+    "reddit": {
+        "id": "Reddit application (script) ID",
+        "secret": "Reddit script secret",
+        "username": "username of account with script",
+        "password": "password of account with script"
+    }
+}
