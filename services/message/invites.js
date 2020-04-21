@@ -8,13 +8,13 @@ module.exports = async (msg) => {
     message = message.split(" ")[0];
 
     try {
-        server = msg.client.guilds.get(server);
-        channel = server.channels.get(channel);
+        server = msg.client.guilds.resolve(server);
+        channel = server.channels.resolve(channel);
     } catch(e) { return; }
 
     var embed;
     try {
-        var mess = await channel.fetchMessage(message);
+        var mess = await channel.messages.fetch(message);
 
         if(!mess) return;
 
