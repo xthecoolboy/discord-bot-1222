@@ -27,7 +27,7 @@ const inhibitors = [
 const client = new Commando.Client({
     owner: ["147365975707090944", "236504705428094976"],
     commandPrefix: "ice ",
-    invite: "https://iceproductions.dev"
+    invite: "<https://discord.gg/JUTFUKH>"
 });
 
 require("./services/logging/registerEvents")(client);
