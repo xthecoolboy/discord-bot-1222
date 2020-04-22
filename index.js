@@ -58,7 +58,7 @@ client.on("commandRegister", c => {
     } catch(e) {
         console.error(`Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
         if(e.error.error === 401) console.error("This probably means, that some values in your config are wrong, and therefore the bot cannot access Reddit. Please contact the original creators of this bot if you're absolutely sure that you set it up correctly.");
-    }finally{
+    } finally {
         client.registry.registerGroups([
             ["anime", "Anime commands"],
             ["balance", "Managing your balance"],

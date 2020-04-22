@@ -39,6 +39,10 @@ module.exports = {
           before: true,
           after: true
         },
+        finally: {
+          before: true,
+          after: true
+        },
         try: {
           after: true
         },
