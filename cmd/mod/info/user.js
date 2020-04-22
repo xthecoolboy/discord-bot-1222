@@ -7,9 +7,9 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 function getRoles(msg, user) {
-    const roles = msg.guild.member(user).roles.array();
-    const result = roles.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0));
-    roles.shift();
+    const roles = msg.guild.member(user).roles.cache.array();
+    const result = roles.sort((a, b) => (a.position > b.position) ? -1 : ((b.position > a.position) ? 1 : 0));
+    roles.pop();
     return result.join(" - ");
 }
 
