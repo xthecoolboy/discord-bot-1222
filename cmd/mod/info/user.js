@@ -7,9 +7,9 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 function getRoles(msg, user) {
-    const roles = msg.guild.member(user).roles.array();
-    const result = roles.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0));
-    roles.shift();
+    const roles = msg.guild.member(user).roles.cache.array();
+    const result = roles.sort((a, b) => (a.position > b.position) ? -1 : ((b.position > a.position) ? 1 : 0));
+    roles.pop();
     return result.join(" - ");
 }
 
@@ -62,7 +62,7 @@ module.exports = async (msg, cmd) => {
     };
 
     for(var Case of iterable) {
-        if(Case.offenderID === cmd.user.id && !Case.removed) {
+        if(Case.offenderID === user.id && !Case.removed) {
             offenseNum++;
         }
     }
@@ -78,7 +78,7 @@ module.exports = async (msg, cmd) => {
     embed.addField("» XP", dbuser.xp + " / " + account.getNextLevel(dbuser.xp), true);
     embed.addField("» BBS", account.getMoney(dbuser), true);
     embed.addField("» Offenses", `**${offenseNum}**`, true);
-    embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Or not?"), true);
+    embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Unless?"), true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
     if(msg.guild) embed.addField("» Roles", getRoles(msg, user), true);
     embed.addField("» Online status:", getStatus(user.presence.status), true);
