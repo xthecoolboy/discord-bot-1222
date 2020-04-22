@@ -30,6 +30,22 @@ const client = new Commando.Client({
     invite: "<https://discord.gg/JUTFUKH>"
 });
 
+if(config.dbl) {
+    const DBL = require("dblapi.js");
+    const dbl = new DBL(config.dbl, client);
+
+    // Optional events
+    dbl.on("posted", () => {
+        console.log("Server count posted!");
+    });
+
+    dbl.on("error", e => {
+        console.log(`Oops! ${e}`);
+    });
+} else {
+    console.log("Skipping DBL API integration as no token is present in config.");
+}
+
 require("./services/logging/registerEvents")(client);
 require("./services/server")(client);
 
