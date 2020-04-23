@@ -38,6 +38,11 @@ module.exports = class NekosCommand extends commando.Command {
             "OwOify"
         ];
 
+        var allowed = [
+            "pat",
+            "hug"
+        ];
+
         var c = cmd.command;
 
         if(c === "help")this.help();
@@ -46,7 +51,11 @@ module.exports = class NekosCommand extends commando.Command {
                 if(text.includes(c)) {
                     this.processText(c);
                 } else {
-                    this.nonText(c);
+                    if(allowed.includes(c)) {
+                        this.nonText(c);
+                    } else {
+                        msg.channel.send("Some endpoints break discord ToS and are disallowed from public use.");
+                    }
                 }
             } else {
                 console.log("Non existent command for nekos:", c, "-", neko[c]);
