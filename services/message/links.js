@@ -51,13 +51,17 @@ module.exports = async (msg) => {
         embed.setDescription(`The page was scanned by VirusTotal by ${report.total} sources. Click the title for more info.`);
         embed.setURL(report.permalink);
         embed.setColor("RED");
-        msg.channel.send(embed);
+        try {
+            await msg.channel.send(embed);
+        } catch(e) {}
     } else {
         embed.setTitle("Link is safe");
         embed.setDescription(`The link was scanned by VirusTotal by ${report.total} sources. Click the title for more info.`);
         embed.setURL(report.permalink);
         embed.setColor("GREEN");
-        var s = await msg.channel.send(embed);
+        try {
+            var s = await msg.channel.send(embed);
+        } catch(e) {}
 
         await sleep(2000);
         s.delete();
