@@ -1,7 +1,8 @@
 const commando = require("@iceprod/discord.js-commando");
 const { reddit } = require("../../index");
 const newEmbed = require("../../embed");
-const { numberWithCommas, timestampToDate } = require("../../utils");
+const { timestampToDate } = require("../../utils");
+const pages = require("../../managers/pages");
 const got = require("got");
 
 module.exports = class reddituser extends commando.Command {
@@ -101,44 +102,6 @@ module.exports = class reddituser extends commando.Command {
             return em.edit(embed);
         }
 
-        async function pages(msg, cmd, embed, em, moderates, pagenumber) {
-            const moddedSubs = embed.fields[embed.fields.length - 1];
-            moddedSubs.value = "";
-            for(let i = 10 * (pagenumber - 1); i < 10 * pagenumber; i++) {
-                if(moderates[i]) moddedSubs.value += `**${i + 1}.** ${moderates[i].sr_display_name_prefixed} (${numberWithCommas(moderates[i].subscribers)})\n`;
-            }
-            if(moderates.length > 10) {
-                embed.fields[embed.fields.length - 1].name = `Top subreddits (Page ${pagenumber})`;
-            }
-            em.edit(embed);
-
-            if(moderates.length > 10) {
-                const filter = (reaction, user) => user.id === msg.author.id;
-                const collector = em.createReactionCollector(filter, { time: 15000 });
-                await em.react("⬅");
-                if(moderates.length >= pagenumber * 10) em.react("➡");
-                collector.on("collect", async (reaction) => {
-                    switch(reaction.emoji.name) {
-                        case "⬅":
-                            await reaction.remove(msg.author.id);
-                            if(pagenumber === 1) return;
-                            collector.endReason = "Reaction";
-                            collector.stop();
-                            pages(msg, cmd, embed, em, moderates, pagenumber - 1);
-                            break;
-                        case "➡":
-                            await reaction.remove(msg.author.id);
-                            if(moderates.length <= (pagenumber + 1) * 10)await reaction.remove();
-                            collector.endReason = "Reaction";
-                            collector.stop(reaction.user);
-                            pages(msg, cmd, embed, em, moderates, pagenumber + 1);
-                            break;
-                    }
-                });
-                collector.on("end", collected => {
-                    if(collector.endReason !== "Reaction") em.reactions.forEach(reaction => reaction.remove());
-                });
-            }
-        } */
+        */
     }
 };
