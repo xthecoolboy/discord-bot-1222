@@ -7,8 +7,8 @@ const config = require("./config.json");
 const acc = require("./managers/accountManager");
 
 const messageServices = [
-    require("./services/message/links"),
-    require("./services/message/invites")
+    require("./services/message/messagePreview"),
+    require("./services/message/links")
 ];
 
 const Snoowrap = require("snoowrap");
