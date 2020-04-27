@@ -1,5 +1,5 @@
 const commando = require("@iceprod/discord.js-commando");
-const donors = require("../../donors");
+const account = require("../../managers/accountManager");
 
 module.exports = class Premium extends commando.Command {
     constructor(client) {
@@ -12,10 +12,11 @@ module.exports = class Premium extends commando.Command {
     }
 
     async run(msg) {
-        if(!donors.includes(msg.author.id)) {
-            msg.channel.send("You don't have premium. For information to get premium, go to http://ice.danbulant.eu/premium");
-            return;
+        var dbuser = await account.fetchUser(msg.author.id);
+        if(dbuser.donor_tier > 0) {
+            msg.channel.send("Congratulations! You have premium. Try some premium commands!");
+        } else {
+            msg.channel.send("You don't have premium. For information to get premium, go to https://iceproductions.dev/premium");
         }
-        msg.channel.send("Congratulations! You have premium. Try some premium commands!");
     }
 };
