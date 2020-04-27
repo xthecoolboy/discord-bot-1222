@@ -57,11 +57,11 @@ The bot has as of now the following commands
 
 ### Anime
 
+* **konachan** - Safe version of konachan
 * **nekos \<endpoint>** - Wrapper to nekos-dot-life API (SFW)
+* **safebooru** - It's safe, but just to make sure...
 * **sofurry** - Gives random image from sofurry. Please don't use this in non-furry servers
 * **waifu** - Random AI-generated waifu + story
-* **safebooru** - It's safe, but just to make sure...
-* **konachan** - Safe version of konachan
 
 ### Balance
 
@@ -76,10 +76,13 @@ This category is yet to be done.
 
 This category is for developers who are working on discord. Hope it helps!
 
+* **bang** (alias **ddg**) - Sends info from `duckduckgo` instant answer or link from `bang`
+* **deno** - Full deno runtime. Limit of 15 seconds. Only network allowed.
 * **djs** - Searches through Discord.js documentation
 * **php** - Searches through PHP documentation
 * **dstatus** - Shows status of discord servers
-* **eval** - Evaluates given JS code. Has a limit of 10 seconds, running in NodeVM without access to require.
+* **jseval** - Evaluates given JS code. Has a limit of 10 seconds, running in NodeVM without access to require.
+* **format** - Formatting guide
 * **google** - Google it!
 * **code** - Shows information about given HTTP code. Supports some non-official ones. *Thanks Wikipedia!*
 * **logme** - *Disabled on live version*. Logs message to console. Useful for debugging this bot.
@@ -90,11 +93,12 @@ This category is for developers who are working on discord. Hope it helps!
 ### Essentials
 
 * **achievments** - Shows which achievments you currently own
-* **avatar** - Shows your or someone else's (Ping 'em!) high-res avatar
+* **avatar** - Shows your or someone else's (Ping 'em!) high-res avatar7
+* **covid** - Shows covid statistics
 * **fact** - Gets a random fact
 * **help** - ~~Shows a simple help (currently link to website).~~ Full commando help.
 * **invite** - Link to invite the bot
-* **news** - ~~Shows current news.~~ Depended on another bot and only for czech news, removed.
+* **oldest** - Shows list of users ordered by the time of registration at discord
 * **ping** - Pings the discord API and shows how much time it consumed
 * **puppy** - Because everyone likes images of puppies
 * **reddit** - Shows random image from given subreddit. If not on image-only subreddit, bot may **not** reply as of now.
@@ -105,12 +109,15 @@ This category is for developers who are working on discord. Hope it helps!
 * **cow** - The original cowsay/cowthink
 * **clap** - Clapify given message
 * **cool** - Cools something
+* **cowsay** - Make cow say or think text
 * **dab** - <o/
 * **joke** - Random joke of given type. If no type provided, uses random
 * **leet** Leetify message
 * **lenny** - Everyone knows what's lenny
+* **reddituser** - Shows info about reddit user (disabled until fixed)
 * **say** - Make the bot say anything you want
 * **spoiler** - Annoying spoilers
+* **subinfo** - Shows info about reddit subreddit
 * **vaporwave** - Vaporify string
 
 ### Image
@@ -125,15 +132,23 @@ This category is for developers who are working on discord. Hope it helps!
 
 ### Mod
 
+* **allow-channels** - Allows usage of bot only in specified channels. **NOTE: once set, there's no way of removing the limit, so you can either list all channels manually or reset the bot!**
 * **announce** - Make an announcement in the same channel. Admin only.
+* **ban** - Bans user
+* **blacklist** - Doesn't yet work, owner only.
+* **case** - Shows info about case (warn/kick/ban).
+* **clearsettings** - Clears bot data about current server. **THIS ACTION IS IRREVERSIBLE**
 * **count** - Counts members
+* **editreason** - Edits reason about specified case
+* **giveaway** - Starts a giveaway
+* **history** - Shows users history (kicks/bans/warns).
 * **info** - Info about author or given user
-* **stats** - Stats of ice bot
-* **allow-channels** (found in `mod/allowChannels.js`) - Sets allowed channels in which the bot should reply to (defaults to all)
-* **ban** - Bans a member of guild.
-* **kick** - Kicks a member from guild.
-* **giveaway** - *Testing only.* Makes a giveaway in `channel` which resolves after `x` minutes and wins `item`
+* **kick** - Kicks user from the server
+* **log** - Log settings, not yet done.
+* **purge \<x> \<delete report (true/false)>** - Purges last `x` messages
 * **role** - Manages roles. See help.
+* **stats** - Stats of ice bot
+* **warn** - Warns user
 
 ### Music
 
@@ -157,14 +172,16 @@ This category is for developers who are working on discord. Hope it helps!
 
 These commands are premium only (and aren't in this repository)
 
-* **nekos-lewd** - Not so safe endpoints of nekos.life
-* **rule34** - Well you should know what this is
-* **hypnohub** - Random image from hypnohub
-* **xbooru** - The dirty sister of rule34
-* **realbooru** - Realistic version of rule34
-* **konachan-lewd** - Highquality wallpapers
-* **gelbooru** - Random image from gelbooru
+* **booru \<booru>** - Random image from specified booru
 * **danbooru** - Random image from danbooru
+* **gelbooru** - Random image from gelbooru
+* **hypnohub** - Random image from hypnohub
+* **konachan-lewd** - Highquality wallpapers
+* **nekos-lewd** - Not so safe endpoints of nekos.life
+* **realbooru** - Realistic version of rule34
+* **rule34** - Well you should know what this is
+* **xbooru** - The dirty sister of rule34
+* **yandere** - Random yandere image
 
 ### Pokemon
 
