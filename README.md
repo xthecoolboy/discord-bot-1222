@@ -1,5 +1,7 @@
 # ice-bot ![Formatted](https://github.com/iceproductions/discord-bot/workflows/CI/badge.svg)
 
+[![Discord Bots](https://top.gg/api/widget/654725534365909043.svg)](https://top.gg/bot/654725534365909043)
+
 ## About
 
 Universal discord bot to suite all of your needs.
