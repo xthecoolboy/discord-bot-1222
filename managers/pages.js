@@ -49,7 +49,9 @@ async function pages(msg, embed, em, moderates, pagenumber, name, getResource) {
             }
         });
         collector.on("end", collected => {
-            if(collector.endReason !== "Reaction") em.reactions.forEach(reaction => reaction.remove());
+            try {
+                if(collector.endReason !== "Reaction") em.reactions.forEach(reaction => reaction.remove());
+            } catch(e) {}
         });
     }
 }
