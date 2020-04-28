@@ -35,6 +35,13 @@ class Player {
     }
 
     /**
+     * @param {Discord.guild} guild
+     */
+    async getVolume(guild) {
+        return await guild.settings.get("music.volume", 100);
+    }
+
+    /**
      * Shuffles array in place
      * @param {Array} a items to shuffle
      * @return {Array} shuffled
