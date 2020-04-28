@@ -15,10 +15,12 @@ module.exports = class Now extends commando.Command {
     async run(msg) {
         var queue = await player.getQueue(msg.guild);
 
-        var selected = await player.getPlaying(msg.guild);
+        var selectedId = await player.getPlayingId(msg.guild);
 
-        if(selected > 0 && selected <= queue.length) {
-            return await msg.channel.send(player.getEmbed(queue[selected - 1]));
+        var selected = queue[selectedId];
+
+        if(selected) {
+            return await msg.channel.send(player.getEmbed(selected));
         }
         msg.channel.send("Nothing playing");
     }
