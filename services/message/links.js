@@ -55,16 +55,17 @@ module.exports = async (msg) => {
             await msg.channel.send(embed);
         } catch(e) {}
     } else {
+        return;
+        // eslint-disable-next-line no-unreachable
         embed.setTitle("Link is safe");
         embed.setDescription(`The link was scanned by VirusTotal by ${report.total} sources. Click the title for more info.`);
         embed.setURL(report.permalink);
         embed.setColor("GREEN");
         try {
             var s = await msg.channel.send(embed);
+            await sleep(2000);
+            s.delete();
         } catch(e) {}
-
-        await sleep(2000);
-        s.delete();
     }
 };
 if(!TOKEN) {
