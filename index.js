@@ -76,7 +76,7 @@ client.on("commandRegister", c => {
         if(e.error.error === 401) console.error("This probably means, that some values in your config are wrong, and therefore the bot cannot access Reddit. Please contact the original creators of this bot if you're absolutely sure that you set it up correctly.");
     } finally {
         client.registry.registerGroups([
-            // ["special", "Special commands"],
+            ["special", "Special owner-only commands"],
             ["anime", "Anime commands"],
             ["balance", "Managing your balance"],
             ["dev", "Developer commands for help with development"],
@@ -118,7 +118,7 @@ client.on("ready", () => {
 });
 
 client.on("commandRun", (c, p, msg) => {
-    console.log("[USE] [" + (msg.guild.type === "dm" ? "DM": msg.guild.name) + "] " + msg.author.tag + " -> " + msg.content);
+    console.log("[USE] [" + (msg.guild.type === "dm" ? "DM" : msg.guild.name) + "] " + msg.author.tag + " -> " + msg.content);
     acc.sendAchievmentUnique(msg, "new");
 });
 

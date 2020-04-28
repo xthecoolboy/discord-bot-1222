@@ -137,7 +137,6 @@ This category is for developers who are working on discord. Hope it helps!
 * **allow-channels** - Allows usage of bot only in specified channels. **NOTE: once set, there's no way of removing the limit, so you can either list all channels manually or reset the bot!**
 * **announce** - Make an announcement in the same channel. Admin only.
 * **ban** - Bans user
-* **blacklist** - Doesn't yet work, owner only.
 * **case** - Shows info about case (warn/kick/ban).
 * **clearsettings** - Clears bot data about current server. **THIS ACTION IS IRREVERSIBLE**
 * **count** - Counts members
@@ -188,3 +187,9 @@ These commands are premium only (and aren't in this repository)
 ### Pokemon
 
 * **poke** - Has subcommands, see poke help
+
+### Special
+
+This category contains owner-only commands
+
+* **blacklist** - Doesn't yet work

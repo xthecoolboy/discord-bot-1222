@@ -5,7 +5,7 @@ module.exports = class Blacklist extends Command {
         super(client, {
             name: "blacklist-user",
             aliases: ["blacklist"],
-            group: "mod",
+            group: "special",
             memberName: "blacklist-user",
             description: "Prohibit a user from using commando",
             throttling: {
