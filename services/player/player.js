@@ -12,13 +12,45 @@ const defaultOptions = {
 class Player {
     /**
      * @param {Discord.Guild} guild
+     * @returns {object[]} queue
      */
     async getQueue(guild) {
         return await guild.settings.get("music.queue", []);
     }
 
     /**
+     * @param {Discord.guild} guild
+     * @returns {Number}
+     */
+    async getPlayingId(guild) {
+        return await guild.settings.get("music.playing", -1);
+    }
+
+    /**
+     * @param {Discord.guild} guild
+     * @returns {Object}
+     */
+    async getPlaying(guild) {
+        return await this.getQueue(guild)[await this.getPlayingId(guild)];
+    }
+
+    /**
+     * Shuffles array in place
+     * @param {Array} a items to shuffle
+     * @return {Array} shuffled
+     */
+    shuffle(a) {
+        for(let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            if(i === j) continue;
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    /**
      * @param {String} search
+     * @returns {Object[]}
      */
     async listVideos(search) {
         var res = await got("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&key=" + config.youtube.token + "&q=" + search);
@@ -33,6 +65,7 @@ class Player {
      * @param {Discord.Guild} guild
      * @param {Discord.Message} msg
      * @param {String} url
+     * @return {void}
      */
     async play(msg, url) {
         var guild = msg.guild;
@@ -78,7 +111,14 @@ class Player {
                 }
                 await guild.settings.set("music.stash", []);
                 var queue = await this.getQueue(guild);
-                var data = await ytdl.getInfo(url.videoId);
+
+                while(true) {
+                    try {
+                        var data = await ytdl.getInfo(url.videoId);
+                        break;
+                    } catch(e) {}
+                }
+
                 queue.push({
                     url: url.videoId,
                     requested: msg.author.id,
