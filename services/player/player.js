@@ -220,6 +220,8 @@ class Player {
         }
         var np = queue[npid];
 
+        await guild.settings.set("music.playing", np);
+
         return guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
     }
 
