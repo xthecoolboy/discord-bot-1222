@@ -211,8 +211,12 @@ class Player {
         if(npid === -1) {
             if(queue.length === 0) return;
             npid = num;
+
+            if(npid < 0 || npid > queue.length) {
+                throw new Error("range");
+            }
         } else {
-            npid += num;
+            npid = parseInt(npid) + parseInt(num);
 
             if(npid < 0 || npid > queue.length) {
                 throw new Error("range");
@@ -220,7 +224,11 @@ class Player {
         }
         var np = queue[npid];
 
-        await guild.settings.set("music.playing", np);
+        await guild.settings.set("music.playing", npid);
+
+        if(!guild.voice.connection) {
+            await guild.voice.channel.join();
+        }
 
         return guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
     }
