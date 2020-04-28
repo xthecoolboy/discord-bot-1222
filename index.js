@@ -1,8 +1,6 @@
 const Commando = require("@iceprod/discord.js-commando");
 const path = require("path");
 const sqlite = require("sqlite");
-const Youtube = require("@mindaugaskasp/node-youtube");
-const YoutubePlayer = require("./services/player/youtube-player");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
 
@@ -54,7 +52,6 @@ client.setProvider(
 ).catch(console.error);
 
 client.config = config;
-client.music = new YoutubePlayer(new Youtube(config.youtube.token, config.youtube.base_url));
 
 console.log("Loading commands...");
 
