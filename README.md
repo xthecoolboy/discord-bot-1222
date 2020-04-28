@@ -193,3 +193,4 @@ These commands are premium only (and aren't in this repository)
 This category contains owner-only commands
 
 * **blacklist** - Doesn't yet work
+* **guilds** - List guilds
