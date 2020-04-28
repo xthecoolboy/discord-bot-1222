@@ -19,7 +19,7 @@ class Player {
     }
 
     /**
-     * @param {Discord.guild} guild
+     * @param {Discord.Guild} guild
      * @returns {Number}
      */
     async getPlayingId(guild) {
@@ -27,7 +27,7 @@ class Player {
     }
 
     /**
-     * @param {Discord.guild} guild
+     * @param {Discord.Guild} guild
      * @returns {Object}
      */
     async getPlaying(guild) {
@@ -35,7 +35,7 @@ class Player {
     }
 
     /**
-     * @param {Discord.guild} guild
+     * @param {Discord.Guild} guild
      * @param {Number} playing
      */
     async setPlaying(guild, playing) {
@@ -43,7 +43,7 @@ class Player {
     }
 
     /**
-     * @param {Discord.guild} guild
+     * @param {Discord.Guild} guild
      * @returns {Number} volume
      */
     async getVolume(guild) {
@@ -51,10 +51,13 @@ class Player {
     }
 
     /**
-     * @param {Discord.guild} guild
+     * @param {Discord.Guild} guild
      * @param {Number} vol volume
      */
     async setVolume(guild, vol) {
+        if(guild.voice.connection.dispatcher) {
+            guild.voice.connection.dispatcher.setVolume(vol);
+        }
         return await guild.settings.set("music.volume", vol);
     }
 
@@ -154,6 +157,8 @@ class Player {
                 embed.setTitle("Added song to queue");
 
                 sent.edit(embed);
+
+                await this.startPlaying(guild);
             });
 
             collector.on("end", async () => {
@@ -177,6 +182,72 @@ class Player {
         embed.addField("Requested by", `<@!${requested}>`);
 
         return embed;
+    }
+
+    /**
+     * @param {Discord.Guild} guild
+     */
+    async startPlaying(guild) {
+        var npid = await this.getPlayingId(guild);
+        var queue = await this.getQueue(guild);
+        if(npid === -1) {
+            if(queue.length === 0) return;
+            npid = 1;
+        }
+        var np = queue[npid];
+
+        if(!guild.voice.connection.dispatcher) {
+            guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        }
+    }
+
+    /**
+     * @param {Discord.Guild} guild
+     * @param {Number} num to skip
+     */
+    async skip(guild, num) {
+        var npid = await this.getPlayingId(guild);
+        var queue = await this.getQueue(guild);
+        if(npid === -1) {
+            if(queue.length === 0) return;
+            npid = num;
+        } else {
+            npid += num;
+
+            if(npid < 0 || npid > queue.length) {
+                throw new Error("range");
+            }
+        }
+        var np = queue[npid];
+
+        return guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+    }
+
+    /**
+     * @param {Discord.Guild} guild
+     */
+    async pause(guild) {
+        if(!guild.voice.connection.dispatcher) {
+            throw new Error("no_conn");
+        }
+        return guild.voice.connection.dispatcher.pause(true);
+    }
+
+    /**
+     * @param {Discord.Guild} guild
+     */
+    isPaused(guild) {
+        return guild.voice.connection.dispatcher.paused;
+    }
+
+    /**
+     * @param {Discord.Guild} guild
+     */
+    async resume(guild) {
+        if(!guild.voice.connection.dispatcher) {
+            throw new Error("no_conn");
+        }
+        return guild.voice.connection.dispatcher.resume();
     }
 }
 
