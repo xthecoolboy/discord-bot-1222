@@ -36,9 +36,18 @@ class Player {
 
     /**
      * @param {Discord.guild} guild
+     * @returns {Number} volume
      */
     async getVolume(guild) {
         return await guild.settings.get("music.volume", 100);
+    }
+
+    /**
+     * @param {Discord.guild} guild
+     * @param {Number} vol volume
+     */
+    async setVolume(guild, vol) {
+        return await guild.settings.set("music.volume", vol);
     }
 
     /**
