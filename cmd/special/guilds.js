@@ -21,7 +21,7 @@ module.exports = class Guilds extends Command {
     async run(msg) {
         var guilds = msg.client.guilds.cache;
 
-        guilds = guilds.sort((a, b) => a.memberCount - b.memberCount);
+        guilds = guilds.sort((a, b) => b.memberCount - a.memberCount);
 
         guilds = guilds.array();
 
