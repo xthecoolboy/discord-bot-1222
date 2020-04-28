@@ -20,6 +20,9 @@ module.exports = class Play extends commando.Command {
     }
 
     async run(msg, { url }) {
+        if(!msg.guild.voice) {
+            return msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
+        }
         try {
             await player.play(msg, url);
         } catch(e) {

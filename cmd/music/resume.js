@@ -12,6 +12,9 @@ module.exports = class Resume extends commando.Command {
     }
 
     async run(msg) {
+        if(!msg.guild.voice) {
+            return msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
+        }
         if(!player.isPaused(msg.guild)) {
             return msg.channel.send("Playback is already playing. Use `pause` to pause playback.");
         }
