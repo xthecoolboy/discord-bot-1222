@@ -35,7 +35,7 @@ module.exports = class Queue extends commando.Command {
         }
 
         if(selected > 0 && selected <= queue.length) {
-            return await msg.channel.send(msg.guild.music.getEmbed(queue[selected - 1]));
+            return await msg.channel.send(msg.guild.music.getEmbed(queue[selected - 1], false, selected));
         }
 
         var me = await msg.channel.send(embed);
