@@ -5,6 +5,6 @@ module.exports = () => {
         // .attachFiles(['./stefanik_vlajka.jpg'])
         // .setAuthor('ČSK Bot', 'attachment://stefanik_vlajka.jpg', 'https://danbulant.eu')
         // .setTimestamp()
-        .setFooter("© ICE Bot, TechmandanCZ#0135");
+        .setFooter("© ICE Bot, TechmandanCZ#0135 and Noah#6809");
     return embed;
 };

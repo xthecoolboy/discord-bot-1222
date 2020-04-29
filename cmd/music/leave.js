@@ -1,43 +1,31 @@
-const { Command } = require("@iceprod/discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class PlayCommand extends Command {
+module.exports = class Leave extends commando.Command {
     constructor(client) {
         super(client, {
             name: "leave",
-            aliases: [],
-            group: "music",
             memberName: "leave",
-            description: "Makes bot Leave voice channel",
-            examples: ["leave"],
-            throttling: {
-                usages: 2,
-                duration: 5
-            },
-            guildOnly: true,
-            clientPermissions: ["CONNECT"]
+            group: "music",
+            description: "Leaves the voice channel."
         });
     }
 
     /**
-     *
-     * @param msg
-     * @param args
-     * @param fromPattern
-     * @returns {Promise<Message|Message[]>}
+     * @param {Commando.Message} msg
      */
-    async run(msg, args, fromPattern) {
+    async run(msg) {
+        if(!msg.guild.voice) {
+            msg.channel.send("The bot isn't in a voice channel!");
+            return;
+        }
         try {
-            const guild = msg.guild;
-            if(!guild.voiceConnection) {
-                return (await msg.send("I am not in any voice channel at the moment.")).delete(12000);
-            } else {
-                (await msg.say(`Leaving Voice Channel - \`${guild.voiceConnection.channel.name}\``)).delete(12000);
-                guild.voiceConnection.channel.leave();
-                this.client.music.terminate(msg.guild);
+            await msg.guild.voice.channel.leave();
+            if(msg.guild.voice.connection) {
+                msg.guild.voice.connection.disconnect();
             }
+            msg.channel.send("Done!");
         } catch(e) {
-            console.log(e);
-            return msg.say("Something went horribly wrong! Please try again later.");
+            msg.channel.send("Something went wrong");
         }
     }
 };

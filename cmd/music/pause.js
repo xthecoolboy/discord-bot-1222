@@ -1,34 +1,29 @@
-const { Command } = require("@iceprod/discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class PauseCommand extends Command {
+module.exports = class Pause extends commando.Command {
     constructor(client) {
         super(client, {
             name: "pause",
-            aliases: [],
-            group: "music",
             memberName: "pause",
-            description: "Pauses music player if it has been playing something",
-            examples: ["pause"],
-            guildOnly: true
-        });
-        this.client.music.on("pause", async (text, guild, channel) => {
-            (await channel.send(text)).delete(12000);
+            group: "music",
+            description: "Pauses playback"
         });
     }
 
-    /**
-     *
-     * @param msg
-     * @param args
-     * @param fromPattern
-     * @returns {Promise<Message|Message[]>}
-     */
-    run(msg, args, fromPattern) {
+    async run(msg) {
+        if(!msg.guild.voice) {
+            return msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
+        }
+        if(msg.guild.music.isPaused()) {
+            return msg.channel.send("Playback is already paused. Use resume to continue playing.");
+        }
         try {
-            this.client.music.pause(msg.guild, msg.channel);
+            await msg.guild.music.pause();
+            msg.channel.send("Paused");
         } catch(e) {
             console.log(e);
-            return msg.say("Something went horribly wrong! Please try again later.");
+
+            msg.channel.send("Couldn't pause playback as nothing is playing");
         }
     }
 };

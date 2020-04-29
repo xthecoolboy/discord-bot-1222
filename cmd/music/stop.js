@@ -1,34 +1,24 @@
-const { Command } = require("@iceprod/discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class StopCommand extends Command {
+module.exports = class Stop extends commando.Command {
     constructor(client) {
         super(client, {
             name: "stop",
-            aliases: [],
-            group: "music",
             memberName: "stop",
-            description: "Stops music player",
-            examples: ["stop"],
-            guildOnly: true
-        });
-        this.client.music.on("stop", async (text, guild, channel) => {
-            (await channel.send(text)).delete(12000);
+            group: "music",
+            description: "Stops the music player"
         });
     }
 
-    /**
-     *
-     * @param msg
-     * @param args
-     * @param fromPattern
-     * @returns {Promise.<Message|Message[]>}
-     */
-    run(msg, args, fromPattern) {
-        try {
-            this.client.music.stop(msg.guild, msg.channel);
-        } catch(e) {
-            console.log(e);
-            return msg.say("Something went horribly wrong! Please try again later.");
+    async run(msg) {
+        var queue = await msg.guild.music.getQueue(msg.guild);
+
+        var selected = await msg.guild.music.getPlaying(msg.guild);
+
+        if(selected > -1 && selected < queue.length) {
+            await msg.guild.music.setPlaying(msg.guild, -1);
+            return msg.channel.send("Stopped music playback.");
         }
+        msg.channel.send("Nothing playing");
     }
 };

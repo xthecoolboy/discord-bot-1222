@@ -1,273 +1,355 @@
-const Ffmpeg = require("fluent-ffmpeg");
-const promise = require("promised-io/promise");
-const fs = require("fs");
-const EventEmitter = require("events");
+const ytdl = require("ytdl-core");
+const got = require("got");
 
-module.exports = class Player extends EventEmitter {
+// eslint-disable-next-line
+const Discord = require("discord.js"); // Used for JSDoc
+const newEmbed = require("../../embed");
+const config = require("../../config.json");
+
+const defaultOptions = {
+    quality: "highestaudio"
+};
+
+class Player {
     /**
-     *
-     * @returns {string}
-     * @constructor
+     * @param {Discord.Guild} guild
      */
-    static DOWNLOAD_DIR() {
-        var isWin = process.platform === "win32";
-        if(isWin) {
-            return "%Temp%";
+    constructor(guild) {
+        this.guild = guild;
+    }
+
+    /**
+     * @returns {object[]} queue
+     */
+    async getQueue() {
+        return await this.guild.settings.get("music.queue", []);
+    }
+
+    /**
+     * @returns {Number}
+     */
+    async getPlayingId() {
+        return await this.guild.settings.get("music.playing", -1);
+    }
+
+    /**
+     * @returns {Object}
+     */
+    async getPlaying() {
+        return await this.getQueue()[await this.getPlayingId()];
+    }
+
+    /**
+     * @param {Number} playing
+     */
+    async setPlaying(playing) {
+        return await this.guild.settings.set("music.playing", playing);
+    }
+
+    /**
+     * @returns {Number} volume
+     */
+    async getVolume() {
+        return await this.guild.settings.get("music.volume", 100);
+    }
+
+    /**
+     * @param {Discord.Guild} guild
+     * @param {Number} vol volume
+     */
+    async setVolume(vol) {
+        if(this.guild.voice.connection.dispatcher) {
+            this.guild.voice.connection.dispatcher.setVolume(vol);
+        }
+        return await this.guild.settings.set("music.volume", vol);
+    }
+
+    /**
+     * Shuffles queue
+     */
+    async shuffleQueue() {
+        return this.guild.settings.set("music.queue", this.shuffleArray(await this.getQueue()));
+    }
+
+    /**
+     * Shuffles array in place
+     * @param {Array} a items to shuffle
+     * @return {Array} shuffled
+     */
+    shuffleArray(a) {
+        for(let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            if(i === j) continue;
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    /**
+     * @param {String} search
+     * @returns {Object[]}
+     */
+    async listVideos(search) {
+        var res = await got("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&key=" + config.youtube.token + "&q=" + search);
+        var results = JSON.parse(res.body).items;
+        results = results.map(r => {
+            return { ...r.snippet, ...r.id };
+        });
+        return results;
+    }
+
+    /**
+     * @param {Discord.Message} msg
+     * @param {String} url
+     * @return {void}
+     */
+    async play(msg, url) {
+        var guild = msg.guild;
+        if(!guild.voice) {
+            throw new Error("not_connected");
+        }
+        if(ytdl.validateURL(url) || ytdl.validateID(url)) {
+            var queue = await this.getQueue(guild);
+            queue.push({
+                url,
+                requested: msg.author.id,
+                data: (await ytdl.getInfo(url))
+            });
+            return await guild.settings.set("music.queue", queue);
         } else {
-            if(!fs.existsSync("/tmp/downloads")) {
-                fs.mkdirSync("/tmp/downloads");
+            var possibles = await this.listVideos(url);
+            await guild.settings.set("music.stash", possibles);
+            var embed = newEmbed();
+            embed.setTitle(`Found ${possibles.length} videos, reply with number to select:`);
+            embed.setDescription("Command will be canceled after 30 seconds");
+
+            for(var num in possibles) {
+                embed.addField(parseInt(num) + 1, possibles[num].title);
             }
-            return "/tmp/downloads";
-        }
-    };
 
-    constructor(youtube) {
-        super();
-        this._youtube = youtube;
-        this._queue = new Map();
-        this._state = new Map();
-        this._timeouts = new Map();
-        this.searches = new Map();
+            var sent = await msg.channel.send(embed);
 
-        if(!fs.existsSync(`${Player.DOWNLOAD_DIR()}`)) {
-            fs.mkdirSync(`${Player.DOWNLOAD_DIR()}`);
-        }
-    }
+            var collector = msg.channel.createMessageCollector(m => {
+                // eslint-disable-next-line eqeqeq
+                var filter = parseInt(m.content.trim()) == m.content.trim() && m.author.id === msg.author.id;
+                return filter;
+            }, { time: 30000 });
 
-    /**
-     * Terminates state
-     */
-    terminate() {
-        this._initDefaultState();
-    }
+            var selected = null;
 
-    /**
-     *
-     * @param guild
-     * @returns {*}
-     */
-    getMusicQueue(guild) {
-        const queue = this._queue.get(guild.id);
-        if(queue) return queue.tracks;
-        return [];
-    }
+            collector.on("collect", async m => {
+                selected = m.content;
+                collector.stop("collected");
+                var stash = await guild.settings.get("music.stash");
+                var url = stash[selected - 1];
+                if(!url) {
+                    return msg.channel.send("Number is out of range (1-" + stash.size + ")");
+                }
+                await guild.settings.set("music.stash", []);
+                var queue = await this.getQueue(guild);
 
-    /**
-     * @param guild
-     * @param position
-     */
-    removeTrack(guild, position, channel) {
-        const queue = this._queue.get(guild.id);
-        if(!queue) {
-            return;
-        }
-        if(position === 0) {
-            queue.position = 0;
-            queue.tracks = [];
-            this._queue.set(guild.id, queue);
-            this.emit("remove", `Removing \`ALL\` tracks from the queue. Total: \`${queue.tracks.length}\``, guild, channel);
-        } else {
-            if(position - 1 >= queue.tracks.length) {
-                return this.emit("remove", `Invalid track number provided. Allowed: 1-${queue.tracks.length}`, guild, channel);
-            }
-            this.emit("remove", `Removing \`${queue.tracks[position - 1].title}\` from the queue.`, guild, channel);
-            const firstHalf = position - 1 === 0 ? [] : queue.tracks.splice(0, position - 1);
-            const secondHalf = queue.tracks.splice(position - 1 === 0 ? position : position - 1, queue.tracks.length);
-            queue.tracks = firstHalf.concat(secondHalf);
-            this._queue.set(guild.id, queue);
-        }
-    }
+                while(true) {
+                    try {
+                        var data = await ytdl.getInfo(url.videoId);
+                        break;
+                    } catch(e) {}
+                }
 
-    /**
-     *
-     * @param array
-     * @returns {*}
-     * @private
-     */
-    _randomizeArray(array) {
-        if(array.length >= 2) {
-            for(let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                const temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
-        }
-        return array;
-    }
+                queue.push({
+                    url: url.videoId,
+                    requested: msg.author.id,
+                    data
+                });
+                await guild.settings.set("music.queue", queue);
+                embed.fields = [];
+                embed.addField(selected, stash[selected - 1].title);
+                embed.setDescription("");
+                embed.setTitle("Added song to queue");
 
-    /**
-     *
-     * @param guildID
-     * @param stream
-     * @returns {Promise|PromiseConstructor}
-     * @private
-     */
-    _convertToAudio(guildID, stream) {
-        const deferred = promise.defer();
+                sent.edit(embed);
 
-        (new Ffmpeg(stream))
-            .noVideo()
-            .saveToFile(`${Player.DOWNLOAD_DIR()}/${guildID}.mp3`)
-            .on("error", (e) => {
-                console.log(e);
-                deferred.reject(e);
-            })
-            .on("end", () => {
-                deferred.resolve(true);
+                this.channel = msg.channel;
+
+                await this.startPlaying(guild);
             });
 
-        return deferred.promise;
-    }
-
-    /**
-     * @param track
-     * @param guild
-     * @param userID
-     */
-    loadTrack(track, guild, userID) {
-        track.added_by = userID;
-        this._validateTrackObject(track);
-
-        let queue = this._queue.get(guild.id);
-        if(!queue) queue = this._getDefaultQueueObject(guild.id);
-        queue.tracks.push(track);
-
-        this._queue.set(guild.id, queue);
-    }
-
-    /**
-     *
-     * @param tracks
-     * @param guild
-     * @param userID
-     */
-    loadTracks(tracks, guild, userID = null) {
-        if(Array.isArray(tracks) === false) {
-            throw new Error("Tracks must be stored in array");
+            collector.on("end", async () => {
+                if(!selected) {
+                    var embed = newEmbed();
+                    embed.setTitle("Nothing selected");
+                    sent.edit(embed);
+                }
+            });
         }
-        for(const track of tracks) {
-            track.added_by = userID;
-            this._validateTrackObject(track);
-        }
-
-        let queue = this._queue.get(guild.id);
-        if(!queue) queue = this._getDefaultQueueObject(guild.id);
-
-        queue.tracks = queue.tracks.concat(tracks);
-        this._queue.set(guild.id, queue);
-
-        this.emit("update", guild);
     }
 
     /**
-     * @param guildID
-     * @private
+     * @param {Object} param0 data
+     * @param {Boolean} np is playing now?
+     * @param {Number} pos position
      */
-    _initDefaultState(guildID) {
-        const state = {
-            passes: 2,
-            seek: 0,
-            volume: 1,
-            increment_queue: true,
-            loop: true,
-            shuffle: true,
-            stop: false
-        };
-        this._state.set(guildID, state);
+    getEmbed({ data, url, requested }, np = false, pos) {
+        var embed = newEmbed();
 
-        return state;
-    }
+        embed.setTitle(data.title);
+        embed.setAuthor(data.author.name, data.author.avatar, data.author.channel_url);
+        embed.setURL(data.video_url);
 
-    /**
-     *
-     * @param id
-     * @private
-     */
-    _incrementTimeout(id) {
-        const timeout = this._timeouts.get(id) || { count: 0 };
-        timeout.count++;
-        this._timeouts.set(id, timeout);
-    }
+        embed.addField("Likes", `${data.likes} :+1: / ${data.dislikes} :-1:`, true);
+        embed.addField("Requested by", `<@!${requested}>`, true);
+        if(pos) embed.addField("Position in queue", pos, true);
 
-    /**
-     *
-     * @param guildID
-     * @private
-     */
-    _tryToIncrementQueue(guildID) {
-        const queue = this._queue.get(guildID);
-        const state = this._state.get(guildID);
+        function humanReadable(sec) {
+            var pad = x => x.toString().padStart(2, "0");
+            var res = "";
+            if(Math.floor(sec / (60 * 60)) > 0) res += pad(Math.floor(sec / (60 * 60))) + ":";
+            res += pad(Math.floor(sec / 60 % 60)) + ":";
+            res += pad(Math.floor(sec % 60));
 
-        if(!queue) {
-            throw new Error("Can't increment queue - map not initialized");
-        }
-        if(queue.position >= queue.tracks.length - 1 && state.increment_queue === true) {
-            queue.queue_end_reached = true;
-        } else if(!state || state.increment_queue === true) {
-            queue.position += 1;
+            return res;
         }
 
-        state.increment_queue = true;
+        if(np && this.guild.voice) {
+            if(this.guild.voice.connection) {
+                embed.addField("Current time", humanReadable(this.guild.voice.connection.dispatcher.streamTime / 1000), true);
+                embed.addField("Length", humanReadable(data.length_seconds), true);
+                embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
+            } else {
+                embed.addField("Length", humanReadable(data.length_seconds));
+            }
+        } else {
+            embed.addField("Length", humanReadable(data.length_seconds));
+        }
 
-        this._state.set(guildID, state);
-        this._queue.set(guildID, queue);
+        var thumbnails = data.player_response.videoDetails.thumbnail.thumbnails;
+        embed.setImage(thumbnails[thumbnails.length - 1].url);
+
+        embed.setTimestamp();
+        return embed;
     }
 
     /**
-     * @param guildID
-     * @private
+     * Starts playing music if queue is not empty
      */
-    _resetQueuePosition(guildID) {
-        const queue = this._queue.get(guildID);
-        queue.position = 0;
-        queue.queue_end_reached = false;
-        this._queue.set(guildID, queue);
+    async startPlaying() {
+        var npid = await this.getPlayingId();
+        var queue = await this.getQueue();
+        if(npid === -1) {
+            if(queue.length === 0) return;
+            npid = 1;
+        }
+        var np = queue[npid];
+        await this.guild.settings.set("music.playing", npid);
+
+        if(!this.guild.voice.connection) {
+            this.guild.voice.channel.join();
+        }
+        if(!this.guild.voice.connection.dispatcher) {
+            var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+            this.dispatch(dispatcher);
+        }
     }
 
     /**
-     *
-     * @param guildID
-     * @returns {{guild_id: *, tracks: Array, position: number}}
-     * @private
+     * @param {Discord.StreamDispatcher} dispatcher
      */
-    _getDefaultQueueObject(guildID) {
-        return {
-            guild_id: guildID,
-            tracks: [],
-            position: 0,
-            queue_end_reached: false,
-            created_timestamp: new Date().getTime()
-        };
+    dispatch(dispatcher) {
+        // var finished = false;
+        dispatcher
+            .on("start", async () => {
+                if(this.channel) {
+                    var npid = await this.getPlayingId();
+                    var queue = await this.getQueue();
+
+                    if(this.lastInfo) {
+                        this.lastInfo.edit(this.getEmbed(queue[npid], true, npid));
+                    } else {
+                        this.lastInfo = await this.channel.send(this.getEmbed(queue[npid], true, npid));
+                    }
+
+                    /* var i;
+                    i = setInterval(() => {
+                        if(finished) { return clearInterval(i); }
+                        if(!this.lastInfo) { return clearInterval(i); }
+                        if(this.lastInfo.deleted) { return clearInterval(i); }
+                        this.lastInfo.edit(this.getEmbed(queue[npid], true));
+                    }, 2000); */
+                }
+            })
+            .on("finish", async () => {
+                // finished = true;
+                try {
+                    await this.skip(1);
+                } catch(e) {
+                    this.guild.voice.channel.leave();
+                    if(this.channel) {
+                        this.channel.send("Nothing to play next");
+                    }
+                }
+            });
     }
 
     /**
-     *
-     * @param track
-     * @returns {boolean}
-     * @private
+     * @param {Number} num to skip
      */
-    _validateTrackObject(track) {
-        if(!track)throw new Error("No track object passed");
-        if(!track.title)throw new Error("Track object must specify track name [track.title]");
-        if(!track.url)throw new Error("Track must specify stream url [track.url]");
-        if(!track.source)throw new Error("Track must specify stream source [track.source]");
-        if(!track.image)throw new Error("Track must specify stream image [track.image]");
+    async skip(num) {
+        var npid = await this.getPlayingId();
+        var queue = await this.getQueue();
+        if(npid === -1) {
+            if(queue.length === 0) return;
+            npid = num;
 
-        return true;
+            if(npid < 0 || npid > queue.length) {
+                throw new Error("range");
+            }
+        } else {
+            npid = parseInt(npid) + parseInt(num);
+
+            if(npid < 0 || npid > queue.length) {
+                throw new Error("range");
+            }
+        }
+        var np = queue[npid];
+
+        await this.guild.settings.set("music.playing", npid);
+
+        console.log(npid, queue.length);
+
+        if(!this.guild.voice.connection) {
+            await this.guild.voice.channel.join();
+        }
+
+        var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        this.dispatch(dispatcher);
+        return dispatcher;
     }
 
     /**
-     *
-     * @param queue
-     * @returns {*}
-     * @private
+     * Pauses playback
      */
-    _getTrack(queue) {
-        const track = queue.tracks[queue.position];
-        track.position = queue.position;
-        track.total = queue.tracks.length;
-
-        return track;
+    async pause() {
+        if(!this.guild.voice.connection.dispatcher) {
+            throw new Error("no_conn");
+        }
+        return this.guild.voice.connection.dispatcher.pause(true);
     }
-};
+
+    /**
+     * checks if playback is paused
+     */
+    isPaused() {
+        return this.guild.voice.connection.dispatcher.paused;
+    }
+
+    /**
+     * resumes playback
+     */
+    async resume() {
+        if(!this.guild.voice.connection.dispatcher) {
+            throw new Error("no_conn");
+        }
+        return this.guild.voice.connection.dispatcher.resume();
+    }
+}
+
+module.exports = Player;

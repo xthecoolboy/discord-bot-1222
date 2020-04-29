@@ -1,41 +1,40 @@
-const { Command } = require("@iceprod/discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class RemoveCommand extends Command {
+module.exports = class Remove extends commando.Command {
     constructor(client) {
         super(client, {
             name: "remove",
-            aliases: ["delete", "rm", "del", "dl"],
-            group: "music",
             memberName: "remove",
-            description: "Removes track(s) from music player",
-            examples: ["stop"],
-            guildOnly: true,
+            group: "music",
+            description: "Remove song from queue",
+
             args: [
                 {
-                    key: "number",
-                    prompt: "Enter valid track number in the queue. Enter `0` if you want to delete `ALL` tracks in music queue.",
-                    type: "integer"
+                    key: "selected",
+                    type: "integer",
+                    prompt: "Which song to remove from queue?"
+                }, {
+                    key: "length",
+                    default: 1,
+                    type: "integer",
+                    prompt: "How many songs to delete?"
                 }
             ]
         });
-        this.client.music.on("remove", async (text, guild, channel) => {
-            (await channel.send(text)).delete(12000);
-        });
     }
 
-    /**
-     *
-     * @param msg
-     * @param args
-     * @param fromPattern
-     * @returns {Promise<Message|Message[]>}
-     */
-    run(msg, args, fromPattern) {
-        try {
-            this.client.music.removeTrack(msg.guild, args.number, msg.channel);
-        } catch(e) {
-            console.log(e);
-            return msg.say("Something went horribly wrong! Please try again later.");
+    async run(msg, { selected, length }) {
+        var queue = await msg.guild.music.getQueue();
+
+        queue.splice(selected, length);
+
+        await msg.guild.settings.set("music.queue", queue);
+
+        var npid = await msg.guild.music.getPlayingId();
+        if(selected < npid) {
+            await msg.guild.settings.set("music.playing", npid - length);
         }
+
+        msg.channel.send("Removed " + length + " song" + (length > 1 ? "s" : "") + " from queue.");
     }
 };

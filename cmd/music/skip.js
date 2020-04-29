@@ -1,34 +1,34 @@
-const { Command } = require("@iceprod/discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class SkipCommand extends Command {
+module.exports = class Pause extends commando.Command {
     constructor(client) {
         super(client, {
             name: "skip",
-            aliases: ["next"],
-            group: "music",
             memberName: "skip",
-            description: "Skips current track playback",
-            examples: ["skip", "next"],
-            guildOnly: true
-        });
-        this.client.music.on("skip", async (text, guild, channel) => {
-            (await channel.send(text));
+            group: "music",
+            description: "Skips currently playing song(s)",
+
+            args: [
+                {
+                    type: "integer",
+                    key: "number",
+                    prompt: "How many songs to skip?",
+                    default: 1
+                }
+            ]
         });
     }
 
-    /**
-     *
-     * @param msg
-     * @param args
-     * @param fromPattern
-     * @returns {Promise.<Message|Message[]>}
-     */
-    run(msg, args, fromPattern) {
+    async run(msg, { number }) {
+        if(!msg.guild.voice) {
+            return msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
+        }
         try {
-            this.client.music.skip(msg.guild, msg.channel);
+            await msg.guild.music.skip(number);
+            msg.guild.music.channel = msg.channel;
+            msg.channel.send("Skipped " + number + " songs.");
         } catch(e) {
-            console.log(e);
-            return msg.say("Something went horribly wrong! Please try again later.");
+            msg.channel.send("The number of songs selected is out of limits.");
         }
     }
 };
