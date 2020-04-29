@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 
 module.exports = class Pause extends commando.Command {
     constructor(client) {
@@ -15,11 +14,11 @@ module.exports = class Pause extends commando.Command {
         if(!msg.guild.voice) {
             return msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
         }
-        if(player.isPaused(msg.guild)) {
+        if(msg.guild.music.isPaused()) {
             return msg.channel.send("Playback is already paused. Use resume to continue playing.");
         }
         try {
-            await player.pause(msg.guild);
+            await msg.guild.music.pause();
             msg.channel.send("Paused");
         } catch(e) {
             console.log(e);

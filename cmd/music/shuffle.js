@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 
 module.exports = class Shuffle extends commando.Command {
     constructor(client) {
@@ -12,13 +11,13 @@ module.exports = class Shuffle extends commando.Command {
     }
 
     async run(msg) {
-        var queue = await player.getQueue(msg.guild);
-        var id = await player.getPlayingId(msg.guild);
+        var queue = await msg.guild.music.getQueue();
+        var id = await msg.guild.music.getPlayingId();
 
         if(id > -1) {
             queue[id].current = id;
         }
-        queue = player.shuffle(queue);
+        queue = msg.guild.music.shuffleArray(queue);
 
         if(id > -1) {
             // current one needs to be at same place

@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 
 module.exports = class Play extends commando.Command {
     constructor(client) {
@@ -24,7 +23,7 @@ module.exports = class Play extends commando.Command {
             return msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
         }
         try {
-            await player.play(msg, url);
+            await msg.guild.music.play(msg, url);
         } catch(e) {
             msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
         }

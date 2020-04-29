@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 
 module.exports = class Remove extends commando.Command {
     constructor(client) {
@@ -25,7 +24,7 @@ module.exports = class Remove extends commando.Command {
     }
 
     async run(msg, { selected, length }) {
-        var queue = await player.getQueue(msg.guild);
+        var queue = await msg.guild.music.getQueue();
 
         queue = queue.splice(selected, length);
 

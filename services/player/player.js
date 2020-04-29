@@ -1,5 +1,6 @@
 const ytdl = require("ytdl-core");
 const got = require("got");
+
 // eslint-disable-next-line
 const Discord = require("discord.js"); // Used for JSDoc
 const newEmbed = require("../../embed");
@@ -12,53 +13,62 @@ const defaultOptions = {
 class Player {
     /**
      * @param {Discord.Guild} guild
+     */
+    constructor(guild) {
+        this.guild = guild;
+    }
+
+    /**
      * @returns {object[]} queue
      */
-    async getQueue(guild) {
-        return await guild.settings.get("music.queue", []);
+    async getQueue() {
+        return await this.guild.settings.get("music.queue", []);
     }
 
     /**
-     * @param {Discord.Guild} guild
      * @returns {Number}
      */
-    async getPlayingId(guild) {
-        return await guild.settings.get("music.playing", -1);
+    async getPlayingId() {
+        return await this.guild.settings.get("music.playing", -1);
     }
 
     /**
-     * @param {Discord.Guild} guild
      * @returns {Object}
      */
-    async getPlaying(guild) {
-        return await this.getQueue(guild)[await this.getPlayingId(guild)];
+    async getPlaying() {
+        return await this.getQueue()[await this.getPlayingId()];
     }
 
     /**
-     * @param {Discord.Guild} guild
      * @param {Number} playing
      */
-    async setPlaying(guild, playing) {
-        return await guild.settings.set("music.playing", playing);
+    async setPlaying(playing) {
+        return await this.guild.settings.set("music.playing", playing);
     }
 
     /**
-     * @param {Discord.Guild} guild
      * @returns {Number} volume
      */
-    async getVolume(guild) {
-        return await guild.settings.get("music.volume", 100);
+    async getVolume() {
+        return await this.guild.settings.get("music.volume", 100);
     }
 
     /**
      * @param {Discord.Guild} guild
      * @param {Number} vol volume
      */
-    async setVolume(guild, vol) {
-        if(guild.voice.connection.dispatcher) {
-            guild.voice.connection.dispatcher.setVolume(vol);
+    async setVolume(vol) {
+        if(this.guild.voice.connection.dispatcher) {
+            this.guild.voice.connection.dispatcher.setVolume(vol);
         }
-        return await guild.settings.set("music.volume", vol);
+        return await this.guild.settings.set("music.volume", vol);
+    }
+
+    /**
+     * Shuffles queue
+     */
+    async shuffleQueue() {
+        return this.guild.settings.set("music.queue", this.shuffleArray(await this.getQueue()));
     }
 
     /**
@@ -66,7 +76,7 @@ class Player {
      * @param {Array} a items to shuffle
      * @return {Array} shuffled
      */
-    shuffle(a) {
+    shuffleArray(a) {
         for(let i = a.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             if(i === j) continue;
@@ -89,7 +99,6 @@ class Player {
     }
 
     /**
-     * @param {Discord.Guild} guild
      * @param {Discord.Message} msg
      * @param {String} url
      * @return {void}
@@ -154,9 +163,12 @@ class Player {
                 await guild.settings.set("music.queue", queue);
                 embed.fields = [];
                 embed.addField(selected, stash[selected - 1].title);
+                embed.setDescription("");
                 embed.setTitle("Added song to queue");
 
                 sent.edit(embed);
+
+                this.channel = msg.channel;
 
                 await this.startPlaying(guild);
             });
@@ -171,43 +183,86 @@ class Player {
         }
     }
 
-    getEmbed({ data, url, requested }) {
+    getEmbed({ data, url, requested }, np = false) {
         var embed = newEmbed();
 
         embed.setTitle(data.title);
         embed.setAuthor(data.author.name, data.author.avatar, data.author.channel_url);
         embed.setURL(data.video_url);
 
-        embed.addField("Likes", `${data.likes} / ${data.dislikes}`);
-        embed.addField("Requested by", `<@!${requested}>`);
+        embed.addField("Likes", `${data.likes} / ${data.dislikes}`, true);
+        embed.addField("Requested by", `<@!${requested}>`, true);
 
+        if(np) {
+            embed.addField("Current", `${Math.floor(this.guild.voice.connection.dispatcher.streamTime / 60)}:${Math.floor(this.guild.voice.connection.dispatcher.streamTime % 60)}`, true);
+            embed.addField("Length", `${Math.floor(data.length_seconds / 60)}:${Math.floor(data.length_seconds % 60)}`, true);
+            embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
+        } else {
+            embed.addField("Length", `${Math.floor(data.length_seconds / 60)}:${Math.floor(data.length_seconds % 60)}`);
+        }
+
+        var thumbnails = data.player_response.videoDetails.thumbnail.thumbnails;
+        embed.setImage(thumbnails[thumbnails.length - 1].url);
+
+        embed.setTimestamp();
         return embed;
     }
 
     /**
-     * @param {Discord.Guild} guild
+     * Starts playing music if queue is not empty
      */
-    async startPlaying(guild) {
-        var npid = await this.getPlayingId(guild);
-        var queue = await this.getQueue(guild);
+    async startPlaying() {
+        var npid = await this.getPlayingId();
+        var queue = await this.getQueue();
         if(npid === -1) {
             if(queue.length === 0) return;
             npid = 1;
         }
         var np = queue[npid];
+        await this.guild.settings.set("music.playing", npid);
 
-        if(!guild.voice.connection.dispatcher) {
-            guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        if(!this.guild.voice.connection.dispatcher) {
+            var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+            this.dispatch(dispatcher);
         }
     }
 
     /**
-     * @param {Discord.Guild} guild
+     * @param {Discord.StreamDispatcher} dispatcher
+     */
+    dispatch(dispatcher) {
+        dispatcher
+            .on("start", async () => {
+                if(this.channel) {
+                    var npid = await this.getPlayingId();
+                    var queue = await this.getQueue();
+                    this.lastInfo = this.channel.send(this.getEmbed(queue[npid], true));
+                }
+            })
+            .on("finish", async () => {
+                try {
+                    await this.skip(1);
+                } catch(e) {
+                    this.guild.voice.channel.leave();
+                    if(this.channel) {
+                        this.channel.send("Nothing to play next");
+                    }
+                    return;
+                }
+                if(this.lastInfo) {
+                    this.lastInfo.edit(this.getEmbed(await this.getPlaying()));
+                } else if(this.channel) {
+                    this.channel.send(this.getEmbed(await this.getPlaying()));
+                }
+            });
+    }
+
+    /**
      * @param {Number} num to skip
      */
-    async skip(guild, num) {
-        var npid = await this.getPlayingId(guild);
-        var queue = await this.getQueue(guild);
+    async skip(num) {
+        var npid = await this.getPlayingId();
+        var queue = await this.getQueue();
         if(npid === -1) {
             if(queue.length === 0) return;
             npid = num;
@@ -224,41 +279,43 @@ class Player {
         }
         var np = queue[npid];
 
-        await guild.settings.set("music.playing", npid);
+        await this.guild.settings.set("music.playing", npid);
 
-        if(!guild.voice.connection) {
-            await guild.voice.channel.join();
+        if(!this.guild.voice.connection) {
+            await this.guild.voice.channel.join();
         }
 
-        return guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        this.dispatch(dispatcher);
+        return dispatcher;
     }
 
     /**
-     * @param {Discord.Guild} guild
+     * Pauses playback
      */
-    async pause(guild) {
-        if(!guild.voice.connection.dispatcher) {
+    async pause() {
+        if(!this.guild.voice.connection.dispatcher) {
             throw new Error("no_conn");
         }
-        return guild.voice.connection.dispatcher.pause(true);
+        return this.guild.voice.connection.dispatcher.pause(true);
     }
 
     /**
-     * @param {Discord.Guild} guild
+     * checks if playback is paused
      */
-    isPaused(guild) {
-        return guild.voice.connection.dispatcher.paused;
+    isPaused() {
+        return this.guild.voice.connection.dispatcher.paused;
     }
 
     /**
-     * @param {Discord.Guild} guild
+     * resumes playback
      */
-    async resume(guild) {
-        if(!guild.voice.connection.dispatcher) {
+    async resume() {
+        if(!this.guild.voice.connection.dispatcher) {
             throw new Error("no_conn");
         }
-        return guild.voice.connection.dispatcher.resume();
+        return this.guild.voice.connection.dispatcher.resume();
     }
 }
 
-module.exports = new Player();
+module.exports = Player;

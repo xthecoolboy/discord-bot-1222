@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 
 module.exports = class Now extends commando.Command {
     constructor(client) {
@@ -13,14 +12,14 @@ module.exports = class Now extends commando.Command {
     }
 
     async run(msg) {
-        var queue = await player.getQueue(msg.guild);
+        var queue = await msg.guild.music.getQueue();
 
-        var selectedId = await player.getPlayingId(msg.guild);
+        var selectedId = await msg.guild.music.getPlayingId();
 
         var selected = queue[selectedId];
 
         if(selected) {
-            return await msg.channel.send(player.getEmbed(selected));
+            return await msg.channel.send(msg.guild.music.getEmbed(selected));
         }
         msg.channel.send("Nothing playing");
     }

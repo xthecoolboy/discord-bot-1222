@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 const newEmbed = require("../../embed");
 const pages = require("../../managers/pages");
 
@@ -23,7 +22,7 @@ module.exports = class Queue extends commando.Command {
     }
 
     async run(msg, { selected }) {
-        var queue = await player.getQueue(msg.guild);
+        var queue = await msg.guild.music.getQueue();
 
         var embed = newEmbed();
         embed.setTitle(`Current queue (${queue.length} song${queue.length === 1 ? "" : "s"})`);
@@ -36,7 +35,7 @@ module.exports = class Queue extends commando.Command {
         }
 
         if(selected > 0 && selected <= queue.length) {
-            return await msg.channel.send(player.getEmbed(queue[selected - 1]));
+            return await msg.channel.send(msg.guild.music.getEmbed(queue[selected - 1]));
         }
 
         var me = await msg.channel.send(embed);

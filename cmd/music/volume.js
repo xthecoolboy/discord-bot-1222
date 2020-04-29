@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 
 module.exports = class Volume extends commando.Command {
     constructor(client) {
@@ -22,11 +21,14 @@ module.exports = class Volume extends commando.Command {
     }
 
     async run(msg, { volume }) {
-        if(volume) {
-            await player.setVolume(msg.guild, volume);
+        if(volume > 0) {
+            if(volume > 150) {
+                return msg.channel.send("You can't set volume more than 150%");
+            }
+            await msg.guild.music.setVolume(volume / 100);
             msg.channel.send("Done!");
         } else {
-            msg.channel.send(`Current volume is ${await player.getVolume(msg.guild)}`);
+            msg.channel.send(`Current volume is ${await msg.guild.music.getVolume()}`);
         }
     }
 };

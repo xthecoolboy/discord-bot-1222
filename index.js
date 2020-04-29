@@ -1,8 +1,19 @@
 const Commando = require("@iceprod/discord.js-commando");
+const { Structures } = require("discord.js");
 const path = require("path");
 const sqlite = require("sqlite");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
+const Player = require("./services/player/player");
+
+Structures.extend("Guild", (Guild) => {
+    return class MusicGuild extends Guild {
+        constructor(client, data) {
+            super(client, data);
+            this.music = new Player(this);
+        }
+    };
+});
 
 const messageServices = [
     require("./services/message/messagePreview"),

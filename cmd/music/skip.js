@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const player = require("../../services/player/player");
 
 module.exports = class Pause extends commando.Command {
     constructor(client) {
@@ -25,12 +24,11 @@ module.exports = class Pause extends commando.Command {
             return msg.channel.send("Bot is not connected to a voice channel. Join a music channel and invoke `join` command");
         }
         try {
-            await player.skip(msg.guild, number);
+            await msg.guild.music.skip(number);
+            msg.guild.music.channel = msg.channel;
             msg.channel.send("Skipped " + number + " songs.");
         } catch(e) {
-            console.log(e);
-
-            msg.channel.send("The number of songs selected is too large or less than 1.");
+            msg.channel.send("The number of songs selected is out of limits.");
         }
     }
 };
