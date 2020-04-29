@@ -60,11 +60,11 @@ module.exports = async (msg) => {
         embed.setURL(report.permalink);
         embed.setColor("GREEN");
         try {
-            var s = await msg.channel.send(embed);
+            //var s = await msg.channel.send(embed);
         } catch(e) {}
 
-        await sleep(2000);
-        s.delete();
+        //await sleep(2000);
+       // s.delete();
     }
 };
 if(!TOKEN) {
