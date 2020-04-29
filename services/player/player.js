@@ -195,7 +195,7 @@ class Player {
         embed.setAuthor(data.author.name, data.author.avatar, data.author.channel_url);
         embed.setURL(data.video_url);
 
-        embed.addField("Likes", `${data.likes} / ${data.dislikes}`, true);
+        embed.addField("Likes", `${data.likes} :+1: / ${data.dislikes} :-1:`, true);
         embed.addField("Requested by", `<@!${requested}>`, true);
         if(pos) embed.addField("Position in queue", pos, true);
 
