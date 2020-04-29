@@ -231,15 +231,25 @@ class Player {
      * @param {Discord.StreamDispatcher} dispatcher
      */
     dispatch(dispatcher) {
+        var finished = false;
         dispatcher
             .on("start", async () => {
                 if(this.channel) {
                     var npid = await this.getPlayingId();
                     var queue = await this.getQueue();
                     this.lastInfo = this.channel.send(this.getEmbed(queue[npid], true));
+
+                    var i;
+                    i = setInterval(() => {
+                        if(finished) { return clearInterval(i); }
+                        if(!this.lastInfo) { return clearInterval(i); }
+                        if(this.lastInfo.delete) { return clearInterval(i); }
+                        this.lastInfo.edit(this.getEmbed(queue[npid], true));
+                    });
                 }
             })
             .on("finish", async () => {
+                finished = true;
                 try {
                     await this.skip(1);
                 } catch(e) {
