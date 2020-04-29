@@ -203,10 +203,14 @@ class Player {
             return res;
         }
 
-        if(np) {
-            embed.addField("Current", humanReadable(this.guild.voice.connection.dispatcher.streamTime / 1000), true);
-            embed.addField("Length", humanReadable(data.length_seconds), true);
-            embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
+        if(np && this.guild.voice) {
+            if(this.guild.voice.connection) {
+                embed.addField("Current", humanReadable(this.guild.voice.connection.dispatcher.streamTime / 1000), true);
+                embed.addField("Length", humanReadable(data.length_seconds), true);
+                embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
+            } else {
+                embed.addField("Length", humanReadable(data.length_seconds));
+            }
         } else {
             embed.addField("Length", humanReadable(data.length_seconds));
         }
