@@ -29,7 +29,11 @@ module.exports = class Remove extends commando.Command {
         queue = queue.splice(selected, length);
 
         await msg.guild.settings.set("music.queue", queue);
-        await msg.guild.settings.set("music.playing", (await msg.guild.music.getPlayingId()) - length);
+
+        var npid = await msg.guild.music.getPlayingId();
+        if(selected < npid) {
+            await msg.guild.settings.set("music.playing", npid - length);
+        }
 
         msg.channel.send("Removed " + length + " song" + (length > 1 ? "s" : "") + " from queue.");
     }
