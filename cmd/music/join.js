@@ -1,43 +1,31 @@
-const { Command } = require("@iceprod/discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class JoinCommand extends Command {
+module.exports = class Join extends commando.Command {
     constructor(client) {
         super(client, {
             name: "join",
-            aliases: ["join-channel", "channel", "voice"],
-            group: "music",
             memberName: "join",
-            description: "Joins user active voice channel",
-            examples: ["join"],
-            guildOnly: true,
-            throttling: {
-                usages: 2,
-                duration: 5
-            },
-            clientPermissions: ["CONNECT"],
-            userPermissions: ["CONNECT"]
+            group: "music",
+            description: "Joins voice channel you're currently in."
         });
     }
 
-    /**
-     * @param msg
-     * @returns {Promise.<Message|Message[]>}
-     */
     async run(msg) {
-        try {
-            const user = msg.member;
-            if(!user.voice.channel) {
-                return (await msg.say("You must join voice channel first before using this command")).delete({ timeout: 2000 });
-            } else {
-                if(user.voice.channel.joinable) {
-                    user.voice.channel.join().then(async (connection) => (await msg.say(`Joined Voice Channel - \`${connection.channel.name}\``)).delete({ timeout: 12000 }));
-                } else {
-                    return msg.say(`I can't join channel ${user.voiceChannel.name}. Missing permissions.`);
-                }
+        if(msg.guild.voice) {
+            if(msg.guild.voice.connection) {
+                msg.channel.send("The bot is already in a voice channel!");
+                return;
             }
+        }
+        if(!msg.member.voice) {
+            msg.channel.send("You're not in a voice channel!");
+            return;
+        }
+        try {
+            await msg.member.voice.channel.join();
+            msg.channel.send("Done!");
         } catch(e) {
-            console.log(e);
-            return msg.say("Something went horribly wrong! Please try again later.");
+            msg.channel.send("Couldn't join your voice channel. Make sure the bot has permission to join");
         }
     }
 };

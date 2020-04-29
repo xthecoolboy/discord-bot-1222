@@ -155,19 +155,15 @@ This category is for developers who are working on discord. Hope it helps!
 
 * **join** - Joins the bot to voice channel you are currently in.
 * **leave** - Leaves the voice channel
-* **get** - (Alias search) finds song by URL or name
 * **pause** - Pauses playback
 * **play** - Starts playing queue
 * **stop** - Stops playing queue
 * **remove** - Removes song from queue
 * **resume** - Resumes playback
-* **jump** - Jumps to song in queue
-* **seek** - Seeks current song
 * **shuffle** - Shuffles queue
 * **skip** - Skips current song
-* **stash** - View music search stash
 * **view** - Views current queue
-* **volume** - Sets or gets volume of playback
+* **volume** - Sets or gets volume of playback (in %)
 
 ### NSFW
 

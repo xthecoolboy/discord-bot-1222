@@ -1,43 +1,34 @@
-const { Command } = require("@iceprod/discord.js-commando");
+const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class VolumeCommand extends Command {
+module.exports = class Volume extends commando.Command {
     constructor(client) {
         super(client, {
             name: "volume",
-            aliases: ["sound"],
-            group: "music",
+            aliases: ["vol"],
             memberName: "volume",
-            description: "Sets music player volume",
-            examples: ["volume", "volume 50"],
-            guildOnly: true,
+            group: "music",
+            description: "Sets music volume",
+
             args: [
                 {
-                    key: "volume",
-                    prompt: "Enter volume value between 0 - 100",
                     type: "integer",
-                    validate: volume => {
-                        return volume <= 100 && volume >= 0;
-                    }
+                    default: -1,
+                    key: "volume",
+                    prompt: "What to set the new volume to?"
                 }
             ]
         });
-        this.client.music.on("volume", async (text, guild, channel) => {
-            (await channel.send(text)).delete(12000);
-        });
     }
 
-    /**
-     * @param msg
-     * @param args
-     * @param fromPattern
-     * @returns {Promise.<Message|Message[]>}
-     */
-    async run(msg, args, fromPattern) {
-        try {
-            this.client.music.setVolume(msg.guild, args.volume, msg.channel);
-        } catch(e) {
-            console.log(e);
-            return msg.say("Something went horribly wrong! Please try again later.");
+    async run(msg, { volume }) {
+        if(volume > 0) {
+            if(volume > 150) {
+                return msg.channel.send("You can't set volume more than 150%");
+            }
+            await msg.guild.music.setVolume(volume / 100);
+            msg.channel.send("Done!");
+        } else {
+            msg.channel.send(`Current volume is ${await msg.guild.music.getVolume()}`);
         }
     }
 };
