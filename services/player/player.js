@@ -193,17 +193,22 @@ class Player {
         embed.addField("Likes", `${data.likes} / ${data.dislikes}`, true);
         embed.addField("Requested by", `<@!${requested}>`, true);
 
-        var lengthMin = Math.floor(data.length_seconds / 60).toString().padStart(2, "0");
-        var lengthSec = Math.floor(data.length_seconds % 60).toString().padStart(2, "0");
+        function humanReadable(sec) {
+            var pad = x => x.toString().padStart(2, "0");
+            var res = "";
+            if(Math.floor(sec / (60 * 60)) > 0) res += pad(Math.floor(sec / (60 * 60))) + ":";
+            res += pad(Math.floor(sec / 60 % 60)) + ":";
+            res += pad(sec % 60);
+
+            return res;
+        }
 
         if(np) {
-            var currentMin = Math.floor(this.guild.voice.connection.dispatcher.streamTime / 1000 / 60).toString().padStart(2, "0");
-            var currentSec = Math.floor(this.guild.voice.connection.dispatcher.streamTime / 1000 % 60).toString().padStart(2, "0");
-            embed.addField("Current", `${currentMin}:${currentSec}`, true);
-            embed.addField("Length", `${lengthMin}:${lengthSec}`, true);
+            embed.addField("Current", humanReadable(this.guild.voice.connection.dispatcher.streamTime / 1000), true);
+            embed.addField("Length", humanReadable(data.length_seconds), true);
             embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
         } else {
-            embed.addField("Length", `${lengthMin}:${lengthSec}`);
+            embed.addField("Length", humanReadable(data.length_seconds));
         }
 
         var thumbnails = data.player_response.videoDetails.thumbnail.thumbnails;
