@@ -194,7 +194,7 @@ class Player {
         embed.addField("Requested by", `<@!${requested}>`, true);
 
         if(np) {
-            embed.addField("Current", `${Math.floor(this.guild.voice.connection.dispatcher.streamTime / 60)}:${Math.floor(this.guild.voice.connection.dispatcher.streamTime % 60)}`, true);
+            embed.addField("Current", `${Math.floor(this.guild.voice.connection.dispatcher.streamTime / 1000 / 60)}:${Math.floor(this.guild.voice.connection.dispatcher.streamTime / 1000 % 60)}`, true);
             embed.addField("Length", `${Math.floor(data.length_seconds / 60)}:${Math.floor(data.length_seconds % 60)}`, true);
             embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
         } else {
@@ -231,25 +231,25 @@ class Player {
      * @param {Discord.StreamDispatcher} dispatcher
      */
     dispatch(dispatcher) {
-        var finished = false;
+        // var finished = false;
         dispatcher
             .on("start", async () => {
                 if(this.channel) {
                     var npid = await this.getPlayingId();
                     var queue = await this.getQueue();
-                    this.lastInfo = this.channel.send(this.getEmbed(queue[npid], true));
+                    this.lastInfo = await this.channel.send(this.getEmbed(queue[npid], true));
 
-                    var i;
+                    /* var i;
                     i = setInterval(() => {
                         if(finished) { return clearInterval(i); }
                         if(!this.lastInfo) { return clearInterval(i); }
-                        if(this.lastInfo.delete) { return clearInterval(i); }
+                        if(this.lastInfo.deleted) { return clearInterval(i); }
                         this.lastInfo.edit(this.getEmbed(queue[npid], true));
-                    });
+                    }, 2000); */
                 }
             })
             .on("finish", async () => {
-                finished = true;
+                // finished = true;
                 try {
                     await this.skip(1);
                 } catch(e) {
