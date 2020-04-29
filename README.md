@@ -160,11 +160,10 @@ This category is for developers who are working on discord. Hope it helps!
 * **stop** - Stops playing queue
 * **remove** - Removes song from queue
 * **resume** - Resumes playback
-* **seek** - Seeks current song
 * **shuffle** - Shuffles queue
 * **skip** - Skips current song
 * **view** - Views current queue
-* **volume** - Sets or gets volume of playback
+* **volume** - Sets or gets volume of playback (in %)
 
 ### NSFW
 
