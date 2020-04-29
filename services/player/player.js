@@ -183,7 +183,12 @@ class Player {
         }
     }
 
-    getEmbed({ data, url, requested }, np = false) {
+    /**
+     * @param {Object} param0 data
+     * @param {Boolean} np is playing now?
+     * @param {Number} pos position
+     */
+    getEmbed({ data, url, requested }, np = false, pos) {
         var embed = newEmbed();
 
         embed.setTitle(data.title);
@@ -192,6 +197,7 @@ class Player {
 
         embed.addField("Likes", `${data.likes} / ${data.dislikes}`, true);
         embed.addField("Requested by", `<@!${requested}>`, true);
+        if(pos) embed.addField("Position in queue", pos, true);
 
         function humanReadable(sec) {
             var pad = x => x.toString().padStart(2, "0");
@@ -205,7 +211,7 @@ class Player {
 
         if(np && this.guild.voice) {
             if(this.guild.voice.connection) {
-                embed.addField("Current", humanReadable(this.guild.voice.connection.dispatcher.streamTime / 1000), true);
+                embed.addField("Current time", humanReadable(this.guild.voice.connection.dispatcher.streamTime / 1000), true);
                 embed.addField("Length", humanReadable(data.length_seconds), true);
                 embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
             } else {
@@ -251,7 +257,12 @@ class Player {
                 if(this.channel) {
                     var npid = await this.getPlayingId();
                     var queue = await this.getQueue();
-                    this.lastInfo = await this.channel.send(this.getEmbed(queue[npid], true));
+
+                    if(this.lastInfo) {
+                        this.lastInfo.edit(this.getEmbed(queue[npid], true, npid));
+                    } else {
+                        this.lastInfo = await this.channel.send(this.getEmbed(queue[npid], true, npid));
+                    }
 
                     /* var i;
                     i = setInterval(() => {
@@ -271,12 +282,6 @@ class Player {
                     if(this.channel) {
                         this.channel.send("Nothing to play next");
                     }
-                    return;
-                }
-                if(this.lastInfo) {
-                    this.lastInfo.edit(this.getEmbed(await this.getPlaying()));
-                } else if(this.channel) {
-                    this.channel.send(this.getEmbed(await this.getPlaying()));
                 }
             });
     }
