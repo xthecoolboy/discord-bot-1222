@@ -26,7 +26,7 @@ module.exports = class Remove extends commando.Command {
     async run(msg, { selected, length }) {
         var queue = await msg.guild.music.getQueue();
 
-        queue = queue.splice(selected, length);
+        queue.splice(selected, length);
 
         await msg.guild.settings.set("music.queue", queue);
 
