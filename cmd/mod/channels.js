@@ -40,13 +40,15 @@ module.exports = class channels extends commando.Command {
                 msg.guild.settings.set("allowedChannels", []);
                 msg.say("Done!\n" + list([]));
                 break;
+
             case "add":
                 if(!cmd.channels) return msg.say("Please specify one or more channels!");
-                for(const channel of cmd.channels) allowedChannels.push(channel.id);
+                for(const c of cmd.channels) { if(!allowedChannels.indexOf(c.id)) allowedChannels.push(c.id); }
                 if(compareArr(allowedChannels.sort(), allChannels)) allowedChannels = [];
                 msg.guild.settings.set("allowedChannels", allowedChannels);
                 msg.say("Done!\n" + list(allowedChannels));
                 break;
+
             case "remove":
                 if(!cmd.channels) return msg.say("Please specify one or more channels!");
                 if(!allowedChannels.length) allowedChannels = allChannels;
@@ -57,6 +59,7 @@ module.exports = class channels extends commando.Command {
                 msg.guild.settings.set("allowedChannels", allowedChannels);
                 msg.say("Done!\n" + list(allowedChannels));
                 break;
+
             default:
                 if(!allowedChannels.length || compareArr(allowedChannels.sort(), allChannels)) return msg.say("All channels are currently allowed! :smile:");
                 return msg.say(list(allowedChannels));
