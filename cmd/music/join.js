@@ -12,8 +12,10 @@ module.exports = class Join extends commando.Command {
 
     async run(msg) {
         if(msg.guild.voice) {
-            msg.channel.send("The bot is already in a voice channel!");
-            return;
+            if(msg.guild.voice.connection) {
+                msg.channel.send("The bot is already in a voice channel!");
+                return;
+            }
         }
         if(!msg.member.voice) {
             msg.channel.send("You're not in a voice channel!");
