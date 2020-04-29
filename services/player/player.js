@@ -204,7 +204,7 @@ class Player {
             var res = "";
             if(Math.floor(sec / (60 * 60)) > 0) res += pad(Math.floor(sec / (60 * 60))) + ":";
             res += pad(Math.floor(sec / 60 % 60)) + ":";
-            res += pad(sec % 60);
+            res += pad(Math.floor(sec % 60));
 
             return res;
         }
@@ -241,6 +241,9 @@ class Player {
         var np = queue[npid];
         await this.guild.settings.set("music.playing", npid);
 
+        if(!this.guild.voice.connection) {
+            this.guild.voice.channel.join();
+        }
         if(!this.guild.voice.connection.dispatcher) {
             var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
             this.dispatch(dispatcher);
@@ -309,6 +312,8 @@ class Player {
         var np = queue[npid];
 
         await this.guild.settings.set("music.playing", npid);
+
+        console.log(npid, queue.length);
 
         if(!this.guild.voice.connection) {
             await this.guild.voice.channel.join();
