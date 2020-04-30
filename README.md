@@ -31,6 +31,7 @@ Then optionaly if you want to have link checking, add `virustotal` field into co
 ### Node dependencies
 
 Those are installed with `npm i` automatically.
+**Note: these aren't all dependencies, for list of all, see `package.json`**
 
 * discord.js -> the framework we use for ice
 * discord.js-docs -> searches through documentation
