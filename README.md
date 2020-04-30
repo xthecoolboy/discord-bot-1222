@@ -32,7 +32,6 @@ Then optionaly if you want to have link checking, add `virustotal` field into co
 
 Those are installed with `npm i` automatically.
 
-* ascii-table -> shows fancy table in logs
 * discord.js -> the framework we use for ice
 * discord.js-docs -> searches through documentation
 * pacote -> searches through npm registry
@@ -43,9 +42,12 @@ Those are installed with `npm i` automatically.
 * mysql -> connection to MySQL
 * nekos.life -> Cute ~~catgirls~~ nekos
 * node-html-parser -> because not every website has an API
-* vm2 -> secure VM for code evaluation
 * pokedex-promise-v2 -> Promises for pokedex
 * unique-random-array -> for our reddit command
+* vm2 -> secure VM for code evaluation
+* singleline -> allows multiline strings
+* ffmpeg -> music playback coder
+* ytdl-core -> for music playback
 
 ## Non-command related features
 
@@ -161,7 +163,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **remove** - Removes song from queue
 * **resume** - Resumes playback
 * **shuffle** - Shuffles queue
-* **skip** - Skips current song
+* **skip** - Skips current song (accepts number as argument, any integer value allowed)
 * **view** - Views current queue
 * **volume** - Sets or gets volume of playback (in %)
 
