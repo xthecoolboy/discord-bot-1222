@@ -19,9 +19,13 @@ module.exports = class Now extends commando.Command {
         var selected = queue[selectedId];
 
         if(selected) {
-            var m = await msg.channel.send(msg.guild.music.getEmbed(selected, true, selectedId));
-            msg.guild.music.lastInfo = m;
-            msg.guild.music.channel = msg.channel;
+            try {
+                var m = await msg.channel.send(msg.guild.music.getEmbed(selected, true, selectedId));
+                msg.guild.music.lastInfo = m;
+                msg.guild.music.channel = msg.channel;
+            } catch(e) {
+                msg.channel.send("Couldn't fetch song info");
+            }
         }
         msg.channel.send("Nothing playing");
     }
