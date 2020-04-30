@@ -250,6 +250,7 @@ class Player {
         }
         if(!this.guild.voice.connection.dispatcher) {
             var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+            dispatcher.setVolume(await this.guild.settings.get("music.volume", 100));
             this.dispatch(dispatcher);
         }
     }
@@ -318,6 +319,7 @@ class Player {
         }
 
         var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        dispatcher.setVolume(await this.guild.settings.get("music.volume", 100));
         this.dispatch(dispatcher);
         return dispatcher;
     }
@@ -351,6 +353,7 @@ class Player {
         }
 
         var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        dispatcher.setVolume(await this.guild.settings.get("music.volume", 100));
         this.dispatch(dispatcher);
         return dispatcher;
     }
