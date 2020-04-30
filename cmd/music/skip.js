@@ -1,6 +1,6 @@
 const commando = require("@iceprod/discord.js-commando");
 
-module.exports = class Pause extends commando.Command {
+module.exports = class Skip extends commando.Command {
     constructor(client) {
         super(client, {
             name: "skip",
