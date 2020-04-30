@@ -20,6 +20,9 @@ module.exports = class Now extends commando.Command {
 
         if(selected) {
             try {
+                if(msg.guild.music.lastInfo) {
+                    await msg.guild.music.lastInfo.delete();
+                }
                 var m = await msg.channel.send(msg.guild.music.getEmbed(selected, true, selectedId));
                 msg.guild.music.lastInfo = m;
                 msg.guild.music.channel = msg.channel;
