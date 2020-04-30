@@ -195,3 +195,7 @@ This category contains owner-only commands
 
 * **blacklist** - Doesn't yet work
 * **guilds** - List guilds
+
+### To-do
+* Python Documentations
+* Welcome Bot
