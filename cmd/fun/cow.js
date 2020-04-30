@@ -1,7 +1,7 @@
 const commando = require("@iceprod/discord.js-commando");
 const cowsay = require("cowsay");
 
-module.exports = class Cowsay extends commando.Command {
+module.exports = class Cow extends commando.Command {
     constructor(client) {
         super(client, {
             name: "cow",
