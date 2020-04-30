@@ -317,8 +317,6 @@ class Player {
 
         await this.guild.settings.set("music.playing", npid);
 
-        console.log(npid, queue.length);
-
         if(!this.guild.voice.connection) {
             await this.guild.voice.channel.join();
         }
