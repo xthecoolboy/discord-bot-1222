@@ -157,6 +157,7 @@ This category is for developers who are working on discord. Hope it helps!
 ### Music
 
 * **join** - Joins the bot to voice channel you are currently in.
+* **jump** - Jumps to selected position in queue.
 * **leave** - Leaves the voice channel
 * **pause** - Pauses playback
 * **play** - Starts playing queue
