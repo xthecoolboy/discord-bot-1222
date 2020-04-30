@@ -190,11 +190,13 @@ function awardAchievment(id, code, msg) {
     });
 }
 
-function levelUp(level, msg, user) {
+async function levelUp(level, msg, user) {
     var embed = newEmbed();
     embed.setTitle(msg.author.username + " leveled up! ");
     embed.setDescription("Current level is " + level + ". XP points owned: " + user.xp + " / " + getNextLevel(user.xp));
-    msg.channel.send(embed);
+    if(await msg.guild.settings.get("levelup", true)) {
+        msg.channel.send(embed);
+    }
 }
 
 function sendAchievment(a, msg, send = true) {
