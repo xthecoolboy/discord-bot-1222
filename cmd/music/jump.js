@@ -25,7 +25,7 @@ module.exports = class Jump extends commando.Command {
         try {
             await msg.guild.music.jump(number - 1);
             msg.guild.music.channel = msg.channel;
-            msg.channel.send("Jumped to " + number + " position.");
+            msg.channel.send("Jumped to position" + number + ".");
         } catch(e) {
             console.log(e);
             if(e.message === "range") {
