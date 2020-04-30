@@ -40,7 +40,8 @@ module.exports = class NekosCommand extends commando.Command {
 
         var allowed = [
             "pat",
-            "hug"
+            "hug",
+            "8Ball"
         ];
 
         var c = cmd.command;
