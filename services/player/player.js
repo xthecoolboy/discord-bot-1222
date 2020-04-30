@@ -265,6 +265,10 @@ class Player {
                     var npid = await this.getPlayingId();
                     var queue = await this.getQueue();
 
+                    if(this.lastInfo)this.lastInfo.delete();
+
+                    this.lastInfo = await this.channel.send(this.getEmbed(queue[npid], true, npid));
+                    /*
                     if(this.lastInfo) {
                         this.lastInfo.edit(this.getEmbed(queue[npid], true, npid));
                     } else {
