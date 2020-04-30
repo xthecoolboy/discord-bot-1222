@@ -294,6 +294,31 @@ class Player {
     }
 
     /**
+     * @param {Number} num to jump to
+     */
+    async jump(num) {
+        var npid = await this.getPlayingId();
+        var queue = await this.getQueue();
+        if(queue.length === 0) return;
+        npid = parseInt(num);
+
+        if(npid < 0 || npid > queue.length) {
+            throw new Error("range");
+        }
+        var np = queue[npid];
+
+        await this.guild.settings.set("music.playing", npid);
+
+        if(!this.guild.voice.connection) {
+            await this.guild.voice.channel.join();
+        }
+
+        var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        this.dispatch(dispatcher);
+        return dispatcher;
+    }
+
+    /**
      * @param {Number} num to skip
      */
     async skip(num) {
