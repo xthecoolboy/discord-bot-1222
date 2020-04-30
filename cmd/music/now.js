@@ -26,6 +26,7 @@ module.exports = class Now extends commando.Command {
             } catch(e) {
                 msg.channel.send("Couldn't fetch song info");
             }
+            return;
         }
         msg.channel.send("Nothing playing");
     }
