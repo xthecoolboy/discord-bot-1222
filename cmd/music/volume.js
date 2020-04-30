@@ -26,7 +26,20 @@ module.exports = class Volume extends commando.Command {
                 return msg.channel.send("You can't set volume more than 150%");
             }
             await msg.guild.music.setVolume(volume / 100);
-            msg.channel.send("Done!");
+            msg.channel.send("Set volume to " + volume + "%.");
+
+            try {
+                var queue = await msg.guild.music.getQueue();
+                var selectedId = await msg.guild.music.getPlayingId();
+                var selected = queue[selectedId];
+
+                if(msg.guild.music.lastInfo) {
+                    await msg.guild.music.lastInfo.delete();
+                }
+                var m = await msg.channel.send(msg.guild.music.getEmbed(selected, true, selectedId));
+                msg.guild.music.lastInfo = m;
+                msg.guild.music.channel = msg.channel;
+            } catch(e) {}
         } else {
             msg.channel.send(`Current volume is ${await msg.guild.music.getVolume()}`);
         }
