@@ -137,7 +137,8 @@ This category is for developers who are working on discord. Hope it helps!
 
 ### Mod
 
-* **allow-channels** - Allows usage of bot only in specified channels. **NOTE: once set, there's no way of removing the limit, so you can either list all channels manually or reset the bot!**
+* **allow-channels** - Allows usage of bot only in specified channels.
+* **toggle-level** - Toggles level up messages.
 * **announce** - Make an announcement in the same channel. Admin only.
 * **ban** - Bans user
 * **case** - Shows info about case (warn/kick/ban).
