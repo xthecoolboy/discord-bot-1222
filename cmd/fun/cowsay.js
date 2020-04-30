@@ -12,6 +12,7 @@ module.exports = class Cowsay extends commando.Command {
                 {
                     type: "string",
                     key: "variant",
+                    oneOf: ["think", "say"],
                     prompt: "Variant to use, think or say?"
                 }, {
                     type: "string",
