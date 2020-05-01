@@ -1,10 +1,14 @@
 const Commando = require("@iceprod/discord.js-commando");
 const { Structures } = require("discord.js");
 const path = require("path");
+const sl = require("singleline");
 const sqlite = require("sqlite");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
 const Player = require("./services/player/player");
+const Snoowrap = require("snoowrap");
+
+var dbl;
 
 Structures.extend("Guild", (Guild) => {
     return class MusicGuild extends Guild {
@@ -15,19 +19,19 @@ Structures.extend("Guild", (Guild) => {
     };
 });
 
+Structures.extend("User", (User) => {
+    return class DBLUser extends User {
+        async hasVoted() {
+            if(!dbl) return false;
+            return await dbl.hasVoted(this.id);
+        }
+    };
+});
+
 const messageServices = [
     require("./services/message/messagePreview"),
     require("./services/message/links")
 ];
-
-const Snoowrap = require("snoowrap");
-const redditConfig = {
-    user_agent: "Ice Bot",
-    client_id: config.reddit.id,
-    client_secret: config.reddit.secret,
-    username: config.reddit.username,
-    password: config.reddit.password
-};
 
 const inhibitors = [
     require("./services/inhibitors/checkChannel")
@@ -41,18 +45,18 @@ const client = new Commando.Client({
 
 if(config.dbl) {
     const DBL = require("dblapi.js");
-    const dbl = new DBL(config.dbl, client);
+    dbl = new DBL(config.dbl, client);
 
     // Optional events
     dbl.on("posted", () => {
-        console.log("Server count posted!");
+        console.log("[DBL] Updated count!");
     });
 
     dbl.on("error", e => {
-        console.log(`Oops! ${e}`);
+        console.log(`[DBL] Error: ${e}`);
     });
 } else {
-    console.log("Skipping DBL API integration as no token is present in config.");
+    console.log("[DBL] Skipping DBL API integration as no token is present in config.\nAll users will seem to not have voted on the bot.");
 }
 
 require("./services/logging/registerEvents")(client);
@@ -64,8 +68,6 @@ client.setProvider(
 
 client.config = config;
 
-console.log("Loading commands...");
-
 var loadedCommands = new Map();
 
 client.on("commandRegister", c => {
@@ -74,14 +76,30 @@ client.on("commandRegister", c => {
 
 (async () => {
     try {
+        if(!config.reddit) {
+            throw new Error("Reddit configuration is missing");
+        }
+        const redditConfig = {
+            user_agent: "Ice Bot",
+            client_id: config.reddit.id,
+            client_secret: config.reddit.secret,
+            username: config.reddit.username,
+            password: config.reddit.password
+        };
+
         const r = await new Snoowrap(redditConfig);
         // eslint-disable-next-line no-unused-expressions
         (await r.getSubreddit("announcements")).user_flair_background_color;
-        console.log("Reddit connection successful");
+        console.log("[REDDIT] Reddit connection successful");
         module.exports.reddit = r;
     } catch(e) {
-        console.error(`Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
-        if(e.error.error === 401) console.error("This probably means, that some values in your config are wrong, and therefore the bot cannot access Reddit. Please contact the original creators of this bot if you're absolutely sure that you set it up correctly.");
+        console.error(`[REDDIT] Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
+        if(e.error.error === 401) {
+            console.error(sl(`[REDDIT]
+                This probably means, that some values in your config are wrong, and therefore the bot cannot access Reddit.
+                Please contact the original creators of this bot if you're absolutely sure that you set it up correctly.
+            `));
+        }
     } finally {
         client.registry.registerGroups([
             ["special", "Special owner-only commands"],
@@ -119,10 +137,10 @@ client.on("ready", () => {
         return (a[1] > b[1] && -1) || (a[1] === b[1] ? 0 : 1);
     }));
     for(const [group, length] of groups) {
-        console.log(`[load] Loaded ${length.toString().padStart(2, " ")} commands in ${group.id}`);
+        console.log(`[LOAD] Found ${length.toString().padStart(2, " ")} commands in ${group.id}`);
     }
 
-    console.log("Ready!");
+    console.log("[EVENT] Ready!");
 });
 
 client.on("commandRun", (c, p, msg) => {
@@ -142,4 +160,4 @@ for(var inhibitor of inhibitors) {
 
 client.login(config.token);
 
-process.on("unhandledRejection", console.error);
+process.on("unhandledRejection", e => console.error("[REJECTION]", e));
