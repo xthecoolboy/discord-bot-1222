@@ -102,8 +102,8 @@ This category is for developers who are working on discord. Hope it helps!
 * **avatar** - Shows your or someone else's (Ping 'em!) high-res avatar7
 * **covid** - Shows covid statistics
 * **fact** - Gets a random fact
-* **help** - ~~Shows a simple help (currently link to website).~~ Full commando help.
 * **invite** - Link to invite the bot
+* **math** (alias `calc` or `calculate`) - Calculates given math expression and returns the result. See [mathjs.org](https://mathjs.org)
 * **oldest** - Shows list of users ordered by the time of registration at discord
 * **ping** - Pings the discord API and shows how much time it consumed
 * **puppy** - Because everyone likes images of puppies
