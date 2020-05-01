@@ -35,6 +35,7 @@
     "got": "^10.7.0",
     "javascript-time-ago": "^2.0.5",
     "libsodium-wrappers": "^0.7.4",
+    "mathjs": "^6.6.4",
     "moment": "^2.24.0",
     "mysql": "^2.17.1",
     "nekos.life": "^2.0.4",
