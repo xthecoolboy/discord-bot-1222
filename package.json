@@ -49,6 +49,7 @@
     "singleline": "^1.1.0",
     "snoowrap": "^1.21.0",
     "sqlite": "^3.0.6",
+    "stackexchange": "^1.2.0",
     "unique-random-array": "^2.0.0",
     "uws": "^10.148.1",
     "validator": "^9.4.1",
