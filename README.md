@@ -131,6 +131,7 @@ This category is for developers who are working on discord. Hope it helps!
 
 * **fone** - Uses happyfone API
 * **meme** - Generates memes. Usage: `meme <photo/link to avatar> [top text] [bottom text]`
+* **qr** (alias `qrcode`) - Generates QR Code from given text
 * **xkcd** - Shows todays xkcd comic
 
 ### Minecraft
