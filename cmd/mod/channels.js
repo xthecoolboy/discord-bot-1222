@@ -47,7 +47,8 @@ module.exports = class channels extends commando.Command {
                 break;
 
             case "clear":
-                msg.guild.settings.set("allowedChannels", []);
+                allowedChannels = [];
+                msg.guild.settings.set("allowedChannels", allowedChannels);
                 embed
                     .setTitle("Done!")
                     .addField("Allowed Channels:", list(allowedChannels))
