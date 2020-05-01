@@ -22,7 +22,7 @@ Structures.extend("Guild", (Guild) => {
 Structures.extend("User", (User) => {
     return class DBLUser extends User {
         async hasVoted() {
-            if(!dbl) return false;
+            if(!dbl) return true;
             return await dbl.hasVoted(this.id);
         }
     };
@@ -56,7 +56,7 @@ if(config.dbl) {
         console.log(`[DBL] Error: ${e}`);
     });
 } else {
-    console.log("[DBL] Skipping DBL API integration as no token is present in config.\nAll users will seem to not have voted on the bot.");
+    console.log("[DBL] Skipping DBL API integration as no token is present in config.\nAll users will seem to have voted on the bot (even if in fact didn't).");
 }
 
 require("./services/logging/registerEvents")(client);
