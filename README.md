@@ -95,6 +95,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **npm** - Gets information about given package
 * **request** (alias `req`)- Makes request. See `req help`
 * **format** - Shows formatting help
+* **stackoverflow** (alias `so`) - Searches in SO and shows both question and answer
 
 ### Essentials
 
