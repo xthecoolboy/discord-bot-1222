@@ -4,14 +4,14 @@ const SE = require("stackexchange");
 const opts = { version: 2.2 };
 const se = new SE(opts);
 
-module.exports = class StackExchange extends commando.Command {
+module.exports = class StackOverflow extends commando.Command {
     constructor(client) {
         super(client, {
-            name: "stackexchange",
-            aliases: ["stack", "se", "so"],
-            memberName: "stackexchange",
+            name: "stackoverflow",
+            aliases: ["stack", "so"],
+            memberName: "stackoverflow",
             group: "dev",
-            description: "Searches in stack exchange forums.",
+            description: "Searches in StackOverflow.",
             hidden: true,
             args: [
                 {
@@ -25,7 +25,10 @@ module.exports = class StackExchange extends commando.Command {
 
     async run(msg, cmd) {
         const filter = {
-
+            order: "desc",
+            sort: "activity",
+            intitle: cmd.filter,
+            site: "stackoverflow"
         };
         se.questions.questions(filter, function(err, results) {
             if(err)throw err;
