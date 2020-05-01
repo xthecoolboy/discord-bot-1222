@@ -111,7 +111,7 @@ This category is for developers who are working on discord. Hope it helps!
 
 ### Fun
 
-* ~~**ascii** - Figlet!~~ Broken on latest release, hidden by default
+* **ascii** (alias `figlet`) - Figlet text, also known as ascii-art text
 * **cow** - The original cowsay/cowthink
 * **clap** - Clapify given message
 * **cool** - Cools something
