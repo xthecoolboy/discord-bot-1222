@@ -49,6 +49,7 @@ Those are installed with `npm i` automatically.
 * singleline -> allows multiline strings
 * ffmpeg -> music playback coder
 * ytdl-core -> for music playback
+* figlet -> for rendering `ascii` command
 
 ## Non-command related features
 
