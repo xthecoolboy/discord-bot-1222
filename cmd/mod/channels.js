@@ -1,5 +1,6 @@
 const commando = require("@iceprod/discord.js-commando");
 const { compareArr } = require("../../utils");
+const newEmbed = require("../../embed");
 
 module.exports = class channels extends commando.Command {
     constructor(client) {
@@ -12,11 +13,11 @@ module.exports = class channels extends commando.Command {
             guildOnly: true,
             args: [
                 {
-                    prompt: "Please select an option: `<add | remove>`",
+                    prompt: "Please select an option: `<add | remove | clear>`",
                     default: "",
                     key: "option",
                     type: "string",
-                    oneOf: ["add", "remove", "clear"]
+                    oneOf: ["add", "remove", "clear", "list"]
 
                 },
                 {
@@ -33,36 +34,58 @@ module.exports = class channels extends commando.Command {
     run(msg, cmd) {
         var allowedChannels = msg.guild.settings.get("allowedChannels", []);
         const allChannels = msg.guild.channels.cache.array().filter(c => c.type === "text").map(c => c.id);
-        const list = (c) => { return !c.length || compareArr(c.sort(), allChannels) ? "All channels are currently allowed! :smile:" : "**Allowed channels:**\n" + c.map(c => `<#${c}>`).join(", "); };
+        const list = (c) => { return !c.length ? "All channels are currently allowed! :smile:" : c.map(c => `<#${c}>`).join(", "); };
+
+        var embed = newEmbed();
 
         switch(cmd.option) {
+            case "list":
+                embed
+                    .addField("Allowed Channels:", list(allowedChannels))
+                    .setFooter("");
+                msg.say(embed);
+                break;
+
             case "clear":
-                msg.guild.settings.set("allowedChannels", []);
-                msg.say("Done!\n" + list([]));
+                allowedChannels = [];
+                msg.guild.settings.set("allowedChannels", allowedChannels);
+                embed
+                    .setTitle("Done!")
+                    .addField("Allowed Channels:", list(allowedChannels))
+                    .setFooter("");
+                msg.say(embed);
                 break;
 
             case "add":
                 if(!cmd.channels) return msg.say("Please specify one or more channels!");
-                for(const c of cmd.channels) { if(!allowedChannels.indexOf(c.id)) allowedChannels.push(c.id); }
+                for(const c of cmd.channels) { if(!allowedChannels.includes(c.id)) allowedChannels.push(c.id); }
                 if(compareArr(allowedChannels.sort(), allChannels)) allowedChannels = [];
                 msg.guild.settings.set("allowedChannels", allowedChannels);
-                msg.say("Done!\n" + list(allowedChannels));
+                embed
+                    .setTitle("Done!")
+                    .addField("Allowed Channels:", list(allowedChannels))
+                    .setFooter("");
+                msg.say(embed);
                 break;
 
             case "remove":
                 if(!cmd.channels) return msg.say("Please specify one or more channels!");
                 if(!allowedChannels.length) allowedChannels = allChannels;
-                allowedChannels = allowedChannels.filter(id => {
-                    return !cmd.channels.map(c => c.id).includes(id);
-                });
+                allowedChannels = allowedChannels.filter(id => !cmd.channels.map(c => c.id).includes(id));
                 if(!allowedChannels.length) return msg.say("You can't disallow all channels!");
                 msg.guild.settings.set("allowedChannels", allowedChannels);
-                msg.say("Done!\n" + list(allowedChannels));
+                embed
+                    .setTitle("Done!")
+                    .addField("Allowed Channels:", list(allowedChannels))
+                    .setFooter("");
+                msg.say(embed);
                 break;
 
             default:
-                if(!allowedChannels.length || compareArr(allowedChannels.sort(), allChannels)) return msg.say("All channels are currently allowed! :smile:");
-                return msg.say(list(allowedChannels));
+                embed
+                    .addField("Allowed Channels:", list(allowedChannels))
+                    .setFooter("");
+                msg.say(embed);
         }
     }
 };
