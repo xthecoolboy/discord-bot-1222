@@ -21,10 +21,14 @@ module.exports = class Math extends commando.Command {
     }
 
     async run(msg, { expression }) {
-        msg.channel.send(sl(`
-        \`\`\`
-        ${math.evaluate(expression)}
-        \`\`\`
-        `, true));
+        try {
+            msg.channel.send(sl(`
+            \`\`\`
+            ${math.evaluate(expression)}
+            \`\`\`
+            `, true));
+        } catch(e) {
+            msg.channel.send("The given expression is invalid!");
+        }
     }
 };
