@@ -36,7 +36,7 @@ module.exports = class APM extends commando.Command {
                 embed.setTitle(name);
                 embed.setDescription(desc);
                 embed.setURL(url);
-                embed.addField("Author", author , true);
+                embed.addField("Author", author, true);
                 embed.addField("Downloaded", download, true);
                 embed.addField("Stars", soc, true);
                 msg.channel.send(embed);
@@ -44,7 +44,7 @@ module.exports = class APM extends commando.Command {
         } catch(error) {
             var embed = newEmbed();
             embed.setTitle("Package Not Found");
-            embed.setDescription("Couldn't find package **"+ cmd.pkg + "**");
+            embed.setDescription("Couldn't find package **" + cmd.pkg + "**");
             msg.channel.send(embed);
         }
     }
