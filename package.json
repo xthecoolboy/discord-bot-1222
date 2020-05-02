@@ -54,6 +54,7 @@
     "uws": "^10.148.1",
     "validator": "^9.4.1",
     "vm2": "^3.8.4",
+    "walk-sync": "^2.1.0",
     "ytdl-core": "^2.1.1"
   },
   "devDependencies": {
