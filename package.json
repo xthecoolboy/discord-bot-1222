@@ -51,7 +51,6 @@
     "snoowrap": "^1.21.0",
     "sqlite": "^3.0.6",
     "unique-random-array": "^2.0.0",
-    "unirest": "^0.6.0",
     "uws": "^10.148.1",
     "validator": "^9.4.1",
     "vm2": "^3.8.4",
