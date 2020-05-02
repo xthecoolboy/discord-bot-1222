@@ -41,7 +41,7 @@ module.exports = class APM extends commando.Command {
                 embed.addField("Stars", soc, true);
                 msg.channel.send(embed);
             });
-        } catch (error) {
+        } catch(error) {
             var embed = newEmbed();
             embed.setTitle("Package Not Found");
             embed.setDescription("Couldn't find package **"+ cmd.pkg + "**");
