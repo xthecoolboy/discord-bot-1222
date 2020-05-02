@@ -81,6 +81,7 @@ This category is yet to be done.
 
 This category is for developers who are working on discord. Hope it helps!
 
+* **apm** - Gets information of Atom Text Editor Package
 * **bang** (alias **ddg**) - Sends info from `duckduckgo` instant answer or link from `bang`
 * **deno** - Full deno runtime. Limit of 15 seconds. Only network allowed.
 * **djs** - Searches through Discord.js documentation
@@ -123,6 +124,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **say** - Make the bot say anything you want
 * **spoiler** - Annoying spoilers
 * **subinfo** - Shows info about reddit subreddit
+* **urban** [alias **ud**] - Find the meaning in the Urban Dictionary
 * **vaporwave** - Vaporify string
 
 ### Image
@@ -196,6 +198,4 @@ This category contains owner-only commands
 * **blacklist** - Doesn't yet work
 * **guilds** - List guilds
 
-### To-do
-* Python Documentations
-* Welcome Bot
+
