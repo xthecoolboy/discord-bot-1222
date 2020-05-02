@@ -95,7 +95,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(8856, () => {
-    console.log("Internal server ready");
+    console.log("[SERVER] Internal server ready");
 });
 
 module.exports = (cl) => {

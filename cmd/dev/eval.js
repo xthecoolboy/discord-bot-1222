@@ -7,7 +7,7 @@ const path = require("path");
 module.exports = class Eval extends commando.Command {
     constructor(client) {
         super(client, {
-            name: "jseval",
+            name: "eval",
             memberName: "eval",
             group: "dev",
             description: "Runs given JS code",

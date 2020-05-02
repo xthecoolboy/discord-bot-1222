@@ -49,6 +49,7 @@ Those are installed with `npm i` automatically.
 * singleline -> allows multiline strings
 * ffmpeg -> music playback coder
 * ytdl-core -> for music playback
+* figlet -> for rendering `ascii` command
 
 ## Non-command related features
 
@@ -95,6 +96,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **npm** - Gets information about given package
 * **request** (alias `req`)- Makes request. See `req help`
 * **format** - Shows formatting help
+* **stackoverflow** (alias `so`) - Searches in SO and shows both question and answer
 
 ### Essentials
 
@@ -102,16 +104,17 @@ This category is for developers who are working on discord. Hope it helps!
 * **avatar** - Shows your or someone else's (Ping 'em!) high-res avatar7
 * **covid** - Shows covid statistics
 * **fact** - Gets a random fact
-* **help** - ~~Shows a simple help (currently link to website).~~ Full commando help.
 * **invite** - Link to invite the bot
+* **math** (alias `calc` or `calculate`) - Calculates given math expression and returns the result. See [mathjs.org](https://mathjs.org)
 * **oldest** - Shows list of users ordered by the time of registration at discord
 * **ping** - Pings the discord API and shows how much time it consumed
 * **puppy** - Because everyone likes images of puppies
 * **reddit** - Shows random image from given subreddit. If not on image-only subreddit, bot may **not** reply as of now.
+* **voted** (Alias `vote`) - Checks status of user vote and if user didn't vote, shows link.
 
 ### Fun
 
-* ~~**ascii** - Figlet!~~ Broken on latest release, hidden by default
+* **ascii** (alias `figlet`) - Figlet text, also known as ascii-art text
 * **cow** - The original cowsay/cowthink
 * **clap** - Clapify given message
 * **cool** - Cools something
@@ -131,6 +134,7 @@ This category is for developers who are working on discord. Hope it helps!
 
 * **fone** - Uses happyfone API
 * **meme** - Generates memes. Usage: `meme <photo/link to avatar> [top text] [bottom text]`
+* **qr** (alias `qrcode`) - Generates QR Code from given text
 * **xkcd** - Shows todays xkcd comic
 
 ### Minecraft
