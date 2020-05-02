@@ -12,15 +12,14 @@ module.exports = {
         name: 'nekos',
         group: 'anime',
         description: 'Uses the nekos.life API. SFW only.',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'command',
                 prompt: "What's the sub-command you want to run?",
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'text',
                 default: '',
@@ -58,7 +57,7 @@ module.exports = {
     balance: {
         name: 'balance',
         group: 'balance',
-        aliases: [ 'bal' ],
+        aliases: ['bal'],
         description: 'Shows yours BBS balance. More in `info user`',
         usage: '',
         arguments: []
@@ -75,15 +74,13 @@ module.exports = {
         name: 'pay',
         group: 'balance',
         description: 'Pays someone BBS',
-        arguments: [
-         {
-                prompt: 'Who to pay?',
-                type: 'user',
-                key: 'user',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            prompt: 'Who to pay?',
+            type: 'user',
+            key: 'user',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -100,46 +97,40 @@ module.exports = {
         group: 'dev',
         description: 'Gets info about Atom Text Editor package',
         usage: 'apm <pkg>',
-        arguments: [
-         {
-                key: 'pkg',
-                type: 'string',
-                prompt: 'Which Atom package to get info about?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'pkg',
+            type: 'string',
+            prompt: 'Which Atom package to get info about?',
+            default: '',
+            infinite: false
+        }],
         aliases: []
     },
     bang: {
         name: 'bang',
-        aliases: [ 'ddg' ],
+        aliases: ['ddg'],
         group: 'dev',
         description: 'Shows link to DDG bang or shows instant answer',
-        arguments: [
-         {
-                type: 'string',
-                key: 'string',
-                prompt: 'What to try searching on DDG instant answers / bangs?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'string',
+            prompt: 'What to try searching on DDG instant answers / bangs?',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     color: {
         name: 'color',
         group: 'dev',
         description: 'Previews color',
-        arguments: [
-         {
-                type: 'string',
-                key: 'color',
-                prompt: 'What color you want to show?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'color',
+            prompt: 'What color you want to show?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -148,15 +139,14 @@ module.exports = {
         group: 'dev',
         description: 'Searches in discord.js docs',
         usage: 'djs <query> [source]',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'query',
                 prompt: 'Enter query to search for',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 default: 'stable',
                 key: 'source',
@@ -186,15 +176,13 @@ module.exports = {
         name: 'google',
         group: 'dev',
         description: 'Shows link to search given text on google',
-        arguments: [
-         {
-                type: 'string',
-                key: 'string',
-                prompt: 'What to google?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'string',
+            prompt: 'What to google?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -202,15 +190,13 @@ module.exports = {
         name: 'extracthtml',
         group: 'dev',
         description: 'Extracts some information from HTML page.',
-        arguments: [
-         {
-                key: 'page',
-                prompt: 'Which page to extract information?',
-                type: 'string',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'page',
+            prompt: 'Which page to extract information?',
+            type: 'string',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -219,30 +205,26 @@ module.exports = {
         group: 'dev',
         description: 'Explanation for given http status code.',
         usage: 'code <code>',
-        arguments: [
-         {
-                type: 'integer',
-                key: 'code',
-                prompt: 'What code to get info about?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'integer',
+            key: 'code',
+            prompt: 'What code to get info about?',
+            default: '',
+            infinite: false
+        }],
         aliases: []
     },
     logme: {
         name: 'logme',
         group: 'dev',
         description: 'Shows properties of sent image',
-        arguments: [
-         {
-                type: 'string',
-                key: 'argument',
-                default: '',
-                prompt: 'string :)',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'argument',
+            default: '',
+            prompt: 'string :)',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -251,15 +233,13 @@ module.exports = {
         group: 'dev',
         description: 'Gets info about NPM package',
         usage: 'npm <pkg>',
-        arguments: [
-         {
-                key: 'pkg',
-                type: 'string',
-                prompt: 'Which NPM package to get info about?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'pkg',
+            type: 'string',
+            prompt: 'Which NPM package to get info about?',
+            default: '',
+            infinite: false
+        }],
         aliases: []
     },
     php: {
@@ -267,39 +247,36 @@ module.exports = {
         group: 'dev',
         description: 'Shows information from PHP documentation. Use either `ice php <class | function>` or `ice php <class>::<method>`. Use object oriented style when available.',
         usage: 'php help',
-        arguments: [
-         {
-                type: 'string',
-                key: 'php',
-                prompt: 'Which class/function to get info about?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'php',
+            prompt: 'Which class/function to get info about?',
+            default: '',
+            infinite: false
+        }],
         aliases: []
     },
     request: {
         name: 'request',
-        aliases: [ 'req' ],
+        aliases: ['req'],
         usage: 'req get http://ice.danbulant.eu/ text',
         group: 'dev',
         description: 'Makes a new HTTP request',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'method',
                 prompt: "Which method to use? Type 'help' for more info.",
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'url',
                 prompt: 'Which URL to make request on? If using help, enter anything.',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'format',
                 prompt: 'Format to use (JSON or TEXT)',
@@ -310,33 +287,30 @@ module.exports = {
     },
     stackoverflow: {
         name: 'stackoverflow',
-        aliases: [ 'stack', 'so' ],
+        aliases: ['stack', 'so'],
         group: 'dev',
         description: 'Searches in StackOverflow.',
-        arguments: [
-         {
-                key: 'filter',
-                prompt: 'What to search for?',
-                type: 'string',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'filter',
+            prompt: 'What to search for?',
+            type: 'string',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     extractwiki: {
         name: 'extractwiki',
         group: 'dev',
         description: 'Extracts some information from Wikipedia page.',
-        arguments: [
-         {
+        arguments: [{
                 key: 'page',
                 prompt: 'Which page to extract information?',
                 type: 'string',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 key: 'lang',
                 prompt: 'Which language to fetch from?',
                 type: 'string',
@@ -357,35 +331,31 @@ module.exports = {
     },
     avatar: {
         name: 'avatar',
-        aliases: [ 'av' ],
+        aliases: ['av'],
         group: 'essentials',
         description: "Shows yours (or someone else's) avatar",
-        arguments: [
-         {
-                default: '',
-                prompt: 'User to check on?',
-                key: 'user',
-                type: 'user',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            default: '',
+            prompt: 'User to check on?',
+            key: 'user',
+            type: 'user',
+            infinite: false
+        }],
         usage: ''
     },
     covid: {
         name: 'covid',
-        aliases: [ 'covid19', 'corona', 'coronavirus', 'covidinfo', 'coronainfo' ],
+        aliases: ['covid19', 'corona', 'coronavirus', 'covidinfo', 'coronainfo'],
         group: 'essentials',
         description: 'Shows recent information about COVID-19',
         usage: 'covid [country]',
-        arguments: [
-         {
-                type: 'string',
-                key: 'country',
-                default: 'Global',
-                prompt: 'which countrys stats do you want to see?',
-                infinite: false
-            }
-        ]
+        arguments: [{
+            type: 'string',
+            key: 'country',
+            default: 'Global',
+            prompt: 'which countrys stats do you want to see?',
+            infinite: false
+        }]
     },
     fact: {
         name: 'fact',
@@ -405,23 +375,21 @@ module.exports = {
     },
     math: {
         name: 'math',
-        aliases: [ 'calc', 'calculator' ],
+        aliases: ['calc', 'calculator'],
         group: 'essentials',
         description: 'Calculates given math expression',
-        arguments: [
-         {
-                type: 'string',
-                key: 'expression',
-                prompt: 'What expression to calculate?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'expression',
+            prompt: 'What expression to calculate?',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     oldest: {
         name: 'oldest',
-        aliases: [ 'old' ],
+        aliases: ['old'],
         group: 'essentials',
         description: 'Shows oldest users on discord',
         usage: '',
@@ -439,21 +407,19 @@ module.exports = {
         name: 'reddit',
         group: 'essentials',
         description: 'Gets random image from given subreddit. Can be used with or without r/',
-        arguments: [
-         {
-                type: 'string',
-                key: 'reddit',
-                prompt: 'Which subreddit to get image from?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'reddit',
+            prompt: 'Which subreddit to get image from?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
     voted: {
         name: 'voted',
-        aliases: [ 'vote' ],
+        aliases: ['vote'],
         group: 'essentials',
         description: 'Checks your vote status',
         usage: '',
@@ -461,19 +427,18 @@ module.exports = {
     },
     ascii: {
         name: 'ascii',
-        aliases: [ 'figlet' ],
+        aliases: ['figlet'],
         description: 'Makes ascii text. For list of fonts, see [figlet.js](https://github.com/patorjk/figlet.js/).',
         usage: 'ascii [font] <text>',
         group: 'fun',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'font',
                 prompt: "What font to use? If not valid, 'Doom' is used.",
                 default: 'Doom',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'text',
                 prompt: 'Text to use',
@@ -484,33 +449,29 @@ module.exports = {
     },
     clap: {
         name: 'clap',
-        aliases: [ 'clapify' ],
+        aliases: ['clapify'],
         description: 'Clapify given text',
         group: 'fun',
-        arguments: [
-         {
-                type: 'string',
-                key: 'string',
-                prompt: 'Text to clapify',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'string',
+            prompt: 'Text to clapify',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     cool: {
         name: 'cool',
         group: 'fun',
         description: 'Cool up something',
-        arguments: [
-         {
-                key: 'cool',
-                type: 'string',
-                prompt: 'What do you want to cool?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'cool',
+            type: 'string',
+            prompt: 'What do you want to cool?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -518,15 +479,14 @@ module.exports = {
         name: 'cow',
         group: 'fun',
         description: 'Ascii cow saying or thinking whatever you want',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'variant',
                 prompt: 'Variant to use, think or say?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'text',
                 prompt: 'Text to make cow say/think:',
@@ -550,31 +510,27 @@ module.exports = {
         description: 'Shows random joke',
         group: 'fun',
         usage: 'joke [type]',
-        arguments: [
-         {
-                type: 'string',
-                key: 'type',
-                default: 'random',
-                prompt: 'Which type of joke you want to see?',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'type',
+            default: 'random',
+            prompt: 'Which type of joke you want to see?',
+            infinite: false
+        }],
         aliases: []
     },
     leetify: {
         name: 'leetify',
-        aliases: [ 'leet' ],
+        aliases: ['leet'],
         description: 'Leetify your text',
         group: 'fun',
-        arguments: [
-         {
-                type: 'string',
-                key: 'string',
-                prompt: 'Text to leetify:',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'string',
+            prompt: 'Text to leetify:',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     lenny: {
@@ -588,136 +544,121 @@ module.exports = {
     reddituser: {
         name: 'reddituser',
         group: 'fun',
-        aliases: [ 'ru' ],
+        aliases: ['ru'],
         description: 'Fetch information about a reddit user',
-        arguments: [
-         {
-                type: 'string',
-                key: 'user',
-                prompt: 'which reddit user to fetch info from?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'user',
+            prompt: 'which reddit user to fetch info from?',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     say: {
         name: 'say',
         group: 'fun',
         description: 'Make the bot say what you want',
-        arguments: [
-         {
-                type: 'string',
-                key: 'string',
-                prompt: 'What do you want bot to say?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'string',
+            prompt: 'What do you want bot to say?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
     spoiler: {
         name: 'spoiler',
-        aliases: [ 'spoil' ],
+        aliases: ['spoil'],
         group: 'fun',
         description: 'Make the bot say something in annoying spoilers',
-        arguments: [
-         {
-                type: 'string',
-                key: 'string',
-                prompt: 'What to say:',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'string',
+            prompt: 'What to say:',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     subinfo: {
         name: 'subinfo',
         group: 'fun',
-        aliases: [ 'sub' ],
+        aliases: ['sub'],
         description: 'Fetch information about a subreddit',
-        arguments: [
-         {
-                type: 'string',
-                key: 'sub',
-                prompt: 'which subreddit to fetch info from?',
-                default: 'random',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'sub',
+            prompt: 'which subreddit to fetch info from?',
+            default: 'random',
+            infinite: false
+        }],
         usage: ''
     },
     urban: {
         name: 'urban',
-        aliases: [ 'ud' ],
+        aliases: ['ud'],
         description: 'Find the meaning in the Urban Dictionary',
         usage: 'urban <text>',
         group: 'fun',
-        arguments: [
-         {
-                type: 'string',
-                key: 'text',
-                prompt: 'What is the word do you want to look up?',
-                default: '',
-                infinite: false
-            }
-        ]
+        arguments: [{
+            type: 'string',
+            key: 'text',
+            prompt: 'What is the word do you want to look up?',
+            default: '',
+            infinite: false
+        }]
     },
     vaporwave: {
         name: 'vaporwave',
-        aliases: [ 'vaporify' ],
+        aliases: ['vaporify'],
         group: 'fun',
         description: 'Vaporify given text',
-        arguments: [
-         {
-                type: 'string',
-                key: 'string',
-                prompt: 'What to vaporify?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'string',
+            prompt: 'What to vaporify?',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     fone: {
         name: 'fone',
         group: 'image',
         description: 'Shows random image from happy fone api',
-        arguments: [
-         {
-                default: 'cat',
-                prompt: 'Enter type of resource',
-                key: 'type',
-                type: 'string',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            default: 'cat',
+            prompt: 'Enter type of resource',
+            key: 'type',
+            type: 'string',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
     makeameme: {
         name: 'makeameme',
-        aliases: [ 'meme' ],
+        aliases: ['meme'],
         group: 'image',
         description: 'Make a meme using imageurl/avatar toptext botomtext',
-        arguments: [
-         {
+        arguments: [{
                 type: 'user|string',
                 key: 'url',
                 prompt: 'Image URL to make meme of:',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'top',
                 prompt: 'Top text of meme:',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'bottom',
                 prompt: 'Bottom text of meme:',
@@ -729,24 +670,22 @@ module.exports = {
     },
     qr: {
         name: 'qr',
-        aliases: [ 'qrcode' ],
+        aliases: ['qrcode'],
         usage: 'qr <text>',
         group: 'image',
         description: 'Makes a QRCode from given text',
-        arguments: [
-         {
-                type: 'string',
-                key: 'text',
-                prompt: 'Text to encode into QRCode',
-                default: '',
-                infinite: false
-            }
-        ]
+        arguments: [{
+            type: 'string',
+            key: 'text',
+            prompt: 'Text to encode into QRCode',
+            default: '',
+            infinite: false
+        }]
     },
     xkcd: {
         name: 'xkcd',
         group: 'image',
-        aliases: [ 'comic' ],
+        aliases: ['comic'],
         description: 'Shows todays xkcd comic.',
         usage: '',
         arguments: []
@@ -755,46 +694,43 @@ module.exports = {
         name: 'skin',
         group: 'minecraft',
         description: 'Shows skin of given user',
-        arguments: [
-         {
-                key: 'username',
-                prompt: 'Enter username of the minecraft player to show skin of:',
-                type: 'string',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'username',
+            prompt: 'Enter username of the minecraft player to show skin of:',
+            type: 'string',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
     announce: {
         name: 'announce',
-        aliases: [ 'announcement' ],
+        aliases: ['announcement'],
         group: 'mod',
         description: 'Make the bot announce what you want.',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'title',
                 prompt: "What's the title of announcement?",
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'string',
                 prompt: 'What do you want to announce?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'boolean',
                 key: 'showAuthor',
                 default: true,
                 prompt: 'Do you want to show you as author?',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'color',
                 default: '000',
@@ -809,15 +745,14 @@ module.exports = {
         group: 'mod',
         description: 'Bans a user',
         usage: 'ban <user> <daysToDeleteMessages> <reason>',
-        arguments: [
-         {
+        arguments: [{
                 type: 'user',
                 key: 'user',
                 prompt: 'which user do you want to ban?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'reason',
                 prompt: 'why do you want to ban this user?',
@@ -831,15 +766,13 @@ module.exports = {
         name: 'case',
         group: 'mod',
         description: 'Shows an offender case',
-        arguments: [
-         {
-                type: 'integer',
-                key: 'case',
-                prompt: 'which case do you want to view?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'integer',
+            key: 'case',
+            prompt: 'which case do you want to view?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -847,15 +780,14 @@ module.exports = {
         name: 'channels',
         group: 'mod',
         description: 'Lists allowed channels or sets/removes them',
-        arguments: [
-         {
+        arguments: [{
                 prompt: 'Please select an option: `<add | remove | clear>`',
                 default: '',
                 key: 'option',
                 type: 'string',
                 infinite: false
             },
-         {
+            {
                 prompt: 'Which channels to add/remove?',
                 default: '',
                 key: 'channels',
@@ -870,15 +802,13 @@ module.exports = {
         name: 'clearsettings',
         group: 'mod',
         description: 'Clears all the guilds settings',
-        arguments: [
-         {
-                key: 'confirmation',
-                type: 'string',
-                prompt: 'WARNING - this will delete all the guilds cases and other settings! Are you sure? Type `confirm` to confirm.',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'confirmation',
+            type: 'string',
+            prompt: 'WARNING - this will delete all the guilds cases and other settings! Are you sure? Type `confirm` to confirm.',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -892,18 +822,17 @@ module.exports = {
     },
     reason: {
         name: 'reason',
-        aliases: [ 'editreason' ],
+        aliases: ['editreason'],
         group: 'mod',
         description: 'Warns a user',
-        arguments: [
-         {
+        arguments: [{
                 type: 'integer',
                 key: 'case',
                 prompt: 'which case do you want to edit?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'reason',
                 prompt: 'what should the new reason be?',
@@ -917,22 +846,21 @@ module.exports = {
         name: 'giveaway',
         group: 'mod',
         description: 'Makes a giveaway in current channel',
-        arguments: [
-         {
+        arguments: [{
                 type: 'channel',
                 prompt: 'Which channel to send to?',
                 key: 'channel',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'integer',
                 prompt: 'How many minutes to wait?',
                 key: 'time',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 prompt: 'Which item for winning?',
                 key: 'item',
@@ -947,15 +875,13 @@ module.exports = {
         name: 'history',
         group: 'mod',
         description: 'Shows on offenders history',
-        arguments: [
-         {
-                type: 'user',
-                key: 'user',
-                prompt: 'which users offense history do you want to view?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'user',
+            key: 'user',
+            prompt: 'which users offense history do you want to view?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -964,15 +890,14 @@ module.exports = {
         group: 'mod',
         description: 'Gets information',
         usage: 'info help',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'command',
                 prompt: 'Which resource you want to get info about?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'user|string|role',
                 key: 'pointer',
                 prompt: '',
@@ -986,15 +911,14 @@ module.exports = {
         name: 'kick',
         group: 'mod',
         description: 'Kicks a user',
-        arguments: [
-         {
+        arguments: [{
                 type: 'user',
                 key: 'user',
                 prompt: 'which user do you want to kick?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'reason',
                 prompt: 'why do you want to kick this user?',
@@ -1007,25 +931,24 @@ module.exports = {
     },
     log: {
         name: 'log',
-        aliases: [ 'logs' ],
+        aliases: ['logs'],
         group: 'mod',
         description: 'Log settings. When altering, use +option to add, -option to remove and !option to toggle log options',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'command',
                 prompt: 'Which action to do?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'channel',
                 key: 'channel',
                 prompt: 'Which channel to add/remove?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'options',
                 prompt: '',
@@ -1039,15 +962,14 @@ module.exports = {
         name: 'purge',
         group: 'mod',
         description: 'Deletes a certain amount of message in channel',
-        arguments: [
-         {
+        arguments: [{
                 type: 'integer',
                 key: 'amount',
                 prompt: 'How many messages do you want to delete?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'delete',
                 prompt: 'Delete the message as well?',
@@ -1062,39 +984,36 @@ module.exports = {
         name: 'removewarn',
         group: 'mod',
         description: 'Remove a warn from a user',
-        arguments: [
-         {
-                type: 'integer',
-                key: 'case',
-                prompt: 'which warn case do you want to remove?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'integer',
+            key: 'case',
+            prompt: 'which warn case do you want to remove?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
     role: {
         name: 'role',
-        aliases: [ 'r', 'roles' ],
+        aliases: ['r', 'roles'],
         group: 'mod',
         description: 'Add, remove or toggle a role on a user',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'option',
                 prompt: 'Please select an option: `<add | remove | toggle>`',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'user',
                 key: 'user',
                 prompt: 'Which user would you like to select?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'role',
                 key: 'role',
                 prompt: 'Which role would you like to select?',
@@ -1108,13 +1027,13 @@ module.exports = {
         name: 'stats',
         group: 'mod',
         description: 'Statistics and information about ice',
-        aliases: [ 'statistics' ],
+        aliases: ['statistics'],
         usage: '',
         arguments: []
     },
     togglelevel: {
         name: 'togglelevel',
-        aliases: [ 'toggle-level' ],
+        aliases: ['toggle-level'],
         group: 'mod',
         description: 'Toggles level up messages',
         usage: '',
@@ -1124,15 +1043,14 @@ module.exports = {
         name: 'warn',
         group: 'mod',
         description: 'Warns a user',
-        arguments: [
-         {
+        arguments: [{
                 type: 'user',
                 key: 'user',
                 prompt: 'which user do you want to warn?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'reason',
                 prompt: 'why do you want to warn this user?',
@@ -1155,15 +1073,13 @@ module.exports = {
         name: 'jump',
         group: 'music',
         description: 'Jumps to selected position in queue',
-        arguments: [
-         {
-                type: 'integer',
-                key: 'number',
-                prompt: 'To which position in queue to jump to?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'integer',
+            key: 'number',
+            prompt: 'To which position in queue to jump to?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -1177,7 +1093,7 @@ module.exports = {
     },
     now: {
         name: 'now',
-        aliases: [ 'np', 'now-playing' ],
+        aliases: ['np', 'now-playing'],
         group: 'music',
         description: 'Show current playing song',
         usage: '',
@@ -1195,15 +1111,13 @@ module.exports = {
         name: 'play',
         group: 'music',
         description: 'Add given music into queue',
-        arguments: [
-         {
-                key: 'url',
-                type: 'string',
-                prompt: 'What music to add?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'url',
+            type: 'string',
+            prompt: 'What music to add?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -1211,15 +1125,13 @@ module.exports = {
         name: 'queue',
         group: 'music',
         description: 'List current queue',
-        arguments: [
-         {
-                key: 'selected',
-                default: '',
-                type: 'integer',
-                prompt: 'Which song to get info about?',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'selected',
+            default: '',
+            type: 'integer',
+            prompt: 'Which song to get info about?',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -1227,15 +1139,14 @@ module.exports = {
         name: 'remove',
         group: 'music',
         description: 'Remove song from queue',
-        arguments: [
-         {
+        arguments: [{
                 key: 'selected',
                 type: 'integer',
                 prompt: 'Which song to remove from queue?',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 key: 'length',
                 default: 1,
                 type: 'integer',
@@ -1266,15 +1177,13 @@ module.exports = {
         name: 'skip',
         group: 'music',
         description: 'Skips currently playing song(s)',
-        arguments: [
-         {
-                type: 'integer',
-                key: 'number',
-                prompt: 'How many songs to skip?',
-                default: 1,
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'integer',
+            key: 'number',
+            prompt: 'How many songs to skip?',
+            default: 1,
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -1288,33 +1197,29 @@ module.exports = {
     },
     volume: {
         name: 'volume',
-        aliases: [ 'vol' ],
+        aliases: ['vol'],
         group: 'music',
         description: 'Sets music volume',
-        arguments: [
-         {
-                type: 'integer',
-                default: -1,
-                key: 'volume',
-                prompt: 'What to set the new volume to?',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'integer',
+            default: -1,
+            key: 'volume',
+            prompt: 'What to set the new volume to?',
+            infinite: false
+        }],
         usage: ''
     },
     booru: {
         name: 'booru',
         group: 'nsfw',
         description: 'Random image from booru site',
-        arguments: [
-         {
-                type: 'string',
-                key: 'booru',
-                prompt: 'Which booru site to get info from?',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'booru',
+            prompt: 'Which booru site to get info from?',
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -1354,15 +1259,13 @@ module.exports = {
         name: 'nekos-lewd',
         group: 'nsfw',
         description: 'Uses the nekos.life API. NSFW only.',
-        arguments: [
-         {
-                type: 'string',
-                key: 'command',
-                prompt: "What's the sub-command you want to run?",
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            type: 'string',
+            key: 'command',
+            prompt: "What's the sub-command you want to run?",
+            default: '',
+            infinite: false
+        }],
         aliases: [],
         usage: ''
     },
@@ -1402,15 +1305,14 @@ module.exports = {
         name: 'poke',
         group: 'pokemon',
         description: 'Finds something in pokedex',
-        arguments: [
-         {
+        arguments: [{
                 type: 'string',
                 key: 'cmd',
                 prompt: 'Which subcommand to use? Use help to see available ones.',
                 default: '',
                 infinite: false
             },
-         {
+            {
                 type: 'string',
                 key: 'poke',
                 prompt: 'Pokemon to see',
@@ -1423,23 +1325,21 @@ module.exports = {
     },
     'blacklist-user': {
         name: 'blacklist-user',
-        aliases: [ 'blacklist' ],
+        aliases: ['blacklist'],
         group: 'special',
         description: 'Prohibit a user from using commando',
-        arguments: [
-         {
-                key: 'user',
-                prompt: 'whom do you want to blacklist?\n',
-                type: 'user',
-                default: '',
-                infinite: false
-            }
-        ],
+        arguments: [{
+            key: 'user',
+            prompt: 'whom do you want to blacklist?\n',
+            type: 'user',
+            default: '',
+            infinite: false
+        }],
         usage: ''
     },
     guilds: {
         name: 'guilds',
-        aliases: [ 'guilds' ],
+        aliases: ['guilds'],
         group: 'special',
         description: 'Lists guilds ice is in',
         usage: '',
