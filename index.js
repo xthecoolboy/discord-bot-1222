@@ -144,7 +144,7 @@ client.on("ready", () => {
 });
 
 client.on("commandRun", (c, p, msg) => {
-    console.log("[USE] [" + (msg.guild.type === "dm" ? "DM" : msg.guild.name) + "] " + msg.author.tag + " -> " + msg.content);
+    console.log("[USE] [" + (msg.channel.type === "dm" ? "DM" : msg.guild.name) + "] " + msg.author.tag + " -> " + msg.content);
     acc.sendAchievmentUnique(msg, "new");
 });
 

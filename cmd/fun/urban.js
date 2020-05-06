@@ -61,8 +61,8 @@ module.exports = class Urban extends commando.Command {
             embed.setTitle(popular.word);
             embed.setDescription(def);
             embed.setURL(popular.permalink);
-            embed.addField("Example", "*" + exp + "*");
-            embed.addField("Thumbs Up", ":+1: " + popular.thumbs_up);
+            embed.addField((popular.word === "bruh" ? "bruh" : "Example"), "*" + exp + "*");
+            embed.addField((popular.word === "bruh" ? "bruh" : "Thumbs Up"), (popular.word === "bruh" ? popular.thumbs_up + " bruhs" : ":+1: " + popular.thumbs_up));
             msg.channel.send(embed);
         }
     }
