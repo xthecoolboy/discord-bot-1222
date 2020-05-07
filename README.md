@@ -2,6 +2,14 @@
 
 [![Discord Bots](https://top.gg/api/widget/654725534365909043.svg)](https://top.gg/bot/654725534365909043)
 
+<!-- <a href="https://discordbotlist.com/bots/654725534365909043">
+    <img
+        width="380"
+        height="140"
+        src="https://discordbotlist.com/bots/654725534365909043/widget"
+        alt="Aztec stats on Discord Bot List" />
+</a> -->
+
 ## About
 
 Universal discord bot to suite all of your needs.
