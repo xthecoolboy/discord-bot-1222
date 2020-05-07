@@ -23,9 +23,9 @@ module.exports = class Stats extends commando.Command {
         console.log("Stats");
         try {
             var embed = newEmbed();
-            embed.setTitle("Ice");
+            embed.setTitle("Aztec");
             embed.setDescription("The most universal bot.");
-            embed.setURL("http://ice.danbulant.eu");
+            embed.setURL("https://iceproductions.dev");
 
             embed.setThumbnail(this.client.user.avatarURL);
             var users = 0;
@@ -36,14 +36,14 @@ module.exports = class Stats extends commando.Command {
             }
 
             embed.addField("Website", "[iceproductions.dev](https://iceproductions.dev)", true);
-            embed.addField("Main guild", "[Ice productions](https://discord.gg/JUTFUKH)", true);
+            embed.addField("Main guild", "[Aztec](https://discord.gg/8fqEepV)", true);
             embed.addField("Prefix", "`" + msg.guild.commandPrefix + "`", true);
             embed.addField("Users", shortNumber(users), true);
             embed.addField("Guilds", shortNumber(guilds), true);
             embed.addField("Uptime", timeAgo.format(global.started), true);
             embed.addField("Last reloaded", timeAgo.format(global.lastReload), true);
 
-            embed.setFooter("Ice, made by TechmandanCZ#0135", this.client.user.avatarURL);
+            embed.setFooter(embed.footer.text, this.client.user.avatarURL());
             msg.channel.send(embed);
         } catch(e) {
             msg.channel.send("An error occured.");
