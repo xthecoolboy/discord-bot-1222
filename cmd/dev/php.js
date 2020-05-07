@@ -22,12 +22,13 @@ module.exports = class PHP extends commando.Command {
     }
 
     async run(msg, cmd) {
+        this.lang = await msg.guild.lang();
         this.cmd = cmd;
         this.msg = msg;
 
         var c = cmd.php;
         if(c === "help") {
-            return this.help();
+            return await this.help();
         }
         if(c.startsWith("mysqli_")) {
             c = c.replace("mysqli_", "mysqli::");
@@ -38,8 +39,8 @@ module.exports = class PHP extends commando.Command {
         this.find(c);
     }
 
-    help() {
-        this.msg.channel.send("Use either `ice php <class | function>` or `ice php <class>::<method>`. Use object oriented style when available.");
+    async help() {
+        this.msg.channel.send(this.lang.php.help.replace(/%s/g, await this.msg.guild.settings.get("prefix", "aztec ")));
     }
 
     getURL(c) {
@@ -87,11 +88,11 @@ module.exports = class PHP extends commando.Command {
         embed.setTitle(name);
         embed.setDescription(desc);
         embed.setURL(url);
-        embed.addField("Version", version);
+        embed.addField(this.lang.php.version, version);
         if(code === code.substr(0, 1989)) {
-            embed.addField("Syntax", "```php\n " + code.substr(0, 1989) + "\n```");
+            embed.addField(this.lang.php.syntax, "```php\n " + code.substr(0, 1989) + "\n```");
         } else {
-            embed.addField("Error", "The code syntax is too long to fit. Click the title to open in browser.");
+            embed.addField(this.lang.php.error, this.lang.php.long);
         }
 
         this.msg.channel.send(embed);
@@ -117,10 +118,10 @@ module.exports = class PHP extends commando.Command {
                         url: c.url
                     });
                 }).catch(e => {
-                    this.msg.channel.send("Couldn't find " + c.original);
+                    this.msg.channel.send(this.lang.php.not_found.replace("%s", c.original));
                 });
             } else {
-                this.msg.channel.send("Couldn't find " + c.original);
+                this.msg.channel.send(this.lang.php.not_found.replace("%s", c.original));
             }
         });
     }
