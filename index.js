@@ -28,6 +28,14 @@ Structures.extend("User", (User) => {
     };
 });
 
+Structures.extend("TextChannel", (TC) => {
+    return class TextChannel extends TC {
+        sendFile(file) {
+            return this.send({ files: [file] });
+        }
+    };
+});
+
 const messageServices = [
     require("./services/message/messagePreview"),
     require("./services/message/links")
