@@ -33,10 +33,8 @@ module.exports = class Role extends commando.Command {
     run(msg, cmd) {
         if(msg.member.guild.me.roles.highest.comparePositionTo(cmd.role) <= 0) return msg.say("The bot can't manage this role because it's not high enough in the role hierachy!");
 
-        if(msg.guild.member(msg.author).roles.highest.comparePositionTo(cmd.role) <= 0)
-            return msg.say("You can't manage this role!");
-        if(msg.guild.member(msg.author).roles.highest.comparePositionTo(cmd.user.roles.highest) <= 0)
-            return msg.say("You can't manage this user!");
+        if(msg.guild.member(msg.author).roles.highest.comparePositionTo(cmd.role) <= 0) { return msg.say("You can't manage this role!"); }
+        if(msg.guild.member(msg.author).roles.highest.comparePositionTo(cmd.user.roles.highest) <= 0) { return msg.say("You can't manage this user!"); }
 
         switch(cmd.option) {
             case "add":

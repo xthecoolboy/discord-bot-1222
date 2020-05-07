@@ -28,6 +28,14 @@ Structures.extend("User", (User) => {
     };
 });
 
+Structures.extend("TextChannel", (TC) => {
+    return class TextChannel extends TC {
+        sendFile(file) {
+            return this.send({ files: [file] });
+        }
+    };
+});
+
 const messageServices = [
     require("./services/message/messagePreview"),
     require("./services/message/links")
@@ -39,8 +47,13 @@ const inhibitors = [
 
 const client = new Commando.Client({
     owner: ["147365975707090944", "236504705428094976"],
-    commandPrefix: "ice ",
-    invite: "<https://discord.gg/JUTFUKH>"
+    commandPrefix: "aztec ",
+    invite: "<https://discord.gg/8fqEepV>",
+    presence: {
+        activity: {
+            name: "merged with Ice"
+        }
+    }
 });
 
 if(config.dbl) {
