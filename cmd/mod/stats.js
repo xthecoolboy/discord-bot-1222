@@ -15,7 +15,7 @@ module.exports = class Stats extends commando.Command {
             memberName: "stats",
             group: "mod",
             description: "Statistics and information about ice",
-            aliases: ["statistics"]
+            aliases: ["statistics", "about"]
         });
     }
 
