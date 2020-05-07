@@ -51,8 +51,13 @@ const inhibitors = [
 
 const client = new Commando.Client({
     owner: ["147365975707090944", "236504705428094976"],
-    commandPrefix: "ice ",
-    invite: "<https://discord.gg/JUTFUKH>"
+    commandPrefix: "aztec ",
+    invite: "<https://discord.gg/8fqEepV>",
+    presence: {
+        activity: {
+            name: "merged with Ice"
+        }
+    }
 });
 
 if(config.dbl) {
@@ -156,7 +161,7 @@ client.on("ready", () => {
 });
 
 client.on("commandRun", (c, p, msg) => {
-    console.log("[USE] [" + (msg.guild.type === "dm" ? "DM" : msg.guild.name) + "] " + msg.author.tag + " -> " + msg.content);
+    console.log("[USE] [" + (msg.channel.type === "dm" ? "DM" : msg.guild.name) + "] " + msg.author.tag + " -> " + msg.content);
     acc.sendAchievmentUnique(msg, "new");
 });
 
