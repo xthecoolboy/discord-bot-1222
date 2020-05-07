@@ -78,7 +78,7 @@ module.exports = async (msg, cmd) => {
     embed.addField("» XP", dbuser.xp + " / " + account.getNextLevel(dbuser.xp), true);
     embed.addField("» BBS", account.getMoney(dbuser), true);
     embed.addField("» Offenses", `**${offenseNum}**`, true);
-    embed.addField("» Bot", (user.bot && user.id !== "672165988527243306" ? ":white_check_mark: Beep boop!" : ":x: A human. Unless?"), true);
+    embed.addField("» Bot", (user.bot || user.id === "672165988527243306" ? ":white_check_mark: Beep boop!" : ":x: A human. Unless?"), true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
     if(msg.guild) embed.addField("» Roles", getRoles(msg, user), true);
     embed.addField("» Online status:", getStatus(user.presence.status), true);
