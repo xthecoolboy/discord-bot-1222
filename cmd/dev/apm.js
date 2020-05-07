@@ -22,6 +22,7 @@ module.exports = class APM extends commando.Command {
     }
 
     async run(msg, cmd) {
+        var lang = await msg.guild.lang();
         try {
             await got("https://atom.io/packages/" + cmd.pkg).then(res => {
                 const root = parse(res.body);
@@ -36,15 +37,15 @@ module.exports = class APM extends commando.Command {
                 embed.setTitle(name);
                 embed.setDescription(desc);
                 embed.setURL(url);
-                embed.addField("Author", author, true);
-                embed.addField("Downloaded", download, true);
-                embed.addField("Stars", soc, true);
+                embed.addField(lang.general.author, author, true);
+                embed.addField(lang.general.downloads, download, true);
+                embed.addField(lang.package.stars, soc, true);
                 msg.channel.send(embed);
             });
         } catch(error) {
             var embed = newEmbed();
-            embed.setTitle("Package Not Found");
-            embed.setDescription("Couldn't find package **" + cmd.pkg + "**");
+            embed.setTitle(lang.package.not_found.title);
+            embed.setDescription(lang.package.not_found.desc.replace("%s", cmd.pkg));
             msg.channel.send(embed);
         }
     }

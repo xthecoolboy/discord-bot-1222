@@ -13,7 +13,8 @@ if(!isMainThread || workerData) {
 
     console.log("Worker started");
 
-    var command = workerData;
+    var command = workerData.js;
+    var lang = workerData.lang;
     var embed = newEmbed();
     const vm = new NodeVM({
         timeout: 1000,
@@ -38,20 +39,20 @@ if(!isMainThread || workerData) {
         var output = vm.run(command);
         console.log(output);
         embed.setTitle(tick + " Eval");
-        embed.addField("Command", "```js\n" + command + "\n```");
+        embed.addField(lang.eval.command, "```js\n" + command + "\n```");
         try {
-            embed.addField("Output", "```\n" + JSON.stringify(output, null, 2) + "\n```");
+            embed.addField(lang.eval.output, "```\n" + JSON.stringify(output, null, 2) + "\n```");
         } catch(e) {
             console.warn("Error occured during JSON.stringify");
         }
-        embed.addField("Console", "```\n" + consoleOutput + "\n```");
+        embed.addField("Stdout + Stderr", "```\n" + consoleOutput + "\n```");
         parentPort.postMessage({
             type: "ok",
             embed
         });
     } catch(e) {
         embed.setTitle(cross + " Eval");
-        embed.addField("Error", e);
+        embed.addField(lang.general.failed, e);
         console.log(e);
         parentPort.postMessage({
             type: "error",

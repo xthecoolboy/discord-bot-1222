@@ -25,13 +25,14 @@ module.exports = class Deno extends commando.Command {
      * @param {commando.Argument} param1
      */
     async run(omsg, { code }) {
+        var lang = await omsg.guild.lang();
         try {
-            var msg = await omsg.channel.send("Executing...");
+            var msg = await omsg.channel.send(lang.eval.exec);
             var script = null;
 
             var timeout = setTimeout(() => {
                 console.log("Deno timeout");
-                msg.edit("Took too long, killed");
+                msg.edit(lang.eval.killed);
                 script.kill();
             }, 2e4);
 
@@ -50,9 +51,9 @@ module.exports = class Deno extends commando.Command {
                 stderr = stderr.substr(0, 1018);
 
                 var embed = newEmbed();
-                embed.setTitle("Command");
-                embed.setDescription(script.exitCode === 0 ? "Done" : "failed");
-                embed.addField("Command", "```js\n" + code.replace(/``/gmi, "`​`") + "\n```");
+                embed.setTitle(lang.eval.command);
+                embed.setDescription(script.exitCode === 0 ? lang.general.done : lang.general.failed);
+                embed.addField(lang.eval.command, "```js\n" + code.replace(/``/gmi, "`​`") + "\n```");
                 embed.addField("Stdout", `\`\`\`${stdout.replace(/``/gmi, "`​`").replace(/file:\/\/\/home\/ubuntu\/bots/, "./") || " "}\`\`\``);
                 embed.addField("Stderr", `\`\`\`${stderr.replace(/``/gmi, "`​`").replace(/file:\/\/\/home\/ubuntu\/bots/, "./") || " "}\`\`\``);
                 msg.edit("", embed);
@@ -73,9 +74,9 @@ module.exports = class Deno extends commando.Command {
             } catch(e) {
                 console.error("[error_cmd]", e);
                 var embed = newEmbed();
-                embed.setTitle("Command");
-                embed.addField("Command", "```js\n" + code.replace(/``/gmi, "`​`") + "\n```");
-                embed.setDescription("Failed");
+                embed.setTitle(lang.eval.command);
+                embed.addField(lang.eval.command, "```js\n" + code.replace(/``/gmi, "`​`") + "\n```");
+                embed.setDescription(lang.general.failed);
                 msg.edit("", embed);
                 return;
             }

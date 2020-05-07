@@ -20,20 +20,22 @@ module.exports = class HCode extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, cmd) {
+        var lang = await msg.guild.lang();
+        this.lang = lang;
         this.msg = msg;
         this.cmd = cmd;
         try {
             var code = parseInt(cmd.code);
         } catch(e) {
-            msg.channel.send("Expected format `ice code <code>`. <code> must be number.");
+            msg.channel.send(lang.codes.format.replace("%s", await msg.guild.settings.get("prefix", "aztec ")));
         }
 
         if(code === 69) {
             const rand = Math.floor(Math.random() * (3 - 1 + 1) + 1);
             switch(rand) {
                 case 1:
-                    return msg.say("Nice.");
+                    return msg.say(lang.codes.nice);
                 case 2:
                     return msg.channel.sendFile("https://memegen.link/custom/you_expected_a_meme/but_it_was_me,_dio!.jpg?alt=https://i.redd.it/aiwzejpscvy31.jpg");
                 case 3:
@@ -45,8 +47,8 @@ module.exports = class HCode extends commando.Command {
 
         if(!buff.length) {
             var embed = newEmbed();
-            embed.setTitle("Not found");
-            embed.setDescription("Code " + code + " wasn't found withing official or unnofficial HTTP status codes.");
+            embed.setTitle(lang.general.not_found);
+            embed.setDescription(lang.codes.not_found.replace("%s", code));
             this.msg.channel.send(embed);
         } else {
             for(var info of buff) {
@@ -61,9 +63,9 @@ module.exports = class HCode extends commando.Command {
 
     outputUnnoficial(text, desc) {
         var embed = newEmbed();
-        embed.setTitle(this.cmd.code + " - (Non-standart) " + text);
+        embed.setTitle(this.cmd.code + this.lang.codes.nonstandart + text);
         embed.setDescription(desc);
-        embed.setFooter(embed.footer.text + " - Code from Wikipedia");
+        embed.setFooter(embed.footer.text + this.lang.codes.footer);
         this.msg.channel.send(embed);
     }
 
@@ -73,7 +75,7 @@ module.exports = class HCode extends commando.Command {
         embed.setTitle(this.cmd.code + " - " + text);
         embed.setDescription(desc);
         embed.setImage("https://http.cat/" + this.cmd.code);
-        embed.setFooter(embed.footer.text + " - Code from Wikipedia");
+        embed.setFooter(embed.footer.text + this.lang.codes.footer);
         this.msg.channel.send(embed);
     }
 };

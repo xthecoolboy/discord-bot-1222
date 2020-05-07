@@ -19,9 +19,14 @@ module.exports = class Eval extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, cmd) {
+        var lang = await msg.guild.lang();
+
         const worker = new Worker(path.join(__dirname, "/eval/worker.js"), {
-            workerData: cmd.js
+            workerData: {
+                js: cmd.js,
+                lang
+            }
         });
         var timeout = null;
         var done = false;
@@ -30,7 +35,7 @@ module.exports = class Eval extends commando.Command {
             if(message.type === "ok") {
                 msg.channel.send("", { embed: message.embed });
             } else if(message.type === "error") {
-                msg.channel.send("An error occured during evaluation");
+                msg.channel.send(lang.eval.eval_err);
             } else {
                 return console.log("Doing nothing");
             }
@@ -52,7 +57,7 @@ module.exports = class Eval extends commando.Command {
                 if(!done) {
                     worker.terminate();
                     console.log("Killed long taking process");
-                    msg.channel.send("The code provided took too long");
+                    msg.channel.send(lang.eval.killed);
                 }
             } catch(e) {
             }

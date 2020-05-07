@@ -26,15 +26,8 @@ module.exports = class Djs extends commando.Command {
         });
     }
 
-    getName() {
-        return "djs";
-    }
-
-    getDesc() {
-        return "Searches in discord.js docs";
-    }
-
     async run(msg, cmd) {
+        var lang = await msg.guild.lang();
         this.msg = msg;
         var source = cmd.source;
         const doc = await Doc.fetch(source);
@@ -42,24 +35,24 @@ module.exports = class Djs extends commando.Command {
         var c = cmd.query.split(".");
         var m = doc.get(...c);
         if(m) {
-            return this.showDoc(m, source);
+            return this.showDoc(m, source, lang);
         }
-        this.showSearch(doc.search(c[c.length - 1]), source, c[c.length - 1]);
+        this.showSearch(doc.search(c[c.length - 1]), source, c[c.length - 1], lang);
     }
 
-    showDoc(m, source) {
+    showDoc(m, source, lang) {
         var embed = newEmbed();
         embed.setTitle(m.name);
         embed.setDescription(m.description);
         embed.setURL(`https://discord.js.org/#/docs/main/${source}/class/${m.name}`);
-        embed.addField("Properties", m.props.map(e => "`" + e.name + "`").join(", "));
-        embed.addField("Methods", m.methods.map(e => "`" + e.name + "`").join(", "));
+        embed.addField(lang.docs.props, m.props.map(e => "`" + e.name + "`").join(", "));
+        embed.addField(lang.docs.methods, m.methods.map(e => "`" + e.name + "`").join(", "));
         this.msg.channel.send(embed);
     }
 
-    showSearch(d, source, q) {
+    showSearch(d, source, q, lang) {
         var embed = newEmbed();
-        embed.setTitle("Search results for *" + q + "*:");
+        embed.setTitle(lang.general.search.replace("%s", q));
         var out = "";
         d.forEach(m => {
             var url = `https://discord.js.org/#/docs/main/${source}/class/${m.name}`;

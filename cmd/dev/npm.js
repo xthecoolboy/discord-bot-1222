@@ -21,11 +21,12 @@ module.exports = class NPM extends commando.Command {
     }
 
     async run(msg, cmd) {
+        var lang = await msg.guild.lang();
         got("https://api.npms.io/v2/search?q=" + cmd.pkg).then(body => {
             var json = body.body;
             var obj = JSON.parse(json);
             if(obj.total === 0) {
-                msg.channel.send("Package couldn't be found.");
+                msg.channel.send(lang.package.not_found.title);
                 return;
             }
             var pkg = obj.results[0].package;
@@ -33,9 +34,9 @@ module.exports = class NPM extends commando.Command {
             embed.setTitle(pkg.name + "@" + pkg.version);
             embed.setURL(pkg.links.npm);
             embed.setDescription(pkg.description);
-            if(pkg.author) { embed.addField("» Author", pkg.author.name, true); }
-            if(pkg.publisher) { embed.addField("» Publisher", pkg.publisher.username, true); }
-            embed.addField("» Maintainers", pkg.maintainers.map(e => e.username).join(", "), true);
+            if(pkg.author) { embed.addField("» " + lang.general.author, pkg.author.name, true); }
+            if(pkg.publisher) { embed.addField("» " + lang.package.publisher, pkg.publisher.username, true); }
+            embed.addField("» " + lang.package.maintainers, pkg.maintainers.map(e => e.username).join(", "), true);
             msg.channel.send(embed);
         });
     }

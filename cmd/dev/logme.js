@@ -19,10 +19,11 @@ module.exports = class Logme extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, cmd) {
+        var lang = await msg.guild.lang();
         var embed = newEmbed();
-        embed.setTitle("Log");
-        embed.addField("Command", "```json\n" + JSON.stringify(cmd, null, 2) + "\n```");
+        embed.setTitle(lang.log.title);
+        embed.addField(lang.log.command, "```json\n" + JSON.stringify(cmd, null, 2) + "\n```");
         var message = {};
         message.id = msg.id;
         message.author = {};
@@ -34,7 +35,7 @@ module.exports = class Logme extends commando.Command {
         message.channel.id = msg.channel.id;
         message.channel.name = msg.channel.name;
         message.channel.type = msg.channel.type;
-        embed.addField("Message", "```json\n" + JSON.stringify(message, null, 2) + "\n```");
+        embed.addField(lang.log.msg, "```json\n" + JSON.stringify(message, null, 2) + "\n```");
         msg.channel.send(embed);
     }
 };

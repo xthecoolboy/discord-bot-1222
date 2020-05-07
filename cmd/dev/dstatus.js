@@ -13,6 +13,7 @@ module.exports = class DStatus extends commando.Command {
     }
 
     async run(msg) {
+        var lang = await msg.guild.lang();
         var embed = newEmbed();
 
         got("https://srhpyqt94yxb.statuspage.io/api/v2/summary.json").then(summary => {
@@ -26,7 +27,7 @@ module.exports = class DStatus extends commando.Command {
                 });
                 embed.setDescription(output);
                 var last = inc.incidents[0];
-                embed.addField("Latest incident", "[" + last.name + "](" + last.shortlink + ")\nStatus: **" + last.status + "**");
+                embed.addField(lang.dstatus.latest, "[" + last.name + "](" + last.shortlink + ")\n" + lang.dstatus.status + ": **" + last.status + "**");
                 msg.channel.send(embed);
             });
         });

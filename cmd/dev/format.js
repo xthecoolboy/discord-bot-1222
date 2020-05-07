@@ -11,28 +11,22 @@ module.exports = class Format extends commando.Command {
         });
     }
 
-    run(msg) {
+    async run(msg) {
+        var lang = await msg.guild.lang();
         var embed = newEmbed();
 
-        embed.setTitle("Simple markdown");
-        embed.setDescription("You can make your code and message more readable using simplified markdown:");
+        embed.setTitle(lang.format.title);
+        embed.setDescription(lang.format.desc);
 
-        embed.addField("Bold text", "Use 2 stars surrounding the text you want to make bold\n" +
-        "\\*\\*Bold\\*\\*\n**Bold**");
+        embed.addField(lang.format.bold.title, lang.format.bold.desc);
 
-        embed.addField("Italic text", "Use **1** star surrounding the text you want to make italic\n" +
-        "\\*Italic\\*\n*Italic*");
+        embed.addField(lang.format.italic.title, lang.format.italic.desc);
 
-        embed.addField("Inline code", "Use single backtick surrounding your code\n" +
-        "\\`This is an example\\`\n`This is an example`");
+        embed.addField(lang.format.inline.title, lang.format.inline.desc);
 
-        embed.addField("Multiline code with highlightning", "Use 3 backticks followed by the name of language you're using surrounding your code\n" +
-        "\\```javascript\nlet example = \"this\"\n\\```\n```javascript\nlet example = \"this\"\n```");
+        embed.addField(lang.format.multiline.title, lang.format.multiline.desc);
 
-        embed.addField("Code sharing services", "*If you want to share large chunks of code, you can use these:*\n" +
-        "[codepen](https://codepen.io/) - Used for showing off front end things - supports emmet and CSS preprocessors\n" +
-        "[jsfiddle](https://jsfiddle.net/) - A less distracting but just as powerful alternative to CodePen\n" +
-        "[github](https://github.com/) - The ultimate code versioning, collaboration and management platform based on git");
+        embed.addField(lang.format.share.title, lang.format.share.desc);
 
         msg.channel.send(embed);
     }
