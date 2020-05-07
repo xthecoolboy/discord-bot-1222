@@ -98,7 +98,7 @@ module.exports = {
         msg: "Message"
     },
     php: {
-        help: "Use either `ice php <class | function>` or `ice php <class>::<method>`. Use object oriented style when available.",
+        help: "Use either `%s php <class | function>` or `%s php <class>::<method>`. Use object oriented style when available.",
         version: "Version",
         syntax: "Syntax",
         long: "The code syntax is too long to fit. Click the title to open in browser.",
