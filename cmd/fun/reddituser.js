@@ -82,7 +82,7 @@ module.exports = class reddituser extends commando.Command {
                                 case "✅":
                                     embed.addField("Top subreddits");
                                     collector.stop();
-                                    pages(msg, embed, em, moderates, 1, "subreddits", sub => `[${sub.sr_display_name_prefixed} (${sub.subscribers})](https://reddit.com${sub.url})`);
+                                    pages(msg, embed, em, moderates, 1, "subreddits", sub => `[${sub.sr_display_name_prefixed}](https://reddit.com${sub.url}) (${sub.subscribers})`);
                                     break;
                                 default:
                                     reaction.remove();
