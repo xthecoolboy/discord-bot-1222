@@ -1,7 +1,7 @@
 const commando = require("@iceprod/discord.js-commando");
 const { reddit } = require("../../index");
 const newEmbed = require("../../embed");
-const { timestampToDate } = require("../../utils");
+const { timestampToDate, numberWithCommas } = require("../../utils");
 const pages = require("../../managers/pages");
 const got = require("got");
 
@@ -24,8 +24,8 @@ module.exports = class reddituser extends commando.Command {
     }
 
     async run(msg, cmd) {
-        return msg.say("This command is disabled until it's fixed.");
-        /* if(!reddit) return msg.say("Reddit connection not sucessful. View console for more information.");
+        // return msg.say("This command is disabled until it's fixed.");
+        if(!reddit) return msg.say("Reddit connection not sucessful. View console for more information.");
         if(!cmd.user.match(/^\/?(u\/)?[a-z0-9][a-z0-9_-]{2,21}$/i)) return msg.say("Invalid username");
         const embed = newEmbed()
             .setDescription("Loading...");
@@ -82,7 +82,7 @@ module.exports = class reddituser extends commando.Command {
                                 case "✅":
                                     embed.addField("Top subreddits");
                                     collector.stop();
-                                    pages(msg, cmd, embed, em, moderates, 1);
+                                    pages(msg, embed, em, moderates, 1, "subreddits", sub => `[${sub.sr_display_name_prefixed} (${sub.subscribers})](https://reddit.com${sub.url})`);
                                     break;
                                 default:
                                     reaction.remove();
@@ -101,7 +101,5 @@ module.exports = class reddituser extends commando.Command {
             console.log(e);
             return em.edit(embed);
         }
-
-        */
     }
 };
