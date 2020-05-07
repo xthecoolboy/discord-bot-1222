@@ -45,7 +45,7 @@ module.exports = class Purge extends Command {
 
                 return msg.channel.send(embed)
                     .then(msg => {
-                        if(cmd.delete === "true") { msg.delete({timeout:3000}); }
+                        if(cmd.delete === "true") { msg.delete({ timeout: 3000 }); }
                     });
             } catch(e) {
                 msg.channel.send("Something went wrong...");
