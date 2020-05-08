@@ -4,6 +4,8 @@ const app = express();
 
 var client = null;
 
+app.use(express.json());
+
 app.get("/code/:code", (req, res) => {
     res.json(httpCodeInfo(req.params.code));
 });
@@ -18,6 +20,17 @@ app.get("/guild/:id", (req, res) => {
     var guild = client.guilds.resolve(req.params.id);
     if(guild) {
         res.json(guild);
+    } else {
+        res.status(404).json({
+            error: "not_found"
+        });
+    }
+});
+
+app.get("/guild/:id/permission/:permission", (req, res) => {
+    var guild = client.guilds.resolve(req.params.id);
+    if(guild) {
+        res.json(guild.me.hasPermission(req.params.permission));
     } else {
         res.status(404).json({
             error: "not_found"
@@ -78,9 +91,31 @@ app.get("/message/:guild/:channel/:id", async (req, res) => {
     }
 });
 
+app.post("/message/:guild/:channel", async (req, res) => {
+    try {
+        var guild = client.guilds.resolve(req.params.guild);
+        var channel = guild.channels.resolve(req.params.channel);
+    } catch(e) {
+        return res.status(404).json({
+            error: "not_found"
+        });
+    }
+    try {
+        console.log(req.body);
+        var msg = await channel.send(req.body);
+        res.json(msg);
+    } catch(e) {
+        console.log(e);
+        return res.status(403).json({
+            error: "send_permission"
+        });
+    }
+});
+
 app.get("/user/:id", (req, res) => {
     var user = client.users.resolve(req.params.id);
     if(user) {
+        user.avatar_url = user.displayAvatarURL();
         res.json(user);
     } else {
         res.status(404).json({
