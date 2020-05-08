@@ -101,8 +101,12 @@ app.post("/message/:guild/:channel", async (req, res) => {
         });
     }
     try {
-        console.log(req.body);
-        var msg = await channel.send(req.body);
+        var msg;
+        if(req.body.message) {
+            msg = await channel.send(req.body.message);
+        } else {
+            msg = await channel.send(req.body);
+        }
         res.json(msg);
     } catch(e) {
         console.log(e);
