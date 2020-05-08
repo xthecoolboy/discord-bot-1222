@@ -53,19 +53,36 @@ class Channel {
         this.id = id;
     }
 
-    async send(content: string | Embed): Promise<SentMessage> {
+    async send(content: string | Embed | object): Promise<SentMessage> {
+        if(!content) throw new Error("Cannot send empty message");
+
+        if(typeof content === "string") {
+            content = {
+                message: content
+            };
+        }
         if(!this.client.user) throw new Error("Cannot use client before it's available");
         const res = await fetch("http://localhost:8856/message/" + this.guild.id + "/" + this.id, {
             method: "POST",
-            body: new TextEncoder().encode(JSON.stringify(content))
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content)
         });
+        try {
+            var id = await res.json();
+        } catch(e) {
+            console.warn(await res.text());
+            throw new Error(e);
+        }
+        if(id.error) throw id.error;
         var msg = new Message({
             client: this.client,
             channel: this,
             guild: this.guild,
             author: this.client.user
         });
-        return new SentMessage({ id: await res.json(), message: msg });
+        return new SentMessage({ id, message: msg });
     }
 }
 
