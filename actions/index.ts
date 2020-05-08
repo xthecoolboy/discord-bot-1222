@@ -12,5 +12,4 @@ var channel = new Channel({
 
 console.log("Sending test message");
 var msg = await channel.send("Hello world from actions!");
-console.log(msg);
 console.log("Done!");
