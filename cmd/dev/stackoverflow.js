@@ -27,7 +27,8 @@ module.exports = class StackOverflow extends commando.Command {
     parse(string) {
         string = string.replace(/&#([0-9])+;/gi, (sub, gr) => {
             return String.fromCharCode(gr);
-        });
+        }
+        );
 
         if(~string.indexOf("TLDR")) {
             string = string.substr(string.indexOf("TLDR"), 1024);
