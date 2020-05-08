@@ -1,4 +1,5 @@
 const commando = require("@iceprod/discord.js-commando");
+const account = require("../../managers/accountManager");
 
 module.exports = class Join extends commando.Command {
     constructor(client) {
@@ -11,6 +12,10 @@ module.exports = class Join extends commando.Command {
     }
 
     async run(msg) {
+        var dbuser = await account.fetchUser(msg.author.id);
+        if(!dbuser.donor_tier) {
+            return msg.channel.send("You can't use this command as you don't have premium");
+        }
         if(msg.guild.voice) {
             if(msg.guild.voice.connection) {
                 msg.channel.send("The bot is already in a voice channel!");

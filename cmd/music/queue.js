@@ -1,4 +1,5 @@
 const commando = require("@iceprod/discord.js-commando");
+const account = require("../../managers/accountManager");
 const newEmbed = require("../../embed");
 const pages = require("../../managers/pages");
 
@@ -22,6 +23,10 @@ module.exports = class Queue extends commando.Command {
     }
 
     async run(msg, { selected }) {
+        var dbuser = await account.fetchUser(msg.author.id);
+        if(!dbuser.donor_tier) {
+            return msg.channel.send("You can't use this command as you don't have premium");
+        }
         var queue = await msg.guild.music.getQueue();
 
         var embed = newEmbed();

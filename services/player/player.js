@@ -168,9 +168,9 @@ class Player {
 
             var collector = msg.channel.createMessageCollector(
                 (m) => {
-                    // eslint-disable-next-line eqeqeq
                     var filter =
-                        parseInt(m.content.trim()) === m.content.trim() &&
+                        // eslint-disable-next-line eqeqeq
+                        parseInt(m.content.trim()) == m.content.trim() &&
                         m.author.id === msg.author.id;
                     return filter;
                 },
@@ -256,9 +256,9 @@ class Player {
             var res = "";
             if(Math.floor(sec / (60 * 60)) > 0) {
                 res += pad(Math.floor(sec / (60 * 60))) + ":";
-                res += pad(Math.floor((sec / 60) % 60)) + ":";
-                res += pad(Math.floor(sec % 60));
             }
+            res += pad(Math.floor((sec / 60) % 60)) + ":";
+            res += pad(Math.floor(sec % 60));
             return res;
         }
 
@@ -275,7 +275,7 @@ class Player {
                     );
                     embed.addField(
                         "Length",
-                        data.length_seconds
+                        data.length_seconds > 0
                             ? humanReadable(data.length_seconds)
                             : "LIVE",
                         true
