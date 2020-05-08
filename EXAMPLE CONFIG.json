@@ -11,5 +11,6 @@
         "secret": "Reddit script secret",
         "username": "username of account with script",
         "password": "password of account with script"
-    }
+    },
+    "api_key": "secret (key for API-BOT comunication)"
 }
