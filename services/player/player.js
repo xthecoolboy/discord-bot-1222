@@ -168,9 +168,9 @@ class Player {
 
             var collector = msg.channel.createMessageCollector(
                 (m) => {
-                    // eslint-disable-next-line eqeqeq
                     var filter =
-                        parseInt(m.content.trim()) === m.content.trim() &&
+                        // eslint-disable-next-line eqeqeq
+                        parseInt(m.content.trim()) == m.content.trim() &&
                         m.author.id === msg.author.id;
                     return filter;
                 },
