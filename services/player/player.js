@@ -256,9 +256,9 @@ class Player {
             var res = "";
             if(Math.floor(sec / (60 * 60)) > 0) {
                 res += pad(Math.floor(sec / (60 * 60))) + ":";
-                res += pad(Math.floor((sec / 60) % 60)) + ":";
-                res += pad(Math.floor(sec % 60));
             }
+            res += pad(Math.floor((sec / 60) % 60)) + ":";
+            res += pad(Math.floor(sec % 60));
             return res;
         }
 
