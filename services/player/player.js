@@ -275,7 +275,7 @@ class Player {
                     );
                     embed.addField(
                         "Length",
-                        data.length_seconds
+                        data.length_seconds > 0
                             ? humanReadable(data.length_seconds)
                             : "LIVE",
                         true
