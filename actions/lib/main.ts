@@ -1,16 +1,32 @@
+async function makeRequest(endpoint: string): Promise<any> {
+    const res = await fetch("http://localhost:8856/" + endpoint);
+    return await res.json();
+}
 
 /**
  * Holds client data
  */
 class Client {
-    guild: Guild;
+    guild?: Guild;
+    user?: User;
+    available = false;
 
-    constructor(guild: Guild) {
+    constructor(guild?: Guild, user?: User) {
         this.guild = guild;
+        this.user = user;
     }
 
-    hasPermission(permission: string): Promise<boolean> {
+    static async newClient(guild: string, user: string) {
+        var c = new Client();
+        c.guild = await Guild.getGuild(guild, c);
+        c.user = await User.getUser(user, c);
+        c.available = true;
+        return c;
+    }
 
+    async hasPermission(permission: string): Promise<boolean> {
+        if(!this.guild) throw new Error("Cannot use client before it's available");
+        return await makeRequest("guild/" + this.guild.id + "/permission/" + encodeURI(permission));
     }
 };
 
@@ -20,19 +36,37 @@ class Client {
 class Channel {
     client: Client;
     guild: Guild;
+    id: string;
 
     constructor({
         client,
-        guild
+        guild,
+        id
     }: {
         client: Client,
-        guild: Guild
+        guild?: Guild,
+        id: string
     }) {
+        if(!client.guild) throw new Error("Cannot use client before it's ready");
         this.client = client;
-        this.guild = guild;
+        this.guild = guild || client.guild;
+        this.id = id;
     }
 
-    send(content: string | Embed): Promise<void> {}
+    async send(content: string | Embed): Promise<SentMessage> {
+        if(!this.client.user) throw new Error("Cannot use client before it's available");
+        const res = await fetch("http://localhost:8856/message/" + this.guild.id + "/" + this.id, {
+            method: "POST",
+            body: new TextEncoder().encode(JSON.stringify(content))
+        });
+        var msg = new Message({
+            client: this.client,
+            channel: this,
+            guild: this.guild,
+            author: this.client.user
+        });
+        return new SentMessage({ id: await res.json(), message: msg });
+    }
 }
 
 /**
@@ -116,7 +150,9 @@ class Message {
         this.author = author;
     }
 
-    reply(content: string | Embed): Promise<SentMessage> {}
+    reply(content: string | Embed): Promise<SentMessage> {
+        return this.channel.send(content);
+    }
 }
 
 /**
@@ -137,8 +173,8 @@ class SentMessage {
         this.message = message;
     }
 
-    edit(content: string | Embed): Promise<void> {}
-    delete(): Promise<void> {}
+//    edit(content: string | Embed): Promise<void> {}
+//    delete(): Promise<void> {}
 }
 
 /**
@@ -150,26 +186,29 @@ class Guild {
 
     name: string;
     userCount: number;
-    botCount: number;
 
     constructor({
         client,
         id,
         name,
-        userCount,
-        botCount
+        userCount
     }: {
         client: Client,
         id: string,
         name: string,
-        userCount: number,
-        botCount: number
+        userCount: number
     }) {
         this.client = client;
         this.id = id;
         this.name = name;
         this.userCount = userCount;
-        this.botCount = botCount;
+    }
+
+    static async getGuild(id: string, client: Client): Promise<Guild> {
+        var data = await makeRequest("guild/" + id);
+        data.client = client;
+        data.userCount = data.memberCount;
+        return new Guild(data)
     }
 }
 
@@ -302,6 +341,7 @@ class User {
     nickname: string;
     tag: string;
     identifier: number;
+    avatar: string;
 
     constructor({
         client,
@@ -310,7 +350,8 @@ class User {
         name,
         nickname,
         tag,
-        identifier
+        identifier,
+        avatar
     }: {
         client: Client,
         id: string,
@@ -318,7 +359,8 @@ class User {
         name: string,
         nickname: string,
         tag: string,
-        identifier: number
+        identifier: number,
+        avatar: string
     }) {
         this.client = client;
         this.id = id;
@@ -327,13 +369,32 @@ class User {
         this.nickname = nickname;
         this.tag = tag;
         this.identifier = identifier;
+        this.avatar = avatar;
     }
 
-    ban(reason: string, days: number): Promise<void> {}
-    kick(reason: string): Promise<void> {}
-    warn(reason: string): Promise<void> {}
+    static async getUser(id: string, client: Client): Promise<User> {
+        if(!client.guild) throw new Error("Cannot use client before it's available");
+        const member = await makeRequest("member/" + client.guild.id + "/" + id);
+        const user = await makeRequest("user/" + id);
 
-    DM(message: string | Embed): Promise<void> {}
+        var u = new User({
+            client,
+            id,
+            bot: user.bot,
+            name: user.username,
+            nickname: member.nickname,
+            tag: user.tag,
+            identifier: user.discriminator,
+            avatar: user.avatar_url
+        });
+        return u;
+    }
+
+//    ban(reason: string, days: number): Promise<void> {}
+//    kick(reason: string): Promise<void> {}
+//    warn(reason: string): Promise<void> {}
+//
+//    DM(message: string | Embed): Promise<void> {}
 }
 
 export {
