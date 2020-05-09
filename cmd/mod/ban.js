@@ -27,7 +27,7 @@ module.exports = class Ban extends Command {
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, cmd) {
         var daysToDelete = 0;
         if(parseInt(cmd.reason.split(" ")[0])) daysToDelete = parseInt(cmd.reason.split(" ")[0]);
         // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't ban an owner of this bot!");
@@ -41,10 +41,12 @@ module.exports = class Ban extends Command {
 
         if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
 
+        await msg.guild.ban(cmd.user, {
+            reason: cmd.reason,
+            days: daysToDelete
+        });
         // Set number of total cases in the server
-        let totalCaseCount = msg.guild.settings.get("totalcasecount", 0);
-        totalCaseCount++;
-        msg.guild.settings.set("totalcasecount", totalCaseCount);
+        const totalCaseCount = await msg.guild.settings.get("totalcasecount", 0);
 
         // Store details about this case
         const Case = {
@@ -57,19 +59,14 @@ module.exports = class Ban extends Command {
             reason: cmd.reason
         };
 
-        msg.guild.settings.set(`case.${Case.id}`, Case);
-
         let reason = cmd.reason;
         if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
 
         const embed = newEmbed();
         embed.setColor("RED");
         embed.setAuthor(`Ban ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
-        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${msg.client.commandPrefix}case ${Case.id}\` for more information`);
+        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${await msg.guild.settings.get("prefix", msg.client.commandPrefix)}case ${Case.id}\` for more information`);
 
-        msg.guild.ban(cmd.user, {
-            reason: cmd.reason,
-            days: daysToDelete
-        }).then(msg.embed(embed));
+        msg.embed(embed);
     }
 };

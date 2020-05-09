@@ -26,7 +26,7 @@ module.exports = class kickCommand extends Command {
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, cmd) {
         // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't kick an owner of this bot!");
 
         if(!msg.guild.member(cmd.user)) return msg.say("Hmmm.. I couldn't find that user o.o");
@@ -37,10 +37,10 @@ module.exports = class kickCommand extends Command {
         if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
         if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
 
+        await msg.guild.member(cmd.user).kick(cmd.reason, msg.author);
+
         // Set number of total cases in the server
-        let totalCaseCount = msg.guild.settings.get("totalcasecount", 0);
-        totalCaseCount++;
-        msg.guild.settings.set("totalcasecount", totalCaseCount);
+        const totalCaseCount = await msg.guild.settings.get("totalcasecount", 0);
 
         // Store details about this case
         const Case = {
@@ -53,8 +53,6 @@ module.exports = class kickCommand extends Command {
             reason: cmd.reason
         };
 
-        msg.guild.settings.set(`case.${Case.id}`, Case);
-
         let reason = cmd.reason;
         if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
 
@@ -62,9 +60,7 @@ module.exports = class kickCommand extends Command {
         const embed = newEmbed();
         embed.setColor("GOLD");
         embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
-        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${msg.client.commandPrefix}case ${Case.id}\` for more information`);
-
-        msg.guild.member(cmd.user).kick(cmd.reason)
-            .then(msg.embed(embed));
+        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${await msg.guild.settings.get("prefix", msg.client.commandPrefix)}case ${Case.id}\` for more information`);
+        msg.reply(embed);
     }
 };
