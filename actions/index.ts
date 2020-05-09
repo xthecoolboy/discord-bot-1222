@@ -1,6 +1,6 @@
 #!/usr/bin/env deno
 
-import { Channel, Client } from "./lib/main.ts";
+import { Channel, Client, User } from "./lib/main.ts";
 
 
 var client = await Client.newClient("692837502117216307", "654725534365909043");
@@ -11,5 +11,9 @@ var channel = new Channel({
 });
 
 console.log("Sending test message");
-var msg = await channel.send("Hello world from actions!");
+var user = await User.getUser("147365975707090944", client);
+console.log(await user.send("Hello there"));
+
+//var msg = await channel.send("Hello world from actions!");
+
 console.log("Done!");
