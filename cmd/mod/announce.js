@@ -30,7 +30,7 @@ module.exports = class Announce extends commando.Command {
                 {
                     type: "boolean",
                     key: "showAuthor",
-                    default: true,
+                    default: false,
                     prompt: "Do you want to show you as author?"
                 }
             ]
