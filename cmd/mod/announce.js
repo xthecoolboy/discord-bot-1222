@@ -1,5 +1,5 @@
 const commando = require("@iceprod/discord.js-commando");
-const { RichEmbed } = require("discord.js");
+const newEmbed = require("../../embed");
 
 module.exports = class Announce extends commando.Command {
     constructor(client) {
@@ -15,30 +15,33 @@ module.exports = class Announce extends commando.Command {
                     type: "string",
                     key: "title",
                     prompt: "What's the title of announcement?"
-                }, {
+                },
+                {
                     type: "string",
                     key: "string",
                     prompt: "What do you want to announce?"
-                }, {
-                    type: "boolean",
-                    key: "showAuthor",
-                    default: true,
-                    prompt: "Do you want to show you as author?"
-                }, {
+                },
+                {
                     type: "string",
                     key: "color",
                     default: "000",
                     prompt: "What's the color you want to use?"
+                },
+                {
+                    type: "boolean",
+                    key: "showAuthor",
+                    default: true,
+                    prompt: "Do you want to show you as author?"
                 }
             ]
         });
     }
 
     run(msg, cmd) {
-        var embed = new RichEmbed();
+        var embed = newEmbed();
 
         if(cmd.showAuthor) {
-            embed.setAuthor(msg.author.tag, msg.author.avatarURL);
+            embed.setAuthor(msg.author.tag, msg.author.avatarURL());
         }
         try {
             embed.setColor(cmd.color.toUpperCase());
@@ -47,9 +50,11 @@ module.exports = class Announce extends commando.Command {
                 msg.delete(3000);
             });
         }
-        embed.setTitle(cmd.title);
-        embed.setDescription(cmd.string);
+        embed
+            .setTitle(cmd.title)
+            .setDescription(cmd.string)
+            .setFooter("");
 
-        msg.channel.send("", { embed });
+        msg.channel.send(embed);
     }
 };
