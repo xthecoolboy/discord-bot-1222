@@ -27,7 +27,7 @@ module.exports = class Stats extends commando.Command {
             embed.setDescription("The most universal bot.");
             embed.setURL("https://iceproductions.dev");
 
-            embed.setThumbnail(this.client.user.avatarURL);
+            embed.setThumbnail(this.client.user.avatarURL());
             var users = 0;
             var guilds = 0;
             for(const guild of this.client.guilds.cache) {
@@ -36,14 +36,12 @@ module.exports = class Stats extends commando.Command {
             }
 
             embed.addField("Website", "[iceproductions.dev](https://iceproductions.dev)", true);
-            embed.addField("Main guild", "[Aztec](https://discord.gg/8fqEepV)", true);
+            embed.addField("Main guild", "[Aztec support](https://discord.gg/8fqEepV)", true);
             embed.addField("Prefix", "`" + msg.guild.commandPrefix + "`", true);
             embed.addField("Users", shortNumber(users), true);
             embed.addField("Guilds", shortNumber(guilds), true);
             embed.addField("Uptime", timeAgo.format(global.started), true);
-            embed.addField("Last reloaded", timeAgo.format(global.lastReload), true);
-
-            embed.setFooter(embed.footer.text, this.client.user.avatarURL());
+            // embed.addField("Last reloaded", timeAgo.format(global.lastReload), true);
             msg.channel.send(embed);
         } catch(e) {
             msg.channel.send("An error occured.");
