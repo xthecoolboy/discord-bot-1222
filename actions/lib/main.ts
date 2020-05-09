@@ -431,7 +431,16 @@ class User {
         if(resp.error) throw resp.error;
     }
 
-//    warn(reason: string): Promise<void> {}
+
+    /**
+     * Warns user in guild for given reason
+     * @param reason
+     */
+    async warn(reason: string): Promise<void> {
+        if(!this.client.guild) throw new Error("Cannot use client before it's available");
+        var resp = await makeRequest("member/" + this.client.guild.id + "/" + this.id + "/warn/" + encodeURI(reason));
+        if(resp.error) throw resp.error;
+    }
 
     /**
      * Sends DM to user

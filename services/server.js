@@ -60,35 +60,45 @@ app.get("/member/:guild/:id", (req, res) => {
     }
 });
 
+app.get("/member/:guild/:id/warn/:reason", (req, res) => {
+    var guild = client.guilds.resolve(req.params.guild);
+    if(guild) {
+        var member = guild.member(req.params.id);
+        if(member) {
+            try {
+                if(req.params.reason.length > 256) {
+                    return res.status(400).json({ error: "reason_too_long" });
+                }
+                member.warn(req.params.reason);
+                res.json({});
+            } catch(e) {
+                console.log(e);
+                res.status(403).json({
+                    error: "perms"
+                });
+            }
+        } else {
+            res.status(404).json({
+                error: "not_found"
+            });
+        }
+    } else {
+        res.status(404).json({
+            error: "guild_not_found"
+        });
+    }
+});
+
 app.get("/member/:guild/:id/kick/:reason", (req, res) => {
     var guild = client.guilds.resolve(req.params.guild);
     if(guild) {
         var member = guild.member(req.params.id);
-        var user = client.users.resolve(req.params.id);
         if(member) {
             try {
                 if(req.params.reason.length > 256) {
                     return res.status(400).json({ error: "reason_too_long" });
                 }
                 member.kick(req.params.reason);
-
-                // Set number of total cases in the server
-                let totalCaseCount = guild.settings.get("totalcasecount", 0);
-                totalCaseCount++;
-                guild.settings.set("totalcasecount", totalCaseCount);
-
-                // Store details about this case
-                const Case = {
-                    id: totalCaseCount,
-                    type: "kick",
-                    offender: user.tag,
-                    offenderID: user.id,
-                    moderator: client.user.tag + " (actions)",
-                    moderatorID: client.user.id,
-                    reason: req.params.reason
-                };
-
-                guild.settings.set(`case.${Case.id}`, Case);
                 res.json({});
             } catch(e) {
                 console.log(e);
@@ -112,31 +122,12 @@ app.get("/member/:guild/:id/ban/:reason", (req, res) => {
     var guild = client.guilds.resolve(req.params.guild);
     if(guild) {
         var member = guild.member(req.params.id);
-        var user = client.users.resolve(req.params.id);
         if(member) {
             try {
                 if(req.params.reason.length > 256) {
                     return res.status(400).json({ error: "reason_too_long" });
                 }
                 member.ban(req.params.reason);
-
-                // Set number of total cases in the server
-                let totalCaseCount = guild.settings.get("totalcasecount", 0);
-                totalCaseCount++;
-                guild.settings.set("totalcasecount", totalCaseCount);
-
-                // Store details about this case
-                const Case = {
-                    id: totalCaseCount,
-                    type: "ban",
-                    offender: user.tag,
-                    offenderID: user.id,
-                    moderator: client.user.tag + " (actions)",
-                    moderatorID: client.user.id,
-                    reason: req.params.reason
-                };
-
-                guild.settings.set(`case.${Case.id}`, Case);
                 res.json({});
             } catch(e) {
                 console.log(e);
