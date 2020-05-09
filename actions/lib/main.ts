@@ -146,7 +146,7 @@ class NewMessageEvent extends Event {
  */
 class Message {
     client: Client;
-    channel: Channel;
+    channel: Channel | User;
     guild: Guild;
     author: User;
 
@@ -157,7 +157,7 @@ class Message {
         author
     }: {
         client: Client,
-        channel: Channel,
+        channel: Channel | User,
         guild: Guild,
         author: User
     }) {
@@ -389,6 +389,11 @@ class User {
         this.avatar = avatar;
     }
 
+    /**
+     * Fetches user by id
+     * @param id of user
+     * @param client
+     */
     static async getUser(id: string, client: Client): Promise<User> {
         if(!client.guild) throw new Error("Cannot use client before it's available");
         const member = await makeRequest("member/" + client.guild.id + "/" + id);
@@ -406,12 +411,64 @@ class User {
         });
         return u;
     }
+    /**
+     * Bans user from guild for given reason
+     * @param reason
+     */
+    async ban(reason: string): Promise<void> {
+        if(!this.client.guild) throw new Error("Cannot use client before it's available");
+        var resp = await makeRequest("member/" + this.client.guild.id + "/" + this.id + "/ban/" + encodeURI(reason));
+        if(resp.error) throw resp.error;
+    }
 
-//    ban(reason: string, days: number): Promise<void> {}
-//    kick(reason: string): Promise<void> {}
+    /**
+     * Kicks user from guild for given reason
+     * @param reason
+     */
+    async kick(reason: string): Promise<void> {
+        if(!this.client.guild) throw new Error("Cannot use client before it's available");
+        var resp = await makeRequest("member/" + this.client.guild.id + "/" + this.id + "/kick/" + encodeURI(reason));
+        if(resp.error) throw resp.error;
+    }
+
 //    warn(reason: string): Promise<void> {}
-//
-//    DM(message: string | Embed): Promise<void> {}
+
+    /**
+     * Sends DM to user
+     * @param content to send
+     */
+    async send(content: string | Embed | Object): Promise<SentMessage> {
+        if(!this.client.guild) throw new Error("Cannot use client before it's available");
+        if(!content) throw new Error("Cannot send empty message");
+
+        if(typeof content === "string") {
+            content = {
+                message: content
+            };
+        }
+        if(!this.client.user) throw new Error("Cannot use client before it's available");
+        const res = await fetch("http://localhost:8856/message/" + this.id, {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content)
+        });
+        try {
+            var id = await res.json();
+        } catch(e) {
+            console.warn(await res.text());
+            throw new Error(e);
+        }
+        if(id.error) throw id.error;
+        var msg = new Message({
+            client: this.client,
+            channel: this,
+            guild: this.client.guild,
+            author: this.client.user
+        });
+        return new SentMessage({ id, message: msg });
+    }
 }
 
 export {
