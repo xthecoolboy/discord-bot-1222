@@ -38,22 +38,13 @@ module.exports = class Announce extends commando.Command {
     }
 
     run(msg, cmd) {
-        var embed = newEmbed();
-
-        if(cmd.showAuthor) {
-            embed.setAuthor(msg.author.tag, msg.author.avatarURL());
-        }
-        try {
-            embed.setColor(cmd.color.toUpperCase());
-        } catch(e) {
-            msg.channel.send("You passed invalid color, it will get ignored.").then(msg => {
-                msg.delete(3000);
-            });
-        }
-        embed
+        var embed = newEmbed()
             .setTitle(cmd.title)
             .setDescription(cmd.string)
+            .setColor(cmd.color.toUpperCase())
             .setFooter("");
+
+        if(cmd.showAuthor) embed.setAuthor(msg.author.tag, msg.author.avatarURL());
 
         msg.channel.send(embed);
     }
