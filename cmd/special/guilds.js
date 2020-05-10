@@ -9,7 +9,7 @@ module.exports = class Guilds extends Command {
             aliases: ["guilds"],
             group: "special",
             memberName: "guilds",
-            ownerOnly: true,
+            ownerOnly: false,
             description: "Lists guilds ice is in",
             throttling: {
                 usages: 2,
