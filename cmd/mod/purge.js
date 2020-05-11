@@ -41,7 +41,7 @@ module.exports = class Purge extends Command {
 
                 var embed = newEmbed();
                 embed.setDescription(`✅ Successfully purged ${cmd.amount} messages!`);
-                embed.setAuthor(msg.author.username, msg.author.displayAvatarURL);
+                embed.setAuthor(msg.author.username, msg.author.displayAvatarURL());
 
                 return msg.channel.send(embed)
                     .then(msg => {

@@ -30,7 +30,7 @@ module.exports = class QR extends commando.Command {
         var embed = newEmbed();
         var url = `http://qr.danbulant.eu/?code=${text}`;
 
-        embed.setAuthor(msg.author.tag, msg.author.avatarURL());
+        embed.setAuthor(msg.author.tag, msg.authoravatarURL());
         embed.setTitle("QR Code");
         embed.setImage(url);
         embed.setFooter(embed.footer.text + " | Using danbulant.eu API", embed.footer.iconURL);

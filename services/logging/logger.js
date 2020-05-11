@@ -77,7 +77,7 @@ function format(args, event) {
             if(data.old.content === data.msg.content) return null;
             embed.setTitle("Message edited");
             embed.setURL(data.msg.url);
-            embed.setAuthor(data.old.author.tag, data.old.author.avatarURL);
+            embed.setAuthor(data.old.author.tag, data.old.authoravatarURL());
             embed.addField("Old message:", data.old.content);
             embed.addField("New message:", data.msg.content);
             return embed;

@@ -64,7 +64,7 @@ module.exports = class Ban extends Command {
 
         const embed = newEmbed();
         embed.setColor("RED");
-        embed.setAuthor(`Ban ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
+        embed.setAuthor(`Ban ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL());
         embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${await msg.guild.settings.get("prefix", msg.client.commandPrefix)}case ${Case.id}\` for more information`);
 
         msg.embed(embed);

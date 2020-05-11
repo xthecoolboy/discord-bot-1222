@@ -36,7 +36,7 @@ module.exports = class historyCommand extends Command {
         };
 
         const embed = newEmbed();
-        embed.setAuthor(msg.author.username, msg.author.displayAvatarURL);
+        embed.setAuthor(msg.author.username, msg.author.displayAvatarURL());
         embed.setTitle(`${cmd.user.tag}'s offense history`);
 
         for(var Case of iterable) {

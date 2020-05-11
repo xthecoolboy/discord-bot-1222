@@ -20,7 +20,7 @@ module.exports = async (msg) => {
 
         embed = newEmbed();
         embed.description = mess.cleanContent;
-        embed.setAuthor(mess.author.tag, mess.author.avatarURL);
+        embed.setAuthor(mess.author.tag, mess.authoravatarURL());
 
         if(mess.attachments.length) {
             if(mess.attachments.length === 1) {

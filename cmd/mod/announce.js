@@ -44,7 +44,7 @@ module.exports = class Announce extends commando.Command {
             .setColor(cmd.color.toUpperCase())
             .setFooter("");
 
-        if(cmd.showAuthor) embed.setAuthor(msg.author.tag, msg.author.avatarURL());
+        if(cmd.showAuthor) embed.setAuthor(msg.author.tag, msg.authoravatarURL());
 
         msg.channel.send(embed);
     }

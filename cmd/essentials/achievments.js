@@ -22,7 +22,7 @@ module.exports = class Achievements extends commando.Command {
          * @todo user account link in user-centric commands
          * @body In setAuthor, add link to profile on web (once they're finished being implemented in website)
          */
-        embed.setAuthor(msg.author.tag, msg.author.avatarURL);
+        embed.setAuthor(msg.author.tag, msg.authoravatarURL());
 
         var achievmentsAwarded = await user.achievments(id);
         achievmentsAwarded.forEach(a => {

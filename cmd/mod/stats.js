@@ -27,7 +27,7 @@ module.exports = class Stats extends commando.Command {
             embed.setDescription("The most universal bot.");
             embed.setURL("https://iceproductions.dev");
 
-            embed.setThumbnail(this.client.user.avatarURL());
+            embed.setThumbnail(this.client.useravatarURL());
             var users = 0;
             var guilds = 0;
             for(const guild of this.client.guilds.cache) {

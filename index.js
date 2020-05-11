@@ -56,7 +56,7 @@ Structures.extend("GuildMember", (GM) => {
 
             const embed = newEmbed();
             embed.setColor("RED");
-            embed.setAuthor(`Ban ${Case.id}"`, author.avatarURL());
+            embed.setAuthor(`Ban ${Case.id}"`, authoravatarURL());
             embed.setTitle("You were banned in " + this.guild.name + " by " + Case.moderator);
             embed.setDescription(" > " + reason);
             await this.send(embed);
@@ -93,7 +93,7 @@ Structures.extend("GuildMember", (GM) => {
 
             const embed = newEmbed();
             embed.setColor("RED");
-            embed.setAuthor(`Kick ${Case.id}"`, author.avatarURL());
+            embed.setAuthor(`Kick ${Case.id}"`, authoravatarURL());
             embed.setTitle("You were kicked from " + this.guild.name + " by " + Case.moderator);
             embed.setDescription(" > " + reason);
             this.send(embed);
@@ -131,7 +131,7 @@ Structures.extend("GuildMember", (GM) => {
 
             const embed = newEmbed();
             embed.setColor("GOLD");
-            embed.setAuthor(`Warn ${Case.id}`, author.avatarURL());
+            embed.setAuthor(`Warn ${Case.id}`, authoravatarURL());
             embed.setTitle("You were warned in " + this.guild.name + " by " + Case.moderator);
             embed.setDescription(" > " + reason);
             await this.send(embed);

@@ -59,7 +59,7 @@ module.exports = class kickCommand extends Command {
         msg.guild.member(cmd.user).kick(cmd.reason);
         const embed = newEmbed();
         embed.setColor("GOLD");
-        embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
+        embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL());
         embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${await msg.guild.settings.get("prefix", msg.client.commandPrefix)}case ${Case.id}\` for more information`);
         msg.reply(embed);
     }
