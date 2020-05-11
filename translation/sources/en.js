@@ -25,7 +25,8 @@ module.exports = {
         color: "Color",
         color_invalid: "Invalid color",
         perms: "You don't have permission to do this!",
-        limit: "Please select a valid amount between %s and %n"
+        limit: "Please select a valid amount between %s and %n",
+        months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     },
     lang: {
         current: "Current language: `%s`"

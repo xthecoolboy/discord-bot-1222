@@ -28,6 +28,8 @@ module.exports = class NekosCommand extends commando.Command {
     }
 
     async run(msg, cmd) {
+        var lang = await msg.guild.lang();
+        this.lang = lang;
         this.msg = msg;
         this.cmd = cmd;
 
@@ -55,12 +57,12 @@ module.exports = class NekosCommand extends commando.Command {
                     if(allowed.includes(c)) {
                         this.nonText(c);
                     } else {
-                        msg.channel.send("Some endpoints break discord ToS and are disallowed from public use.");
+                        msg.channel.send(lang.nekos.tos);
                     }
                 }
             } else {
                 console.log("Non existent command for nekos:", c, "-", neko[c]);
-                msg.channel.send("Non-existent command or NSFW. See `nekos help`.");
+                msg.channel.send(lang.nekos.sfw);
             }
         }
     }
@@ -101,7 +103,7 @@ module.exports = class NekosCommand extends commando.Command {
     }
 
     help() {
-        this.msg.channel.send("See https://github.com/Nekos-life/nekos-dot-life for available subcommands. Use them as `ice nekos <cmd>`. Only SFW.");
+        this.msg.channel.send(this.lang.nekos.see.replace("%s", "https://github.com/Nekos-life/nekos-dot-life"));
     }
 
     send(src) {

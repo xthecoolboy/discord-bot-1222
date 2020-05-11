@@ -13,11 +13,12 @@ module.exports = class Xkcd extends commando.Command {
     }
 
     async run(msg) {
+        var lang = await msg.guild.lang();
         got("https://konachan.net/post.json?limit=1&page=" + Math.floor(Math.random() * 241260)).then(res => {
             var img = JSON.parse(res.body)[0];
             var embed = newEmbed();
             embed.setTitle("Konachan");
-            embed.setDescription("By " + img.author);
+            embed.setDescription(lang.general.by.replace("%s", img.author));
             embed.setImage(img.file_url);
             msg.channel.send(embed);
         });

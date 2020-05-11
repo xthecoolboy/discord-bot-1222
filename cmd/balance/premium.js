@@ -12,11 +12,13 @@ module.exports = class Premium extends commando.Command {
     }
 
     async run(msg) {
+        var lang = await msg.guild.lang();
         var dbuser = await account.fetchUser(msg.author.id);
-        if(dbuser.donor_tier > 0) {
+        msg.channel.send(lang.premium[(!!(dbuser.donor_tier > 0)).toString()].replace("%s", "https://patreon.com/iceproductions"));
+        /* if(dbuser.donor_tier > 0) {
             msg.channel.send("Congratulations! You have premium. Try some premium commands!");
         } else {
             msg.channel.send("You don't have premium. For information to get premium, go to https://iceproductions.dev/premium");
-        }
+        } */
     }
 };

@@ -21,7 +21,8 @@ module.exports = class Pay extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
-        msg.channel.send("To be done");
+    async run(msg, cmd) {
+        var lang = await msg.guild.lang();
+        msg.channel.send(lang.general.tbd);
     }
 };

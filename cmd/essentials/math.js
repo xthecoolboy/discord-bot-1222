@@ -21,6 +21,7 @@ module.exports = class Math extends commando.Command {
     }
 
     async run(msg, { expression }) {
+        var lang = await msg.guild.lang();
         try {
             msg.channel.send(sl(`
             \`\`\`
@@ -28,7 +29,7 @@ module.exports = class Math extends commando.Command {
             \`\`\`
             `, true));
         } catch(e) {
-            msg.channel.send("The given expression is invalid!");
+            msg.channel.send(lang.math.error);
         }
     }
 };

@@ -13,6 +13,7 @@ module.exports = class Waifu extends commando.Command {
     }
 
     async run(msg) {
+        var lang = await msg.guild.lang();
         var total = 200000;
         var totalTexts = 125254;
 
@@ -29,7 +30,7 @@ module.exports = class Waifu extends commando.Command {
             var body = res.body.substr(0, 1997) + "...";
             embed.setDescription(body);
             embed.setImage(img);
-            embed.setFooter("By thiswaifudoesnotexist.net");
+            embed.setFooter(lang.general.by.replace("%s", "thiswaifudoesnotexist.net"));
 
             msg.channel.send(embed);
         }).catch(e => {

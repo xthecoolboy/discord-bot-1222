@@ -27,6 +27,7 @@ module.exports = class Ascii extends commando.Command {
     }
 
     async run(msg, { text, font }) {
+        var lang = await msg.guild.lang();
         if(!figlet.fontsSync().includes(font)) {
             text = font + text;
             font = "Doom";

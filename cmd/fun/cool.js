@@ -17,7 +17,8 @@ module.exports = class Cool extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
-        msg.channel.send("Cooling up " + cmd.cool);
+    async run(msg, cmd) {
+        var lang = await msg.guild.lang();
+        msg.channel.send(lang.cool.cooling.replace("%s", cmd.cool));
     }
 };

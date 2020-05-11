@@ -15,16 +15,17 @@ module.exports = class Mine extends commando.Command {
     }
 
     async run(msg) {
+        var lang = await msg.guild.lang();
         try {
             var mined = await account.mine(await account.fetchUser(msg.author.id));
             if(mined) {
-                msg.channel.send("Successfully mined BBS! Your current balance is " + await account.getMoney(await account.fetchUser(msg.author.id)));
+                msg.channel.send(lang.mine.done.replace("%s", await account.getMoney(await account.fetchUser(msg.author.id))));
             } else {
-                msg.channel.send("You can't mine yet.");
+                msg.channel.send(lang.mine.not_yet);
             }
         } catch(e) {
             console.warn(e);
-            msg.channel.send("An error occured during mining BBS.");
+            msg.channel.send(lang.mine.error);
         }
     }
 };

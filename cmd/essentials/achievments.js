@@ -13,11 +13,12 @@ module.exports = class Achievements extends commando.Command {
     }
 
     async run(msg) {
+        var lang = await msg.guild.lang();
         var id = await user.fetchUser(msg.author.id);
         id = id.id;
 
         var embed = newEmbed();
-        embed.setTitle("Achievements");
+        embed.setTitle(lang.achievements.title);
         /**
          * @todo user account link in user-centric commands
          * @body In setAuthor, add link to profile on web (once they're finished being implemented in website)
@@ -26,11 +27,11 @@ module.exports = class Achievements extends commando.Command {
 
         var achievmentsAwarded = await user.achievments(id);
         achievmentsAwarded.forEach(a => {
-            embed.addField(`**${a.name}** [BBS: ${parseInt(a.value) / 1000}, XP: ${a.xp}]`, a.description);
+            embed.addField(lang.achievements.format.replace("%s", a.name).replace("%f", parseInt(a.value) / 1000).replace("%n", a.xp), a.description);
         });
 
         if(achievmentsAwarded.length === 0) {
-            msg.channel.send("You don't have any achievements... yet.");
+            msg.channel.send(lang.achievements.null);
         } else {
             msg.channel.send(embed);
         }

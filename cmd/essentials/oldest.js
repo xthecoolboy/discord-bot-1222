@@ -14,18 +14,19 @@ module.exports = class Oldest extends commando.Command {
     }
 
     async run(msg) {
+        var lang = await msg.guild.lang();
         var list = msg.guild.members.cache;
         list = list.sort((userA, userB) => userA.createdTimestamp - userB.createdTimestamp);
         list = list.array();
 
         var embed = newEmbed();
 
-        embed.setTitle("Oldest users of this server");
+        embed.setTitle(lang.oldest.title);
 
-        embed.addField("Users", list.size);
+        embed.addField(lang.oldest.users, list.size);
 
         var em = await msg.channel.send(embed);
 
-        await pages(msg, embed, em, list, 1, "oldest users", user => `${user.user.tag} (${user.displayName} @ ${user.user.createdAt.getUTCDate()}.${user.user.createdAt.getUTCMonth() + 1}. ${user.user.createdAt.getUTCFullYear()})`);
+        await pages(msg, embed, em, list, 1, lang.oldest.pages, user => `${user.user.tag} (${user.displayName} @ ${user.user.createdAt.getUTCDate()}.${user.user.createdAt.getUTCMonth() + 1}. ${user.user.createdAt.getUTCFullYear()})`);
     }
 };

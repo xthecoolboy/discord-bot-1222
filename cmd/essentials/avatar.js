@@ -22,6 +22,7 @@ module.exports = class Avatar extends commando.Command {
     }
 
     async run(msg, cmd) {
+        var lang = await msg.guild.lang();
         var user = null;
         if(!cmd.user) {
             user = msg.author;
@@ -33,11 +34,11 @@ module.exports = class Avatar extends commando.Command {
             try {
                 user = await this.client.fetchUser(id);
             } catch(e) {
-                msg.channel.send("The user you referenced wasn't found. Did you ping properly?");
+                msg.channel.send(lang.avatar.not_found);
                 return;
             }
             if(!user) {
-                msg.channel.send("The user you referenced wasn't found. Did you ping properly?");
+                msg.channel.send(lang.avatar.not_found);
                 return;
             }
         }

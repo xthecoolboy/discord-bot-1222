@@ -25,7 +25,8 @@ module.exports = {
         color: "Barva",
         color_invalid: "Invalid color",
         perms: "Nemáte dostatečná práva pro tuto akci.",
-        limit: "Prosím vyberte číslo mezi %s a %n"
+        limit: "Prosím vyberte číslo mezi %s a %n",
+        months: ["led", "úno", "bře", "dub", "kvě", "čvn", "čvc", "srp", "zář", "lis", "pro", "Dec"]
     },
     lang: {
         current: "Nastavený jazyk: `%s`"
@@ -125,10 +126,10 @@ module.exports = {
         tos: "Some endpoints break discord ToS and are disallowed from public use.",
         sfw: "Non-existent command or NSFW. See `nekos help`.",
         nsfw: "Non-existent command or SFW. See `nekos help`.",
-        see: "See %s for available subcommands. Use them as `nekos-lewd <cmd>`. Only %s"
+        see: "See %s for available subcommands. Use them as `nekos <cmd>` (SFW) or `nekos-lewd <cmd>` (NSFW)."
     },
     balance: {
-        desc: "Your current balance is %n BBS"
+        desc: "Momentálně máš %n BBS"
     },
     mine: {
         done: "Successfully mined BBS! Your current balance is %s",
@@ -136,42 +137,42 @@ module.exports = {
         error: "An error occured during mining BBS"
     },
     premium: {
-        true: "Congratulations! You have premium. Try some premium commands!",
-        false: "You don't have premium. For information about how to get premium, go to %s"
+        true: "Blahopřeji! Máš prémium, vyzkoušej nějaké příkazy!",
+        false: "Nemáš prémium. Pro více informací běž na %s"
     },
     achievements: {
-        title: "Achievements",
+        title: "Úspěchy",
         format: "**%s** [BBS: %f, XP: %n]",
-        null: "You don't have any achievements, yet"
+        null: "Nemáš žádné úspěchy, zatím"
     },
     avatar: {
-        not_found: "The user you referenced wasn't found. Did you ping properly?"
+        not_found: "Uživatel nenalezen."
     },
     covid: {
-        error: "Something went wrong when fetching information...",
-        country_not: "Country not found",
-        country: "Country",
-        info: "COVID-19 Information",
+        error: "Něco se pokazilo",
+        country_not: "Zěme nenalezena",
+        country: "Země",
+        info: "COVID-19 Informace",
         cases: {
-            total: "Total Cases",
-            new: "New Cases",
-            tdeaths: "Total Deaths",
-            ndeaths: "New Deaths",
-            trecovered: "Total Recovered",
-            nrecovered: "New Recovered"
+            total: "Celkem případů",
+            new: "Nové případy",
+            tdeaths: "Celkem úmrtí",
+            ndeaths: "Nově úmrtí",
+            trecovered: "Celkem uzdravení",
+            nrecovered: "Nově uzdravení"
         },
-        graph: "Graph of past %n reports"
+        graph: "Graf posledních %n záznamů"
     },
     math: {
-        error: "The given expression is invalid!"
+        error: "Daný výraz je špatně formulován"
     },
     oldest: {
-        title: "Oldest users of this server",
-        users: "Users",
-        pages: "oldest users"
+        title: "Nejstarší uživatelé",
+        users: "Uživatelé",
+        pages: "nejstarší uživatelé"
     },
     reddit: {
-        error: "An error occured. Is this subreddit public?",
+        error: "Nastala chyba. Je tento subreddit veřejný?",
         disabled: "This command is currently disabled (globally).",
         conn: "Reddit connection not sucessful.",
         nsfw: "NSFW subreddits aren't allowed in non-nsfw channels.",
@@ -183,14 +184,14 @@ module.exports = {
         quarantined: "This subreddit is quarantined"
     },
     voted: {
-        true: "You already voted, all vote-locked commands are available!",
-        false: "You haven't voted yet. You can vote at %s"
+        true: "Již jsi hlasoval. Všechny příkazy které vyžadují hlasování jsou odemčené",
+        false: "Ještě jsi nehlasoval. Můžeš tak učinit na %s"
     },
     cool: {
-        cooling: "Cooling up %s"
+        cooling: "%s se ochlazuje"
     },
     cow: {
-        long: "Too long message!"
+        long: "Moc dlouhá zpráva!"
     },
     joke: {
         type: "Couldn't find any joke of that type."

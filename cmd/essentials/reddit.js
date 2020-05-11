@@ -21,6 +21,7 @@ module.exports = class Reddit extends commando.Command {
     }
 
     async run(msg, cmd) {
+        var lang = await msg.guild.lang();
         if(cmd.reddit.substr(0, 2) === "r/") cmd.reddit = cmd.reddit.substr(2);
         var subreddit = cmd.reddit;
 
@@ -43,7 +44,7 @@ module.exports = class Reddit extends commando.Command {
                 }).catch(console.log);
         }).catch((e) => {
             console.log(e);
-            msg.channel.send("An error occured. Is this subreddit public?");
+            msg.channel.send(lang.reddit.error);
         });
     }
 };

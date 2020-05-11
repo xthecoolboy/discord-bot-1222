@@ -16,6 +16,7 @@ module.exports = class Balance extends commando.Command {
     }
 
     async run(msg) {
-        msg.channel.send("Your current balance is " + await account.getMoney(await account.fetchUser(msg.author.id)));
+        var lang = await msg.guild.lang();
+        msg.channel.send(lang.balance.desc.replace("%n", await account.getMoney(await account.fetchUser(msg.author.id))));
     }
 };
