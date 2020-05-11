@@ -21,7 +21,7 @@ module.exports = class Say extends commando.Command {
     run(msg, cmd) {
         var embed = newEmbed();
 
-        embed.setAuthor(msg.author.tag, msg.authoravatarURL());
+        embed.setAuthor(msg.author.tag, msg.author.avatarURL());
         embed.setDescription(cmd.string);
 
         msg.channel.send("", { embed });

@@ -69,7 +69,7 @@ module.exports = async (msg, cmd) => {
 
     var embed = newEmbed();
     embed.setTitle("User info");
-    embed.setThumbnail(useravatarURL());
+    embed.setThumbnail(user.avatarURL());
     embed.addField("» Name", user.tag);
     embed.addField("» ID", user.id, true);
     embed.addField("» UUID", dbuser.uuid, true);

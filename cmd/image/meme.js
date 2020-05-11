@@ -47,7 +47,7 @@ module.exports = class Meme extends commando.Command {
     async run(msg, cmd) {
         var image = cmd.url;
         if(image instanceof Discord.User) {
-            image = imageavatarURL();/*
+            image = image.avatarURL();/*
             try {
                 var user = await this.client.fetchUser(image);
             } catch (e) {
@@ -59,7 +59,7 @@ module.exports = class Meme extends commando.Command {
                 msg.channel.send("The user you referenced wasn't found. Did you ping properly?");
                 return;
             }
-            image = useravatarURL(); */
+            image = user.avatarURL(); */
         }
         var top = this.urlEscape(cmd.top);
         var bottom = this.urlEscape(cmd.bottom);

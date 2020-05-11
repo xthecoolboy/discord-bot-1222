@@ -204,7 +204,7 @@ function sendAchievment(a, msg, send = true) {
     var user = msg.author;
     embed.setTitle((send ? "Achievment Awarded: " : "") + a.name);
     embed.setDescription(a.description);
-    embed.setAuthor(user.username + "#" + user.discriminator, useravatarURL());
+    embed.setAuthor(user.username + "#" + user.discriminator, user.avatarURL());
     embed.addField("BBS", a.value, true);
     embed.addField("XP", a.xp, true);
     embed.setTimestamp();
