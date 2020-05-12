@@ -241,8 +241,8 @@ client.on("commandRegister", c => {
             ["music", "Music commands"],
             ["nsfw", "NSFW commands"],
             ["pokemon", "For pokemon players"],
-            ["tickets", "Ticket managing"],
-            ["top", "Shows top users of bot"]
+            ["tickets", "Ticket managing"]
+            // ["top", "Shows top users of bot"]
         ])
             .registerDefaultTypes()
             .registerDefaultGroups()
