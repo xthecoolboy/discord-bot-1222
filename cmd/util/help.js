@@ -39,14 +39,17 @@ module.exports = class HelpCommand extends commando.Command {
                 );
         } else if(cmd.command instanceof commando.CommandGroup) {
             const group = cmd.command;
-            const commands = group.commands
+            let commands = group.commands;
+            if(!msg.client.isOwner(msg.author)) commands = commands.filter(c => !c.ownerOnly);
+            commands = commands
                 .filter(c => !c.hidden)
+                // .forEach(c => embed.addField(c.name, c.description))
                 .map(c => `- **${c.name}** (${c.description})`)
                 .join("\n");
             embed
                 .setTitle(`${group.id} (${group.name})`)
                 .setDescription(
-                    `Use ${msg.anyUsage(`${this.name} <command>`)} to view more information about a command\n` +
+                    `Use ${msg.anyUsage(`${this.name} <command>`)} to view more information about a command\n\n` +
                     "Available commands in this group:\n" +
                     commands
                 );
