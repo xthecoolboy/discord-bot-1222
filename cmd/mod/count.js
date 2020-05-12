@@ -7,7 +7,8 @@ module.exports = class Count extends commando.Command {
             name: "count",
             memberName: "count",
             group: "mod",
-            description: "Shows information about members of this channel"
+            description: "Shows information about members of this channel",
+            guildOnly: true
         });
     }
 

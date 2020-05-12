@@ -11,6 +11,7 @@ module.exports = class Ban extends Command {
             usage: "ban <user> <daysToDeleteMessages> <reason>",
             clientPermissions: ["BAN_MEMBERS"],
             userPermissions: ["BAN_MEMBERS"],
+            guildOnly: true,
             args: [
                 {
                     type: "user",

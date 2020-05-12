@@ -12,6 +12,7 @@ module.exports = class Purge extends Command {
             description: "Deletes a certain amount of message in channel",
             clientPermissions: ["MANAGE_MESSAGES"],
             userPermissions: ["MANAGE_MESSAGES"],
+            guildOnly: true,
             args: [{
                 type: "integer",
                 key: "amount",

@@ -8,6 +8,7 @@ module.exports = class historyCommand extends Command {
             group: "mod",
             memberName: "history",
             description: "Shows on offenders history",
+            guildOnly: true,
             args: [
                 {
                     type: "user",

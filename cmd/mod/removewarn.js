@@ -9,6 +9,7 @@ module.exports = class removewarnCommand extends Command {
             memberName: "removewarn",
             description: "Remove a warn from a user",
             userPermissions: ["KICK_MEMBERS"],
+            guildOnly: true,
             args: [
                 {
                     type: "integer",

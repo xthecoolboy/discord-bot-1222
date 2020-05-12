@@ -10,6 +10,7 @@ module.exports = class warnCommand extends Command {
             description: "Warns a user",
             clientPermissions: ["KICK_MEMBERS"],
             userPermissions: ["KICK_MEMBERS"],
+            guildOnly: true,
             args: [
                 {
                     type: "user",
