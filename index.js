@@ -247,7 +247,8 @@ client.on("commandRegister", c => {
             .registerDefaultTypes()
             .registerDefaultGroups()
             .registerDefaultCommands({
-                eval: false
+                eval: false,
+                help: false
             })
             .registerTypesIn(path.join(__dirname, "types"))
             .registerCommandsIn(path.join(__dirname, "cmd"));
