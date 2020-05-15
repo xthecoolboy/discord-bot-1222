@@ -65,7 +65,9 @@ module.exports = async (msg) => {
             embed.addField("Edited", "The message has been edited");
         }
 
-        msg.channel.send(embed);
+        try {
+            msg.channel.send(embed);
+        } catch(e) {}
     } catch(e) {
         embed = newEmbed();
 
@@ -74,6 +76,8 @@ module.exports = async (msg) => {
 
         embed.addField("Deleted", "The message has been deleted.");
 
-        msg.channel.send(embed);
+        try {
+            msg.channel.send(embed);
+        } catch(e) {}
     }
 };
