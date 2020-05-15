@@ -1,7 +1,7 @@
 const commando = require("@iceprod/discord.js-commando");
 const { reddit } = require("../../index");
 const newEmbed = require("../../embed");
-const { timestampToDate, numberWithCommas } = require("../../utils");
+const { timestampToDate } = require("../../utils");
 const pages = require("../../managers/pages");
 const got = require("got");
 
@@ -46,7 +46,7 @@ module.exports = class reddituser extends commando.Command {
                 .setDescription(usub.public_description)
                 .setThumbnail(usub.icon_img)
                 .addField("Created", timestampToDate(await user.created, true), true)
-                .addField("Karma", `${numberWithCommas(await user.link_karma)} / ${numberWithCommas(await user.comment_karma)}`, true)
+                .addField("Karma", `${(await user.link_karma).withCommas()} / ${(await user.comment_karma).withCommas()}`, true)
                 .addField("Reddit Premium", await user.is_gold, true)
                 .setImage(usub.banner_img);
 
@@ -64,9 +64,8 @@ module.exports = class reddituser extends commando.Command {
                 embed.addField("Moderates", `${moderates.length} subreddits`, true);
                 let subcount = 0;
                 for(let i = 0; i < moderates.length; i++) subcount += moderates[i].subscribers;
-                embed.addField("Total subscribers", `${numberWithCommas(subcount)} (avg. ${numberWithCommas(Math.round(subcount / moderates.length))})`, true);
+                embed.addField("Total subscribers", `${subcount.withCommas()} (avg. ${Math.round(subcount / moderates.length).withCommas()})`, true);
                 em.edit(embed);
-
                 msg.say(`Display ${usub.display_name_prefixed}'s top moderated subreddits?`)
                     .then(async question => {
                         await question.react("✅");

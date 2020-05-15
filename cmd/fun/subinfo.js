@@ -1,7 +1,7 @@
 const commando = require("@iceprod/discord.js-commando");
 const { reddit } = require("../../index");
 const newEmbed = require("../../embed");
-const { numberWithCommas, timestampToDate } = require("../../utils");
+const { timestampToDate } = require("../../utils");
 
 module.exports = class subinfo extends commando.Command {
     constructor(client) {
@@ -42,7 +42,7 @@ module.exports = class subinfo extends commando.Command {
                 .setURL("https://reddit.com" + await sub.url)
                 .setDescription(await sub.public_description)
                 .setThumbnail(await sub.icon_img)
-                .addField("Subscribers", numberWithCommas(await sub.subscribers), true)
+                .addField("Subscribers", (await sub.subscribers).withCommas(), true)
                 .setImage(await sub.banner_img)
                 .addField("Created", timestampToDate(await sub.created, true), true)
                 .setFooter(await sub.title);
