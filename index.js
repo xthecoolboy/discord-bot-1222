@@ -151,7 +151,8 @@ Structures.extend("TextChannel", (TC) => {
 
 const messageServices = [
     require("./services/message/messagePreview"),
-    require("./services/message/links")
+    require("./services/message/links"),
+    require("./services/message/nsfw")
 ];
 
 const inhibitors = [
