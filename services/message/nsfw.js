@@ -1,3 +1,6 @@
+module.exports = () => {};
+
+/*
 const got = require("got");
 const tf = require("@tensorflow/tfjs-node");
 const nsfw = require("nsfwjs");
@@ -55,3 +58,4 @@ module.exports = async (msg) => {
         }
     }
 };
+*/
