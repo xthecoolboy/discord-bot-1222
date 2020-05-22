@@ -38,7 +38,7 @@
     "libsodium-wrappers": "^0.7.4",
     "mathjs": "^6.6.4",
     "moment": "^2.24.0",
-    "mysql": "^2.17.1",
+    "mysql2": "^2.1.0",
     "nekos.life": "^2.0.4",
     "node-html-parser": "^1.1.16",
     "node-opus": "^0.3.1",
