@@ -290,4 +290,9 @@ for(var inhibitor of inhibitors) {
 
 client.login(config.token);
 
-process.on("unhandledRejection", e => console.error("[REJECTION]", e));
+process.on("unhandledRejection", (e) => {
+    console.error("[REJECTION]", e);
+    if(e.name === "HTTPError" || e.name === "AbortError" || e.name === "HTTPError [AbortError]") {
+        process.exit(1);
+    }
+});
