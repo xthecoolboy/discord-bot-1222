@@ -8,9 +8,10 @@ module.exports = class Poke extends commando.Command {
         super(client, {
             name: "poke",
             memberName: "poke",
-            group: "pokemon",
+            group: "games",
             hidden: true,
             description: "Finds something in pokedex",
+            usage: "poke help",
             args: [
                 {
                     type: "string",
@@ -48,7 +49,7 @@ module.exports = class Poke extends commando.Command {
 
     async mon() {
         if(!this.cmd.poke) {
-            this.msg.channel.send("No pokemon to find specified. Usage: `ice poke mon <name>`");
+            this.msg.channel.send("No pokemon to find specified. Usage: `poke mon <name>`");
             return;
         }
         try {

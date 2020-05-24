@@ -238,7 +238,7 @@ client.on("commandRegister", c => {
             ["essentials", "Universal commands"],
             ["fun", "Fun commands"],
             ["idemit", "Commands for Idemit"],
-            ["Games", "Game related commands"],
+            ["games", "Game related commands"],
             ["image", "Image processing commands"],
             ["mod", "Moderator commands"],
             ["music", "Music commands"],
