@@ -238,14 +238,12 @@ client.on("commandRegister", c => {
             ["essentials", "Universal commands"],
             ["fun", "Fun commands"],
             ["idemit", "Commands for Idemit"],
+            ["Games", "Game related commands"],
             ["image", "Image processing commands"],
-            ["minecraft", "Commands for Minecraft"],
             ["mod", "Moderator commands"],
             ["music", "Music commands"],
             ["nsfw", "NSFW commands"],
-            ["pokemon", "For pokemon players"],
             ["tickets", "Ticket managing"]
-            // ["top", "Shows top users of bot"]
         ])
             .registerDefaultTypes()
             .registerDefaultGroups()

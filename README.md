@@ -147,16 +147,17 @@ This category is for developers who are working on discord. Hope it helps!
 * **urban** [alias **ud**] - Find the meaning in the Urban Dictionary
 * **vaporwave** - Vaporify string
 
+### Games
+
+* **skin** - Shows minecraft skin of given player.
+* **poke** - Pokemon commands, see `poke help`
+
 ### Image
 
 * **fone** - Uses happyfone API
 * **meme** - Generates memes. Usage: `meme <photo/link to avatar> [top text] [bottom text]`
 * **qr** (alias `qrcode`) - Generates QR Code from given text
 * **xkcd** - Shows todays xkcd comic
-
-### Minecraft
-
-* **skin** - Shows skin of given player. ~~Tries using authors nickname if no player provided.~~
 
 ### Mod
 
@@ -208,15 +209,9 @@ These commands are premium only (and aren't in this repository)
 * **xbooru** - The dirty sister of rule34
 * **yandere** - Random yandere image
 
-### Pokemon
-
-* **poke** - Has subcommands, see poke help
-
 ### Special
 
 This category contains owner-only commands
 
 * **blacklist** - Doesn't yet work
 * **guilds** - List guilds
-
-
