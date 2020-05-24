@@ -31,6 +31,9 @@ module.exports = {
       before: false,
       after: false,
       overrides: {
+        var: {
+          after: true
+        },
         else: {
           before: true,
           after: true
