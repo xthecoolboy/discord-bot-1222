@@ -34,7 +34,7 @@ module.exports = class Logs extends commando.Command {
                     parse: (val, msg) => {
                         if(msg.content.indexOf("list") !== -1) return "";
                         var id = val.match(/<#([0-9]+)>/);
-                        return msg.guild.channels.get(id[1]);
+                        return msg.guild.channels.resolve(id[1]);
                     }
                 }, {
                     type: "string",
@@ -113,7 +113,7 @@ module.exports = class Logs extends commando.Command {
                 embed.setTitle("Logging channels:");
                 embed.setDescription("Found " + channels.length + " channels to log into:");
                 for(var channel of channels) {
-                    var ch = msg.guild.channels.get(channel.id);
+                    var ch = msg.guild.channels.resolve(channel.id);
                     embed.addField("**#" + ch.name + "**", channel.settings.join());
                 }
                 msg.channel.send(embed);
