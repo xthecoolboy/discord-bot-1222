@@ -145,7 +145,8 @@ async function format(args, event) {
                 msg: args[1]
             };
             if(data.old.content === data.msg.content) return null;
-            embed.setTitle("Message edited in <#" + data.old.channel.id + ">");
+            embed.setTitle("Message edited in #" + data.old.channel.name);
+            embed.setDescription("Updated in channel <#" + data.old.channel.id + ">");
             embed.setURL(data.msg.url);
             embed.setAuthor(data.old.author.tag, data.old.author.avatarURL());
             embed.addField("Old message:", data.old.content);
