@@ -153,7 +153,7 @@ module.exports = class Logs extends commando.Command {
                     switch(option[0]) {
                         case "+":
                             if(!ch.settings.includes(option.substr(1))) {
-                                ch.settings.push(settings.substr(1));
+                                ch.settings.push(option.substr(1));
                             }
                             break;
                         case "-":
@@ -177,7 +177,7 @@ module.exports = class Logs extends commando.Command {
 
                 var altered = this.alterLogsChannel(msg, channel.id, {
                     settings: ch.settings,
-                    channel: channel.id
+                    id: channel.id
                 });
                 if(altered) {
                     msg.channel.send("Altered the channel");
@@ -230,7 +230,6 @@ module.exports = class Logs extends commando.Command {
     }
 
     addLogsChannel(msg, data) {
-        console.log("Adding channel to logs:", data);
         if(this.alterLogsChannel(msg, data.id, { ...data, deleted: false }, true)) {
             return true;
         }
