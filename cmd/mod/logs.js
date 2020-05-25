@@ -105,6 +105,15 @@ module.exports = class Logs extends commando.Command {
             "invite.create",
             "invite.delete"
         ];
+        var chs = this.getLogs(msg);
+        for(const ch of chs) {
+            if(!ch.settings.length || !msg.guild.channels.resolve(ch.id)) {
+                this.alterLogsChannel(msg, ch.id, {
+                    ...ch,
+                    deleted: true
+                });
+            }
+        }
         /* eslint-disable no-redeclare */
         switch(command) {
             case "list":
