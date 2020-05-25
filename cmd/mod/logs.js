@@ -167,7 +167,7 @@ module.exports = class Logs extends commando.Command {
                 ch.settings = ch.settings.filter(c => allowedOptions.includes(c));
 
                 var altered = this.alterLogsChannel(msg, channel.id, {
-                    setting: ch.setting,
+                    settings: ch.settings,
                     channel: channel.id
                 });
                 if(altered) {
@@ -184,7 +184,7 @@ module.exports = class Logs extends commando.Command {
                 if(!ch) {
                     embed.setDescription("The channel <#" + channel.id + "> is not setup as channel for logs!");
                 } else {
-                    embed.setDescription(ch.setting.join());
+                    embed.setDescription(ch.settings.join());
                 }
                 msg.channel.send(embed);
                 break;
