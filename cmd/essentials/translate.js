@@ -1,5 +1,6 @@
 const commando = require("@iceprod/discord.js-commando");
 const got = require("got");
+const cheerio = require("cheerio");
 
 module.exports = class Translate extends commando.Command {
     constructor(client) {
@@ -48,9 +49,13 @@ module.exports = class Translate extends commando.Command {
     }
 
     async run(msg, { target, text }) {
-        if(text) {
-            return msg.channel.send(await this.translate(text, target) || "Couldn't translate given text to " + target + ".");
+        if(!text) text = msg.channel.messages.cache.last(2)[0].content;
+        if(target.toString().toLowerCase() === "lolcat") {
+            const data = await got("https://speaklolcat.com/?from=" + text);
+            const $ = cheerio.load(data.body);
+            msg.channel.send($("#to").text());
+            return;
         }
-        msg.channel.send(await this.translate(msg.channel.messages.cache.last(2)[0].content, target) || "Couldn't translate last message to " + target + ".");
+        return msg.channel.send(await this.translate(text, target) || "Couldn't translate given text to " + target + ".");
     }
 };
