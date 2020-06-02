@@ -25,6 +25,7 @@ function getLogs(guild, deleted = false) {
 }
 
 function match(event, types) {
+    event = event.trim();
     var eventGroups = event.split(".");
 
     /* eslint-disable no-labels */
