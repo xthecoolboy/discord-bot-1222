@@ -127,6 +127,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **ping** - Pings the discord API and shows how much time it consumed
 * **puppy** - Because everyone likes images of puppies
 * **reddit** - Shows random image from given subreddit. If not on image-only subreddit, bot may **not** reply as of now.
+* **translate** (alias `t`)- Translates text to given language. Defaults to EN and last message.
 * **voted** (Alias `vote`) - Checks status of user vote and if user didn't vote, shows link.
 
 ### Fun
