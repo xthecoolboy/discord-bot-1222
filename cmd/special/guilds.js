@@ -32,7 +32,7 @@ module.exports = class Guilds extends Command {
 
         await pages(msg, embed, (await msg.channel.send(embed)), guilds, 1, "guilds",
             guild => {
-                return `${guild.name} (${guild.memberCount})`;
+                return `${guild.name} (${guild.memberCount}) [${guild.owner.user.tag || guild.ownerID}]`;
             });
     }
 };
