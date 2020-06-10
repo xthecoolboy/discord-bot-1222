@@ -8,19 +8,39 @@ module.exports = class Reddit extends commando.Command {
         super(client, {
             name: "reddit",
             memberName: "reddit",
+            aliases: ["meme", "memes", "dankmeme", "dankmemes", "cursedimage", "cursedimages"],
             group: "essentials",
             description: "Gets random image from given subreddit. Can be used with or without r/",
             args: [
                 {
                     type: "string",
                     key: "reddit",
-                    prompt: "Which subreddit to get image from?"
+                    prompt: "Which subreddit to get image from?",
+                    default: ""
                 }
             ]
         });
     }
 
     async run(msg, cmd) {
+        if(!cmd.reddit.length) {
+            console.log("alias", "'" + msg.alias + "'");
+            if(!msg.alias) return msg.reply("Missing subreddit");
+            switch(msg.alias) {
+                case "meme":
+                case "memes":
+                    cmd.reddit = "memes";
+                    break;
+                case "dankmeme":
+                case "dankmemes":
+                    cmd.reddit = "dankmemes";
+                    break;
+                case "cursedimage":
+                case "cursedimages":
+                    cmd.reddit = "cursedimages";
+                    break;
+            }
+        }
         if(cmd.reddit.substr(0, 2) === "r/") cmd.reddit = cmd.reddit.substr(2);
         var subreddit = cmd.reddit;
 
