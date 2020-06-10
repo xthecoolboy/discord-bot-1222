@@ -189,10 +189,10 @@ if(config.dbl) {
 require("./services/logging/registerEvents")(client);
 require("./services/server")(client);
 
-const MysqlProvider = require("./services/mysqlProvider");
+// const MysqlProvider = require("./services/mysqlProvider");
 client.setProvider(
-    new MysqlProvider(require("./managers/pool_mysql"))
-    // sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
+    // new MysqlProvider(require("./managers/pool_mysql"))
+    sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
 client.config = config;
