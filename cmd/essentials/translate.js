@@ -10,6 +10,10 @@ module.exports = class Translate extends commando.Command {
             memberName: "translate",
             group: "essentials",
             description: "Translate string or previous message",
+            throttling: {
+                usages: 3,
+                duration: 10
+            },
             args: [
                 {
                     type: "string",
