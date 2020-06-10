@@ -51,8 +51,6 @@ async function format(args, event) {
     const embed = newEmbed();
     embed.setTimestamp(new Date());
 
-    console.log("Got event", event);
-
     switch(event) {
         case "channelCreate":
             var channel = args[0];
@@ -89,9 +87,6 @@ async function format(args, event) {
 
                             let msg = "";
                             const name = perms.type === "role" ? perms.channel.guild.roles.resolve(perms.id).name : perms.channel.guild.members.resolve(perms.id).tag;
-
-                            console.log(perms.allow.bitfield, perms.deny.bitfield);
-                            console.log(data.old.get(id).allow.bitfield, data.old.get(id).deny.bitfield);
 
                             for(var perm in Permissions.FLAGS) {
                                 perm = perm.replace(/_/g, " ").toLowerCase();
