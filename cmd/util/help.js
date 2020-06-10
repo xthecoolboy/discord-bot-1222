@@ -56,14 +56,13 @@ module.exports = class HelpCommand extends commando.Command {
         } else {
             const command = cmd.command;
             embed
-                .setTitle(`${command.name}${command.guildOnly ? " (Usable only in servers)" : ""}${command.nsfw ? " (NSFW)" : ""}`)
+                .setTitle(`${command.name} (${command.group ? command.group.name : "Essentials"}) ${command.guildOnly ? " (Usable only in servers)" : ""}${command.nsfw && (command.group ? command.group.name !== "NSFW" : true) ? " (NSFW)" : ""}`)
                 .setDescription(command.description)
                 .addField("Format", `${msg.anyUsage(`${command.name}${command.format ? ` ${command.format}` : ""}`)}`);
 
             if(command.aliases.length) embed.addField("Aliases", command.aliases.join(", "));
-            if(command.group) embed.addField("Group", `${command.group.name} (\`${command.groupID}:${command.memberName}\`)`);
             if(command.details) embed.addField("Details", command.details);
-            if(command.examples && command.examples.length > 0) embed.addField("Examples", command.examples.map(e => `\`${e}\``).join("\n"));
+            if(command.examples && command.examples.length > 0) embed.addField(command.examplesName || "Examples", command.examples.map(e => `\`${e}\``).join("\n"));
         }
 
         msg.channel.send(embed);
