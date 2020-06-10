@@ -231,19 +231,18 @@ client.on("commandRegister", c => {
         }
     } finally {
         client.registry.registerGroups([
-            ["special", "Special owner-only commands"],
-            ["anime", "Anime commands"],
-            ["balance", "Managing your balance"],
-            ["dev", "Developer commands for help with development"],
-            ["essentials", "Universal commands"],
-            ["fun", "Fun commands"],
-            ["idemit", "Commands for Idemit"],
-            ["games", "Game related commands"],
-            ["image", "Image processing commands"],
-            ["mod", "Moderator commands"],
-            ["music", "Music commands"],
-            ["nsfw", "NSFW commands"],
-            ["tickets", "Ticket managing"]
+            ["special", "Owner-only"],
+            ["anime", "Anime"],
+            ["balance", "Balance"],
+            ["dev", "for Developers"],
+            ["essentials", "Essentials"],
+            ["fun", "Fun"],
+            ["games", "Games"],
+            ["image", "Image management"],
+            ["mod", "Moderation"],
+            ["music", "Music"],
+            ["nsfw", "NSFW"],
+            ["tickets", "Tickets"]
         ])
             .registerDefaultTypes()
             .registerDefaultGroups()
