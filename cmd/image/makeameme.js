@@ -12,7 +12,7 @@ module.exports = class Meme extends commando.Command {
             description: "Make a meme using imageurl/avatar toptext botomtext",
             args: [
                 {
-                    type: "user|string",
+                    type: "user|url",
                     key: "url",
                     prompt: "Image URL to make meme of:"
                 },
@@ -51,6 +51,8 @@ module.exports = class Meme extends commando.Command {
                 dynamic: true,
                 size: 2048
             });
+        } else {
+            image = image.toString();
         }
         var top = this.urlEscape(cmd.top);
         var bottom = this.urlEscape(cmd.bottom);
