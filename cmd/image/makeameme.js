@@ -5,9 +5,9 @@ const Discord = require("discord.js");
 module.exports = class Meme extends commando.Command {
     constructor(client) {
         super(client, {
-            name: "meme",
-            memberName: "meme",
-            aliases: ["makeameme"],
+            name: "makeameme",
+            memberName: "makeameme",
+            aliases: ["makememe", "genmeme"],
             group: "image",
             description: "Make a meme using imageurl/avatar toptext botomtext",
             args: [
