@@ -64,30 +64,22 @@ class MySQLProvider extends SettingProvider {
             "CREATE TABLE IF NOT EXISTS `guilds` (`snowflake` BIGINT(20) NOT NULL, `data` LONGTEXT NOT NULL , PRIMARY KEY (`snowflake`))"
         );
 
-        // Load all settings
-        const rows = await this.db
-            .execute("SELECT snowflake, data FROM guilds")
-            .then((res) => res[0]);
-        for(const row of rows) {
+        for(const [snowflake, guild] of client.guilds.cache) {
             let settings;
             try {
-                settings = JSON.parse(row.settings);
+                settings = await this.get(guild);
             } catch(err) {
                 client.emit(
                     "warn",
-                    `MySQLProvider couldn"t parse the settings stored for guild ${row.snowflake}.`
+                    `MySQLProvider couldn"t parse the settings stored for guild ${snowflake}.`
                 );
                 continue;
             }
 
-            const guild = row.snowflake !== "0" ? row.snowflake : "global";
-            this.settings.set(guild, settings);
+            const id = snowflake !== "0" ? snowflake : "global";
+            this.settings.set(id, settings);
 
-            if(guild !== "global" && !client.guilds.has(row.snowflake)) {
-                continue;
-            }
-
-            this.setupGuild(guild, settings);
+            this.setupGuild(id, settings);
         }
 
         // Listen for changes
@@ -101,8 +93,8 @@ class MySQLProvider extends SettingProvider {
             .set("groupStatusChange", (guild, group, enabled) => {
                 this.set(guild, `grp-${group.id}`, enabled);
             })
-            .set("guildCreate", (guild) => {
-                const settings = this.settings.get(guild.id);
+            .set("guildCreate", async (guild) => {
+                const settings = await this.get(guild);
                 if(!settings) {
                     return;
                 }
@@ -142,12 +134,30 @@ class MySQLProvider extends SettingProvider {
         this.listeners.clear();
     }
 
-    get(guild, key, defVal) {
-        const settings = this.settings.get(this.constructor.getGuildID(guild));
-        return settings
-            ? (typeof settings[key] !== "undefined"
-                ? settings[key] : defVal)
-            : defVal;
+    async get(guild, key, defVal) {
+        const id = this.constructor.getGuildID(guild);
+        if(id === "global") guild = 0;
+        var settings = this.settings.get(id);
+        if(!settings) {
+            // try loading from database
+            const rows = await this.db.query("SELECT snowflake, data FROM guilds WHERE snowflake=?", [id]);
+            if(!rows[0]) return defVal;
+            settings = rows[0][0].data;
+            if(!settings) return defVal;
+            settings = JSON.parse(settings);
+            this.settings.set(id, settings); // cache it
+        }
+        if(!key) {
+            return settings || defVal;
+        }
+        console.log("Value of", key, "in", id, "is", settings[key], "or", settings[key] || defVal, "as", Array.isArray(settings[key]) ? "array" : typeof settings[key]);
+        if(settings[key]) {
+            console.log("Found", key);
+            return settings[key];
+        } else {
+            console.log("Not found", key);
+            return defVal;
+        }
     }
 
     async set(guild, key, val) {
@@ -217,7 +227,7 @@ class MySQLProvider extends SettingProvider {
             throw new TypeError("The guild must be a guild ID or 'global'.");
         }
 
-        guild = this.client.guilds.get(guild) || null;
+        guild = this.client.guilds.cache.get(guild) || null;
 
         // Load the command prefix
         if(typeof settings.prefix !== "undefined") {
