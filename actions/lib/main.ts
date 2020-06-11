@@ -7,16 +7,13 @@ async function makeRequest(endpoint: string): Promise<any> {
  * Holds client data
  */
 class Client {
-    guild?: Guild;
-    user?: User;
     available = false;
 
-    constructor(guild?: Guild, user?: User) {
-        this.guild = guild;
-        this.user = user;
+    constructor(public guild: Guild, public user: User) {
     }
 
     static async newClient(guild: string, user: string) {
+        //@ts-ignore Since it gets set right away and there's no way those props will be used
         var c = new Client();
         c.guild = await Guild.getGuild(guild, c);
         c.user = await User.getUser(user, c);
