@@ -145,7 +145,12 @@ class MySQLProvider extends SettingProvider {
             if(!rows[0][0]) return defVal;
             settings = rows[0][0].data;
             if(!settings) return defVal;
-            settings = JSON.parse(settings);
+            try {
+                settings = JSON.parse(settings);
+            } catch(e) {
+                console.warn("Couldn't parse data for guild", id);
+                return defVal;
+            }
             this.settings.set(id, settings); // cache it
         }
         if(!key) {
