@@ -67,7 +67,7 @@ class MySQLProvider extends SettingProvider {
         for(const [snowflake, guild] of client.guilds.cache) {
             let settings;
             try {
-                settings = await this.get(guild);
+                settings = await this.get(guild, undefined, {});
             } catch(err) {
                 client.emit(
                     "warn",
