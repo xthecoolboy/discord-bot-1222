@@ -31,6 +31,9 @@ module.exports = {
       before: false,
       after: false,
       overrides: {
+        break: {
+          before: true
+        },
         of: {
           after: true
         },
