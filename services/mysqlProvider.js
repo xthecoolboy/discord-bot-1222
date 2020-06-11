@@ -150,12 +150,9 @@ class MySQLProvider extends SettingProvider {
         if(!key) {
             return settings || defVal;
         }
-        console.log("Value of", key, "in", id, "is", settings[key], "or", settings[key] || defVal, "as", Array.isArray(settings[key]) ? "array" : typeof settings[key]);
         if(settings[key]) {
-            console.log("Found", key);
             return settings[key];
         } else {
-            console.log("Not found", key);
             return defVal;
         }
     }
