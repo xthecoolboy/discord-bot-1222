@@ -142,6 +142,7 @@ class MySQLProvider extends SettingProvider {
             // try loading from database
             const rows = await this.db.query("SELECT snowflake, data FROM guilds WHERE snowflake=?", [id]);
             if(!rows[0]) return defVal;
+            if(!rows[0][0]) return defVal;
             settings = rows[0][0].data;
             if(!settings) return defVal;
             settings = JSON.parse(settings);
