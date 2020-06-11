@@ -1,23 +1,26 @@
 const newEmbed = require("../../embed");
 const { Permissions } = require("discord.js");
 
-function getLogs(guild, deleted = false) {
+async function getLogs(guild, deleted = false) {
     var settings = guild.settings;
     var sets = {
-        * [Symbol.iterator]() {
+        async* [Symbol.asyncIterator]() {
             var i = 0;
-            while(settings.get("logs.channels." + i, null)) {
-                if(settings.get("logs.channels." + i).deleted && !deleted) {
+            while(await settings.get("logs.channels." + i, null)) {
+                console.log("Found channel number " + i);
+                if(!await settings.get("logs.channels." + i)) break;
+                console.log(await settings.get("logs.channels." + i));
+                if(await settings.get("logs.channels." + i).deleted && !deleted) {
                     i++;
                     continue;
                 }
-                yield settings.get("logs.channels." + i);
+                yield await settings.get("logs.channels." + i);
                 i++;
             }
         }
     };
     var logs = [];
-    for(var set of sets) {
+    for await(var set of sets) {
         logs.push(set);
     }
 
@@ -253,9 +256,9 @@ module.exports = async (realEvent, event, data) => {
     const guild = getGuild(realEvent, data);
     if(!guild) return;
 
-    const logs = getLogs(guild);
+    const logs = await getLogs(guild);
 
-    for(const log of logs) {
+    for await(const log of logs) {
         if(!match(event, log.settings)) continue;
         const channel = guild.channels.resolve(log.id);
         var formatted = await format(data, realEvent);
