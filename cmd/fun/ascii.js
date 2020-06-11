@@ -34,8 +34,6 @@ module.exports = class Ascii extends commando.Command {
         figlet.text(text, font, (err, rendered) => {
             if(err) return msg.channel.send("An error occured");
             rendered = rendered.trimRight();
-            console.log(rendered);
-            console.log(rendered.length);
             msg.channel.send("```\n" + rendered + "\n```");
         });
     }

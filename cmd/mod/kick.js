@@ -10,6 +10,7 @@ module.exports = class kickCommand extends Command {
             description: "Kicks a user",
             clientPermissions: ["KICK_MEMBERS"],
             userPermissions: ["KICK_MEMBERS"],
+            guildOnly: true,
             args: [
                 {
                     type: "user",
@@ -33,8 +34,8 @@ module.exports = class kickCommand extends Command {
 
         if(cmd.user === this.client.user) return msg.say("You can't kick this bot!");
         if(msg.author === cmd.user) return msg.say("You can't kick yourself!");
-        if(msg.member.guild.me.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0 || !msg.guild.member(cmd.user).kickable) return msg.say("You can't kick this user because the bot isn't high enough in the role hierachy!");
-        if(msg.member.highestRole.comparePositionTo(msg.guild.member(cmd.user).highestRole) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
+        if(msg.member.guild.me.roles.highest.comparePositionTo(msg.guild.member(cmd.user).roles.highest) <= 0 || !msg.guild.member(cmd.user).kickable) return msg.say("You can't kick this user because the bot isn't high enough in the role hierachy!");
+        if(msg.member.roles.highest.comparePositionTo(msg.guild.member(cmd.user).roles.highest) <= 0) return msg.say("You can't kick this user because you're not high enough in the role hierachy!");
         if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
 
         await msg.guild.member(cmd.user).kick(cmd.reason, msg.author);
@@ -59,7 +60,7 @@ module.exports = class kickCommand extends Command {
         msg.guild.member(cmd.user).kick(cmd.reason);
         const embed = newEmbed();
         embed.setColor("GOLD");
-        embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL);
+        embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL());
         embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${await msg.guild.settings.get("prefix", msg.client.commandPrefix)}case ${Case.id}\` for more information`);
         msg.reply(embed);
     }

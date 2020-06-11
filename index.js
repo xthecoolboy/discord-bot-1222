@@ -151,7 +151,8 @@ Structures.extend("TextChannel", (TC) => {
 
 const messageServices = [
     require("./services/message/messagePreview"),
-    require("./services/message/links")
+    require("./services/message/links"),
+    require("./services/message/nsfw")
 ];
 
 const inhibitors = [
@@ -164,7 +165,8 @@ const client = new Commando.Client({
     invite: "<https://discord.gg/8fqEepV>",
     presence: {
         activity: {
-            name: "merged with Ice"
+            name: "Inovation",
+            type: "WATCHING"
         }
     }
 });
@@ -188,8 +190,10 @@ if(config.dbl) {
 require("./services/logging/registerEvents")(client);
 require("./services/server")(client);
 
+const MysqlProvider = require("./services/mysqlProvider");
 client.setProvider(
-    sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
+    new MysqlProvider(require("./managers/pool_mysql"))
+    // sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
 client.config = config;
@@ -228,26 +232,24 @@ client.on("commandRegister", c => {
         }
     } finally {
         client.registry.registerGroups([
-            ["special", "Special owner-only commands"],
-            ["anime", "Anime commands"],
-            ["balance", "Managing your balance"],
-            ["dev", "Developer commands for help with development"],
-            ["essentials", "Universal commands"],
-            ["fun", "Fun commands"],
-            ["idemit", "Commands for Idemit"],
-            ["image", "Image processing commands"],
-            ["minecraft", "Commands for Minecraft"],
-            ["mod", "Moderator commands"],
-            ["music", "Music commands"],
-            ["nsfw", "NSFW commands"],
-            ["pokemon", "For pokemon players"],
-            ["tickets", "Ticket managing"],
-            ["top", "Shows top users of bot"]
+            ["special", "Owner-only"],
+            ["anime", "Anime"],
+            ["balance", "Balance"],
+            ["dev", "for Developers"],
+            ["essentials", "Essentials"],
+            ["fun", "Fun"],
+            ["games", "Games"],
+            ["image", "Image management"],
+            ["mod", "Moderation"],
+            ["music", "Music"],
+            ["nsfw", "NSFW"],
+            ["tickets", "Tickets"]
         ])
             .registerDefaultTypes()
             .registerDefaultGroups()
             .registerDefaultCommands({
-                eval: false
+                eval: false,
+                help: false
             })
             .registerTypesIn(path.join(__dirname, "types"))
             .registerCommandsIn(path.join(__dirname, "cmd"));
@@ -286,4 +288,9 @@ for(var inhibitor of inhibitors) {
 
 client.login(config.token);
 
-process.on("unhandledRejection", e => console.error("[REJECTION]", e));
+process.on("unhandledRejection", (e) => {
+    console.error("[REJECTION]", e);
+    if(e.name === "HTTPError" || e.name === "AbortError" || e.name === "HTTPError [AbortError]") {
+        process.exit(1);
+    }
+});

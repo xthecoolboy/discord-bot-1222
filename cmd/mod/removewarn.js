@@ -9,6 +9,7 @@ module.exports = class removewarnCommand extends Command {
             memberName: "removewarn",
             description: "Remove a warn from a user",
             userPermissions: ["KICK_MEMBERS"],
+            guildOnly: true,
             args: [
                 {
                     type: "integer",
@@ -31,7 +32,7 @@ module.exports = class removewarnCommand extends Command {
 
         const embed = newEmbed();
         embed.setColor("GREEN");
-        embed.setAuthor(`${msg.author.username} | Case ${Case.id}`, msg.author.displayAvatarURL);
+        embed.setAuthor(`${msg.author.username} | Case ${Case.id}`, msg.author.displayAvatarURL());
         embed.setDescription(`✅ Successfully removed warning from user <@${Case.offenderID}>`);
         return msg.embed(embed);
     }

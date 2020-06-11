@@ -9,6 +9,7 @@ module.exports = class Giveaway extends commando.Command {
             group: "mod",
             description: "Makes a giveaway in current channel",
             permissions: ["ADMINISTRATOR"],
+            guildOnly: true,
             args: [
                 {
                     type: "channel",

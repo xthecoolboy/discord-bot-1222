@@ -41,8 +41,18 @@ function suffix(i) {
     return i + "th";
 }
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+// eslint-disable-next-line no-extend-native
+Number.prototype.withCommas = function() {
+    return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+};
+
+// eslint-disable-next-line no-extend-native
+String.prototype.withCommas = function() {
+    return this.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+};
+
+function withCommas() {
+    return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function timestampToDate(timestamp, unix = false) {
@@ -75,7 +85,9 @@ module.exports = {
     padWithZeroes,
     insertAt,
     suffix,
-    numberWithCommas,
     timestampToDate,
-    compareArr
+    compareArr,
+    Number,
+    String,
+    withCommas
 };

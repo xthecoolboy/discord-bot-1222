@@ -136,9 +136,14 @@ function mine(user) {
             d = user.last_mined;
         }
 
-        var now = new Date();
+        var now = Date.now();
         const oneDay = 60 * 60 * 12 * 1000;
-        var canMine = (now - d) > oneDay;
+
+        try {
+            var canMine = (now - d) > oneDay;
+        } catch(e) {
+            canMine = true;
+        }
 
         if(canMine) {
             var currentTimestamp = new Date().toISOString().slice(0, 19).replace("T", " ");
@@ -204,7 +209,7 @@ function sendAchievment(a, msg, send = true) {
     var user = msg.author;
     embed.setTitle((send ? "Achievment Awarded: " : "") + a.name);
     embed.setDescription(a.description);
-    embed.setAuthor(user.username + "#" + user.discriminator, user.avatarURL);
+    embed.setAuthor(user.username + "#" + user.discriminator, user.avatarURL());
     embed.addField("BBS", a.value, true);
     embed.addField("XP", a.xp, true);
     embed.setTimestamp();

@@ -3,7 +3,7 @@ const { timestampToDate } = require("../../../utils");
 
 module.exports = (msg, cmd) => {
     const embed = newEmbed();
-    embed.setAuthor(msg.author.tag, msg.author.avatarURL);
+    embed.setAuthor(msg.author.tag, msg.author.avatarURL());
     embed.setTitle(msg.guild.name);
     embed.setThumbnail(msg.guild.iconURL);
     embed.addField("Owner", msg.guild.owner, true)

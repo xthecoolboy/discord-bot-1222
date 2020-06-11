@@ -8,8 +8,8 @@ module.exports = class warnCommand extends Command {
             group: "mod",
             memberName: "warn",
             description: "Warns a user",
-            clientPermissions: ["KICK_MEMBERS"],
             userPermissions: ["KICK_MEMBERS"],
+            guildOnly: true,
             args: [
                 {
                     type: "user",
@@ -44,7 +44,7 @@ module.exports = class warnCommand extends Command {
         if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
         const embed = newEmbed();
         embed.setColor("GOLD");
-        embed.setAuthor(`Warn ${caseCount} | Reason: "${reason}"`, msg.author.displayAvatarURL);
+        embed.setAuthor(`Warn ${caseCount} | Reason: "${reason}"`, msg.author.displayAvatarURL());
         embed.setDescription(`Responsible moderator: ${msg.author.tag}\nUse \`${await msg.guild.settings.get("prefix", msg.client.commandPrefix)}case ${caseCount}\` for more information`);
         return msg.embed(embed);
     }
