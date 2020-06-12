@@ -148,7 +148,7 @@ class MySQLProvider extends SettingProvider {
             try {
                 settings = JSON.parse(settings);
             } catch(e) {
-                console.warn("Couldn't parse data for guild", id);
+                console.warn("Couldn't parse data for guild", id, e);
                 return defVal;
             }
             this.settings.set(id, settings); // cache it
