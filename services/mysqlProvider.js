@@ -67,7 +67,7 @@ class MySQLProvider extends SettingProvider {
         for(const [snowflake, guild] of client.guilds.cache) {
             let settings;
             try {
-                settings = await this.get(guild);
+                settings = await this.get(guild, undefined, {});
             } catch(err) {
                 client.emit(
                     "warn",
@@ -142,9 +142,15 @@ class MySQLProvider extends SettingProvider {
             // try loading from database
             const rows = await this.db.query("SELECT snowflake, data FROM guilds WHERE snowflake=?", [id]);
             if(!rows[0]) return defVal;
+            if(!rows[0][0]) return defVal;
             settings = rows[0][0].data;
             if(!settings) return defVal;
-            settings = JSON.parse(settings);
+            try {
+                settings = JSON.parse(settings);
+            } catch(e) {
+                console.warn("Couldn't parse data for guild", id, e);
+                return defVal;
+            }
             this.settings.set(id, settings); // cache it
         }
         if(!key) {
