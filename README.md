@@ -41,7 +41,7 @@ Then optionaly if you want to have link checking, add `virustotal` field into co
 
 * Node (Tested with v12 & v13. Running on another version? Let us know!)
 * NPM (bundled with Node on modern releases)
-* Deno - Use as new version as possible. Needs to be installed by same user as the one running bot.
+* Deno - Use as new version as possible. Needs to be installed by same user as the one running bot (used for actions and `deno` command).
 * *(optional)* Git (or even better, hub) for simple updates - run one command and your bot is up to date
 
 ### Node dependencies
