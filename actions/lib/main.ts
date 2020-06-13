@@ -12,7 +12,11 @@ class Client {
     eventData?: any;
     eventName?: string;
     env: any = {};
-    event: Event;
+
+    /**
+     * @property {Event} contains event data, must be fetched first with getEvent
+     */
+    event: any;
 
     constructor(public guild: Guild, public user: User) {
         //@ts-ignore
@@ -28,6 +32,7 @@ class Client {
         c.eventData = eventData;
         c.eventName = eventName;
         c.env = env;
+        await c.getEvent();
         clientInitialized = true;
         return c;
     }
@@ -72,6 +77,40 @@ class Client {
                     guild: this.guild,
                     author
                 });
+                return this.event;
+            case "message":
+                var msg = this.eventData[0];
+
+                this.event = new NewMessageEvent(
+                    new Message({
+                        client: this,
+                        channel: new Channel({
+                            client: this,
+                            guild: this.guild,
+                            id: msg.channelID
+                        }),
+                        guild: this.guild,
+                        author: await User.getUser(msg.authorID, this),
+                        content: msg.content
+                    })
+                );
+                return this.event;
+            case "messageDelete":
+                var msg = this.eventData[0];
+
+                this.event = new MessageDeleteEvent(
+                    new Message({
+                        client: this,
+                        channel: new Channel({
+                            client: this,
+                            guild: this.guild,
+                            id: msg.channelID
+                        }),
+                        guild: this.guild,
+                        author: await User.getUser(msg.authorID, this),
+                        content: msg.content
+                    })
+                )
                 return this.event;
         }
 
@@ -140,7 +179,8 @@ class Channel {
 enum EventType {
     NewMessage = 0,
     CustomCommand,
-    MessageUpdate
+    MessageUpdate,
+    MessageDelete
 }
 
 /**
@@ -174,24 +214,29 @@ class NewMessageEvent extends Event {
     channel: Channel;
     author: User;
 
-    constructor({
-        message,
-        client,
-        channel,
-        guild,
-        author
-    }: {
-        message: Message,
-        client: Client,
-        channel: Channel,
-        guild: Guild,
-        author: User
-    }) {
-        super({ client, type: EventType.NewMessage, string: "message.new"});
+    constructor(message: Message) {
+        super({ client: message.client, type: EventType.NewMessage, string: "message.new" });
         this.message = message;
-        this.channel = channel;
-        this.guild = guild;
-        this.author = author;
+        this.channel = message.channel as Channel;
+        this.guild = message.guild;
+        this.author = message.author;
+    }
+}
+
+class MessageDeleteEvent extends Event {
+    type = EventType.MessageDelete;
+
+    message: Message;
+    guild: Guild;
+    channel: Channel;
+    author: User;
+
+    constructor(message: Message) {
+        super({ client: message.client, type: EventType.MessageDelete, string: "message.delete" });
+        this.message = message;
+        this.guild = message.guild;
+        this.channel = message.channel as Channel;
+        this.author = message.author;
     }
 }
 
