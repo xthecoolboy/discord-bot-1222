@@ -50,14 +50,12 @@ module.exports = async (realEvent, event, data) => {
             }, 2e4);
 
             /* eslint-disable no-inner-declarations */
-            function end(err, stdout, stderr) {
-                if(err) {
-                    console.error(err);
-                }
+            async function end(err, stdout, stderr) {
+                if(err) {}
 
                 clearTimeout(timeout);
-                console.log({ stdout });
-                console.warn({ stderr });
+
+                await client.execute("INSET INTO action_runs (action, guild, stdout, stderr, err) VALUES (?,?,?,?,?)", [action.id, guild.id, stdout, stderr, err]);
             }
             /* eslint-enable no-inner-declarations */
 
