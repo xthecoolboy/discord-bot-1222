@@ -87,7 +87,8 @@ class Channel {
  * Type of invoked event
  */
 enum EventType {
-    NewMessage
+    NewMessage,
+    CustomCommand
 }
 
 /**
@@ -96,16 +97,20 @@ enum EventType {
 class Event {
     client: Client;
     type: EventType;
+    string: string;
 
     constructor({
         client,
-        type
+        type,
+        string
     }: {
         client: Client,
-        type: EventType
+        type: EventType,
+        string
     }) {
         this.client = client;
         this.type = type;
+        this.string = string;
     }
 }
 
@@ -130,7 +135,7 @@ class NewMessageEvent extends Event {
         guild: Guild,
         author: User
     }) {
-        super({ client, type: EventType.NewMessage});
+        super({ client, type: EventType.NewMessage, string: "message.new"});
         this.message = message;
         this.channel = channel;
         this.guild = guild;
