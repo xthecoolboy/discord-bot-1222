@@ -45,7 +45,7 @@ module.exports = async (realEvent, event, data) => {
             var script = null;
 
             var timeout = setTimeout(() => {
-                console.log("Deno timeout");
+                console.log("Deno timeout in actions");
                 script.kill();
             }, 2e4);
 
@@ -72,6 +72,4 @@ module.exports = async (realEvent, event, data) => {
             console.error("Action failed");
         }
     }
-
-    console.log("Actions done");
 };
