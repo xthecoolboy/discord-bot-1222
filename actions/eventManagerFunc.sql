@@ -32,8 +32,8 @@ BEGIN
 
     SET currentPointer = 1;
 
-    SET string_length = LENGTH(string) - LENGTH(REPLACE(string, '.', ''));
-    SET rule_length = LENGTH(rule) - LENGTH(REPLACE(rule, '.', ''));
+    SET string_length = 1 + LENGTH(string) - LENGTH(REPLACE(string, '.', ''));
+    SET rule_length = 1 + LENGTH(rule) - LENGTH(REPLACE(rule, '.', ''));
 
     IF string = rule THEN return (true); END IF;
 
@@ -80,7 +80,7 @@ BEGIN
 
     SET rules_length = 1 + LENGTH(r_enabled) - LENGTH(REPLACE(r_enabled, '|', ''));
 
-    match_loop: WHILE currentPointer < rules_length DO
+    match_loop: WHILE currentPointer <= rules_length DO
         SET currentPointer = currentPointer + 1;
         IF(MatchRule(string, SPLIT(r_enabled, '|', currentPointer - 1))) THEN
             SET matches = true;
@@ -93,7 +93,7 @@ BEGIN
     SET rules_length = 1 + LENGTH(r_disabled) - LENGTH(REPLACE(r_disabled, '|', ''));
     SET currentPointer = 1;
 
-    dematch_loop: WHILE currentPointer < rules_length DO
+    dematch_loop: WHILE currentPointer <= rules_length DO
         SET currentPointer = currentPointer + 1;
         IF(MatchRule(string, SPLIT(r_disabled, '|', currentPointer - 1))) THEN
             SET matches = false;
