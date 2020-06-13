@@ -17,13 +17,13 @@ guildMemberUpdate: user.update
 guildUpdate: guild.update
 inviteCreate: invite.create
 inviteDelete: invite.delete
-message: null
+message: message.new
 messageDelete: message.delete
 messageDeleteBulk: message.purge
-messageReactionAdd: null
-messageReactionRemove: null
-messageReactionRemoveAll: null
-messageReactionRemoveEmoji: null
+messageReactionAdd: message.reaction.add
+messageReactionRemove: message.reaction.remove
+messageReactionRemoveAll: message.reation.removeAll
+messageReactionRemoveEmoji: message.reaction.removeEmoji
 messageUpdate: message.edit
 presenceUpdate: user.presenceUpdate
 roleCreate: roles.create
@@ -32,6 +32,6 @@ roleUpdate: roles.update
 typingStart: null
 typingStop: null
 userNoteUpdate: null
-userUpdate: null
+userUpdate: user.update
 voiceStateUpdate: null
 webhookUpdate: guild.webhook
