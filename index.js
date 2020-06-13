@@ -2,8 +2,14 @@ const Commando = require("@iceprod/discord.js-commando");
 const { Structures } = require("discord.js");
 const path = require("path");
 const sl = require("singleline");
-const sqlite = require("sqlite");
-const config = require("./config.json");
+// const sqlite = require("sqlite");
+var config;
+try {
+    config = require("./config.json");
+} catch(e) {
+    console.error("Config couldn't be found. Make sure you created config as stated in README. Full error:");
+    throw e;
+}
 const acc = require("./managers/accountManager");
 const Player = require("./services/player/player");
 const Snoowrap = require("snoowrap");
@@ -191,8 +197,15 @@ require("./services/logging/registerEvents")(client);
 require("./services/server")(client);
 
 const MysqlProvider = require("./services/mysqlProvider");
+var mysqlClient;
+try {
+    mysqlClient = require("./managers/pool_mysql");
+} catch(e) {
+    console.error("MySQL connection details not specified. Make sure you created MySQL connection as stated in README. Full error:");
+    throw e;
+}
 client.setProvider(
-    new MysqlProvider(require("./managers/pool_mysql"))
+    new MysqlProvider(mysqlClient)
     // sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
