@@ -10,23 +10,28 @@ var clientInitialized = false;
  */
 class Client {
     eventData?: any;
+    env: any = {};
 
     constructor(public guild: Guild, public user: User) {
     }
 
-    static async newClient(guild: string, user: string, eventData?: any) {
+    static async newClient(guild: string, user: string, eventData?: any, env?: any) {
         if(clientInitialized) throw new TypeError("client.newClient is not a function");
         //@ts-ignore Since it gets set right away and there's no way those props will be used
         var c = new Client();
         c.guild = await Guild.getGuild(guild, c);
         c.user = await User.getUser(user, c);
         c.eventData = eventData;
+        c.env = env;
         clientInitialized = true;
         return c;
     }
 
+    /**
+     * Checks if client has given permission
+     * @param permission to check
+     */
     async hasPermission(permission: string): Promise<boolean> {
-        if(!this.guild) throw new Error("Cannot use client before it's available");
         return await makeRequest("guild/" + this.guild.id + "/permission/" + encodeURI(permission));
     }
 };
@@ -48,7 +53,6 @@ class Channel {
         guild?: Guild,
         id: string
     }) {
-        if(!client.guild) throw new Error("Cannot use client before it's ready");
         this.client = client;
         this.guild = guild || client.guild;
         this.id = id;
@@ -62,7 +66,6 @@ class Channel {
                 message: content
             };
         }
-        if(!this.client.user) throw new Error("Cannot use client before it's available");
         const res = await fetch("http://localhost:8856/message/" + this.guild.id + "/" + this.id, {
             method: "POST",
             headers: {
@@ -401,7 +404,6 @@ class User {
      * @param client
      */
     static async getUser(id: string, client: Client): Promise<User> {
-        if(!client.guild) throw new Error("Cannot use client before it's available");
         const member = await makeRequest("member/" + client.guild.id + "/" + id);
         const user = await makeRequest("user/" + id);
 
@@ -422,7 +424,6 @@ class User {
      * @param reason
      */
     async ban(reason: string): Promise<void> {
-        if(!this.client.guild) throw new Error("Cannot use client before it's available");
         var resp = await makeRequest("member/" + this.client.guild.id + "/" + this.id + "/ban/" + encodeURI(reason));
         if(resp.error) throw resp.error;
     }
@@ -432,7 +433,6 @@ class User {
      * @param reason
      */
     async kick(reason: string): Promise<void> {
-        if(!this.client.guild) throw new Error("Cannot use client before it's available");
         var resp = await makeRequest("member/" + this.client.guild.id + "/" + this.id + "/kick/" + encodeURI(reason));
         if(resp.error) throw resp.error;
     }
@@ -443,7 +443,6 @@ class User {
      * @param reason
      */
     async warn(reason: string): Promise<void> {
-        if(!this.client.guild) throw new Error("Cannot use client before it's available");
         var resp = await makeRequest("member/" + this.client.guild.id + "/" + this.id + "/warn/" + encodeURI(reason));
         if(resp.error) throw resp.error;
     }
@@ -453,7 +452,6 @@ class User {
      * @param content to send
      */
     async send(content: string | Embed | Object): Promise<SentMessage> {
-        if(!this.client.guild) throw new Error("Cannot use client before it's available");
         if(!content) throw new Error("Cannot send empty message");
 
         if(typeof content === "string") {
@@ -461,7 +459,6 @@ class User {
                 message: content
             };
         }
-        if(!this.client.user) throw new Error("Cannot use client before it's available");
         const res = await fetch("http://localhost:8856/message/" + this.id, {
             method: "POST",
             headers: {
