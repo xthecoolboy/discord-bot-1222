@@ -37,7 +37,7 @@ module.exports = async (realEvent, event, data) => {
                 User
             } from "./actions/lib/main.ts";
 
-            const client = await Client.newClient("692837502117216307", "654725534365909043", ${JSON.stringify(data)}, ${action.env});
+            const client = await Client.newClient("692837502117216307", "654725534365909043", ${realEvent}, ${JSON.stringify(data)}, ${action.env});
         `);
         code += action.code;
 
