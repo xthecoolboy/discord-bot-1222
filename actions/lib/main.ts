@@ -113,7 +113,7 @@ class Event {
     }: {
         client: Client,
         type: EventType,
-        string
+        string: string
     }) {
         this.client = client;
         this.type = type;
