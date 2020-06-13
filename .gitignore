@@ -11,7 +11,7 @@ utils/output
 
 upgrade.ts
 settings[0-9]*.sqlite3
-*.sql
+utils/*.sql
 eval_docker/Dockerfile
 eval_docker/scripts
 downloads/
