@@ -40,7 +40,7 @@ class Client {
         return await makeRequest("guild/" + this.guild.id + "/permission/" + encodeURI(permission));
     }
 
-    async getEvent(): Promise<Event> {
+    async getEvent(): Promise<any> {
         if(this.event) return this.event;
         switch(this.eventName) {
             case "messageUpdate":
@@ -267,6 +267,11 @@ class Message {
         this.content = content;
     }
 
+    /**
+     * Sends message to same channel as message
+     * @param content Content to send
+     * @see {Channel.send}
+     */
     reply(content: string | Embed): Promise<SentMessage> {
         return this.channel.send(content);
     }
@@ -568,7 +573,8 @@ class User {
             client: this.client,
             channel: this,
             guild: this.client.guild,
-            author: this.client.user
+            author: this.client.user,
+            content: typeof content === "string" ? content : ""
         });
         return new SentMessage({ id, message: msg });
     }
