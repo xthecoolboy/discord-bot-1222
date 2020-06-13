@@ -79,7 +79,37 @@ function compareArr(arr1, arr2) {
     return true;
 }
 
+function getGuild(realEvent, data) {
+    switch(realEvent) {
+        case "messageDeleteBulk":
+            return data[0].first().guild;
+        case "messageUpdate":
+        case "messageDelete":
+        case "inviteDelete":
+        case "inviteCreate":
+        case "guildMemberRemove":
+        case "guildMemberAdd":
+        case "emojiDelete":
+        case "emojiUpdate":
+        case "emojiCreate":
+        case "channelUpdate":
+        case "channelPinsUpdate":
+        case "channelDelete":
+        case "channelCreate":
+        case "roleCreate":
+        case "roleDelete":
+        case "roleUpdate":
+            return data[0].guild;
+        case "guildUpdate":
+        case "guildIntegrationsUpdate":
+        case "guildBanRemove":
+        case "guildBanAdd":
+            return data[0];
+    }
+}
+
 module.exports = {
+    getGuild,
     shortNumber,
     assistant_icon,
     padWithZeroes,

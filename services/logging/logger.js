@@ -1,10 +1,11 @@
 const newEmbed = require("../../embed");
 const { Permissions } = require("discord.js");
+const { getGuild } = require("../../utils");
 
 async function getLogs(guild, deleted = false) {
     var settings = guild.settings;
     var sets = {
-        async* [Symbol.asyncIterator]() {
+        async * [Symbol.asyncIterator]() {
             var i = 0;
             while(await settings.get("logs.channels." + i, null)) {
                 console.log("Found channel number " + i);
@@ -218,35 +219,6 @@ async function format(args, event) {
             embed.setTitle("Role created");
             embed.setDescription("Role <@&" + role.id + "> (" + role.name + ") was deleted.");
             return embed;
-    }
-}
-
-function getGuild(realEvent, data) {
-    switch(realEvent) {
-        case "messageDeleteBulk":
-            return data[0].first().guild;
-        case "messageUpdate":
-        case "messageDelete":
-        case "inviteDelete":
-        case "inviteCreate":
-        case "guildMemberRemove":
-        case "guildMemberAdd":
-        case "emojiDelete":
-        case "emojiUpdate":
-        case "emojiCreate":
-        case "channelUpdate":
-        case "channelPinsUpdate":
-        case "channelDelete":
-        case "channelCreate":
-        case "roleCreate":
-        case "roleDelete":
-        case "roleUpdate":
-            return data[0].guild;
-        case "guildUpdate":
-        case "guildIntegrationsUpdate":
-        case "guildBanRemove":
-        case "guildBanAdd":
-            return data[0];
     }
 }
 
