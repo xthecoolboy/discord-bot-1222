@@ -3,21 +3,25 @@ async function makeRequest(endpoint: string): Promise<any> {
     return await res.json();
 }
 
+var clientInitialized = false;
+
 /**
  * Holds client data
  */
 class Client {
-    available = false;
+    eventData?: any;
 
     constructor(public guild: Guild, public user: User) {
     }
 
-    static async newClient(guild: string, user: string) {
+    static async newClient(guild: string, user: string, eventData?: any) {
+        if(clientInitialized) throw new TypeError("client.newClient is not a function");
         //@ts-ignore Since it gets set right away and there's no way those props will be used
         var c = new Client();
         c.guild = await Guild.getGuild(guild, c);
         c.user = await User.getUser(user, c);
-        c.available = true;
+        c.eventData = eventData;
+        clientInitialized = true;
         return c;
     }
 
