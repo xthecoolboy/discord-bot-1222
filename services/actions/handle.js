@@ -7,7 +7,7 @@ form.
 
 const { getGuild } = require("../../utils");
 const client = require("../../managers/pool_mysql");
-const { exec } = require("child_process");
+const { spawn } = require("child_process");
 const { join } = require("path");
 const sl = require("singleline");
 
@@ -37,7 +37,8 @@ module.exports = async (realEvent, event, data) => {
                 User
             } from "./actions/lib/main.ts";
 
-            const client = await Client.newClient("692837502117216307", "654725534365909043", ${realEvent}, ${JSON.stringify(data)}, ${action.env});
+            const client = await Client.newClient("692837502117216307", "654725534365909043", "${realEvent}", ${JSON.stringify(data)}, ${action.env});
+            const event = await client.getEvent();
         `);
         code += action.code;
 
@@ -50,18 +51,36 @@ module.exports = async (realEvent, event, data) => {
             }, 2e4);
 
             /* eslint-disable no-inner-declarations */
-            async function end(err, stdout, stderr) {
-                if(err) {}
-
+            async function end(stdout, stderr, err) {
                 clearTimeout(timeout);
 
-                await client.execute("INSET INTO action_runs (action, guild, stdout, stderr, err) VALUES (?,?,?,?,?)", [action.id, guild.id, stdout, stderr, err]);
+                await client.execute("INSERT INTO action_runs (action, guild, stdout, stderr, err) VALUES (?,?,?,?,?)", [action.id, guild.id, stdout, stderr, err.toString()]);
             }
             /* eslint-enable no-inner-declarations */
 
             try {
-                code = `'${code.replace(/'/g, "'\\''")}'`;
-                script = exec("PWD=" + join(__dirname, "../../actions/") + "NO_COLOR=true ~/.local/bin/deno eval " + code, end);
+                script = spawn("deno", ["eval", code], {
+                    env: {
+                        ...process.env,
+                        CWD: join(__dirname, "../../actions/"),
+                        NO_COLOR: true
+                    }
+                });
+
+                var dataBuf = "";
+                script.stdout.on("data", data => {
+                    dataBuf += data;
+                });
+                var errBuf = "";
+                script.stderr.on("data", data => {
+                    errBuf += data;
+                });
+                script.on("error", error => {
+                    end(dataBuf, errBuf, error);
+                });
+                script.on("close", code => {
+                    end(dataBuf, errBuf, "");
+                });
             } catch(e) {
                 console.error("[error_cmd]", e);
                 return;
