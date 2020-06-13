@@ -10,18 +10,23 @@ var clientInitialized = false;
  */
 class Client {
     eventData?: any;
+    eventName?: string;
     env: any = {};
+    event: Event;
 
     constructor(public guild: Guild, public user: User) {
+        //@ts-ignore
+        this.event = null;
     }
 
-    static async newClient(guild: string, user: string, eventData?: any, env?: any) {
+    static async newClient(guild: string, user: string, eventName?: string, eventData?: any, env?: any) {
         if(clientInitialized) throw new TypeError("client.newClient is not a function");
         //@ts-ignore Since it gets set right away and there's no way those props will be used
         var c = new Client();
         c.guild = await Guild.getGuild(guild, c);
         c.user = await User.getUser(user, c);
         c.eventData = eventData;
+        c.eventName = eventName;
         c.env = env;
         clientInitialized = true;
         return c;
@@ -33,6 +38,44 @@ class Client {
      */
     async hasPermission(permission: string): Promise<boolean> {
         return await makeRequest("guild/" + this.guild.id + "/permission/" + encodeURI(permission));
+    }
+
+    async getEvent(): Promise<Event> {
+        if(this.event) return this.event;
+        switch(this.eventName) {
+            case "messageUpdate":
+                var oldmsg = this.eventData[0];
+                var msg = this.eventData[1];
+                var author = await User.getUser(msg.authorID, this);
+                var channel = new Channel({
+                    client: this,
+                    guild: this.guild,
+                    id: msg.channelID
+                });
+                this.event = new MessageUpdateEvent({
+                    message: new Message({
+                        client: this,
+                        channel,
+                        author,
+                        guild: this.guild,
+                        content: msg.content
+                    }),
+                    client: this,
+                    oldMessage: new Message({
+                        client: this,
+                        channel,
+                        author,
+                        guild: this.guild,
+                        content: oldmsg.content
+                    }),
+                    channel,
+                    guild: this.guild,
+                    author
+                });
+                return this.event;
+        }
+
+        throw new Error("Unknown event triggered");
     }
 };
 
@@ -84,7 +127,8 @@ class Channel {
             client: this.client,
             channel: this,
             guild: this.guild,
-            author: this.client.user
+            author: this.client.user,
+            content: typeof content === "string" ? content : ""
         });
         return new SentMessage({ id, message: msg });
     }
@@ -94,8 +138,9 @@ class Channel {
  * Type of invoked event
  */
 enum EventType {
-    NewMessage,
-    CustomCommand
+    NewMessage = 0,
+    CustomCommand,
+    MessageUpdate
 }
 
 /**
@@ -150,6 +195,39 @@ class NewMessageEvent extends Event {
     }
 }
 
+class MessageUpdateEvent extends Event {
+    type = EventType.MessageUpdate;
+
+    message: Message;
+    oldMessage: Message;
+    guild: Guild;
+    channel: Channel;
+    author: User;
+
+    constructor({
+        message,
+        oldMessage,
+        client,
+        channel,
+        guild,
+        author
+    }: {
+        message: Message,
+        oldMessage: Message,
+        client: Client,
+        channel: Channel,
+        guild: Guild,
+        author: User
+    }) {
+        super({ client, type: EventType.NewMessage, string: "message.update"});
+        this.message = message;
+        this.oldMessage = oldMessage;
+        this.channel = channel;
+        this.guild = guild;
+        this.author = author;
+    }
+}
+
 /**
  * Holds message data
  */
@@ -158,22 +236,35 @@ class Message {
     channel: Channel | User;
     guild: Guild;
     author: User;
+    deleted: boolean = false;
+    pinned: boolean = false;
+    tts: boolean = false;
+    system: boolean = false;
+    embeds: Embed[] = [];
+    attachments: any[] = [];
+    created?: Date;
+    edited?: Date;
+    webhook: false | string = false;
+    content: string;
 
     constructor({
         client,
         channel,
         guild,
-        author
+        author,
+        content
     }: {
         client: Client,
         channel: Channel | User,
         guild: Guild,
-        author: User
+        author: User,
+        content: string
     }) {
         this.client = client;
         this.channel = channel;
         this.guild = guild;
         this.author = author;
+        this.content = content;
     }
 
     reply(content: string | Embed): Promise<SentMessage> {
