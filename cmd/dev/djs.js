@@ -37,7 +37,12 @@ module.exports = class Djs extends commando.Command {
     async run(msg, cmd) {
         this.msg = msg;
         var source = cmd.source;
-        const doc = await Doc.fetch(source);
+        var doc;
+        try {
+            doc = await Doc.fetch(source);
+        } catch(e) {
+            return msg.channel.send("Invalid source provided. Check for typos.");
+        }
 
         var c = cmd.query.split(".");
         var m = doc.get(...c);
