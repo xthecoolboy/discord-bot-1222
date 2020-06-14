@@ -91,7 +91,7 @@ The bot has as of now the following commands
 This category is yet to be done.
 
 * **balance** - shows current balance of user
-* **pay \<amount> \<who>** - *Not yet implemented*. Sends \<amount> to \<who>
+* **pay \<amount> \<who>** - Sends \<amount> to \<who>. Target must be in same server, does not accept UUIDs (yet).
 * **mine** - Mines the daily amount. Can be called every 12 hours.
 * **premium** - Shows if you have premium access or not
 
