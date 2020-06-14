@@ -152,7 +152,7 @@ function mine(user) {
                 resolve(parseInt(user.bbs) + getLevel(user));
             });
         } else {
-            resolve(false);
+            resolve(oneDay - (now - d));
         }
     });
 }
