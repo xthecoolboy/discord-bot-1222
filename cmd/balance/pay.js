@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 const commando = require("@iceprod/discord.js-commando");
 const account = require("../../managers/accountManager");
-const Discord = require("discord.js");
 
 module.exports = class Pay extends commando.Command {
     constructor(client) {
@@ -10,18 +8,32 @@ module.exports = class Pay extends commando.Command {
             memberName: "pay",
             group: "balance",
             description: "Pays someone BBS",
-            hidden: true,
             args: [
                 {
                     prompt: "Who to pay?",
                     type: "user",
                     key: "user"
+                },
+                {
+                    prompt: "What amount to pay?",
+                    type: "float",
+                    key: "amount"
                 }
             ]
         });
     }
 
-    run(msg, cmd) {
-        msg.channel.send("To be done");
+    async run(msg, { user, amount }) {
+        amount *= 1000;
+        if(msg.author.id === user.id) {
+            return msg.channel.send("As much as sending money to yourself may be a good idea, don't forget that there may be taxes for payments in future");
+        }
+        var source = await account.fetchUser(msg.author.id);
+        var target = await account.fetchUser(user.id);
+        if(source.bbs < amount) {
+            return msg.channel.send("You don't have enough BBS.");
+        }
+        await account.pay(source.id, target.id, amount);
+        msg.channel.send("Sent!");
     }
 };
