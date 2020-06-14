@@ -39,14 +39,10 @@ module.exports = async (msg, cmd) => {
     else return msg.say("User not found"); */
 
     try {
-        console.log("fetching user");
         dbuser = await account.fetchUser(user.id);
-        console.log("fetched");
     } catch(e) {
         return msg.say("Hmmm.. I couldn't find that user :smile:");
     }
-
-    console.log("Iterating");
 
     var offenseNum = 0;
     const iterable = {
@@ -70,8 +66,6 @@ module.exports = async (msg, cmd) => {
             offenseNum++;
         }
     }
-
-    console.log("Done");
 
     var embed = newEmbed();
     embed.setTitle("User info");
