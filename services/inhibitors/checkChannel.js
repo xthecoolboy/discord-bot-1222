@@ -16,7 +16,7 @@ module.exports = async msg => {
 
         if(msg.guild.settings.get("allowedChannels", []).length) {
             if(!msg.guild.settings.get("allowedChannels").includes(msg.channel.id)) {
-                return "You can't use Ice in this channel!";
+                return "You can't use Aztec in this channel!";
             }
         }
     }
