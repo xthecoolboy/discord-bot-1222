@@ -33,6 +33,9 @@ module.exports = class Pay extends commando.Command {
         if(source.bbs < amount) {
             return msg.channel.send("You don't have enough BBS.");
         }
+        if(amount < 1){
+            return msg.channel.send("You need to send SOMETHING, you know");
+        }
         await account.pay(source.id, target.id, amount);
         msg.channel.send("Sent!");
     }
