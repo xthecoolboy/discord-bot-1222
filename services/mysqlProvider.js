@@ -174,7 +174,7 @@ class MySQLProvider extends SettingProvider {
 
         settings[key] = val;
 
-        await this.db.execute("REPLACE INTO guilds VALUES(?, ?)", [
+        await this.db.execute("INSERT INTO guilds (snowflake, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES (data)", [
             guild !== "global" ? guild : 0,
             JSON.stringify(settings)
         ]);
@@ -195,7 +195,7 @@ class MySQLProvider extends SettingProvider {
 
         const val = settings[key];
         settings[key] = undefined;
-        await this.db.execute("REPLACE INTO guilds VALUES(?, ?)", [
+        await this.db.execute("INSERT INTO guilds (snowflake, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES (data)", [
             guild !== "global" ? guild : 0,
             JSON.stringify(settings)
         ]);
