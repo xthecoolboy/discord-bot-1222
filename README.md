@@ -94,6 +94,7 @@ This category is yet to be done.
 * **pay \<amount> \<who>** - Sends \<amount> to \<who>. Target must be in same server, does not accept UUIDs (yet).
 * **mine** - Mines the daily amount. Can be called every 12 hours.
 * **premium** - Shows if you have premium access or not
+* **rich** - Shows richest users in guild.
 
 ### Dev
 
@@ -172,9 +173,10 @@ This category is for developers who are working on discord. Hope it helps!
 * **editreason** - Edits reason about specified case
 * **giveaway** - Starts a giveaway
 * **history** - Shows users history (kicks/bans/warns).
-* **info** - Info about author or given user
+* **info** - Info about given resource.
 * **kick** - Kicks user from the server
-* **log** - Log settings, not yet done.
+* **logs** - Logs settings, not yet done.
+* **profile** - Shows user profile.
 * **purge \<x> \<delete report (true/false)>** - Purges last `x` messages
 * **role** - Manages roles. See help.
 * **stats** - Stats of ice bot
