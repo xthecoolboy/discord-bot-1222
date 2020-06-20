@@ -2,7 +2,6 @@ const Commando = require("@iceprod/discord.js-commando");
 const { Structures } = require("discord.js");
 const path = require("path");
 const sl = require("singleline");
-const sqlite = require("sqlite");
 const config = require("./config.json");
 const acc = require("./managers/accountManager");
 const Player = require("./services/player/player");
