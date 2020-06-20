@@ -64,13 +64,13 @@ module.exports = {
         name: 'balance',
         group: 'balance',
         aliases: [ 'bal' ],
-        description: 'Shows yours BBS balance. More in `info user`',
+        description: 'Zobrazí stav vaší BBS peněženky. `info user`',
         arguments: [
          {
                 type: 'member',
                 default: '',
                 key: 'target',
-                prompt: 'Which user to get balance from?',
+                prompt: 'Čí stav peněženky získat?',
                 infinite: false
             }
         ],
@@ -80,7 +80,7 @@ module.exports = {
     mine: {
         name: 'mine',
         group: 'balance',
-        description: 'Mines BBS, once per 12 hours.',
+        description: 'Vytěží BBS, jednou za 12 hodin.',
         examples: [],
         aliases: [],
         usage: '',
@@ -89,17 +89,17 @@ module.exports = {
     pay: {
         name: 'pay',
         group: 'balance',
-        description: 'Pays someone BBS',
+        description: 'Zaplatí/pošle někomu BBS.',
         arguments: [
          {
-                prompt: 'Who to pay?',
+                prompt: 'Komu zaplatit?',
                 type: 'user',
                 key: 'user',
                 default: '',
                 infinite: false
             },
          {
-                prompt: 'What amount to pay?',
+                prompt: 'Kolik zaplatit',
                 type: 'float',
                 key: 'amount',
                 default: '',
@@ -113,7 +113,7 @@ module.exports = {
     premium: {
         name: 'premium',
         group: 'balance',
-        description: 'Information about premium and if you have active premium.',
+        description: 'Zobrazí stav prémium účtu.',
         examples: [],
         aliases: [],
         usage: '',
@@ -123,7 +123,7 @@ module.exports = {
         name: 'rich',
         aliases: [ 'richest', 'top' ],
         group: 'balance',
-        description: 'Shows rich people',
+        description: 'Zobrazí nejbohatší lidi z tohoto serveru',
         arguments: [
          {
                 type: 'integer',
@@ -139,13 +139,13 @@ module.exports = {
     apm: {
         name: 'apm',
         group: 'dev',
-        description: 'Gets info about Atom Text Editor package',
+        description: 'Získá informace o rozšíření do Atom IDE.',
         usage: 'apm <pkg>',
         arguments: [
          {
                 key: 'pkg',
                 type: 'string',
-                prompt: 'Which Atom package to get info about?',
+                prompt: 'O kterém balíčku získat informace?',
                 default: '',
                 infinite: false
             }
@@ -157,12 +157,12 @@ module.exports = {
         name: 'bang',
         aliases: [ 'ddg' ],
         group: 'dev',
-        description: 'Shows link to DDG bang or shows instant answer',
+        description: 'Zobrazí odkaz na DuckDuckGo bang či zkusí zobrazit odpověď.',
         arguments: [
          {
                 type: 'string',
                 key: 'string',
-                prompt: 'What to try searching on DDG instant answers / bangs?',
+                prompt: 'Co vyhledat?',
                 default: '',
                 infinite: false
             }
@@ -173,12 +173,12 @@ module.exports = {
     color: {
         name: 'color',
         group: 'dev',
-        description: 'Previews color',
+        description: 'Zobrazí barvu',
         arguments: [
          {
                 type: 'string',
                 key: 'color',
-                prompt: 'What color you want to show?',
+                prompt: 'Kterou barvu zobrazit?',
                 default: '',
                 infinite: false
             }

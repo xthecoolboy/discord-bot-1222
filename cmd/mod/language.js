@@ -13,7 +13,7 @@ module.exports = class Language extends Command {
                 {
                     type: "string",
                     key: "lang",
-                    oneOf: ["en", "cz"],
+                    oneOf: ["en", "cs"],
                     prompt: "What language do you want to use?",
                     default: ""
                 }

@@ -28,6 +28,19 @@ module.exports = {
         limit: "Prosím vyberte číslo mezi %s a %n",
         months: ["led", "úno", "bře", "dub", "kvě", "čvn", "čvc", "srp", "zář", "lis", "pro", "Dec"]
     },
+    help: {
+        title: "Pomoc",
+        groups: "Dostupné skupiny příkazů:\n",
+        usage: "Použij %s pro získání více informací o příkazu\n\n",
+        available: "Dostupné příkazy v této skupině:\n",
+        serverOnly: "(Pouze v serverech)",
+        nsfw: "(18+)",
+        default: "Essentials",
+        format: "Formát",
+        aliases: "Aliasy",
+        details: "Detaily",
+        examples: "Příklady"
+    },
     lang: {
         current: "Nastavený jazyk: `%s`"
     },
@@ -99,12 +112,12 @@ module.exports = {
         msg: "Message"
     },
     php: {
-        help: "Use either `%s php <class | function>` or `%s php <class>::<method>`. Use object oriented style when available.",
-        version: "Version",
-        syntax: "Syntax",
-        long: "The code syntax is too long to fit. Click the title to open in browser.",
-        error: "Error",
-        not_found: "Couldn't find %s"
+        help: "Použij `%s php <class | function>` nebo `%s php <class>::<method>`. Používej OOP styl.",
+        version: "Verze",
+        syntax: "Syntaxe",
+        long: "Příklad je moc dlouhý, klikni na titulek k otevření prohlížeče.",
+        error: "Chyba",
+        not_found: "%s nenalezeno"
     },
     request: {
         wait: "Performing request",
@@ -119,8 +132,8 @@ module.exports = {
         parse_error: "An error occured during JSON parse:"
     },
     stackoverflow: {
-        not_found: "Couldn't find any question for that search",
-        truncated: " | Content truncated" // unlike other truncated message, this is shown at footer
+        not_found: "Otázka nenalezena",
+        truncated: " | Obsah zkrácen" // unlike other truncated message, this is shown at footer
     },
     nekos: {
         tos: "Some endpoints break discord ToS and are disallowed from public use.",
@@ -129,16 +142,29 @@ module.exports = {
         see: "See %s for available subcommands. Use them as `nekos <cmd>` (SFW) or `nekos-lewd <cmd>` (NSFW)."
     },
     balance: {
+        target_desc: "%u má %n BBS",
         desc: "Momentálně máš %n BBS"
     },
     mine: {
-        done: "Successfully mined BBS! Your current balance is %s",
-        not_yet: "You can't mine yet.",
-        error: "An error occured during mining BBS"
+        done: "Úspěšně vytěženo. Momentálně máš %s BBS.",
+        not_yet: "Zatím nemůžeš težit, zkus to ",
+        error: "Nastala chyba."
+    },
+    pay: {
+        self: "Posílání peněz sám sobě ti nijak nepomůže, jen ztratíš peníze kvůli poplatkům.",
+        too_low: "Nedostatek BBS.",
+        nothing: "Musíš něco poslat",
+        done: "Odesláno!"
     },
     premium: {
         true: "Blahopřeji! Máš prémium, vyzkoušej nějaké příkazy!",
         false: "Nemáš prémium. Pro více informací běž na %s"
+    },
+    rich: {
+        null: "Nikdo nic nemá. Buď první!",
+        page_not_found: "Stránka nenalezena",
+        title: "Nejbohatší uživatelé v **%s**",
+        page: "Strana %n z %i"
     },
     achievements: {
         title: "Úspěchy",
@@ -182,6 +208,11 @@ module.exports = {
         private: "This subreddit is private",
         banned: "This subreddit is banned",
         quarantined: "This subreddit is quarantined"
+    },
+    translate: {
+        source: "Cílový jazyk nebo text není validní!",
+        text: "Nepodařilo se přeložit do jazyka '%s'.",
+        premium: "Vypadá to že zpráva obsahuje embed. Získejte premium a překládejte i embed."
     },
     voted: {
         true: "Již jsi hlasoval. Všechny příkazy které vyžadují hlasování jsou odemčené",
