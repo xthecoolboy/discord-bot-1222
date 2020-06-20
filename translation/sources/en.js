@@ -28,6 +28,19 @@ module.exports = {
         limit: "Please select a valid amount between %s and %n",
         months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     },
+    help: {
+        title: "Help",
+        groups: "Please choose one of the following groups:\n",
+        usage: "Use %s to view more information about a command\n\n",
+        available: "Available commands in this group:\n",
+        serverOnly: "(Usable only in servers)",
+        nsfw: "(NSFW)",
+        default: "Essentials",
+        format: "Format",
+        aliases: "Aliases",
+        details: "Details",
+        examples: "Examples"
+    },
     lang: {
         current: "Current language: `%s`"
     },
@@ -129,6 +142,7 @@ module.exports = {
         see: "See %s for available subcommands. Use them as `nekos-lewd <cmd>`. Only %s"
     },
     balance: {
+        target_desc: "%u balance is %n BBS",
         desc: "Your current balance is %n BBS"
     },
     mine: {
@@ -136,9 +150,21 @@ module.exports = {
         not_yet: "You can't mine yet.",
         error: "An error occured during mining BBS"
     },
+    pay: {
+        self: "As much as sending money to yourself may be a good idea, don't forget that there may be taxes for payments in future",
+        too_low: "You don't have enough BBS.",
+        nothing: "You need to send SOMETHING, you know",
+        done: "Sent!"
+    },
     premium: {
         true: "Congratulations! You have premium. Try some premium commands!",
         false: "You don't have premium. For information about how to get premium, go to %s"
+    },
+    rich: {
+        null: "No one has anything. Be first!",
+        page_not_found: "Page not found",
+        title: "Richest users in **%s**",
+        page: "Page %n of %i"
     },
     achievements: {
         title: "Achievements",
@@ -182,6 +208,11 @@ module.exports = {
         private: "This subreddit is private",
         banned: "This subreddit is banned",
         quarantined: "This subreddit is quarantined"
+    },
+    translate: {
+        source: "Target language or source text is invalid!",
+        text: "Couldn't translate given text to %s.",
+        premium: "It looks like the message has an embed. Get premium to gain the ability to translate embeds."
     },
     voted: {
         true: "You already voted, all vote-locked commands are available!",
