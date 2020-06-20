@@ -1,6 +1,7 @@
 const commando = require("@iceprod/discord.js-commando");
 const got = require("got");
 const cheerio = require("cheerio");
+const account = require("../../managers/accountManager");
 
 module.exports = class Translate extends commando.Command {
     constructor(client) {
@@ -30,7 +31,8 @@ module.exports = class Translate extends commando.Command {
         });
     }
 
-    async translate(text, target) {
+    async translate(text, target, invalid) {
+        if(!text) return text;
         try {
             const data = await got("https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=" + target + "&hl=" + target + "&ddrl=5&tsel=5&kc=1&dt=t&q=" + text, {
                 headers: {
@@ -48,18 +50,65 @@ module.exports = class Translate extends commando.Command {
             });
             return JSON.parse(data.body)[0][0][0];
         } catch(e) {
-            return "Target language or source text is invalid!";
+            return invalid;
         }
     }
 
     async run(msg, { target, text }) {
-        if(!text) text = msg.channel.messages.cache.last(2)[0].content;
+        var lang = await msg.guild.lang();
+        if(!text) {
+            var last = msg.channel.messages.cache.last(2)[0];
+
+            if(last) {
+                text = await this.translate(msg.channel.messages.cache.last(2)[0].content, target, lang.translate.source);
+
+                var dbuser = await account.fetchUser(msg.author.id);
+                if(dbuser.donor_tier === 0) {
+                    if(last.embeds.length) msg.channel.send(lang.translate.premium);
+                    return msg.channel.send(text);
+                }
+
+                if(text === lang.translate.source) return msg.channel.send(text);
+
+                var embeds = [];
+                for(var embed of last.embeds) {
+                    var fields = [];
+                    for(var field of embed.fields) {
+                        fields.push({
+                            name: await this.translate(field.name, target, lang.translate.source),
+                            value: await this.translate(field.value, target, lang.translate.source),
+                            inline: field.inline
+                        });
+                    }
+                    embeds.push({
+                        ...embed,
+                        description: await this.translate(embed.description, target, lang.translate.source),
+                        footer: {
+                            ...embed.footer,
+                            text: await this.translate(embed.footer.text, target, lang.translate.source)
+                        },
+                        fields
+                    });
+                }
+
+                if(!text) {
+                    return msg.channel.send({
+                        embed: embeds[0]
+                    });
+                }
+
+                return msg.channel.send(
+                    text,
+                    embeds
+                );
+            }
+        }
         if(target.toString().toLowerCase() === "lolcat") {
             const data = await got("https://speaklolcat.com/?from=" + text);
             const $ = cheerio.load(data.body);
             msg.channel.send($("#to").text());
             return;
         }
-        return msg.channel.send(await this.translate(text, target) || "Couldn't translate given text to " + target + ".");
+        return msg.channel.send(await this.translate(text, target, lang.translate.source) || lang.translate.text.replace("%s", target));
     }
 };
