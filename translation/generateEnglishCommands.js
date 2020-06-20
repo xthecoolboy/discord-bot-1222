@@ -45,7 +45,7 @@ class Command {
 
     parse(data) {
         const allowedProps = [
-            "name", "group", "description", "aliases", "usage", "args"
+            "name", "group", "description", "examples", "aliases", "usage", "args"
         ];
         const mappings = {
             args: "arguments"
@@ -70,7 +70,7 @@ class Command {
                 prop = mappings[prop];
             }
             if(!this[prop]) {
-                if(["arguments", "aliases"].includes(prop)) {
+                if(["arguments", "aliases", "examples"].includes(prop)) {
                     this[prop] = [];
                 } else {
                     this[prop] = "";
@@ -88,10 +88,12 @@ const commands = walkSync(path.join(__dirname, "..", "cmd"), {
 var commandList = [];
 
 for(const command of commands) {
-    var cmd = new Command(command);
-    if(cmd) {
-        commandList.push(cmd);
-    }
+    try {
+        var cmd = new Command(command);
+        if(cmd) {
+            commandList.push(cmd);
+        }
+    } catch(e) {}
 }
 
 commandList = commandList.filter(val => val.name);
@@ -101,4 +103,4 @@ for(const command of commandList) {
     cmdMap[command.name] = command;
 }
 
-console.log("/* eslint-disable */\nmodule.exports =", util.inspect(cmdMap, false, Infinity, false).replace(/: Command {/g, ": {").replace(/ Argument {/g, "{").replace(/  /g, "    ")); // JSON.stringify(cmdMap, null, 4));
+console.log("/* eslint-disable */\nmodule.exports =", util.inspect(cmdMap, false, Infinity, false).replace(/: Command {/g, ": {").replace(/ Argument {/g, "{").replace(/ {2}/g, "    ")); // JSON.stringify(cmdMap, null, 4));
