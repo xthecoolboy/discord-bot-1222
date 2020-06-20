@@ -90,8 +90,10 @@ module.exports = class Poke extends commando.Command {
               this.msg.channel.send(embed3);
             })
         } catch(e) {
-          console.log(e);
-            this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd.poke + "'");
+            var embed = newEmbed();
+            embed.setTitle("Not Found");
+            embed.setDescription(`Pokemon **${this.cmd.poke}** not found. Please note that our bot still not support Sword and Shield Pokemons`);
+            this.msg.channel.send(embed);
             return;
         }
 
