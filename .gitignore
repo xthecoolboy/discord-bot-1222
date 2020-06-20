@@ -6,6 +6,12 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+utils/output
+.env
+
+upgrade.ts
+settings[0-9]*.sqlite3
+*.sql
 eval_docker/Dockerfile
 eval_docker/scripts
 downloads/

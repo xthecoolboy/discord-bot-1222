@@ -4,7 +4,6 @@ const en = require("javascript-time-ago/locale/en");
 TimeAgo.addLocale(en);
 
 const helpInfo = require("./info/help");
-const userInfo = require("./info/user");
 const channelInfo = require("./info/channel");
 const roleInfo = require("./info/role");
 const guildInfo = require("./info/guild");
@@ -26,7 +25,7 @@ module.exports = class Info extends commando.Command {
                     prompt: "Which resource you want to get info about?"
                 },
                 {
-                    type: "user|string|role",
+                    type: "user|string|role|channel",
                     key: "pointer",
                     prompt: "",
                     default: ""
@@ -47,8 +46,7 @@ module.exports = class Info extends commando.Command {
         // require("../../accountManager").sendAchievmentUnique(msg, "info");
         switch(cmd.command.toLowerCase()) {
             case "user":
-                userInfo(msg, cmd);
-                break;
+                return msg.channel.send("Getting user info via `info` command was removed due to confusion about using it. Use new `profile` (alias `user`) command instead.");
             case "role":
                 roleInfo(msg, cmd);
                 break;

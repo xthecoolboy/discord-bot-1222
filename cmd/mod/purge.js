@@ -12,6 +12,7 @@ module.exports = class Purge extends Command {
             description: "Deletes a certain amount of message in channel",
             clientPermissions: ["MANAGE_MESSAGES"],
             userPermissions: ["MANAGE_MESSAGES"],
+            guildOnly: true,
             args: [{
                 type: "integer",
                 key: "amount",
@@ -41,7 +42,7 @@ module.exports = class Purge extends Command {
 
                 var embed = newEmbed();
                 embed.setDescription(`✅ Successfully purged ${cmd.amount} messages!`);
-                embed.setAuthor(msg.author.username, msg.author.displayAvatarURL);
+                embed.setAuthor(msg.author.username, msg.author.displayAvatarURL());
 
                 return msg.channel.send(embed)
                     .then(msg => {

@@ -1,19 +1,35 @@
-# ice-bot ![Formatted](https://github.com/iceproductions/discord-bot/workflows/CI/badge.svg)
+# ice-bot
+
+![Formatted](https://github.com/iceproductions/discord-bot/workflows/CI/badge.svg)
+[![HitCount](http://hits.dwyl.com/iceproductions/discord-bot.svg)](http://hits.dwyl.com/iceproductions/discord-bot)
+![David](https://img.shields.io/david/iceproductions/discord-bot)
+![GitHub](https://img.shields.io/github/license/iceproductions/discord-bot)
+![Discord](https://img.shields.io/discord/689693889640398901)
+![GitHub forks](https://img.shields.io/github/forks/iceproductions/discord-bot)
+![GitHub contributors](https://img.shields.io/github/contributors/iceproductions/discord-bot)
 
 [![Discord Bots](https://top.gg/api/widget/654725534365909043.svg)](https://top.gg/bot/654725534365909043)
+
+<!-- <a href="https://discordbotlist.com/bots/654725534365909043">
+    <img
+        width="380"
+        height="140"
+        src="https://discordbotlist.com/bots/654725534365909043/widget"
+        alt="Aztec stats on Discord Bot List" />
+</a> -->
 
 ## About
 
 Universal discord bot to suite all of your needs.
 
-Want to use Ice? Invite link can be found on ice's [website](http://ice.danbulant.eu).
+Want to use Ice? Invite link can be found on ice's [website](http://iceproductions.dev).
 
 ## Setting up
 
 The setup is quite simple:
 
 * Grab latest release and extract the contents somewhere on the disk
-* Install dependencies (See [#dependencies])
+* Install dependencies (See [#dependencies](#dependencies))
 * Aquire token (from [discord developer portal](https://discordapp.com/developers)) and save it in config.json as token
 * Create `managers/mysql.js` that exports pool (see [wiki](https://github.com/danbulant/ice-bot/wiki/Setting-up-database))
 * Create MySQL databse with correct tables. (See [wiki](https://github.com/danbulant/ice-bot/wiki/Setting-up-database))
@@ -33,23 +49,24 @@ Then optionaly if you want to have link checking, add `virustotal` field into co
 Those are installed with `npm i` automatically.
 **Note: these aren't all dependencies, for list of all, see `package.json`**
 
-* discord.js -> the framework we use for ice
-* discord.js-docs -> searches through documentation
-* pacote -> searches through npm registry
-* cowsay -> a library for cowsay command
-* eventemitter3 -> better event emitter class
-* got -> because request **got** deprecated
-* javascript-time-ago -> yes, we are lazy to reinvent the wheel
-* mysql -> connection to MySQL
-* nekos.life -> Cute ~~catgirls~~ nekos
-* node-html-parser -> because not every website has an API
-* pokedex-promise-v2 -> Promises for pokedex
-* unique-random-array -> for our reddit command
-* vm2 -> secure VM for code evaluation
-* singleline -> allows multiline strings
-* ffmpeg -> music playback coder
-* ytdl-core -> for music playback
-* figlet -> for rendering `ascii` command
+* discord.js -> discord library ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/discord.js)
+* @iceprod/discord.js-commando -> the framework we use ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/@iceprod/discord.js-commando)
+* discord.js-docs -> searches through documentation ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/discord.js-docs)
+* pacote -> searches through npm registry ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/pacote)
+* cowsay -> a library for cowsay command ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/cowsay)
+* eventemitter3 -> better event emitter class ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/eventemitter3)
+* got -> because request **got** deprecated ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/got)
+* javascript-time-ago -> yes, we are lazy to reinvent the wheel ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/javascript-time-ago)
+* mysql2 -> connection to MySQL ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/mysql2)
+* nekos.life -> Cute ~~catgirls~~ nekos ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/nekos.life)
+* node-html-parser & cheerio -> because not every website has an API ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/node-html-parser) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/cheerio)
+* pokedex-promise-v2 -> Promises for pokedex ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/pokedex-promise-v2)
+* unique-random-array -> for our reddit command ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/unique-random-array)
+* vm2 -> secure VM for code evaluation ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/vm2)
+* singleline -> allows multiline strings ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/singleline)
+* ffmpeg -> music playback coder ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/ffmpeg)
+* ytdl-core -> for music playback ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/ytdl-core)
+* figlet -> for rendering `ascii` command ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/iceproductions/discord-bot/figlet)
 
 ## Non-command related features
 
@@ -74,9 +91,10 @@ The bot has as of now the following commands
 This category is yet to be done.
 
 * **balance** - shows current balance of user
-* **pay \<amount> \<who>** - *Not yet implemented*. Sends \<amount> to \<who>
+* **pay \<amount> \<who>** - Sends \<amount> to \<who>. Target must be in same server, does not accept UUIDs (yet).
 * **mine** - Mines the daily amount. Can be called every 12 hours.
 * **premium** - Shows if you have premium access or not
+* **rich** - Shows richest users in guild.
 
 ### Dev
 
@@ -92,7 +110,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **format** - Formatting guide
 * **google** - Google it!
 * **code** - Shows information about given HTTP code. Supports some non-official ones. *Thanks Wikipedia!*
-* **logme** - *Disabled on live version*. Logs message to console. Useful for debugging this bot.
+* **logme** - Shows message metadata in JSON format.
 * **npm** - Gets information about given package
 * **request** (alias `req`)- Makes request. See `req help`
 * **format** - Shows formatting help
@@ -110,6 +128,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **ping** - Pings the discord API and shows how much time it consumed
 * **puppy** - Because everyone likes images of puppies
 * **reddit** - Shows random image from given subreddit. If not on image-only subreddit, bot may **not** reply as of now.
+* **translate** (alias `t`)- Translates text to given language. Defaults to EN and last message.
 * **voted** (Alias `vote`) - Checks status of user vote and if user didn't vote, shows link.
 
 ### Fun
@@ -130,16 +149,17 @@ This category is for developers who are working on discord. Hope it helps!
 * **urban** [alias **ud**] - Find the meaning in the Urban Dictionary
 * **vaporwave** - Vaporify string
 
+### Games
+
+* **skin** - Shows minecraft skin of given player.
+* **poke** - Pokemon commands, see `poke help`
+
 ### Image
 
 * **fone** - Uses happyfone API
 * **meme** - Generates memes. Usage: `meme <photo/link to avatar> [top text] [bottom text]`
 * **qr** (alias `qrcode`) - Generates QR Code from given text
 * **xkcd** - Shows todays xkcd comic
-
-### Minecraft
-
-* **skin** - Shows skin of given player. ~~Tries using authors nickname if no player provided.~~
 
 ### Mod
 
@@ -153,9 +173,10 @@ This category is for developers who are working on discord. Hope it helps!
 * **editreason** - Edits reason about specified case
 * **giveaway** - Starts a giveaway
 * **history** - Shows users history (kicks/bans/warns).
-* **info** - Info about author or given user
+* **info** - Info about given resource.
 * **kick** - Kicks user from the server
-* **log** - Log settings, not yet done.
+* **logs** - Logs settings, not yet done.
+* **profile** - Shows user profile.
 * **purge \<x> \<delete report (true/false)>** - Purges last `x` messages
 * **role** - Manages roles. See help.
 * **stats** - Stats of ice bot
@@ -191,15 +212,9 @@ These commands are premium only (and aren't in this repository)
 * **xbooru** - The dirty sister of rule34
 * **yandere** - Random yandere image
 
-### Pokemon
-
-* **poke** - Has subcommands, see poke help
-
 ### Special
 
 This category contains owner-only commands
 
 * **blacklist** - Doesn't yet work
 * **guilds** - List guilds
-
-

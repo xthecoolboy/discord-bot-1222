@@ -7,6 +7,7 @@ const config = require("./config.json");
 const acc = require("./managers/accountManager");
 const Player = require("./services/player/player");
 const Snoowrap = require("snoowrap");
+const newEmbed = require("./embed");
 
 console.log("[LANG] Loading....");
 const lang = require("./translation/translation")();
@@ -40,9 +41,130 @@ Structures.extend("User", (User) => {
     };
 });
 
+Structures.extend("GuildMember", (GM) => {
+    return class GuildMember extends GM {
+        /**
+         * Bans user from guild
+         * @param {Object} param0
+         */
+        async ban({ reason, days, author }) {
+            // Set number of total cases in the server
+            let totalCaseCount = await this.guild.settings.get("totalcasecount", 0);
+            totalCaseCount++;
+            await this.guild.settings.set("totalcasecount", totalCaseCount);
+
+            // Store details about this case
+            const Case = {
+                id: totalCaseCount,
+                type: "ban",
+                offender: this.user.tag,
+                offenderID: this.user.id,
+                moderator: author.tag,
+                moderatorID: author.id,
+                reason: reason
+            };
+
+            await this.guild.settings.set(`case.${Case.id}`, Case);
+
+            const embed = newEmbed();
+            embed.setColor("RED");
+            embed.setAuthor(`Ban ${Case.id}"`, author.avatarURL());
+            embed.setTitle("You were banned in " + this.guild.name + " by " + Case.moderator);
+            embed.setDescription(" > " + reason);
+            await this.send(embed);
+
+            return super.ban({
+                reason,
+                days
+            });
+        }
+
+        /**
+         * Kicks user from guild
+         * @param {string} reason
+         * @param {any} author
+         */
+        async kick(reason, author) {
+            // Set number of total cases in the server
+            let totalCaseCount = await this.guild.settings.get("totalcasecount", 0);
+            totalCaseCount++;
+            await this.guild.settings.set("totalcasecount", totalCaseCount);
+
+            // Store details about this case
+            const Case = {
+                id: totalCaseCount,
+                type: "ban",
+                offender: this.user.tag,
+                offenderID: this.user.id,
+                moderator: author.tag,
+                moderatorID: author.id,
+                reason: reason
+            };
+
+            await this.guild.settings.set(`case.${Case.id}`, Case);
+
+            const embed = newEmbed();
+            embed.setColor("RED");
+            embed.setAuthor(`Kick ${Case.id}"`, author.avatarURL());
+            embed.setTitle("You were kicked from " + this.guild.name + " by " + Case.moderator);
+            embed.setDescription(" > " + reason);
+            this.send(embed);
+
+            return super.kick(reason);
+        }
+
+        /**
+         * Warns user
+         * @param {string} reason
+         * @param {any} author
+         */
+        async warn(reason, author) {
+            // Set number of total cases in the server
+            let totalCaseCount = await this.guild.settings.get("totalcasecount", 0);
+            totalCaseCount++;
+            await this.guild.settings.set("totalcasecount", totalCaseCount);
+
+            // Store details about this case
+            const Case = {
+                id: totalCaseCount,
+                type: "warn",
+                offender: this.user.tag,
+                offenderID: this.user.id,
+                moderator: author.tag,
+                moderatorID: author.id,
+                reason: reason,
+                removed: false
+            };
+
+            await this.guild.settings.set(`case.${Case.id}`, Case);
+
+            const warnCount = this.guild.settings.get(`warns.${this.user.id}`, 1);
+            await this.guild.settings.set(`warns.${this.user.id}`, warnCount + 1);
+
+            const embed = newEmbed();
+            embed.setColor("GOLD");
+            embed.setAuthor(`Warn ${Case.id}`, author.avatarURL());
+            embed.setTitle("You were warned in " + this.guild.name + " by " + Case.moderator);
+            embed.setDescription(" > " + reason);
+            await this.send(embed);
+
+            return this;
+        }
+    };
+});
+
+Structures.extend("TextChannel", (TC) => {
+    return class TextChannel extends TC {
+        sendFile(file) {
+            return this.send({ files: [file] });
+        }
+    };
+});
+
 const messageServices = [
     require("./services/message/messagePreview"),
-    require("./services/message/links")
+    require("./services/message/links"),
+    require("./services/message/nsfw")
 ];
 
 const inhibitors = [
@@ -55,7 +177,8 @@ const client = new Commando.Client({
     invite: "<https://discord.gg/8fqEepV>",
     presence: {
         activity: {
-            name: "merged with Ice"
+            name: "Inovation",
+            type: "WATCHING"
         }
     }
 });
@@ -79,8 +202,10 @@ if(config.dbl) {
 require("./services/logging/registerEvents")(client);
 require("./services/server")(client);
 
+const MysqlProvider = require("./services/mysqlProvider");
 client.setProvider(
-    sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
+    new MysqlProvider(require("./managers/pool_mysql"))
+    // sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
 client.config = config;
@@ -119,26 +244,24 @@ client.on("commandRegister", c => {
         }
     } finally {
         client.registry.registerGroups([
-            ["special", "Special owner-only commands"],
-            ["anime", "Anime commands"],
-            ["balance", "Managing your balance"],
-            ["dev", "Developer commands for help with development"],
-            ["essentials", "Universal commands"],
-            ["fun", "Fun commands"],
-            ["idemit", "Commands for Idemit"],
-            ["image", "Image processing commands"],
-            ["minecraft", "Commands for Minecraft"],
-            ["mod", "Moderator commands"],
-            ["music", "Music commands"],
-            ["nsfw", "NSFW commands"],
-            ["pokemon", "For pokemon players"],
-            ["tickets", "Ticket managing"],
-            ["top", "Shows top users of bot"]
+            ["special", "Owner-only"],
+            ["anime", "Anime"],
+            ["balance", "Balance"],
+            ["dev", "for Developers"],
+            ["essentials", "Essentials"],
+            ["fun", "Fun"],
+            ["games", "Games"],
+            ["image", "Image management"],
+            ["mod", "Moderation"],
+            ["music", "Music"],
+            ["nsfw", "NSFW"],
+            ["tickets", "Tickets"]
         ])
             .registerDefaultTypes()
             .registerDefaultGroups()
             .registerDefaultCommands({
-                eval: false
+                eval: false,
+                help: false
             })
             .registerTypesIn(path.join(__dirname, "types"))
             .registerCommandsIn(path.join(__dirname, "cmd"));
@@ -177,4 +300,9 @@ for(var inhibitor of inhibitors) {
 
 client.login(config.token);
 
-process.on("unhandledRejection", e => console.error("[REJECTION]", e));
+process.on("unhandledRejection", (e) => {
+    console.error("[REJECTION]", e);
+    if(e.name === "HTTPError" || e.name === "AbortError" || e.name === "HTTPError [AbortError]") {
+        process.exit(1);
+    }
+});

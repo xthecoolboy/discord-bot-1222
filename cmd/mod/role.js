@@ -10,6 +10,7 @@ module.exports = class Role extends commando.Command {
             description: "Add, remove or toggle a role on a user",
             clientPermissions: ["MANAGE_ROLES"],
             userPermissions: ["MANAGE_ROLES"],
+            guildOnly: true,
             args: [{
                 type: "string",
                 key: "option",

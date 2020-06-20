@@ -8,6 +8,7 @@ module.exports = class caseCommand extends Command {
             group: "mod",
             memberName: "case",
             description: "Shows an offender case",
+            guildOnly: true,
             args: [
                 {
                     type: "integer",

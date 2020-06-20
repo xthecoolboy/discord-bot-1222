@@ -11,20 +11,9 @@ function shortNumber(number) {
     return number / 1000 + "k";
 }
 
-function padWithZeroes(number, length) {
-    var my_string = "" + number;
-    while(my_string.length < length) {
-        my_string = "0" + my_string;
-    }
-
-    return my_string;
-}
-
 function insertAt(a, b, position) {
     return a.substring(0, position) + b + a.substring(position);
 }
-
-const assistant_icon = "Please wait";
 
 function suffix(i) {
     var j = i % 10;
@@ -41,8 +30,18 @@ function suffix(i) {
     return i + "th";
 }
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+// eslint-disable-next-line no-extend-native
+Number.prototype.withCommas = function() {
+    return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+};
+
+// eslint-disable-next-line no-extend-native
+String.prototype.withCommas = function() {
+    return this.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+};
+
+function withCommas() {
+    return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function timestampToDate(timestamp, unix = false) {
@@ -71,11 +70,11 @@ function compareArr(arr1, arr2) {
 
 module.exports = {
     shortNumber,
-    assistant_icon,
-    padWithZeroes,
     insertAt,
     suffix,
-    numberWithCommas,
     timestampToDate,
-    compareArr
+    compareArr,
+    Number,
+    String,
+    withCommas
 };

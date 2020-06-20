@@ -68,7 +68,10 @@ class Player {
      * Shuffles queue
      */
     async shuffleQueue() {
-        return this.guild.settings.set("music.queue", this.shuffleArray(await this.getQueue()));
+        return this.guild.settings.set(
+            "music.queue",
+            this.shuffleArray(await this.getQueue())
+        );
     }
 
     /**
@@ -90,9 +93,14 @@ class Player {
      * @returns {Object[]}
      */
     async listVideos(search) {
-        var res = await got("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&key=" + config.youtube.token + "&q=" + search);
+        var res = await got(
+            "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&key=" +
+                config.youtube.token +
+                "&q=" +
+                search
+        );
         var results = JSON.parse(res.body).items;
-        results = results.map(r => {
+        results = results.map((r) => {
             return { ...r.snippet, ...r.id };
         });
         return results;
@@ -108,19 +116,48 @@ class Player {
         if(!guild.voice) {
             throw new Error("not_connected");
         }
+
+        var queue = await this.getQueue(guild);
         if(ytdl.validateURL(url) || ytdl.validateID(url)) {
-            var queue = await this.getQueue(guild);
             queue.push({
                 url,
                 requested: msg.author.id,
-                data: (await ytdl.getInfo(url))
+                data: await ytdl.getInfo(url)
             });
             return await guild.settings.set("music.queue", queue);
+        } else if(
+            url.match(
+                /((https*:\/\/)*(www\.)*)youtube\.com\/playlist\?list=[A-Za-z0-9-_]{34}\.*/
+            )
+        ) {
+            var playListId = url.match(/[A-Za-z0-9-_]{34}/)[0];
+            try {
+                var res = await got(
+                    `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=10&playlistId=${playListId}&key=${config.youtube.token}`
+                );
+
+                var playlistItems = JSON.parse(res.body).items;
+
+                for await(const playListItem of playlistItems) {
+                    var playListItemUrl = `https://www.youtube.com/watch?v=${playListItem.contentDetails.videoId}`;
+                    queue.push({
+                        url: playListItemUrl,
+                        requested: msg.author.id,
+                        data: await ytdl.getInfo(playListItemUrl)
+                    });
+                }
+
+                return await guild.settings.set("music.queue", queue);
+            } catch(e) {
+                console.log(e);
+            }
         } else {
             var possibles = await this.listVideos(url);
             await guild.settings.set("music.stash", possibles);
             var embed = newEmbed();
-            embed.setTitle(`Found ${possibles.length} videos, reply with number to select:`);
+            embed.setTitle(
+                `Found ${possibles.length} videos, reply with number to select:`
+            );
             embed.setDescription("Command will be canceled after 30 seconds");
 
             for(var num in possibles) {
@@ -129,21 +166,28 @@ class Player {
 
             var sent = await msg.channel.send(embed);
 
-            var collector = msg.channel.createMessageCollector(m => {
-                // eslint-disable-next-line eqeqeq
-                var filter = parseInt(m.content.trim()) == m.content.trim() && m.author.id === msg.author.id;
-                return filter;
-            }, { time: 30000 });
+            var collector = msg.channel.createMessageCollector(
+                (m) => {
+                    var filter =
+                        // eslint-disable-next-line eqeqeq
+                        parseInt(m.content.trim()) == m.content.trim() &&
+                        m.author.id === msg.author.id;
+                    return filter;
+                },
+                { time: 30000 }
+            );
 
             var selected = null;
 
-            collector.on("collect", async m => {
+            collector.on("collect", async (m) => {
                 selected = m.content;
                 collector.stop("collected");
                 var stash = await guild.settings.get("music.stash");
                 var url = stash[selected - 1];
                 if(!url) {
-                    return msg.channel.send("Number is out of range (1-" + stash.size + ")");
+                    return msg.channel.send(
+                        "Number is out of range (1-" + stash.size + ")"
+                    );
                 }
                 await guild.settings.set("music.stash", []);
                 var queue = await this.getQueue(guild);
@@ -192,31 +236,62 @@ class Player {
         var embed = newEmbed();
 
         embed.setTitle(data.title);
-        embed.setAuthor(data.author.name, data.author.avatar, data.author.channel_url);
+        embed.setAuthor(
+            data.author.name,
+            data.author.avatar,
+            data.author.channel_url
+        );
         embed.setURL(data.video_url);
 
-        embed.addField("Likes", `${data.likes} :+1: / ${data.dislikes} :-1:`, true);
+        embed.addField(
+            "Likes",
+            `${data.likes} :+1: / ${data.dislikes} :-1:`,
+            true
+        );
         embed.addField("Requested by", `<@!${requested}>`, true);
         if(pos) embed.addField("Position in queue", pos, true);
 
         function humanReadable(sec) {
-            var pad = x => x.toString().padStart(2, "0");
+            var pad = (x) => x.toString().padStart(2, "0");
             var res = "";
-            if(Math.floor(sec / (60 * 60)) > 0) res += pad(Math.floor(sec / (60 * 60))) + ":";
-            res += pad(Math.floor(sec / 60 % 60)) + ":";
+            if(Math.floor(sec / (60 * 60)) > 0) {
+                res += pad(Math.floor(sec / (60 * 60))) + ":";
+            }
+            res += pad(Math.floor((sec / 60) % 60)) + ":";
             res += pad(Math.floor(sec % 60));
-
             return res;
         }
 
         if(np && this.guild.voice) {
             if(this.guild.voice.connection) {
                 if(this.guild.voice.connection.dispatcher) {
-                    embed.addField("Current time", humanReadable(this.guild.voice.connection.dispatcher.streamTime / 1000), true);
-                    embed.addField("Length", (data.length_seconds ? humanReadable(data.length_seconds) : "LIVE"), true);
-                    embed.addField("Volume", `${this.guild.voice.connection.dispatcher.volume * 100}%`, true);
+                    embed.addField(
+                        "Current time",
+                        humanReadable(
+                            this.guild.voice.connection.dispatcher.streamTime /
+                                1000
+                        ),
+                        true
+                    );
+                    embed.addField(
+                        "Length",
+                        data.length_seconds > 0
+                            ? humanReadable(data.length_seconds)
+                            : "LIVE",
+                        true
+                    );
+                    embed.addField(
+                        "Volume",
+                        `${
+                            this.guild.voice.connection.dispatcher.volume * 100
+                        }%`,
+                        true
+                    );
                 } else {
-                    embed.addField("Length", humanReadable(data.length_seconds));
+                    embed.addField(
+                        "Length",
+                        humanReadable(data.length_seconds)
+                    );
                 }
             } else {
                 embed.addField("Length", humanReadable(data.length_seconds));
@@ -249,8 +324,12 @@ class Player {
             this.guild.voice.channel.join();
         }
         if(!this.guild.voice.connection.dispatcher) {
-            var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
-            dispatcher.setVolume(await this.guild.settings.get("music.volume", 1));
+            var dispatcher = this.guild.voice.connection.play(
+                ytdl(np.data.video_url, defaultOptions)
+            );
+            dispatcher.setVolume(
+                await this.guild.settings.get("music.volume", 1)
+            );
             this.dispatch(dispatcher);
         }
     }
@@ -268,7 +347,9 @@ class Player {
 
                     if(this.lastInfo)this.lastInfo.delete();
 
-                    this.lastInfo = await this.channel.send(this.getEmbed(queue[npid], true, npid));
+                    this.lastInfo = await this.channel.send(
+                        this.getEmbed(queue[npid], true, npid)
+                    );
                     /*
                     if(this.lastInfo) {
                         this.lastInfo.edit(this.getEmbed(queue[npid], true, npid));
@@ -318,7 +399,9 @@ class Player {
             await this.guild.voice.channel.join();
         }
 
-        var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        var dispatcher = this.guild.voice.connection.play(
+            ytdl(np.data.video_url, defaultOptions)
+        );
         dispatcher.setVolume(await this.guild.settings.get("music.volume", 1));
         this.dispatch(dispatcher);
         return dispatcher;
@@ -352,7 +435,9 @@ class Player {
             await this.guild.voice.channel.join();
         }
 
-        var dispatcher = this.guild.voice.connection.play(ytdl(np.data.video_url, defaultOptions));
+        var dispatcher = this.guild.voice.connection.play(
+            ytdl(np.data.video_url, defaultOptions)
+        );
         dispatcher.setVolume(await this.guild.settings.get("music.volume", 1));
         this.dispatch(dispatcher);
         return dispatcher;

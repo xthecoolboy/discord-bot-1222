@@ -46,12 +46,12 @@ module.exports = async (msg, cmd) => {
 
     var offenseNum = 0;
     const iterable = {
-        [Symbol.iterator]: () => {
+        [Symbol.asyncIterator]: () => {
             var current = 0;
             return {
-                next() {
+                async next() {
                     current++;
-                    var data = msg.guild.settings.get("case." + current, null);
+                    var data = await msg.guild.settings.get("case." + current, null);
                     if(!data) {
                         return { value: null, done: true };
                     }
@@ -61,7 +61,7 @@ module.exports = async (msg, cmd) => {
         }
     };
 
-    for(var Case of iterable) {
+    for await(var Case of iterable) {
         if(Case.offenderID === user.id && !Case.removed) {
             offenseNum++;
         }
@@ -69,7 +69,7 @@ module.exports = async (msg, cmd) => {
 
     var embed = newEmbed();
     embed.setTitle("User info");
-    embed.setThumbnail(user.avatarURL);
+    embed.setThumbnail(user.avatarURL());
     embed.addField("» Name", user.tag);
     embed.addField("» ID", user.id, true);
     embed.addField("» UUID", dbuser.uuid, true);
@@ -78,9 +78,9 @@ module.exports = async (msg, cmd) => {
     embed.addField("» XP", dbuser.xp + " / " + account.getNextLevel(dbuser.xp), true);
     embed.addField("» BBS", account.getMoney(dbuser), true);
     embed.addField("» Offenses", `**${offenseNum}**`, true);
-    embed.addField("» Bot", (user.bot ? ":white_check_mark: Beep boop!" : ":x: A human. Unless?"), true);
+    embed.addField("» Bot", (user.bot || user.id === "672165988527243306" ? ":white_check_mark: Beep boop!" : ":x: A human. Unless?"), true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
-    if(msg.guild) embed.addField("» Roles", getRoles(msg, user), true);
+    if(msg.guild && getRoles(msg, user)) embed.addField("» Roles", getRoles(msg, user), true);
     embed.addField("» Online status:", getStatus(user.presence.status), true);
 
     msg.say(embed);

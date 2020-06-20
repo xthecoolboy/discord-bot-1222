@@ -24,8 +24,8 @@ module.exports = class reddituser extends commando.Command {
     }
 
     async run(msg, cmd) {
-        return msg.say("This command is disabled until it's fixed.");
-        /* if(!reddit) return msg.say("Reddit connection not sucessful. View console for more information.");
+        // return msg.say("This command is disabled until it's fixed.");
+        if(!reddit) return msg.say("Reddit connection not sucessful. View console for more information.");
         if(!cmd.user.match(/^\/?(u\/)?[a-z0-9][a-z0-9_-]{2,21}$/i)) return msg.say("Invalid username");
         const embed = newEmbed()
             .setDescription("Loading...");
@@ -46,7 +46,7 @@ module.exports = class reddituser extends commando.Command {
                 .setDescription(usub.public_description)
                 .setThumbnail(usub.icon_img)
                 .addField("Created", timestampToDate(await user.created, true), true)
-                .addField("Karma", `${numberWithCommas(await user.link_karma)} / ${numberWithCommas(await user.comment_karma)}`, true)
+                .addField("Karma", `${(await user.link_karma).withCommas()} / ${(await user.comment_karma).withCommas()}`, true)
                 .addField("Reddit Premium", await user.is_gold, true)
                 .setImage(usub.banner_img);
 
@@ -64,9 +64,8 @@ module.exports = class reddituser extends commando.Command {
                 embed.addField("Moderates", `${moderates.length} subreddits`, true);
                 let subcount = 0;
                 for(let i = 0; i < moderates.length; i++) subcount += moderates[i].subscribers;
-                embed.addField("Total subscribers", `${numberWithCommas(subcount)} (avg. ${numberWithCommas(Math.round(subcount / moderates.length))})`, true);
+                embed.addField("Total subscribers", `${subcount.withCommas()} (avg. ${Math.round(subcount / moderates.length).withCommas()})`, true);
                 em.edit(embed);
-
                 msg.say(`Display ${usub.display_name_prefixed}'s top moderated subreddits?`)
                     .then(async question => {
                         await question.react("✅");
@@ -82,7 +81,7 @@ module.exports = class reddituser extends commando.Command {
                                 case "✅":
                                     embed.addField("Top subreddits");
                                     collector.stop();
-                                    pages(msg, cmd, embed, em, moderates, 1);
+                                    pages(msg, embed, em, moderates, 1, "subreddits", sub => `[${sub.sr_display_name_prefixed}](https://reddit.com${sub.url}) (${sub.subscribers})`);
                                     break;
                                 default:
                                     reaction.remove();
@@ -101,7 +100,5 @@ module.exports = class reddituser extends commando.Command {
             console.log(e);
             return em.edit(embed);
         }
-
-        */
     }
 };

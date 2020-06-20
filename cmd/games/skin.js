@@ -8,7 +8,7 @@ module.exports = class Skin extends commando.Command {
         super(client, {
             name: "skin",
             memberName: "skin",
-            group: "minecraft",
+            group: "games",
             description: "Shows skin of given user",
             args: [
                 {

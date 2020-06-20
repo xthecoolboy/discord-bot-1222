@@ -34,11 +34,11 @@ module.exports = class Logs extends commando.Command {
                     parse: (val, msg) => {
                         if(msg.content.indexOf("list") !== -1) return "";
                         var id = val.match(/<#([0-9]+)>/);
-                        return msg.guild.channels.get(id[1]);
+                        return msg.guild.channels.resolve(id[1]);
                     }
                 }, {
                     type: "string",
-                    key: "options",
+                    key: "settings",
                     prompt: "",
                     default: ""
                 }
@@ -46,7 +46,7 @@ module.exports = class Logs extends commando.Command {
         });
     }
 
-    async run(msg, { command, channel, options }) {
+    async run(msg, { command, channel, settings }) {
         const allowedOptions = [
             "*",
             "*.*",
@@ -105,6 +105,15 @@ module.exports = class Logs extends commando.Command {
             "invite.create",
             "invite.delete"
         ];
+        var chs = this.getLogs(msg);
+        for(const ch of chs) {
+            if(!ch.settings.length || !msg.guild.channels.resolve(ch.id)) {
+                this.alterLogsChannel(msg, ch.id, {
+                    ...ch,
+                    deleted: true
+                });
+            }
+        }
         /* eslint-disable no-redeclare */
         switch(command) {
             case "list":
@@ -113,7 +122,7 @@ module.exports = class Logs extends commando.Command {
                 embed.setTitle("Logging channels:");
                 embed.setDescription("Found " + channels.length + " channels to log into:");
                 for(var channel of channels) {
-                    var ch = msg.guild.channels.get(channel.id);
+                    var ch = msg.guild.channels.resolve(channel.id);
                     embed.addField("**#" + ch.name + "**", channel.settings.join());
                 }
                 msg.channel.send(embed);
@@ -140,23 +149,23 @@ module.exports = class Logs extends commando.Command {
                 var ch = this.getLogsChannel(msg, channel.id);
                 if(!ch) return msg.channel.send("The channel is not set as logging channel!");
 
-                for(var option of options.split(" ")) {
+                for(var option of settings.split(" ")) {
                     switch(option[0]) {
                         case "+":
-                            if(!ch.options.includes(option.substr(1))) {
-                                ch.options.push(options.substr(1));
+                            if(!ch.settings.includes(option.substr(1))) {
+                                ch.settings.push(option.substr(1));
                             }
                             break;
                         case "-":
-                            if(ch.options.includes(option.substr(1))) {
-                                ch.options = ch.options.filter(c => c !== option.substr(1));
+                            if(ch.settings.includes(option.substr(1))) {
+                                ch.settings = ch.settings.filter(c => c !== option.substr(1));
                             }
                             break;
                         case "!":
-                            if(ch.options.includes(option.substr(1))) {
-                                ch.options = ch.options.filter(c => c !== option.substr(1));
+                            if(ch.settings.includes(option.substr(1))) {
+                                ch.settings = ch.settings.filter(c => c !== option.substr(1));
                             } else {
-                                ch.options.push(option.substr(1));
+                                ch.settings.push(option.substr(1));
                             }
                             break;
                         default:
@@ -164,11 +173,11 @@ module.exports = class Logs extends commando.Command {
                     }
                 }
 
-                ch.options = ch.options.filter(c => allowedOptions.includes(c));
+                ch.settings = ch.settings.filter(c => allowedOptions.includes(c));
 
                 var altered = this.alterLogsChannel(msg, channel.id, {
-                    options: ch.options,
-                    channel: channel.id
+                    settings: ch.settings,
+                    id: channel.id
                 });
                 if(altered) {
                     msg.channel.send("Altered the channel");
@@ -184,7 +193,7 @@ module.exports = class Logs extends commando.Command {
                 if(!ch) {
                     embed.setDescription("The channel <#" + channel.id + "> is not setup as channel for logs!");
                 } else {
-                    embed.setDescription(ch.options.join());
+                    embed.setDescription(ch.settings.join());
                 }
                 msg.channel.send(embed);
                 break;
@@ -221,7 +230,6 @@ module.exports = class Logs extends commando.Command {
     }
 
     addLogsChannel(msg, data) {
-        console.log("Adding channel to logs:", data);
         if(this.alterLogsChannel(msg, data.id, { ...data, deleted: false }, true)) {
             return true;
         }

@@ -7,12 +7,12 @@ module.exports = class Meme extends commando.Command {
         super(client, {
             name: "makeameme",
             memberName: "makeameme",
-            aliases: ["meme"],
+            aliases: ["makememe", "genmeme"],
             group: "image",
             description: "Make a meme using imageurl/avatar toptext botomtext",
             args: [
                 {
-                    type: "user|string",
+                    type: "user|url",
                     key: "url",
                     prompt: "Image URL to make meme of:"
                 },
@@ -47,19 +47,12 @@ module.exports = class Meme extends commando.Command {
     async run(msg, cmd) {
         var image = cmd.url;
         if(image instanceof Discord.User) {
-            image = image.avatarURL;/*
-            try {
-                var user = await this.client.fetchUser(image);
-            } catch (e) {
-                console.error(e);
-                msg.channel.send("The user you referenced wasn't found. Did you ping properly?");
-                return;
-            }
-            if (!user) {
-                msg.channel.send("The user you referenced wasn't found. Did you ping properly?");
-                return;
-            }
-            image = user.avatarURL; */
+            image = image.displayAvatarURL({
+                dynamic: true,
+                size: 2048
+            });
+        } else {
+            image = image.toString();
         }
         var top = this.urlEscape(cmd.top);
         var bottom = this.urlEscape(cmd.bottom);
@@ -69,7 +62,14 @@ module.exports = class Meme extends commando.Command {
         var embed = newEmbed();
         var url = `https://memegen.link/custom/${top}/${bottom}.jpg?alt=${image}&watermark=none`;
 
-        embed.setImage(url);
-        msg.channel.send(embed);
+        embed.setImage("attachment://meme.jpg");
+
+        msg.channel.send({
+            embed,
+            files: [{
+                attachment: url,
+                name: "meme.jpg"
+            }]
+        });
     }
 };

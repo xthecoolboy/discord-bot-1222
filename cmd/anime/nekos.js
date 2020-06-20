@@ -10,7 +10,8 @@ module.exports = class NekosCommand extends commando.Command {
             group: "anime",
             memberName: "nekos",
             description: "Uses the nekos.life API. SFW only.",
-            examples: ["nekos help"],
+            examplesName: "Sub commands",
+            examples: ["help", "OwOify"],
             args: [
                 {
                     type: "string",

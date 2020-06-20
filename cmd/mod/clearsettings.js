@@ -8,6 +8,7 @@ module.exports = class clearsettingsCommand extends Command {
             memberName: "clearsettings",
             description: "Clears all the guilds settings",
             userPermissions: ["ADMINISTRATOR"],
+            guildOnly: true,
             args: [
                 {
                     key: "confirmation",

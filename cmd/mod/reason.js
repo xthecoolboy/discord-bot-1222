@@ -10,6 +10,7 @@ module.exports = class Reason extends Command {
             memberName: "reason",
             description: "Warns a user",
             userPermissions: ["KICK_MEMBERS"],
+            guildOnly: true,
             args: [
                 {
                     type: "integer",

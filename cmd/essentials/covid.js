@@ -1,7 +1,7 @@
 const commando = require("@iceprod/discord.js-commando");
 const got = require("got");
 const newEmbed = require("../../embed");
-const { numberWithCommas } = require("../../utils");
+require("../../utils");
 
 module.exports = class Covid extends commando.Command {
     constructor(client) {
@@ -44,12 +44,12 @@ module.exports = class Covid extends commando.Command {
             .setColor("RED")
             .setURL("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
             .addFields(
-                { name: lang.covid.cases.total, value: numberWithCommas(country.TotalConfirmed) },
-                { name: lang.covid.cases.new, value: numberWithCommas(country.NewConfirmed) },
-                { name: lang.covid.cases.tdeaths, value: numberWithCommas(country.TotalDeaths) },
-                { name: lang.covid.cases.ndeaths, value: numberWithCommas(country.NewDeaths) },
-                { name: lang.covid.cases.trecovered, value: numberWithCommas(country.TotalRecovered) },
-                { name: lang.covid.cases.nrecovered, value: numberWithCommas(country.NewRecovered) }
+                { name: lang.covid.cases.total, value: country.TotalConfirmed.withCommas() },
+                { name: lang.covid.cases.new, value: country.NewConfirmed.withCommas() },
+                { name: lang.covid.cases.tdeaths, value: country.TotalDeaths.withCommas() },
+                { name: lang.covid.cases.ndeaths, value: country.NewDeaths.withCommas() },
+                { name: lang.covid.cases.trecovered, value: country.TotalRecovered.withCommas() },
+                { name: lang.covid.cases.nrecovered, value: country.NewRecovered.withCommas() }
             );
         const em = await msg.say(embed);
 

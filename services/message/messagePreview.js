@@ -20,13 +20,13 @@ module.exports = async (msg) => {
 
         embed = newEmbed();
         embed.description = mess.cleanContent;
-        embed.setAuthor(mess.author.tag, mess.author.avatarURL);
+        embed.setAuthor(mess.author.tag, mess.author.avatarURL());
 
-        if(mess.attachments.length) {
-            if(mess.attachments.length === 1) {
-                for(var attachment of mess.attachments) {
+        if(mess.attachments.size) {
+            if(mess.attachments.size === 1) {
+                for(var [, attachment] of mess.attachments) {
                     if(attachment.width) {
-                        embed.setImage(attachment.proxyURL);
+                        embed.setImage(attachment.proxyURL || attachment.url);
                     } else {
                         embed.addField("Attachments", "Message has one attachment (not an image).");
                     }
@@ -65,7 +65,9 @@ module.exports = async (msg) => {
             embed.addField("Edited", "The message has been edited");
         }
 
-        msg.channel.send(embed);
+        try {
+            msg.channel.send(embed);
+        } catch(e) {}
     } catch(e) {
         embed = newEmbed();
 
@@ -74,6 +76,8 @@ module.exports = async (msg) => {
 
         embed.addField("Deleted", "The message has been deleted.");
 
-        msg.channel.send(embed);
+        try {
+            msg.channel.send(embed);
+        } catch(e) {}
     }
 };
