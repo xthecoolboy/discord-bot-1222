@@ -24,19 +24,20 @@ module.exports = class Pay extends commando.Command {
     }
 
     async run(msg, { user, amount }) {
+        var lang = await msg.guild.lang();
         amount *= 1000;
         if(msg.author.id === user.id) {
-            return msg.channel.send("As much as sending money to yourself may be a good idea, don't forget that there may be taxes for payments in future");
+            return msg.channel.send(lang.pay.self);
         }
         var source = await account.fetchUser(msg.author.id);
         var target = await account.fetchUser(user.id);
         if(source.bbs < amount) {
-            return msg.channel.send("You don't have enough BBS.");
+            return msg.channel.send(lang.pay.too_low);
         }
         if(amount < 1) {
-            return msg.channel.send("You need to send SOMETHING, you know");
+            return msg.channel.send(lang.pay.nothing);
         }
         await account.pay(source.id, target.id, amount);
-        msg.channel.send("Sent!");
+        msg.channel.send(lang.pay.done);
     }
 };
