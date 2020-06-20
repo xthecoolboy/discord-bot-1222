@@ -113,8 +113,8 @@ function getPrevLevel(xp) {
 }
 
 function getMoney(user) {
-    var bbs = user.bbs.toString().padStart(4, "0");;
-    return insertAt(bbs, ".", bbs.length - 3) + " BBS";
+    var bbs = user.bbs.toString().padStart(4, "0");
+    return insertAt(bbs, ".", bbs.length - 3);
 }
 
 async function mine(user) {
