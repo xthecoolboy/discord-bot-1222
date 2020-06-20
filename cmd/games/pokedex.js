@@ -46,13 +46,13 @@ module.exports = class Poke extends commando.Command {
         }
     }
 
-    async mon() {
+    mon() {
         if(!this.cmd.poke) {
             this.msg.channel.send("No pokemon to find specified. Usage: `poke mon <name>`");
             return;
         }
         try {
-            var pokemon = await got(`https://pokeapi.co/api/v2/pokemon/${this.cmd.poke.toLowerCase()}`).then(res => {
+            var pokemon = got(`https://pokeapi.co/api/v2/pokemon/${this.cmd.poke.toLowerCase()}`).then(res => {
               var json = JSON.parse(res.body);
               var types = [];
               var type = json.types;
