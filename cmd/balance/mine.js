@@ -18,7 +18,7 @@ module.exports = class Mine extends commando.Command {
         localLocale.locale(await msg.guild.settings.get("lang", "en"));
         try {
             var mined = await account.mine(await account.fetchUser(msg.author.id));
-            if(mined) {
+            if(mined === true) {
                 msg.channel.send(lang.mine.done.replace("%s", await account.getMoney(await account.fetchUser(msg.author.id))));
             } else {
                 msg.channel.send(lang.mine.not_yet + (localLocale(new Date(mined + Date.now())).fromNow()) + ".");
