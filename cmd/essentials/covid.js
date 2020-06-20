@@ -40,7 +40,7 @@ module.exports = class Covid extends commando.Command {
         const embed = newEmbed();
         if(country.Country) embed.addField(lang.covid.country, country.Country);
         embed
-            .setTitle("COVID-19 Information")
+            .setTitle(lang.covid.info)
             .setColor("RED")
             .setURL("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
             .addFields(
