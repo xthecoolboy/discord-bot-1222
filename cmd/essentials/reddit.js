@@ -25,7 +25,6 @@ module.exports = class Reddit extends commando.Command {
     async run(msg, cmd) {
         var lang = await msg.guild.lang();
         if(!cmd.reddit.length) {
-            console.log("alias", "'" + msg.alias + "'");
             if(!msg.alias) return msg.reply("Missing subreddit");
             switch(msg.alias) {
                 case "meme":
