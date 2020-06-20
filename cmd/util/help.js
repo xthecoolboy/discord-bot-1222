@@ -1,5 +1,20 @@
 const commando = require("@iceprod/discord.js-commando");
 const newEmbed = require("../../embed");
+const fs = require("fs");
+const walkSync = require("walk-sync");
+const path = require("path");
+const { Collection } = require("discord.js");
+
+const languages = walkSync(path.join(__dirname, "/../../translation/sources/"), {
+    directories: false,
+    globs: ["**/*.commands.js"]
+});
+
+var langs = new Collection();
+
+for(const lang of languages) {
+    langs.set(lang.split(".")[0], require(path.join(__dirname, "/../../translation/sources/", lang)));
+}
 
 module.exports = class HelpCommand extends commando.Command {
     constructor(client) {
@@ -24,7 +39,10 @@ module.exports = class HelpCommand extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, cmd) {
+        var lang = await msg.guild.lang();
+        var langCode = await msg.guild.settings.get("lang", "en");
+        var langHelp = langs.get(langCode);
         const embed = newEmbed();
         let groups = msg.client.registry.groups;
         if(!cmd.command) {
@@ -32,9 +50,9 @@ module.exports = class HelpCommand extends commando.Command {
                 .map(g => `- **${g.id}** (${g.name})`)
                 .join("\n");
             embed
-                .setTitle("Help")
+                .setTitle(lang.help.title)
                 .setDescription(
-                    "Please choose one of the following groups\n" +
+                    lang.help.groups +
                     groups
                 );
         } else if(cmd.command instanceof commando.CommandGroup) {
@@ -44,25 +62,27 @@ module.exports = class HelpCommand extends commando.Command {
             commands = commands
                 .filter(c => !c.hidden)
                 // .forEach(c => embed.addField(c.name, c.description))
+                .map(command => langHelp ? langHelp[command.name] || command : command)
                 .map(c => `- **${c.name}** (${c.description})`)
                 .join("\n");
             embed
                 .setTitle(`${group.id} (${group.name})`)
                 .setDescription(
-                    `Use ${msg.anyUsage(`${this.name} <command>`)} to view more information about a command\n\n` +
-                    "Available commands in this group:\n" +
+                    lang.help.usage.replace("%s", msg.anyUsage(`${this.name} <command>`)) +
+                    lang.help.available +
                     commands
                 );
         } else {
-            const command = cmd.command;
+            const requestedCommand = cmd.command;
+            const command = langHelp ? langHelp[requestedCommand.name] || requestedCommand : requestedCommand;
             embed
-                .setTitle(`${command.name} (${command.group ? command.group.name : "Essentials"}) ${command.guildOnly ? " (Usable only in servers)" : ""}${command.nsfw && (command.group ? command.group.name !== "NSFW" : true) ? " (NSFW)" : ""}`)
+                .setTitle(`${command.name} (${command.group ? command.group : lang.help.default}) ${requestedCommand.guildOnly ? " " + lang.help.serverOnly : ""}${requestedCommand.nsfw && (command.group ? command.group !== "NSFW" : true) ? " " + lang.help.nsfw : ""}`)
                 .setDescription(command.description)
-                .addField("Format", `${msg.anyUsage(`${command.name}${command.format ? ` ${command.format}` : ""}`)}`);
+                .addField(lang.help.format, `${msg.anyUsage(`${command.name}${command.format ? ` ${command.format}` : ""}`)}`);
 
-            if(command.aliases.length) embed.addField("Aliases", command.aliases.join(", "));
-            if(command.details) embed.addField("Details", command.details);
-            if(command.examples && command.examples.length > 0) embed.addField(command.examplesName || "Examples", command.examples.map(e => `\`${e}\``).join("\n"));
+            if(command.aliases.length) embed.addField(lang.help.aliases, command.aliases.join(", "));
+            if(command.details) embed.addField(lang.help.details, command.details);
+            if(command.examples && command.examples.length > 0) embed.addField(command.examplesName || lang.help.examples, command.examples.map(e => `\`${e}\``).join("\n"));
         }
 
         msg.channel.send(embed);
