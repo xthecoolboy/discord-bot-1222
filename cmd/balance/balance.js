@@ -11,12 +11,24 @@ module.exports = class Balance extends commando.Command {
             memberName: "balance",
             group: "balance",
             aliases: ["bal"],
-            description: "Shows yours BBS balance. More in `info user`"
+            description: "Shows yours BBS balance. More in `info user`",
+            args: [
+                {
+                    type: "member",
+                    default: null,
+                    key: "target",
+                    prompt: "Which user to get balance from?"
+                }
+            ]
         });
     }
 
-    async run(msg) {
+    async run(msg, { target }) {
         var lang = await msg.guild.lang();
-        msg.channel.send(lang.balance.desc.replace("%n", await account.getMoney(await account.fetchUser(msg.author.id))));
+        if(target) {
+            msg.channel.send(lang.balance.target_desc.replace("%u", target.displayName).replace("%n", await account.getMoney(await account.fetchUser(target.id))));
+        } else {
+            msg.channel.send(lang.balance.desc.replace("%n", await account.getMoney(await account.fetchUser(msg.author.id))));
+        }
     }
 };
