@@ -15,13 +15,15 @@ module.exports = class Rich extends commando.Command {
                     type: "integer",
                     key: "page",
                     prompt: "Page to look at",
-                    default: 0
+                    default: 1
                 }
             ]
         });
     }
 
     async run(msg, { page }) {
+        page -= 1;
+        var lang = await msg.guild.lang();
         var ids = msg.guild.members.cache.map(user => user.id);
         var questionMarks = "?,".repeat(ids.length);
         questionMarks = questionMarks.substr(0, questionMarks.length - 1);
@@ -32,13 +34,13 @@ module.exports = class Rich extends commando.Command {
         var [users] = await client.query("SELECT bbs, donor_tier, discord FROM users WHERE discord IN (" + questionMarks + ") ORDER BY bbs DESC LIMIT ?, ?", ids);
 
         if(!users.length && page === 0) {
-            return msg.channel.send("No one has anything. Be first!");
+            return msg.channel.send(lang.rich.null);
         } else if(!users.length) {
-            return msg.channel.send("Page not found");
+            return msg.channel.send(lang.rich.page_not_found);
         }
 
         var embed = newEmbed();
-        embed.setTitle("Richest users in **" + msg.guild.name + "**");
+        embed.setTitle(lang.rich.title.replace("%s", msg.guild.name));
 
         var description = "";
 
@@ -65,7 +67,7 @@ module.exports = class Rich extends commando.Command {
         }
 
         embed.setDescription(description);
-        embed.setFooter(`Page ${page + 1} of ${Math.ceil(count[0].total / 5) || "unknown"}.`);
+        embed.setFooter(lang.rich.page.replace("%n", page + 1).replace("%i", Math.ceil(count[0].total / 5)));
         msg.channel.send(embed);
     }
 };
