@@ -22,11 +22,13 @@ module.exports = class Language extends Command {
     }
 
     async run(msg, cmd) {
-        var lang = await msg.guild.lang();
-        if(!cmd.lang) {
-            return msg.channel.send(lang.lang.current.replace("%s", await msg.guild.settings.get("lang", "en")));
-        }
-        await msg.guild.settings.set("lang", cmd.lang);
+        try {
+            var lang = await msg.guild.lang();
+            if(!cmd.lang) {
+                return msg.channel.send(lang.lang.current.replace("%s", await msg.guild.settings.get("lang", "en")));
+            }
+        } catch(e) {}
+        await msg.guild.settings.set("lang", cmd.lang.toLowerCase());
         msg.channel.send((await msg.guild.lang()).general.done);
     }
 };
