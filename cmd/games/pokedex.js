@@ -1,5 +1,4 @@
-var Pokedex = require("pokedex-promise-v2");
-var P = new Pokedex();
+const got = require("got");
 const newEmbed = require("../../embed");
 const commando = require("@iceprod/discord.js-commando");
 
@@ -47,30 +46,57 @@ module.exports = class Poke extends commando.Command {
         }
     }
 
-    async mon() {
+    mon() {
         if(!this.cmd.poke) {
             this.msg.channel.send("No pokemon to find specified. Usage: `poke mon <name>`");
             return;
         }
         try {
-            var pokemon = await P.getPokemonByName(this.cmd.poke.toLowerCase());
+            var pokemon = got(`https://pokeapi.co/api/v2/pokemon/${this.cmd.poke.toLowerCase()}`).then(res => {
+              var json = JSON.parse(res.body);
+              var types = [];
+              var type = json.types;
+              type.forEach((item, i) => {
+                types.push(`**${(item.type.name[0].toUpperCase() +  item.type.name.slice(1)).replace("-"," ")}**`);
+              });
+              var abils = [];
+              var abil = json.abilities;
+              abil.forEach((item, i) => {
+
+                abils.push(`**${(item.ability.name[0].toUpperCase() +  item.ability.name.slice(1)).replace("-"," ")}**`); // lazy approch
+              });
+
+              var name = (json.name[0].toUpperCase() +  json.name.slice(1)).replace("-"," ");
+              /* First Embed - Normal Statistics */
+              var embed = newEmbed();
+              embed.setTitle(('000' + json.id).substr(-3) + " - " + name);
+              embed.addField("Type", types.join("/"),true);
+              embed.addField("Weight", json.weight,true);
+              embed.addField("Height",json.height,true);
+              embed.addField("Abilities",abils.join(", "));
+
+              /* Second Embed - Picture */
+              var embed2 = newEmbed();
+              embed2.setTitle(`Picture of ${name}`)
+              embed2.setImage(json.sprites.front_default);
+
+              /* Third Embed - Shiny Picture */
+              var embed3 = newEmbed();
+              embed3.setTitle(`Picture of Shiny ${name}`)
+              embed3.setImage(json.sprites.front_shiny);
+
+              this.msg.channel.send(embed);
+              this.msg.channel.send(embed2);
+              this.msg.channel.send(embed3);
+            })
         } catch(e) {
-            this.msg.channel.send("Error occured during searching for the pokemon '" + this.cmd.poke + "'");
-            return;
-        }
-        if(!pokemon) {
-            this.msg.channel.send("No pokemon found. Double check the name '" + this.cmd.poke + "'");
+            var embed = newEmbed();
+            embed.setTitle("Not Found");
+            embed.setDescription(`Pokemon **${this.cmd.poke}** not found. Please note that our bot still not support Sword and Shield Pokemons`);
+            this.msg.channel.send(embed);
             return;
         }
 
-        var p = pokemon;// LAZINESS
-        var embed = newEmbed();
-        embed.setTitle(p.name);
-        embed.addField("Type", p.types[0].type.name);
-        embed.addField("Weight", p.weight);
-        embed.addField("Height", p.height);
-
-        this.msg.channel.send(embed);
     }
 
     help() {
