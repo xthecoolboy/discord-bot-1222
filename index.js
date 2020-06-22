@@ -168,7 +168,10 @@ const client = new Commando.Client({
             name: "Inovation",
             type: "WATCHING"
         }
-    }
+    },
+    messageCacheMaxSize: 50, //max 50 messages per channel
+    messageCacheLifetime: 180, //cache last 3 minutes of messages
+    messageSweepInterval: 30
 });
 
 if(config.dbl) {
