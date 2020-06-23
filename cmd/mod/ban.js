@@ -29,18 +29,19 @@ module.exports = class Ban extends Command {
     }
 
     async run(msg, cmd) {
+        var lang = msg.guild.lang();
         var daysToDelete = 0;
         if(parseInt(cmd.reason.split(" ")[0])) daysToDelete = parseInt(cmd.reason.split(" ")[0]);
         // if (this.client.isOwner(cmd.user.id)) return msg.say("You can't ban an owner of this bot!");
 
         if(msg.guild.member(cmd.user)) {
-            if(cmd.user === this.client.user) return msg.say("You can't ban this bot!");
-            if(msg.author === cmd.user) return msg.say("You can't ban yourself!");
-            if(msg.member.guild.me.roles.highest.comparePositionTo(msg.guild.member(cmd.user).roles.highest) <= 0 || !msg.guild.member(cmd.user).bannable) return msg.say("You can't ban this user because the bot isn't high enough in the role hierachy!");
-            if(msg.member.roles.highest.comparePositionTo(msg.guild.member(cmd.user).roles.highest) <= 0) return msg.say("You can't ban this user because you're not high enough in the role hierachy!");
+            if(cmd.user === this.client.user) return msg.say(lang.ban.bot);
+            if(msg.author === cmd.user) return msg.say(lang.ban.self);
+            if(msg.member.guild.me.roles.highest.comparePositionTo(msg.guild.member(cmd.user).roles.highest) <= 0 || !msg.guild.member(cmd.user).bannable) return msg.say(ban.bot.low);
+            if(msg.member.roles.highest.comparePositionTo(msg.guild.member(cmd.user).roles.highest) <= 0) return msg.say(lang.ban.low);
         }
 
-        if(cmd.reason.length > 256) return msg.say("Reason must be under 256 characters!");
+        if(cmd.reason.length > 256) return msg.say(lang.ban.long);
 
         await msg.guild.ban(cmd.user, {
             reason: cmd.reason,
@@ -65,8 +66,8 @@ module.exports = class Ban extends Command {
 
         const embed = newEmbed();
         embed.setColor("RED");
-        embed.setAuthor(`Ban ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL());
-        embed.setDescription(`Responsible moderator: ${Case.moderator}\nUse \`${await msg.guild.settings.get("prefix", msg.client.commandPrefix)}case ${Case.id}\` for more information`);
+        embed.setAuthor(lang.ban.text.replace("%n", Case.id).replace("%s", reason), msg.author.displayAvatarURL());
+        embed.setDescription(lang.ban.mod.replace("%u", Case.moderator).replace("%n", Case.id).replace("%s", await msg.guild.settings.get("prefix", msg.client.commandPrefix)));
 
         msg.embed(embed);
     }
