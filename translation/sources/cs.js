@@ -255,18 +255,20 @@ module.exports = {
     ban: {
         bot: "You can't ban this bot!",
         self: "You can't ban yourself!",
+        botLow: "Bot cannot ban this user.",
         low: "You can't ban this user because you're not high enough in the role hierachy!",
         long: "Reason must be under 256 characters!",
         text: "Ban %n | Reason \"%s\"",
-        mod: "Responsible moderator: %u\nUse `case %n` for more information"
+        mod: "Responsible moderator: %u\nUse `%scase %n` for more information"
     },
     kick: {
         bot: "You can't kick this bot!",
         self: "You can't kick yourself!",
+        botLow: "Bot cannot kick this user.",
         low: "You can't kick this user because you're not high enough in the role hierachy!",
         long: "Reason must be under 256 characters!",
         text: "Kick %n | Reason \"%s\"",
-        mod: "Responsible moderator: %u\nUse `case %n` for more information"
+        mod: "Responsible moderator: %u\nUse `%scase %n` for more information"
     },
     warn: {
         bot: "You can't warn this bot!",
