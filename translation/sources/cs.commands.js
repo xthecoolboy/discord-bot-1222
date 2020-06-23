@@ -190,13 +190,13 @@ module.exports = {
     djs: {
         name: 'djs',
         group: 'dev',
-        description: 'Searches in discord.js docs',
+        description: 'Vyhledá v dokumentaci discord.js',
         usage: 'djs <query> [source]',
         arguments: [
          {
                 type: 'string',
                 key: 'query',
-                prompt: 'Enter query to search for',
+                prompt: 'Co hledat?',
                 default: '',
                 infinite: false
             },
@@ -204,7 +204,7 @@ module.exports = {
                 type: 'string',
                 default: 'stable',
                 key: 'source',
-                prompt: 'Source version to use',
+                prompt: 'Kterou verzi použít?',
                 infinite: false
             }
         ],
@@ -214,7 +214,7 @@ module.exports = {
     dstatus: {
         name: 'dstatus',
         group: 'dev',
-        description: 'Shows status of discord services.',
+        description: 'Zobrazí stav discord serverů',
         examples: [],
         aliases: [],
         usage: '',
@@ -222,7 +222,7 @@ module.exports = {
     },
     format: {
         name: 'format',
-        description: 'Shows information about formatting messages',
+        description: 'Zobrazí informace o formátování zpráv',
         group: 'dev',
         examples: [],
         aliases: [],
@@ -232,12 +232,12 @@ module.exports = {
     google: {
         name: 'google',
         group: 'dev',
-        description: 'Shows link to search given text on google',
+        description: 'Zobrazí odkaz k vyhledání na google',
         arguments: [
          {
                 type: 'string',
                 key: 'string',
-                prompt: 'What to google?',
+                prompt: 'Co hledat',
                 default: '',
                 infinite: false
             }
@@ -249,11 +249,11 @@ module.exports = {
     extracthtml: {
         name: 'extracthtml',
         group: 'dev',
-        description: 'Extracts some information from HTML page.',
+        description: 'Vytáhne obsah HTML stránky',
         arguments: [
          {
                 key: 'page',
-                prompt: 'Which page to extract information?',
+                prompt: 'Odkud získat obsah?',
                 type: 'string',
                 default: '',
                 infinite: false
@@ -266,13 +266,13 @@ module.exports = {
     code: {
         name: 'code',
         group: 'dev',
-        description: 'Explanation for given http status code.',
+        description: 'Vysvětlí daný http kód',
         usage: 'code <code>',
         arguments: [
          {
                 type: 'integer',
                 key: 'code',
-                prompt: 'What code to get info about?',
+                prompt: 'Který kód vyhledat?',
                 default: '',
                 infinite: false
             }
@@ -283,13 +283,13 @@ module.exports = {
     logme: {
         name: 'logme',
         group: 'dev',
-        description: 'Shows properties of sent image',
+        description: 'Zobrazí JSON informace o zprávě',
         arguments: [
          {
                 type: 'string',
                 key: 'argument',
                 default: '',
-                prompt: 'string :)',
+                prompt: 'text :)',
                 infinite: false
             }
         ],
@@ -300,13 +300,13 @@ module.exports = {
     npm: {
         name: 'npm',
         group: 'dev',
-        description: 'Gets info about NPM package',
+        description: 'Zobrazí informace o NPM balíčku',
         usage: 'npm <pkg>',
         arguments: [
          {
                 key: 'pkg',
                 type: 'string',
-                prompt: 'Which NPM package to get info about?',
+                prompt: 'O kterém balíčku ziskat informace?',
                 default: '',
                 infinite: false
             }
@@ -317,13 +317,13 @@ module.exports = {
     php: {
         name: 'php',
         group: 'dev',
-        description: 'Shows information from PHP documentation. Use either `ice php <class | function>` or `ice php <class>::<method>`. Use object oriented style when available.',
+        description: 'Zobrazí informace o PHP funkci/třídě. Používejte ve formátu `php <class | function>` nebo `php <class>::<method>`. Používejte OOP styl..',
         usage: 'php help',
         arguments: [
          {
                 type: 'string',
                 key: 'php',
-                prompt: 'Which class/function to get info about?',
+                prompt: 'O které funkci/třídě/metodě získat informace?',
                 default: '',
                 infinite: false
             }
@@ -334,28 +334,28 @@ module.exports = {
     request: {
         name: 'request',
         aliases: [ 'req' ],
-        usage: 'req get http://ice.danbulant.eu/ text',
+        usage: 'req get http://aztec.bot/ text',
         group: 'dev',
-        description: 'Makes a new HTTP request',
+        description: 'Vytvoří nový HTTP požadavek.',
         arguments: [
          {
                 type: 'string',
                 key: 'method',
-                prompt: "Which method to use? Type 'help' for more info.",
+                prompt: "Kterou metodu použít? Pro více informací, použijte \"help\"",
                 default: '',
                 infinite: false
             },
          {
                 type: 'string',
                 key: 'url',
-                prompt: 'Which URL to make request on? If using help, enter anything.',
+                prompt: 'Které URL použít? Pokud používáte metodu help, napište cokoliv',
                 default: '',
                 infinite: false
             },
          {
                 type: 'string',
                 key: 'format',
-                prompt: 'Format to use (JSON or TEXT)',
+                prompt: 'Který formát použít? (JSON nebo TEXT)',
                 default: 'text',
                 infinite: false
             }
@@ -366,11 +366,11 @@ module.exports = {
         name: 'stackoverflow',
         aliases: [ 'stack', 'so' ],
         group: 'dev',
-        description: 'Searches in StackOverflow.',
+        description: 'Vyhledá na StackOverflow.',
         arguments: [
          {
                 key: 'filter',
-                prompt: 'What to search for?',
+                prompt: 'Co vyhledat?',
                 type: 'string',
                 default: '',
                 infinite: false
@@ -382,18 +382,18 @@ module.exports = {
     extractwiki: {
         name: 'extractwiki',
         group: 'dev',
-        description: 'Extracts some information from Wikipedia page.',
+        description: 'Vyhledá informace na wikipedii.',
         arguments: [
          {
                 key: 'page',
-                prompt: 'Which page to extract information?',
+                prompt: 'Kterou stránku zobrazit?',
                 type: 'string',
                 default: '',
                 infinite: false
             },
          {
                 key: 'lang',
-                prompt: 'Which language to fetch from?',
+                prompt: 'Který jazyk použít?',
                 type: 'string',
                 default: 'en',
                 infinite: false
@@ -406,7 +406,7 @@ module.exports = {
     achievements: {
         name: 'achievements',
         group: 'essentials',
-        description: 'List all your achievements',
+        description: 'Zobrazí vaše úspěchy',
         examples: [],
         aliases: [],
         usage: '',
@@ -416,11 +416,11 @@ module.exports = {
         name: 'avatar',
         aliases: [ 'av', 'pfp' ],
         group: 'essentials',
-        description: "Shows yours (or someone else's) avatar",
+        description: "Zobrazí váš či cizý avatar",
         arguments: [
          {
                 default: '',
-                prompt: 'User to check on?',
+                prompt: 'Čí avatar zobrazit?',
                 key: 'user',
                 type: 'user',
                 infinite: false
@@ -433,14 +433,14 @@ module.exports = {
         name: 'covid',
         aliases: [ 'covid19', 'corona', 'coronavirus', 'covidinfo', 'coronainfo' ],
         group: 'essentials',
-        description: 'Shows recent information about COVID-19',
+        description: 'Zobrazí novinky okolo coronaviru',
         usage: 'covid [country]',
         arguments: [
          {
                 type: 'string',
                 key: 'country',
                 default: 'Global',
-                prompt: 'which countrys stats do you want to see?',
+                prompt: 'Čí statistiky chcete vidět?',
                 infinite: false
             }
         ],
@@ -449,7 +449,7 @@ module.exports = {
     fact: {
         name: 'fact',
         group: 'essentials',
-        description: 'Shows random useless fact',
+        description: 'Zobrazí náhodný fakt (v angličtině)',
         examples: [],
         aliases: [],
         usage: '',
@@ -458,7 +458,7 @@ module.exports = {
     invite: {
         name: 'invite',
         group: 'essentials',
-        description: 'Shows bot invite link',
+        description: 'Zobrazí odkaz na přidání bota',
         examples: [],
         aliases: [],
         usage: '',
@@ -468,12 +468,12 @@ module.exports = {
         name: 'math',
         aliases: [ 'calc', 'calculator' ],
         group: 'essentials',
-        description: 'Calculates given math expression',
+        description: 'Spočítá příklad/rovnici',
         arguments: [
          {
                 type: 'string',
                 key: 'expression',
-                prompt: 'What expression to calculate?',
+                prompt: 'Co spočítat?',
                 default: '',
                 infinite: false
             }
@@ -485,7 +485,7 @@ module.exports = {
         name: 'oldest',
         aliases: [ 'old' ],
         group: 'essentials',
-        description: 'Shows oldest users on discord',
+        description: 'Zobrazí nejstarší uživatele na serveru',
         examples: [],
         usage: '',
         arguments: []
@@ -493,7 +493,7 @@ module.exports = {
     puppy: {
         name: 'puppy',
         group: 'essentials',
-        description: 'Shows random puppy image',
+        description: 'NÁhodný obrázek štěňátka',
         examples: [],
         aliases: [],
         usage: '',
