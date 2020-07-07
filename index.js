@@ -191,9 +191,9 @@ Structures.extend("User", (User) => {
             }
         }
 
-        async pay(src, target, bbs) {
+        async pay(target, bbs) {
             await pool.query("UPDATE users SET BBS=BBS + ? WHERE id=?", [bbs, target]);
-            await pool.query("UPDATE users SET BBS=BBS - ? WHERE id=?", [bbs, src]);
+            await pool.query("UPDATE users SET BBS=BBS - ? WHERE id=?", [bbs, this.db_id]);
         }
 
         async achievments() {
@@ -512,14 +512,33 @@ client.on("ready", () => {
         return (a[1] > b[1] && -1) || (a[1] === b[1] ? 0 : 1);
     }));
     for(const [group, length] of groups) {
-        console.log(`[LOAD] Found ${length.toString().padStart(2, " ")} commands in ${group.id}`);
+        console.log(`[LOAD] Found \u001b[37;1m${length.toString().padStart(2, " ")}\u001b[0m commands in \u001b[36m${group.id}\u001b[0m`);
     }
 
-    console.log("[EVENT] Ready!");
+    console.log("[EVENT]\u001b[37;1m Ready!\u001b[0m");
 });
 
 client.on("commandRun", (c, p, msg) => {
-    console.log("[USE] [" + (msg.channel.type === "dm" ? "DM" : msg.guild.name) + "] " + msg.author.tag + " -> " + msg.content);
+    var message = `[USE] \u001b[35;1m[${msg.channel.type === "dm" ? "DM" : msg.guild.name}] \u001b[37;1m(${msg.author.tag})\u001b[0m -> `;
+    var content = msg.content;
+    if(!msg.content.startsWith(`<@${msg.client.user.id}>`) && !msg.content.startsWith(`<@!${msg.client.user.id}>`)) {
+        content = msg.content.substr(msg.guild.commandPrefix.length || msg.client.commandPrefix.length);
+        message += `\u001b[4m${msg.guild.commandPrefix || msg.client.commandPrefix}\u001b[0m`;
+    } else {
+        if(msg.content.startsWith(`<@${msg.client.user.id}>`)) {
+            content = content.substr(`<@${msg.client.user.id}>`.length);
+            message += `\u001b[4m<@${msg.client.user.id}>\u001b[0m`;
+        } else {
+            content = content.substr(`<@!${msg.client.user.id}>`.length);
+            message += `\u001b[4m<@!${msg.client.user.id}>\u001b[0m`;
+        }
+    }
+    if(msg.alias) {
+        content = content.replace(msg.alias, `\u001b[7m${msg.alias}\u001b[0m`);
+    }
+    message += content;
+
+    console.log(message);
     msg.author.sendAchievmentUnique(msg, "new");
 });
 
