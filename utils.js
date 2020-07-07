@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+/* eslint-disable no-prototype-builtins */
 /**
  *
  * @param {Number} number number to shorten
@@ -48,7 +49,9 @@ function timestampToDate(timestamp, unix = false) {
     if(unix) timestamp *= 1000;
     const dt = new Date(timestamp);
     const day = dt.getDate();
-    const month = dt.toLocaleString("en-us", { month: "short" });
+    const month = dt.toLocaleString("en-us", {
+        month: "short"
+    });
     const year = dt.getFullYear().toString().substr(-2);
     return `${month} ${day}, '${year}`;
 }
@@ -68,6 +71,25 @@ function compareArr(arr1, arr2) {
     return true;
 }
 
+function merge() {
+    const target = {};
+    const merger = (obj) => {
+        for(const prop in obj) {
+            if(obj.hasOwnProperty(prop)) {
+                if(Object.prototype.toString.call(obj[prop]) === "[object Object]") {
+                    target[prop] = merge(target[prop], obj[prop]);
+                } else {
+                    target[prop] = obj[prop];
+                }
+            }
+        }
+    };
+    for(let i = 0; i < arguments.length; i++) {
+        merger(arguments[i]);
+    }
+    return target;
+};
+
 module.exports = {
     shortNumber,
     insertAt,
@@ -76,5 +98,6 @@ module.exports = {
     compareArr,
     Number,
     String,
-    withCommas
+    withCommas,
+    merge
 };
