@@ -44,44 +44,46 @@ module.exports = async (msg, cmd) => {
         return msg.say("Hmmm.. I couldn't find that user :smile:");
     }
 
-    var offenseNum = 0;
-    const iterable = {
-        [Symbol.asyncIterator]: () => {
-            var current = 0;
-            return {
-                async next() {
-                    current++;
-                    var data = await msg.guild.settings.get("case." + current, null);
-                    if(!data) {
-                        return { value: null, done: true };
+    if(msg.guild) {
+        var offenseNum = 0;
+        const iterable = {
+            [Symbol.asyncIterator]: () => {
+                var current = 0;
+                return {
+                    async next() {
+                        current++;
+                        var data = await msg.guild.settings.get("case." + current, null);
+                        if(!data) {
+                            return { value: null, done: true };
+                        }
+                        return { value: data, done: false };
                     }
-                    return { value: data, done: false };
-                }
-            };
-        }
-    };
+                };
+            }
+        };
 
-    for await(var Case of iterable) {
-        if(Case.offenderID === user.id && !Case.removed) {
-            offenseNum++;
+        for await(var Case of iterable) {
+            if(Case.offenderID === user.id && !Case.removed) {
+                offenseNum++;
+            }
         }
     }
 
     var embed = newEmbed();
-    embed.setTitle("User info");
+    embed.setTitle(`${user.tag} ${getStatus(user.presence.status)} ${user.bot || user.id === "672165988527243306" ? ":robot:" : ""}`);
     embed.setThumbnail(user.avatarURL());
-    embed.addField("» Name", user.tag);
     embed.addField("» ID", user.id, true);
-    embed.addField("» UUID", dbuser.uuid, true);
     embed.addField("» Donor", (dbuser.donor_tier > 0 ? ":white_check_mark: Tier " + dbuser.donor_tier : ":x: Not donor"), true);
     embed.addField("» Level", account.getLevel(dbuser), true);
     embed.addField("» XP", dbuser.xp + " / " + account.getNextLevel(dbuser.xp), true);
     embed.addField("» BBS", account.getMoney(dbuser), true);
-    embed.addField("» Offenses", `**${offenseNum}**`, true);
-    embed.addField("» Bot", (user.bot || user.id === "672165988527243306" ? ":white_check_mark: Beep boop!" : ":x: A human. Unless?"), true);
+    if(msg.guild) embed.addField("» Offenses", `**${offenseNum}**`, true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
-    if(msg.guild && getRoles(msg, user)) embed.addField("» Roles", getRoles(msg, user), true);
-    embed.addField("» Online status:", getStatus(user.presence.status), true);
+    if(msg.guild && getRoles(msg, user)) {
+        embed.addField("» Roles", getRoles(msg, user), true);
+    } else if(msg.guild) {
+        embed.addField("» Roles", "none", true);
+    }
 
     msg.say(embed);
 };
