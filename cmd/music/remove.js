@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const account = require("../../managers/accountManager");
 
 module.exports = class Remove extends commando.Command {
     constructor(client) {
@@ -25,7 +24,7 @@ module.exports = class Remove extends commando.Command {
     }
 
     async run(msg, { selected, length }) {
-        var dbuser = await account.fetchUser(msg.author.id);
+        var dbuser = await msg.author.fetchUser();
         if(!dbuser.donor_tier) {
             return msg.channel.send("You can't use this command as you don't have premium");
         }

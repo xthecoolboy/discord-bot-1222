@@ -1,7 +1,6 @@
 const commando = require("@iceprod/discord.js-commando");
 const got = require("got");
 const cheerio = require("cheerio");
-const account = require("../../managers/accountManager");
 
 module.exports = class Translate extends commando.Command {
     constructor(client) {
@@ -62,7 +61,7 @@ module.exports = class Translate extends commando.Command {
             if(last) {
                 text = await this.translate(msg.channel.messages.cache.last(2)[0].content, target, lang.translate.source);
 
-                var dbuser = await account.fetchUser(msg.author.id);
+                var dbuser = await msg.author.fetchUser();
                 if(dbuser.donor_tier === 0) {
                     if(last.embeds.length) msg.channel.send(lang.translate.premium);
                     return msg.channel.send(text);
