@@ -1,5 +1,5 @@
 const pool = require("./pool_mysql");
-const { padWithZeroes, insertAt } = require("../utils");
+const { insertAt } = require("../utils");
 const newEmbed = require("../embed");
 
 async function getUser(id, uuid = false) {
@@ -37,6 +37,7 @@ async function createUser(id) {
  * @param {boolean} uuid if in UUID mode
  */
 async function fetchUser(id, uuid = false) {
+    console.trace("Non-OOP account manager used.");
     var user = await getUser(id, uuid);
     if(!user && !uuid) {
         user = await createUser(id);
