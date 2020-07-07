@@ -147,7 +147,7 @@ module.exports = {
     },
     mine: {
         done: "Successfully mined BBS! Your current balance is %s",
-        not_yet: "You can't mine yet.",
+        not_yet: "You can't mine yet. Try again ",
         error: "An error occured during mining BBS"
     },
     pay: {
