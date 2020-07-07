@@ -1,5 +1,4 @@
 const newEmbed = require("../../../embed");
-const account = require("../../../managers/accountManager");
 const TimeAgo = require("javascript-time-ago");
 const en = require("javascript-time-ago/locale/en");
 
@@ -28,20 +27,12 @@ function getStatus(status) {
 
 module.exports = async (msg, cmd) => {
     var user = cmd.pointer ? cmd.pointer : msg.author;
-
-    if(RegExp("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", "i").test(cmd.pointer)) {
-        var dbuser = await account.fetchUserUUID(user);
-        if(dbuser) {
-            var member = await msg.client.fetchUser(dbuser.discord);
-            user = member;
-        } else return msg.say("Hmmm.. I couldn't find that user :smile:");
-    } /* else if(RegExp("<((@!?\d+)|(:.+?:\d+))>", "i").test(cmd.pointer)) dbuser = await account.fetchUser(user.id);
-    else return msg.say("User not found"); */
+    var limited = false;
 
     try {
-        dbuser = await account.fetchUser(user.id);
+        await user.fetchUser();
     } catch(e) {
-        return msg.say("Hmmm.. I couldn't find that user :smile:");
+        limited = true;
     }
 
     if(msg.guild) {
@@ -73,10 +64,12 @@ module.exports = async (msg, cmd) => {
     embed.setTitle(`${user.tag} ${getStatus(user.presence.status)} ${user.bot || user.id === "672165988527243306" ? ":robot:" : ""}`);
     embed.setThumbnail(user.avatarURL());
     embed.addField("» ID", user.id, true);
-    embed.addField("» Donor", (dbuser.donor_tier > 0 ? ":white_check_mark: Tier " + dbuser.donor_tier : ":x: Not donor"), true);
-    embed.addField("» Level", account.getLevel(dbuser), true);
-    embed.addField("» XP", dbuser.xp + " / " + account.getNextLevel(dbuser.xp), true);
-    embed.addField("» BBS", account.getMoney(dbuser), true);
+    if(!limited) {
+        embed.addField("» Donor", (user.donor_tier > 0 ? ":white_check_mark: Tier " + user.donor_tier : ":x: Not donor"), true);
+        embed.addField("» Level", user.level, true);
+        embed.addField("» XP", user.xp + " / " + user.getNextLevel(), true);
+        embed.addField("» BBS", user.money, true);
+    }
     if(msg.guild) embed.addField("» Offenses", `**${offenseNum}**`, true);
     embed.addField("» Registered", timeAgo.format(user.createdAt), true);
     if(msg.guild && getRoles(msg, user)) {
