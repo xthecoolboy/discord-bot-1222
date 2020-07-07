@@ -87,12 +87,11 @@ Structures.extend("User", (User) => {
 
         /**
          * Fetches user from DB.
-         * @param {undefined|string} uuid to fetch
          */
-        async fetchUser(uuid) {
+        async fetchUser() {
             if(this.db_id) return this; // cache, do not re-request data
-            var user = await this.getUser(uuid);
-            if(!user && !uuid) {
+            var user = await this.getUser();
+            if(!user) {
                 user = await this.createUser();
             } else if(!user) {
                 user = undefined;
@@ -416,8 +415,8 @@ const client = new Commando.Client({
             type: "WATCHING"
         }
     },
-    messageCacheMaxSize: 50, //max 50 messages per channel
-    messageCacheLifetime: 180, //cache last 3 minutes of messages
+    messageCacheMaxSize: 50, // max 50 messages per channel
+    messageCacheLifetime: 180, // cache last 3 minutes of messages
     messageSweepInterval: 30
 });
 
