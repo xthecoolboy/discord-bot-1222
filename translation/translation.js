@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { Collection } = require("discord.js");
+const { merge } = require("../utils");
 
 module.exports = () => {
     var files = fs.readdirSync(path.join(__dirname, "/sources"));
@@ -24,6 +25,11 @@ module.exports = () => {
             lang: require("./sources/" + lang),
             commands: require("./sources/" + langCommands)
         });
+    }
+
+    for(const [lang, data] of col) {
+        if(lang === "en") continue;
+        col.set(lang, merge(col.get("en"), data));
     }
 
     return col;
