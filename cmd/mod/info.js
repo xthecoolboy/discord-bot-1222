@@ -61,5 +61,6 @@ module.exports = class Info extends commando.Command {
                 helpInfo(msg);
                 break;
         }
+        await msg.author.awardAchievementUnique(msg, "info");
     }
 };

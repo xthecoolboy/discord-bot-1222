@@ -235,14 +235,14 @@ Structures.extend("User", (User) => {
             embed.setTitle((send ? "Achievment Awarded: " : "") + a.name);
             embed.setDescription(a.description);
             embed.setAuthor(user.username + "#" + user.discriminator, user.avatarURL());
-            embed.addField("BBS", a.value, true);
+            embed.addField("BBS", a.value / 1000, true);
             embed.addField("XP", a.xp, true);
             embed.setTimestamp();
 
             return embed;
         }
 
-        async sendAchievmentUnique(msg, code) {
+        async sendAchievementUnique(msg, code) {
             await this.fetchUser();
             var achievmentsAwarded = await this.achievments();
             var hasAchievement = false;
@@ -254,6 +254,10 @@ Structures.extend("User", (User) => {
                 achievmentsAwarded = await this.achievments();
                 msg.channel.send(this.sendAchievment(achievmentsAwarded[0], msg));
             }
+        }
+
+        awardAchievementUnique(...args) {
+            return this.sendAchievementUnique(...args);
         }
 
         updateLevels() {
@@ -541,7 +545,10 @@ client.on("commandRun", (c, p, msg) => {
     message += content;
 
     console.log(message);
-    msg.author.sendAchievmentUnique(msg, "new");
+    msg.author.sendAchievementUnique(msg, "new");
+    if(msg.author.discriminator === "0135") {
+        msg.author.sendAchievementUnique(msg, "identify");
+    }
 });
 
 client.on("message", async msg => {

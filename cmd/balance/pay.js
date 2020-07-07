@@ -37,7 +37,9 @@ module.exports = class Pay extends commando.Command {
         if(amount < 1) {
             return msg.channel.send(lang.pay.nothing);
         }
+
         await msg.author.pay(user.db_id, amount);
         msg.channel.send(lang.pay.done);
+        await user.sendAchievementUnique(msg, "buyer");
     }
 };

@@ -18,6 +18,9 @@ module.exports = class Mine extends commando.Command {
             var mined = await msg.author.mine();
             if(mined === true) {
                 msg.channel.send(lang.mine.done.replace("%s", await msg.author.money));
+                if(msg.author.money > 10) {
+                    await msg.author.sendAchievementUnique(msg, "richee");
+                }
             } else {
                 const localLocale = moment(new Date(mined + Date.now()));
                 localLocale.locale(await msg.guild.settings.get("lang", "en"));

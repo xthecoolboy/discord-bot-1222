@@ -14,6 +14,7 @@ module.exports = class Premium extends commando.Command {
         var lang = await msg.guild.lang();
         var dbuser = await msg.author.fetchUser();
         msg.channel.send(lang.premium[(!!(dbuser.donor_tier > 0)).toString()].replace("%s", "https://patreon.com/iceproductions"));
+        await msg.author.awardAchievementUnique(msg, "donor");
         /* if(dbuser.donor_tier > 0) {
             msg.channel.send("Congratulations! You have premium. Try some premium commands!");
         } else {
