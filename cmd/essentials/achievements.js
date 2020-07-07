@@ -1,4 +1,3 @@
-const user = require("../../managers/accountManager");
 const commando = require("@iceprod/discord.js-commando");
 const newEmbed = require("../../embed");
 
@@ -14,8 +13,7 @@ module.exports = class Achievements extends commando.Command {
 
     async run(msg) {
         var lang = await msg.guild.lang();
-        var id = await user.fetchUser(msg.author.id);
-        id = id.id;
+        await msg.author.fetchUser();
 
         var embed = newEmbed();
         embed.setTitle(lang.achievements.title);
@@ -25,7 +23,7 @@ module.exports = class Achievements extends commando.Command {
          */
         embed.setAuthor(msg.author.tag, msg.author.avatarURL());
 
-        var achievmentsAwarded = await user.achievments(id);
+        var achievmentsAwarded = await msg.author.achievments();
         achievmentsAwarded.forEach(a => {
             embed.addField(lang.achievements.format.replace("%s", a.name).replace("%f", parseInt(a.value) / 1000).replace("%n", a.xp), a.description);
         });
