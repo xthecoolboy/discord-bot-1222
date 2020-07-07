@@ -21,7 +21,6 @@ module.exports = class Mine extends commando.Command {
             } else {
                 const localLocale = moment(new Date(mined + Date.now()));
                 localLocale.locale(await msg.guild.settings.get("lang", "en"));
-                console.log(localLocale);
                 msg.channel.send(lang.mine.not_yet + (localLocale.fromNow() || "later") + ".");
             }
         } catch(e) {
