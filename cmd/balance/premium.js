@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const account = require("../../managers/accountManager");
 
 module.exports = class Premium extends commando.Command {
     constructor(client) {
@@ -13,7 +12,7 @@ module.exports = class Premium extends commando.Command {
 
     async run(msg) {
         var lang = await msg.guild.lang();
-        var dbuser = await account.fetchUser(msg.author.id);
+        var dbuser = await msg.author.fetchUser();
         msg.channel.send(lang.premium[(!!(dbuser.donor_tier > 0)).toString()].replace("%s", "https://patreon.com/iceproductions"));
         /* if(dbuser.donor_tier > 0) {
             msg.channel.send("Congratulations! You have premium. Try some premium commands!");
