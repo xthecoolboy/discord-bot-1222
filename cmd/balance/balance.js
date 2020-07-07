@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const account = require("../../managers/accountManager");
 const TimeAgo = require("javascript-time-ago");
 const en = require("javascript-time-ago/locale/en");
 TimeAgo.addLocale(en);
@@ -15,7 +14,7 @@ module.exports = class Balance extends commando.Command {
             args: [
                 {
                     type: "member",
-                    default: null,
+                    default: "",
                     key: "target",
                     prompt: "Which user to get balance from?"
                 }
@@ -25,10 +24,12 @@ module.exports = class Balance extends commando.Command {
 
     async run(msg, { target }) {
         var lang = await msg.guild.lang();
+        var user = target.user || msg.author;
+        await user.fetchUser();
         if(target) {
-            msg.channel.send(lang.balance.target_desc.replace("%u", target.displayName).replace("%n", await account.getMoney(await account.fetchUser(target.id))));
+            msg.channel.send(lang.balance.target_desc.replace("%u", target.displayName).replace("%n", user.money));
         } else {
-            msg.channel.send(lang.balance.desc.replace("%n", await account.getMoney(await account.fetchUser(msg.author.id))));
+            msg.channel.send(lang.balance.desc.replace("%n", user.money));
         }
     }
 };

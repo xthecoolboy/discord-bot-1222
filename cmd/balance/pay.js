@@ -1,5 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const account = require("../../managers/accountManager");
 
 module.exports = class Pay extends commando.Command {
     constructor(client) {
@@ -29,15 +28,16 @@ module.exports = class Pay extends commando.Command {
         if(msg.author.id === user.id) {
             return msg.channel.send(lang.pay.self);
         }
-        var source = await account.fetchUser(msg.author.id);
-        var target = await account.fetchUser(user.id);
-        if(source.bbs < amount) {
+        await msg.author.fetchUser();
+        await user.fetchUser();
+
+        if(msg.author.bbs < amount) {
             return msg.channel.send(lang.pay.too_low);
         }
         if(amount < 1) {
             return msg.channel.send(lang.pay.nothing);
         }
-        await account.pay(source.id, target.id, amount);
+        await msg.author.pay(user.db_id, amount);
         msg.channel.send(lang.pay.done);
     }
 };
