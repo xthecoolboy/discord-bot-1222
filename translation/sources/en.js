@@ -142,7 +142,7 @@ module.exports = {
         see: "See %s for available subcommands. Use them as `nekos-lewd <cmd>`. Only %s"
     },
     balance: {
-        target_desc: "%u balance is %n BBS",
+        target_desc: "%u's balance is %n BBS",
         desc: "Your current balance is %n BBS"
     },
     mine: {
