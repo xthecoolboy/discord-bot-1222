@@ -12,7 +12,7 @@ module.exports = class Stats extends commando.Command {
             args: [
                 {
                     key: "user",
-                    type: "uuid|user",
+                    type: "user",
                     prompt: "What user to get info about?",
                     default: ""
                 }
