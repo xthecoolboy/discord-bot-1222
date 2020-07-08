@@ -525,7 +525,7 @@ client.on("ready", () => {
 });
 
 client.on("commandRun", (c, p, msg) => {
-    var message = `[USE] \u001b[35;1m[${msg.channel.type === "dm" ? "DM" : msg.guild.name}] \u001b[37;1m(${msg.author.tag})\u001b[0m -> `;
+    var message = `[USE] \u001b[35;1m[${msg.channel.type === "dm" ? "DM" : msg.guild.name} (${msg.guild ? msg.guild.id : 0})] \u001b[37;1m(${msg.author.tag} [${msg.author.id}])\u001b[0m -> `;
     var content = msg.content;
     if(!msg.content.startsWith(`<@${msg.client.user.id}>`) && !msg.content.startsWith(`<@!${msg.client.user.id}>`)) {
         content = msg.content.substr(msg.guild.commandPrefix.length || msg.client.commandPrefix.length);
