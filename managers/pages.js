@@ -13,12 +13,12 @@ require("../utils");
 
 module.exports = async function pages(msg, embed, em, moderates, pagenumber, name, getResource) {
     if(!getResource) {
-        getResource = m => `${m.sr_display_name_prefixed} (${m.subscribers.withCommas()})`;
+        getResource = m => `${m.sr_display_name_prefixed} (${m.subscribers.withCommas ? m.subscribers.withCommas() : m.subscribers})`;
     }
     const moddedSubs = embed.fields[embed.fields.length - 1];
     moddedSubs.value = "";
     for(let i = 10 * (pagenumber - 1); i < 10 * pagenumber; i++) {
-        if(moderates[i]) moddedSubs.value += `**${i + 1}.** ${getResource(moderates[i]).withCommas()}\n`;
+        if(moderates[i]) moddedSubs.value += `**${i + 1}.** ${getResource(moderates[i]).withCommas ? getResource(moderates[i]).withCommas() : getResource(moderates[i])}\n`;
     }
     if(moderates.length > 10) embed.fields[embed.fields.length - 1].name = `Top ${name} (Page ${pagenumber})`;
 
