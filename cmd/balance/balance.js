@@ -1,7 +1,4 @@
 const commando = require("@iceprod/discord.js-commando");
-const TimeAgo = require("javascript-time-ago");
-const en = require("javascript-time-ago/locale/en");
-TimeAgo.addLocale(en);
 
 module.exports = class Balance extends commando.Command {
     constructor(client) {

@@ -1,8 +1,6 @@
 "use strict";
 
 const got = require("got");
-const uniqueRandomArray = require("unique-random-array");
-const EventEmitter = require("eventemitter3");
 
 function formatResult(getRandomImage) {
     const imageData = getRandomImage();
@@ -18,9 +16,7 @@ function storeResults(images, subreddit) {
     images.sort(function(a, b) { return a.score - b.score; });
     images = images.slice(0, 40);
 
-    const getRandomImage = uniqueRandomArray(images);
-
-    return getRandomImage;
+    return images[Math.random() * images.length];
 }
 
 function randomPuppy(subreddit) {
@@ -29,22 +25,6 @@ function randomPuppy(subreddit) {
     return got(`https://imgur.com/r/${subreddit}/hot.json`)
         .then(response => storeResults(JSON.parse(response.body).data, subreddit))
         .then(getRandomImage => formatResult(getRandomImage));
-}
-
-function all(subreddit) {
-    const eventEmitter = new EventEmitter();
-
-    function emitRandomImage(subreddit) {
-        randomPuppy(subreddit).then(imageUrl => {
-            eventEmitter.emit("data", imageUrl + "#" + subreddit);
-            if(eventEmitter.listeners("data").length) {
-                setTimeout(() => emitRandomImage(subreddit), 200);
-            }
-        });
-    }
-
-    emitRandomImage(subreddit);
-    return eventEmitter;
 }
 
 function callback(subreddit, cb) {
@@ -64,5 +44,3 @@ module.exports = (subreddit, cb) => {
         return randomPuppy(subreddit);
     }
 };
-
-module.exports.all = all;

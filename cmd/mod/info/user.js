@@ -1,9 +1,5 @@
 const newEmbed = require("../../../embed");
-const TimeAgo = require("javascript-time-ago");
-const en = require("javascript-time-ago/locale/en");
-
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo("en-US");
+const moment = require("moment");
 
 function getRoles(msg, user) {
     const roles = msg.guild.member(user).roles.cache.array();
@@ -71,7 +67,7 @@ module.exports = async (msg, cmd) => {
         embed.addField("» BBS", user.money, true);
     }
     if(msg.guild) embed.addField("» Offenses", `**${offenseNum}**`, true);
-    embed.addField("» Registered", timeAgo.format(user.createdAt), true);
+    embed.addField("» Registered", moment(user.createdAt).fromNow(), true);
     if(msg.guild && getRoles(msg, user)) {
         embed.addField("» Roles", getRoles(msg, user), true);
     } else if(msg.guild) {

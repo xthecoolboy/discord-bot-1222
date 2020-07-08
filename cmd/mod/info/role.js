@@ -1,9 +1,5 @@
 const newEmbed = require("../../../embed");
-const TimeAgo = require("javascript-time-ago");
-const en = require("javascript-time-ago/locale/en");
-TimeAgo.addLocale(en);
-
-const timeAgo = new TimeAgo("en-US");
+const moment = require("moment");
 
 module.exports = (msg, cmd) => {
     var role = cmd.pointer;
@@ -19,7 +15,7 @@ module.exports = (msg, cmd) => {
     embed.addField("Color", role.hexColor);
     embed.addField("ID", role.id);
     embed.addField("Mentionable", role.mentionable);
-    embed.addField("Since", timeAgo.format(role.createdAt));
+    embed.addField("Since", moment(role.createdAt).fromNow());
 
     msg.channel.send(embed);
 };
