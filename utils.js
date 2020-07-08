@@ -36,10 +36,11 @@ Number.prototype.withCommas = function() {
     return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };
 
-// eslint-disable-next-line no-extend-native
-String.prototype.withCommas = function() {
-    return this.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-};
+// // eslint-disable-next-line no-extend-native
+// String.prototype.withCommas = function() {
+//     console.trace("With commas string prototype used");
+//     return this.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+// };
 
 function withCommas() {
     return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
