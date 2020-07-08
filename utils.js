@@ -7,9 +7,9 @@
 function shortNumber(number) {
     if(number < 1000) return number.toString();
     if(number > 1000000) {
-        return number / 1000000 + "m";
+        return Math.round(number / 100000) / 10 + "m";
     }
-    return number / 1000 + "k";
+    return Math.round(number / 100) / 10 + "k";
 }
 
 function insertAt(a, b, position) {
