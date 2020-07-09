@@ -21,7 +21,7 @@ module.exports = class Info extends commando.Command {
                     prompt: "Which resource you want to get info about?"
                 },
                 {
-                    type: "user|string|role|channel",
+                    type: "user|channel|role|string",
                     key: "pointer",
                     prompt: "",
                     default: ""
