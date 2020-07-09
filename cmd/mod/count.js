@@ -23,10 +23,14 @@ module.exports = class Count extends commando.Command {
         var guild = msg.guild;
 
         var userCount = guild.memberCount;
-        var onlineCount = guild.members.cache.filter(m => m.presence.status === "online").filter(m => !m.user.bot).size;
-        var offlineCount = guild.members.cache.filter(m => m.presence.status === "offline").filter(m => !m.user.bot).size;
-        var dndCount = guild.members.cache.filter(m => m.presence.status === "dnd").filter(m => !m.user.bot).size;
-        var sleepCount = guild.members.cache.filter(m => m.presence.status === "idle").filter(m => !m.user.bot).size;
+        var users = guild.members.cache.filter(m => !m.user.bot);
+        var onlineCount = users.filter(m => m.presence.status === "online").size;
+        var offlineCount = users.filter(m => m.presence.status === "offline").size;
+        var dndCount = users.filter(m => m.presence.status === "dnd").size;
+        var sleepCount = users.filter(m => m.presence.status === "idle").size;
+        var webCount = users.filter(m => m.presence.clientStatus && m.presence.clientStatus.web).size;
+        var mobileCount = users.filter(m => m.presence.clientStatus && m.presence.clientStatus.mobile).size;
+        var desktopCount = users.filter(m => m.presence.clientStatus && m.presence.clientStatus.desktop).size;
         var botsCount = guild.members.cache.filter(m => m.user.bot).size;
         userCount -= botsCount;
 
@@ -38,7 +42,10 @@ module.exports = class Count extends commando.Command {
             ":no_entry: DND users: " + dndCount + "\n" +
             ":crescent_moon: Idle users: " + sleepCount + "\n" +
             ":black_circle: Offline users: " + offlineCount + "\n" +
-            ":robot: Bots: " + botsCount
+            ":desktop: Desktop users: " + desktopCount + "\n" +
+            ":iphone: Mobile users: " + mobileCount + "\n" +
+            ":globe_with_meridians: Web users: " + webCount + "\n" +
+            ":robot: Bots: " + botsCount + "\n"
         );
 
         msg.channel.send(embed);
