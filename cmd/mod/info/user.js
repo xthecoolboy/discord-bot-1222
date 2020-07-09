@@ -56,15 +56,16 @@ module.exports = async (msg, cmd) => {
         }
     }
 
-    var embed = newEmbed();
-    embed.setTitle(`${user.tag} ${getStatus(user.presence.status)} ${user.bot || user.id === "672165988527243306" ? ":robot:" : ""}`);
-    embed.setThumbnail(user.avatarURL());
-    embed.addField("» ID", user.id, true);
+    var embed = newEmbed()
+        .setTitle(`${user.tag} ${getStatus(user.presence.status)} ${user.bot || user.id === "672165988527243306" ? ":robot:" : ""}`)
+        .setThumbnail(user.avatarURL())
+        .addField("» ID", user.id, true);
     if(!limited) {
-        embed.addField("» Donor", (user.donor_tier > 0 ? ":white_check_mark: Tier " + user.donor_tier : ":x: Not donor"), true);
-        embed.addField("» Level", user.level, true);
-        embed.addField("» XP", user.xp + " / " + user.getNextLevel(), true);
-        embed.addField("» BBS", user.money, true);
+        embed
+            .addField("» Donor", (user.donor_tier > 0 ? ":white_check_mark: Tier " + user.donor_tier : ":x: Not donor"), true)
+            .addField("» Level", user.level, true)
+            .addField("» XP", user.xp + " / " + user.getNextLevel(), true)
+            .addField("» BBS", user.money, true);
     }
     if(msg.guild) embed.addField("» Offenses", `**${offenseNum}**`, true);
     embed.addField("» Registered", moment(user.createdAt).fromNow(), true);

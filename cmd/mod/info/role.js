@@ -9,13 +9,13 @@ module.exports = (msg, cmd) => {
         return msg.channel.send("Couldn't find role.");
     }
 
-    var embed = newEmbed();
-    embed.setTitle("Info about role " + role.name);
-    embed.setColor(role.hexColor);
-    embed.addField("Color", role.hexColor);
-    embed.addField("ID", role.id);
-    embed.addField("Mentionable", role.mentionable);
-    embed.addField("Since", moment(role.createdAt).fromNow());
+    var embed = newEmbed()
+        .setTitle("Info about role " + role.name)
+        .setColor(role.hexColor)
+        .addField("Color", role.hexColor)
+        .addField("ID", role.id)
+        .addField("Mentionable", role.mentionable)
+        .addField("Since", moment(role.createdAt).fromNow());
 
     msg.channel.send(embed);
 };
