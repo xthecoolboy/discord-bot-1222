@@ -32,7 +32,7 @@ module.exports = async (msg) => {
                     }
                 }
             } else {
-                embed.addField("Attachments", `Message has ${mess.attachments.length} attachments.`);
+                embed.addField("Attachments", `Message has ${mess.attachments.size} attachments.`);
             }
         }
 
