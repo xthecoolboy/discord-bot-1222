@@ -30,8 +30,8 @@ module.exports = class ColorPreview extends commando.Command {
 
     async run(msg, { value }) {
         let hex = "str";
-        if(value.match(/^#?[A-F0-9]{3}$/)) hex = value.replace("#", "").replace(/./g, "$&$&");
-        else if(value.match(/^#?[A-F0-9]{6}$/)) hex = value.replace("#", "");
+        if(value.match(/^#?[A-F0-9]{3}$/i)) hex = value.replace("#", "").replace(/./g, "$&$&");
+        else if(value.match(/^#?[A-F0-9]{6}$/i)) hex = value.replace("#", "");
         else if(value.match(/^rgb/)) {
             const arr = value
                 .match(/rgba?\((\d{1,3})\s?,\s?(\d{1,3})\s?,\s?(\d{1,3})\s?(?:,\s?(\d{1,3}))?\)/i)
@@ -41,7 +41,7 @@ module.exports = class ColorPreview extends commando.Command {
                 .map(ch => parseInt(ch).toString(16).padStart(2, "0"))
                 .join("");
         } else if(colors[value]) hex = colors.toHex(value).replace("#", "");
-        else return msg.say("An error occured.\nYou shouldn't ever receive an error like this.\nPlease contact TechmandanCZ#0135 in this server: https://discord.gg/dZtq4Qu");
+        else throw new Error("An unknown error occurred with color preview command.");
 
         const embed = newEmbed()
             .setColor("2f3136")
