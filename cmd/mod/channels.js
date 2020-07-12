@@ -17,7 +17,7 @@ module.exports = class channels extends commando.Command {
                     default: "",
                     key: "option",
                     type: "string",
-                    oneOf: ["add", "remove", "clear", "list"]
+                    oneOf: ["add", "allow", "remove", "disallow", "clear", "reset", "list"]
 
                 },
                 {
