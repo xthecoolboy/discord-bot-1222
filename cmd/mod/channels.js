@@ -31,8 +31,8 @@ module.exports = class channels extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
-        var allowedChannels = msg.guild.settings.get("allowedChannels", []);
+    async run(msg, cmd) {
+        var allowedChannels = await msg.guild.settings.get("allowedChannels", []);
         const allChannels = msg.guild.channels.cache.array().filter(c => c.type === "text").map(c => c.id);
         const list = (c) => { return !c.length ? "All channels are currently allowed! :smile:" : c.map(c => `<#${c}>`).join(", "); };
 
@@ -48,7 +48,7 @@ module.exports = class channels extends commando.Command {
 
             case "clear":
                 allowedChannels = [];
-                msg.guild.settings.set("allowedChannels", allowedChannels);
+                await msg.guild.settings.set("allowedChannels", allowedChannels);
                 embed
                     .setTitle("Done!")
                     .addField("Allowed Channels:", list(allowedChannels))
@@ -60,7 +60,7 @@ module.exports = class channels extends commando.Command {
                 if(!cmd.channels) return msg.say("Please specify one or more channels!");
                 for(const c of cmd.channels) { if(!allowedChannels.includes(c.id)) allowedChannels.push(c.id); }
                 if(compareArr(allowedChannels.sort(), allChannels)) allowedChannels = [];
-                msg.guild.settings.set("allowedChannels", allowedChannels);
+                await msg.guild.settings.set("allowedChannels", allowedChannels);
                 embed
                     .setTitle("Done!")
                     .addField("Allowed Channels:", list(allowedChannels))
@@ -73,7 +73,7 @@ module.exports = class channels extends commando.Command {
                 if(!allowedChannels.length) allowedChannels = allChannels;
                 allowedChannels = allowedChannels.filter(id => !cmd.channels.map(c => c.id).includes(id));
                 if(!allowedChannels.length) return msg.say("You can't disallow all channels!");
-                msg.guild.settings.set("allowedChannels", allowedChannels);
+                await msg.guild.settings.set("allowedChannels", allowedChannels);
                 embed
                     .setTitle("Done!")
                     .addField("Allowed Channels:", list(allowedChannels))

@@ -5,17 +5,18 @@ module.exports = async msg => {
     }
     if(msg.guild) {
         if(msg.content === await msg.guild.settings.get("prefix", msg.client.commandPrefix) + "channels clear" && msg.member.permissions.has("MANAGE_CHANNELS")) {
-            msg.guild.settings.set("allowedChannels", [])
-                .then(msg.channel.send("All channels are now allowed :smile:"))
-                .catch(e => {
-                    console.log(e);
-                    msg.channel.send("Something went wrong...");
-                });
+            try {
+                await msg.guild.settings.set("allowedChannels", []);
+                msg.say("All channels are now allowed :smile:");
+            } catch(e) {
+                throw new Error("Error occurred with clearing allowed channels");
+            };
             return "Channels cleared";
         }
 
-        if(msg.guild.settings.get("allowedChannels", []).length) {
-            if(!msg.guild.settings.get("allowedChannels").includes(msg.channel.id)) {
+        const channels = await msg.guild.settings.get("allowedChannels", []);
+        if(channels.length) {
+            if(!channels.includes(msg.channel.id)) {
                 return "You can't use Aztec in this channel!";
             }
         }
