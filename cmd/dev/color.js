@@ -17,7 +17,7 @@ module.exports = class ColorPreview extends commando.Command {
                     key: "value",
                     prompt: "What color do you want to view?",
                     validate: value => {
-                        if(value.match(/^#?(\w{3}|\w{6})$/)) return true;
+                        if(value.match(/^#?([A-F0-9]{3}|[A-F0-9]{6})$/i)) return true;
                         if(value.match(/rgba?\((\d{1,3})\s?,\s?(\d{1,3})\s?,\s?(\d{1,3})\s?(?:,\s?(\d{1,3}))?\)/i)) return true;
                         if(colors[value]) return true;
 
@@ -30,8 +30,8 @@ module.exports = class ColorPreview extends commando.Command {
 
     async run(msg, { value }) {
         let hex = "str";
-        if(value.match(/^#?\w{3}$/)) hex = value.replace("#", "").replace(/./g, "$&$&");
-        else if(value.match(/^#?\w{6}$/)) hex = value.replace("#", "");
+        if(value.match(/^#?[A-F0-9]{3}$/)) hex = value.replace("#", "").replace(/./g, "$&$&");
+        else if(value.match(/^#?[A-F0-9]{6}$/)) hex = value.replace("#", "");
         else if(value.match(/^rgb/)) {
             const arr = value
                 .match(/rgba?\((\d{1,3})\s?,\s?(\d{1,3})\s?,\s?(\d{1,3})\s?(?:,\s?(\d{1,3}))?\)/i)
