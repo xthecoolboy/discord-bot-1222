@@ -1,24 +1,53 @@
 const commando = require("@iceprod/discord.js-commando");
+const newEmbed = require("../../embed");
+const { colors } = require("../../utils");
 
-module.exports = class Color extends commando.Command {
+module.exports = class ColorPreview extends commando.Command {
     constructor(client) {
         super(client, {
             name: "color",
+            aliases: ["colour", "color-preview", "colour-preview"],
             memberName: "color",
+            description: "Preview what a color looks like. Accepts HEX, RGB(A) and ",
+            usage: "color <value>",
             group: "dev",
-            description: "Previews color",
-            hidden: true,
-            ownerOnly: true,
             args: [
                 {
                     type: "string",
-                    key: "color",
-                    prompt: "What color you want to show?"
+                    key: "value",
+                    prompt: "What color do you want to view?",
+                    validate: value => {
+                        if(value.match(/^#?(\w{3}|\w{6})$/)) return true;
+                        if(value.match(/rgba?\((\d{1,3})\s?,\s?(\d{1,3})\s?,\s?(\d{1,3})\s?(?:,\s?(\d{1,3}))?\)/i)) return true;
+                        if(colors[value]) return true;
+
+                        return false;
+                    }
                 }
             ]
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, { value }) {
+        let hex = "str";
+        if(value.match(/^#?\w{3}$/)) hex = value.replace("#", "").replace(/./g, "$&$&");
+        else if(value.match(/^#?\w{6}$/)) hex = value.replace("#", "");
+        else if(value.match(/^rgb/)) {
+            const arr = value
+                .match(/rgba?\((\d{1,3})\s?,\s?(\d{1,3})\s?,\s?(\d{1,3})\s?(?:,\s?(\d{1,3}))?\)/i)
+                .splice(1, 3);
+            if(arr.some(n => n < 0 || n > 255)) return msg.say("Invalid rbg values.");
+            hex = arr
+                .map(ch => parseInt(ch).toString(16).padStart(2, "0"))
+                .join("");
+        } else if(colors[value]) hex = colors.toHex(value).replace("#", "");
+        else return msg.say("An error occured.\nYou shouldn't ever receive an error like this.\nPlease contact TechmandanCZ#0135 in this server: https://discord.gg/dZtq4Qu");
+
+        const embed = newEmbed()
+            .setColor("2f3136")
+            .setTitle(value)
+            .setImage(`http://www.singlecolorimage.com/get/${hex}/400x100`)
+            .setFooter("");
+        msg.say(embed);
     }
 };
