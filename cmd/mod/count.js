@@ -6,7 +6,7 @@ module.exports = class Count extends commando.Command {
         super(client, {
             name: "count",
             memberName: "count",
-            alias: ["usercount"],
+            aliases: ["usercount"],
             group: "mod",
             description: "Shows information about members of this channel",
             guildOnly: true
