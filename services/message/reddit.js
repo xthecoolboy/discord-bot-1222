@@ -15,11 +15,12 @@ module.exports = (r) => {
                         continue;
                     }
                     if(await user.over_18 && !msg.channel.nsfw) {
-                        embed
-                            .setDescription("NSFW users are not allow in non-NSFW channels!")
-                            .setColor("RED")
-                            .setFooter("");
-                        return msg.channel.send(embed);
+                        return;
+                        // embed
+                        //     .setDescription("NSFW users are not allow in non-NSFW channels!")
+                        //     .setColor("RED")
+                        //     .setFooter("");
+                        // return msg.channel.send(embed);
                     };
                     const usub = await user.subreddit.display_name;
                     embed
@@ -44,11 +45,12 @@ module.exports = (r) => {
                         continue;
                     }
                     if(await sub.over18 && !msg.channel.nsfw) {
-                        embed
-                            .setDescription("NSFW subreddits are not allow in non-NSFW channels!")
-                            .setColor("RED")
-                            .setFooter("");
-                        return msg.channel.send(embed);
+                        return;
+                        // embed
+                        //     .setDescription("NSFW subreddits are not allow in non-NSFW channels!")
+                        //     .setColor("RED")
+                        //     .setFooter("");
+                        // return msg.channel.send(embed);
                     };
                     embed
                         .setTitle(await sub.title)
