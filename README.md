@@ -1,4 +1,4 @@
-# ice-bot
+# Aztec
 
 ![Formatted](https://github.com/iceproductions/discord-bot/workflows/CI/badge.svg)
 [![HitCount](http://hits.dwyl.com/iceproductions/discord-bot.svg)](http://hits.dwyl.com/iceproductions/discord-bot)
@@ -22,7 +22,7 @@
 
 Universal discord bot to suite all of your needs.
 
-Want to use Ice? Invite link can be found on ice's [website](http://iceproductions.dev).
+Want to use Aztec? Invite link can be found on Aztec's [website](http://aztec.bot).
 
 ## Setting up
 
@@ -72,7 +72,15 @@ Those are installed with `npm i` automatically.
 
 ### Message previews
 
-Messages can be previewed by sending a link to it. If ice has access to the server and channel the message was in, it will send an embed containing information about the message.
+Messages can be previewed by sending a link to it. If Aztec has access to the server and channel the message was in, it will send an embed containing information about the message.
+
+### Link scanning
+
+Bot can be configured to test links via virustotal. API key required.
+
+### Reddit
+
+Sending u/name or r/subreddit will result in small embed as preview being sent.
 
 ## Commands
 
@@ -181,7 +189,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **profile** - Shows user profile.
 * **purge \<x> \<delete report (true/false)>** - Purges last `x` messages
 * **role** - Manages roles. See help.
-* **stats** - Stats of ice bot
+* **stats** - Stats of Aztec bot
 * **warn** - Warns user
 
 ### Music
