@@ -102,6 +102,7 @@ This category is for developers who are working on discord. Hope it helps!
 
 * **apm** - Gets information of Atom Text Editor Package
 * **bang** (alias **ddg**) - Sends info from `duckduckgo` instant answer or link from `bang`
+* **chart** - Visualizes chart data, uses quickchart.io
 * **deno** - Full deno runtime. Limit of 15 seconds. Only network allowed.
 * **djs** - Searches through Discord.js documentation
 * **php** - Searches through PHP documentation
@@ -176,6 +177,7 @@ This category is for developers who are working on discord. Hope it helps!
 * **info** - Info about given resource.
 * **kick** - Kicks user from the server
 * **logs** - Logs settings, not yet done.
+* **poll** - Creates a new poll, 30 minutes for free users, 120 (2 hours) for premium users. Generates chart on each change.
 * **profile** - Shows user profile.
 * **purge \<x> \<delete report (true/false)>** - Purges last `x` messages
 * **role** - Manages roles. See help.
