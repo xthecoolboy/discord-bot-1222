@@ -51,6 +51,8 @@ module.exports = class Count extends commando.Command {
 
         if(msg.alias === "count") {
             embed.footer.text += " | Use usercount alias next time.";
+        } else {
+            embed.footer.text += " | Bots not counted in other statistics";
         }
 
         msg.channel.send(embed);
