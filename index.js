@@ -474,6 +474,9 @@ client.on("commandRegister", c => {
         // eslint-disable-next-line no-unused-expressions
         (await r.getSubreddit("announcements")).user_flair_background_color;
         console.log("[REDDIT] Reddit connection successful");
+
+        messageServices.push(require("./services/message/reddit")(r));
+
         module.exports.reddit = r;
     } catch(e) {
         console.error(`[REDDIT] Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
