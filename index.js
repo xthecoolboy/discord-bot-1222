@@ -414,12 +414,6 @@ const client = new Commando.Client({
     owner: ["147365975707090944", "236504705428094976"],
     commandPrefix: "aztec ",
     invite: "<https://discord.gg/8fqEepV>",
-    presence: {
-        activity: {
-            name: "Inovation",
-            type: "WATCHING"
-        }
-    },
     messageCacheMaxSize: 50, // max 50 messages per channel
     messageCacheLifetime: 180, // cache last 3 minutes of messages
     messageSweepInterval: 30
@@ -513,7 +507,7 @@ client.on("commandRegister", c => {
     }
 })();
 
-client.on("ready", () => {
+client.on("ready", async () => {
     var groups = new Map();
     for(const [, command] of loadedCommands) {
         groups.set(command.group, groups.get(command.group) + 1 || 1);
@@ -568,6 +562,13 @@ for(var inhibitor of inhibitors) {
 }
 
 client.login(config.token);
+
+client.once("providerReady", async p => {
+    client.user.setActivity(
+        await p.get("global", "status").name,
+        { type: await p.get("global", "status").type }
+    )
+});
 
 process.on("unhandledRejection", (e) => {
     console.error("[REJECTION]", e);
