@@ -60,7 +60,6 @@ module.exports = class subinfo extends commando.Command {
                 else if(e.error.reason === "banned") return msg.say("This subreddit is banned");
                 else if(e.error.reason === "quarantined") return msg.say("This subreddit is quarantined");
             } catch(e) {}
-            console.error(e);
             return msg.say("Something went horribly wrong! Please try again later.");
         }
     }

@@ -1,4 +1,4 @@
-# ice-bot
+# Aztec
 
 ![Formatted](https://github.com/iceproductions/discord-bot/workflows/CI/badge.svg)
 [![HitCount](http://hits.dwyl.com/iceproductions/discord-bot.svg)](http://hits.dwyl.com/iceproductions/discord-bot)
@@ -22,7 +22,7 @@
 
 Universal discord bot to suite all of your needs.
 
-Want to use Ice? Invite link can be found on ice's [website](http://iceproductions.dev).
+Want to use Aztec? Invite link can be found on Aztec's [website](http://aztec.bot).
 
 ## Setting up
 
@@ -72,7 +72,15 @@ Those are installed with `npm i` automatically.
 
 ### Message previews
 
-Messages can be previewed by sending a link to it. If ice has access to the server and channel the message was in, it will send an embed containing information about the message.
+Messages can be previewed by sending a link to it. If Aztec has access to the server and channel the message was in, it will send an embed containing information about the message.
+
+### Link scanning
+
+Bot can be configured to test links via virustotal. API key required.
+
+### Reddit
+
+Sending u/name or r/subreddit will result in small embed as preview being sent.
 
 ## Commands
 
@@ -102,6 +110,7 @@ This category is for developers who are working on discord. Hope it helps!
 
 * **apm** - Gets information of Atom Text Editor Package
 * **bang** (alias **ddg**) - Sends info from `duckduckgo` instant answer or link from `bang`
+* **chart** - Visualizes chart data, uses quickchart.io
 * **deno** - Full deno runtime. Limit of 15 seconds. Only network allowed.
 * **djs** - Searches through Discord.js documentation
 * **php** - Searches through PHP documentation
@@ -176,10 +185,13 @@ This category is for developers who are working on discord. Hope it helps!
 * **info** - Info about given resource.
 * **kick** - Kicks user from the server
 * **logs** - Logs settings, not yet done.
+* **poll** - Creates a new poll, 30 minutes for free users, 120 (2 hours) for premium users. Generates chart on each change.
 * **profile** - Shows user profile.
 * **purge \<x> \<delete report (true/false)>** - Purges last `x` messages
 * **role** - Manages roles. See help.
-* **stats** - Stats of ice bot
+* **stats** - Stats of Aztec bot
+* **subscribe \<guild> \<channel>** - Subscribes to given channel from guild. (Note: the channel must be set as subscribeable first)
+* **unsubscribe \<guild> \<channel>** - Unsubscribes from given channel and guild.
 * **warn** - Warns user
 
 ### Music

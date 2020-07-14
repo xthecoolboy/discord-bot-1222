@@ -97,7 +97,6 @@ module.exports = class reddituser extends commando.Command {
                 .setColor("GOLD")
                 .setDescription(`User /u/${cmd.user} not found`)
                 .setFooter("");
-            console.log(e);
             return em.edit(embed);
         }
     }

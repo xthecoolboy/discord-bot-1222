@@ -34,13 +34,7 @@ function suffix(i) {
 // eslint-disable-next-line no-extend-native
 Number.prototype.withCommas = function() {
     return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-};
-
-// // eslint-disable-next-line no-extend-native
-// String.prototype.withCommas = function() {
-//     console.trace("With commas string prototype used");
-//     return this.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-// };
+}
 
 function withCommas() {
     return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -270,6 +264,24 @@ function hslToHex(h, s, l) {
         .join("");
 }
 
+function pieChart(labels, values) {
+    const data = {
+        labels,
+        datasets: [{
+            data: values
+        }]
+    };
+
+    return chart(JSON.stringify({
+        data,
+        type: "pie"
+    }));
+}
+
+function chart(args) {
+    return "https://quickchart.io/chart?width=512&height=512&c=" + encodeURI(args);
+}
+
 module.exports = {
     shortNumber,
     insertAt,
@@ -282,5 +294,7 @@ module.exports = {
     merge,
     colors,
     hslToRgb,
-    hslToHex
+    hslToHex,
+    pieChart,
+    chart
 };

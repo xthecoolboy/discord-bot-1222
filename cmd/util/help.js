@@ -76,7 +76,7 @@ module.exports = class HelpCommand extends commando.Command {
             const requestedCommand = cmd.command;
             const command = langHelp ? langHelp[requestedCommand.name] || requestedCommand : requestedCommand;
             embed
-                .setTitle(`${command.name} (${command.group ? command.group : lang.help.default}) ${requestedCommand.guildOnly ? " " + lang.help.serverOnly : ""}${requestedCommand.nsfw && (command.group ? command.group !== "NSFW" : true) ? " " + lang.help.nsfw : ""}`)
+                .setTitle(`${command.name} (${command.groupID ? command.groupID : lang.help.default}) ${requestedCommand.guildOnly ? " " + lang.help.serverOnly : ""}${requestedCommand.nsfw && (command.group ? command.group !== "NSFW" : true) ? " " + lang.help.nsfw : ""}`)
                 .setDescription(command.description)
                 .addField(lang.help.format, `${msg.anyUsage(`${command.name}${command.format ? ` ${command.format}` : ""}`)}`);
 

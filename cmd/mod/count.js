@@ -6,6 +6,7 @@ module.exports = class Count extends commando.Command {
         super(client, {
             name: "count",
             memberName: "count",
+            aliases: ["usercount"],
             group: "mod",
             description: "Shows information about members of this channel",
             guildOnly: true
@@ -47,6 +48,12 @@ module.exports = class Count extends commando.Command {
             ":globe_with_meridians: Web users: " + webCount + "\n" +
             ":robot: Bots: " + botsCount + "\n"
         );
+
+        if(msg.alias === "count") {
+            embed.footer.text += " | Use usercount alias next time.";
+        } else {
+            embed.footer.text += " | Bots not counted in other statistics";
+        }
 
         msg.channel.send(embed);
     }

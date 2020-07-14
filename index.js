@@ -402,7 +402,8 @@ Structures.extend("TextChannel", (TC) => {
 const messageServices = [
     require("./services/message/messagePreview"),
     require("./services/message/links"),
-    require("./services/message/nsfw")
+    require("./services/message/nsfw"),
+    require("./services/message/subscriptions")
 ];
 
 const inhibitors = [
@@ -474,6 +475,9 @@ client.on("commandRegister", c => {
         // eslint-disable-next-line no-unused-expressions
         (await r.getSubreddit("announcements")).user_flair_background_color;
         console.log("[REDDIT] Reddit connection successful");
+
+        messageServices.push(require("./services/message/reddit")(r));
+
         module.exports.reddit = r;
     } catch(e) {
         console.error(`[REDDIT] Reddit connection not successful, error:\n${e.error.error}, ${e.error.message}`);
@@ -528,8 +532,10 @@ client.on("commandRun", (c, p, msg) => {
     var message = `[USE] \u001b[35;1m[${msg.channel.type === "dm" ? "DM" : msg.guild.name} (${msg.guild ? msg.guild.id : 0})] \u001b[37;1m(${msg.author.tag} [${msg.author.id}])\u001b[0m -> `;
     var content = msg.content;
     if(!msg.content.startsWith(`<@${msg.client.user.id}>`) && !msg.content.startsWith(`<@!${msg.client.user.id}>`)) {
-        content = msg.content.substr(msg.guild.commandPrefix.length || msg.client.commandPrefix.length);
-        message += `\u001b[4m${msg.guild.commandPrefix || msg.client.commandPrefix}\u001b[0m`;
+        if(msg.guild) {
+            content = msg.content.substr(msg.guild.commandPrefix.length || msg.client.commandPrefix.length);
+            message += `\u001b[4m${msg.guild.commandPrefix || msg.client.commandPrefix}\u001b[0m`;
+        }
     } else {
         if(msg.content.startsWith(`<@${msg.client.user.id}>`)) {
             content = content.substr(`<@${msg.client.user.id}>`.length);

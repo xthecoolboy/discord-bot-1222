@@ -21,6 +21,18 @@ function getStatus(status) {
     }
 }
 
+function getPlatform(status) {
+    if(!status) return "";
+
+    var returned = "";
+
+    if(status.web) returned += ":globe_with_meridians: ";
+    if(status.phone) returned += ":iphone: ";
+    if(status.desktop) returned += ":desktop:";
+
+    return returned.trim();
+}
+
 module.exports = async (msg, cmd) => {
     var user = cmd.pointer ? cmd.pointer : msg.author;
     var limited = false;
@@ -57,7 +69,7 @@ module.exports = async (msg, cmd) => {
     }
 
     var embed = newEmbed()
-        .setTitle(`${user.tag} ${getStatus(user.presence.status)} ${user.bot || user.id === "672165988527243306" ? ":robot:" : ""}`)
+        .setTitle(`${user.tag} ${getStatus(user.presence.status)} ${getPlatform(user.presence.clientStatus)} ${user.bot || user.id === "672165988527243306" ? ":robot:" : ""}`)
         .setThumbnail(user.avatarURL())
         .addField("» ID", user.id, true);
     if(!limited) {
