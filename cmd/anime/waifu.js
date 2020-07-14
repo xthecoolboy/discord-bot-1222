@@ -30,6 +30,7 @@ module.exports = class Waifu extends commando.Command {
             var body = res.body.substr(0, 1997) + "...";
             embed.setDescription(body);
             embed.setImage(img);
+            embed.setURL(text);
             embed.setFooter(lang.general.by.replace("%s", "thiswaifudoesnotexist.net"));
 
             msg.channel.send(embed);
