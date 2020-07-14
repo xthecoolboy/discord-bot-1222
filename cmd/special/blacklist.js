@@ -33,13 +33,13 @@ module.exports = class Blacklist extends commando.Command {
         });
     }
 
-    run(msg, cmd) {
+    async run(msg, cmd) {
         for(const o of this.client.owners) {
             if(cmd.users.includes(o)) return msg.say("Bot owners can't be blacklisted!");
         }
 
         const list = (u) => { return !u.length ? "No users are blacklisted! :smile:" : u.map(u => `<@${u}>`).join(", "); };
-        let blacklist = this.client.provider.get("global", "userBlacklist", []);
+        let blacklist = await this.client.provider.get("global", "userBlacklist", []);
         var embed = newEmbed().setFooter("");
 
         switch(cmd.option) {
