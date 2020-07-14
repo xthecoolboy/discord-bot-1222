@@ -4,6 +4,7 @@ module.exports = class WikiExtractor extends commando.Command {
     constructor(client) {
         super(client, {
             name: "extractwiki",
+            aliases: ["wiki"],
             memberName: "extractwiki",
             group: "dev",
             description: "Extracts some information from Wikipedia page.",
