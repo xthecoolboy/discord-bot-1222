@@ -8,13 +8,13 @@ module.exports = class Logs extends commando.Command {
             memberName: "log",
             aliases: ["logs"],
             group: "mod",
-            description: "Log settings. When altering, use +option to add, -option to remove and !option to toggle log options",
+            description: "Log settings. See `help` subcommand for more info. When altering, use +option to add, -option to remove and !option to toggle log options",
             hidden: true,
             guildOnly: true,
             args: [
                 {
                     type: "string",
-                    oneOf: ["set", "add", "remove", "alter", "view", "list"],
+                    oneOf: ["set", "add", "remove", "alter", "view", "list", "help"],
                     key: "command",
                     prompt: "Which action to do?"
                 }, {
@@ -116,6 +116,13 @@ module.exports = class Logs extends commando.Command {
         }
         /* eslint-disable no-redeclare */
         switch(command) {
+            case "help":
+                var embed = newEmbed();
+                embed.setTitle("Logs");
+                embed.setDescription("For more info about how logs settings work, click the title.");
+                embed.setURL("http://aztec.danbulant.eu/wiki/doku.php?id=help:logs");
+                msg.channel.send(embed);
+                break;
             case "list":
                 var channels = this.getLogs(msg);
                 var embed = newEmbed();
