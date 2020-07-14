@@ -4,12 +4,10 @@ const { Permissions } = require("discord.js");
 async function getLogs(guild, deleted = false) {
     var settings = guild.settings;
     var sets = {
-        async* [Symbol.asyncIterator]() {
+        async * [Symbol.asyncIterator]() {
             var i = 0;
             while(await settings.get("logs.channels." + i, null)) {
-                console.log("Found channel number " + i);
-                if(!await settings.get("logs.channels." + i)) break;
-                console.log(await settings.get("logs.channels." + i));
+                if(!await settings.get("logs.channels." + i))break;
                 if(await settings.get("logs.channels." + i).deleted && !deleted) {
                     i++;
                     continue;
