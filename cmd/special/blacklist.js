@@ -55,7 +55,7 @@ module.exports = class Blacklist extends commando.Command {
             case "add":
                 if(!cmd.users) return msg.say("Please specify one or more users!");
                 for(const u of cmd.users) { if(!blacklist.includes(u.id)) blacklist.push(u.id); }
-                msg.client.provider.set("global", "userBlacklist", blacklist);
+                await msg.client.provider.set("global", "userBlacklist", blacklist);
                 embed
                     .setTitle("Done!")
                     .addField("Blacklisted users", list(blacklist));
@@ -65,7 +65,7 @@ module.exports = class Blacklist extends commando.Command {
             case "remove":
                 if(!cmd.users) return msg.say("Please specify one or more channels!");
                 blacklist = blacklist.filter(id => !cmd.users.map(u => u.id).includes(id));
-                msg.client.provider.set("global", "userBlacklist", blacklist);
+                await msg.client.provider.set("global", "userBlacklist", blacklist);
                 embed
                     .setTitle("Done!")
                     .addField("Blacklisted users", list(blacklist));
