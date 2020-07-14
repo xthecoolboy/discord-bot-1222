@@ -190,6 +190,8 @@ This category is for developers who are working on discord. Hope it helps!
 * **purge \<x> \<delete report (true/false)>** - Purges last `x` messages
 * **role** - Manages roles. See help.
 * **stats** - Stats of Aztec bot
+* **subscribe \<guild> \<channel>** - Subscribes to given channel from guild. (Note: the channel must be set as subscribeable first)
+* **unsubscribe \<guild> \<channel>** - Unsubscribes from given channel and guild.
 * **warn** - Warns user
 
 ### Music
