@@ -20,13 +20,13 @@ module.exports = class clearsettingsCommand extends Command {
         });
     }
 
-    run(msg) {
+    async run(msg) {
         try {
-            msg.guild.settings.clear();
-            msg.say("Success!");
+            await msg.guild.settings.clear();
+            await msg.say("Success!");
         } catch(e) {
             console.error(e);
-            msg.say("Something went wrong...");
+            await msg.say("Something went wrong...");
         }
     }
 };
