@@ -34,7 +34,7 @@ function suffix(i) {
 // eslint-disable-next-line no-extend-native
 Number.prototype.withCommas = function() {
     return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 function withCommas() {
     return this.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -282,6 +282,10 @@ function chart(args) {
     return "https://quickchart.io/chart?width=512&height=512&c=" + encodeURI(args);
 }
 
+function escapeRegExp(string) { // https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+}
+
 module.exports = {
     shortNumber,
     insertAt,
@@ -296,5 +300,6 @@ module.exports = {
     hslToRgb,
     hslToHex,
     pieChart,
-    chart
+    chart,
+    escapeRegExp
 };

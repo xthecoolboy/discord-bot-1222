@@ -11,16 +11,16 @@ module.exports = class Status extends commando.Command {
             args: [
                 {
                     type: "string",
-                    key: "name",
-                    prompt: "What should the status be?"
-
-                },
-                {
-                    type: "string",
                     key: "type",
                     oneOf: ["watching", "playing", "streaming", "listening"],
                     prompt: "Which kind of status?",
                     default: "WATCHING"
+                },
+                {
+                    type: "string",
+                    key: "name",
+                    prompt: "What should the status be?"
+
                 }
             ]
         });

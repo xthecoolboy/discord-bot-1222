@@ -72,7 +72,7 @@ module.exports = class Subscribe extends commando.Command {
             await pool.query("INSERT INTO subscriptions (guild, channel, target, target_channel) VALUES (?,?,?,?)",
                 [guild, channel, target, targetChannel]);
 
-            msg.edit(`**${msg.member.displayName}** has added **${ch.name}** to this channel. It's most important updates will show up here.`);
+            msg.edit(`**${omsg.member.displayName}** has added **${ch.name}** to this channel. It's most important updates will show up here.`);
         } catch(e) {
             console.warn("[SUBSCRIPTION]", e);
             msg.edit("Couldn't add that channel here. Contact TechmandanCZ#0135 for more information.");
