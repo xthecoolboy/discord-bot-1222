@@ -19,8 +19,8 @@ module.exports = class caseCommand extends Command {
         });
     }
 
-    run(msg, cmd) {
-        const Case = msg.guild.settings.get(`case.${cmd.case}`);
+    async run(msg, cmd) {
+        const Case = await msg.guild.settings.get(`case.${cmd.case}`);
         if(!Case) return msg.say(`Case '${cmd.case}' not found`);
 
         let removedText = "";

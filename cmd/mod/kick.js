@@ -57,7 +57,6 @@ module.exports = class kickCommand extends Command {
         let reason = cmd.reason;
         if(cmd.reason.length > 20) reason = cmd.reason.substr(0, 20) + "...";
 
-        msg.guild.member(cmd.user).kick(cmd.reason);
         const embed = newEmbed();
         embed.setColor("GOLD");
         embed.setAuthor(`Kick ${Case.id} | Reason: "${reason}"`, msg.author.displayAvatarURL());
