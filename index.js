@@ -567,7 +567,7 @@ client.once("providerReady", async p => {
     client.user.setActivity(
         await p.get("global", "status").name,
         { type: await p.get("global", "status").type }
-    )
+    );
 });
 
 process.on("unhandledRejection", (e) => {
