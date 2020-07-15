@@ -19,14 +19,14 @@ module.exports = class historyCommand extends Command {
         });
     }
 
-    run(msg, cmd) {
-        const iterable = {
-            [Symbol.iterator]: () => {
+    async run(msg, cmd) {
+        const iterableObj = {
+            [Symbol.asyncIterator]: () => {
                 var current = 0;
                 return {
-                    next() {
+                    async next() {
                         current++;
-                        var data = msg.guild.settings.get("case." + current, null);
+                        var data = await msg.guild.settings.get("case." + current, null);
                         if(!data) {
                             return { value: null, done: true };
                         }
@@ -40,7 +40,7 @@ module.exports = class historyCommand extends Command {
         embed.setAuthor(msg.author.username, msg.author.displayAvatarURL());
         embed.setTitle(`${cmd.user.tag}'s offense history`);
 
-        for(var Case of iterable) {
+        for await(var Case of iterableObj) {
             if(Case.offenderID === cmd.user.id) {
                 var hasOffense = true;
                 let removedText = "";
