@@ -561,7 +561,7 @@ for(var inhibitor of inhibitors) {
     client.dispatcher.addInhibitor(inhibitor);
 }
 
-client.login(config.token);
+client.login(process.env.TOKEN);
 
 client.once("providerReady", async p => {
     client.user.setActivity(
